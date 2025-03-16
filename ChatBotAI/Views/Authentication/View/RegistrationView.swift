@@ -9,13 +9,13 @@ import SwiftUI
 
 struct RegistrationView: View {
     
+    @StateObject var authViewModel = Resolver.shared.resolve(AuthViewModel.self)
+    
     @State private var email = ""
     @State private var fullName = ""
     @State private var password = ""
     @State private var confirmPassword = ""
     @Environment(\.dismiss) var dismiss
-    
-    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         VStack {
@@ -49,7 +49,7 @@ struct RegistrationView: View {
                               isSecureField: true)
                     .textInputAutocapitalization(.never)
                     
-                    if !password.isEmpty && !password.isEmpty {
+                    if !password.isEmpty && !confirmPassword.isEmpty {
                         if password == confirmPassword {
                             Image(systemName: "checkmark.circle.fill")
                                 .imageScale(.large)
@@ -69,7 +69,7 @@ struct RegistrationView: View {
             
             Button {
                 Task {
-                    try await viewModel.createUser(withEmail: email, password: password, fullName: fullName)
+                    await authViewModel.createUser(withEmail: email, password: password, fullName: fullName)
                 }
             } label: {
                 HStack {

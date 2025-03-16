@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct LoginView: View {
+    @EnvironmentObject var authViewModel: AuthViewModel
     
     @State private var email = ""
     @State private var password = ""
-    
-    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         NavigationStack {
@@ -28,12 +27,15 @@ struct LoginView: View {
                     InputView(text: $email,
                               title: "Email Address",
                               placeholder: "name@example.com")
+                    .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
                     
                     InputView(text: $password,
                               title: "Password", placeholder: "Enter your password",
                               isSecureField: true)
                     .textInputAutocapitalization(.never)
+                    .disableAutocorrection(true)
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 40)
@@ -41,7 +43,7 @@ struct LoginView: View {
                 // sign in button
                 Button {
                     Task {
-                        try await viewModel.signIn(withEmail: email, password: password)
+                        await authViewModel.signIn(withEmail: email, password: password)
                     }
                 } label: {
                     HStack {

@@ -10,14 +10,18 @@ import SwiftUI
 @main
 struct ChatBotAIApp: App {
     
-    @StateObject var viewModel = AuthViewModel()
+    init(){
+        Resolver.shared.injectDependencies()
+    }
+    
+    @StateObject var authViewModel = Resolver.shared.resolve(AuthViewModel.self)
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(viewModel)
+                .environmentObject(authViewModel)
         }
     }
 }

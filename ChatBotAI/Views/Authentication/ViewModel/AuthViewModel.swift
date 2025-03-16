@@ -1,24 +1,27 @@
-//
-//  AuthViewModel.swift
-//  ChatBotAI
-//
-//  Created by Israel Brea Piñero on 13/3/25.
-//
-
 import Foundation
 import FirebaseAuth
-import FirebaseFirestore
-
-protocol AuthenticationFormProtocol {
-    var formIsValid: Bool { get }
-}
 
 @MainActor
 class AuthViewModel: ObservableObject {
-    @Published var userSession: FirebaseAuth.User? // Firebase Auth User
-    @Published var currentUser: User? // This is our user that we created in the Model
+    @Published var userSession: FirebaseAuth.User?
+    @Published var currentUser: User?
+    @Published var state: ViewState = .success
     
-    init() {
+    let signInUseCase: SignInUseCase
+    let signUpUseCase: SignUpUseCase
+    let signOutUseCase: SignOutUseCase
+    let fetchUserUseCase: FetchUserUseCase
+    
+    init(signInUseCase: SignInUseCase,
+         signUpUseCase: SignUpUseCase,
+         signOutUseCase: SignOutUseCase,
+         fetchUserUseCase: FetchUserUseCase) {
+        
+        self.signInUseCase = signInUseCase
+        self.signUpUseCase = signUpUseCase
+        self.signOutUseCase = signOutUseCase
+        self.fetchUserUseCase = fetchUserUseCase
+        
         self.userSession = Auth.auth().currentUser
         
         Task {
@@ -26,47 +29,50 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func signIn(withEmail email: String, password: String) async throws {
-        do {
-            let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            self.userSession = result.user
-            await fetchUser()
-        } catch {
-            print("DEBUG: Failed to log in with error \(error.localizedDescription)")
+    func signIn(withEmail email: String, password: String) async {
+        let result = await signInUseCase.execute(with: SignInParam(email: email, password: password))
+        switch result {
+        case .success(let user):
+            self.userSession = Auth.auth().currentUser
+            self.currentUser = user
+        case .failure(let error):
+            print("DEBUG: Sign-in error \(error.localizedDescription)")
         }
     }
     
-    func createUser(withEmail email: String, password: String, fullName: String) async throws {
-        do {
-            let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            self.userSession = result.user
-            let user = User(id: result.user.uid, fullName: fullName, email: email)
-            let encodedUser = try Firestore.Encoder().encode(user)
-            try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
-            await fetchUser()
-        } catch {
-            print("DEBUG: Failed to create user with error \(error.localizedDescription)")
+    func createUser(withEmail email: String, password: String, fullName: String) async {
+        let result = await signUpUseCase.execute(with: SignUpParam(email: email, fullName: fullName, password: password))
+        switch result {
+        case .success(let user):
+            self.userSession = Auth.auth().currentUser
+            self.currentUser = user
+        case .failure(let error):
+            print("DEBUG: Sign-up error \(error.localizedDescription)")
         }
     }
     
     func signOut() {
-        do {
-            try Auth.auth().signOut()
-            self.userSession = nil
-            self.currentUser = nil
-        } catch {
-            print("DEBUG: Failed to sign out user with error \(error.localizedDescription)")
+        print("Antes de signOut: \(Auth.auth().currentUser?.email ?? "No user")")
+        let result = signOutUseCase.execute(with: ())
+        switch result {
+        case .success:
+            DispatchQueue.main.async {
+                self.userSession = nil
+                self.currentUser = nil
+                print("Después de signOut: \(Auth.auth().currentUser?.email ?? "No user")")
+            }
+        case .failure(let error):
+            print("DEBUG: Sign-out error \(error.localizedDescription)")
         }
     }
     
-    func deleteAccount() {
-        
-    }
-    
     func fetchUser() async {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        
-        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
-        self.currentUser = try? snapshot.data(as: User.self)
+        let result = await fetchUserUseCase.execute(with: ())
+        switch result {
+        case .success(let user):
+            self.currentUser = user
+        case .failure(let error):
+            print("DEBUG: Fetch user error \(error.localizedDescription)")
+        }
     }
 }
