@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4053F7C32D85CFB50082785E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 4053F7C22D85CFB50082785E /* Swinject */; };
 		4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */; };
+		4053F7C72D8736F20082785E /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C62D8736F20082785E /* SessionManager.swift */; };
 		40810FAC2D8398D8000DEBC3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAB2D8398D8000DEBC3 /* FirebaseAuth */; };
 		40810FAE2D8398D8000DEBC3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAD2D8398D8000DEBC3 /* FirebaseFirestore */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
@@ -69,6 +70,7 @@
 
 /* Begin PBXFileReference section */
 		4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
+		4053F7C62D8736F20082785E /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,6 +154,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4053F7C82D8762270082785E /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				4053F7C62D8736F20082785E /* SessionManager.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		40956E112D805F8C00307A53 = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +343,7 @@
 		40D384F12D843A7700406AC1 /* ChatBotAI */ = {
 			isa = PBXGroup;
 			children = (
+				4053F7C82D8762270082785E /* Core */,
 				40D384CC2D843A7700406AC1 /* DI */,
 				40D384CB2D843A7700406AC1 /* Data */,
 				40D384D02D843A7700406AC1 /* Domain */,
@@ -594,6 +605,7 @@
 			files = (
 				40D384F22D843A7700406AC1 /* User.swift in Sources */,
 				40D385322D84ED3800406AC1 /* SignUpParam.swift in Sources */,
+				4053F7C72D8736F20082785E /* SessionManager.swift in Sources */,
 				40D384F32D843A7700406AC1 /* LoginView.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
 				40D385302D84ECC000406AC1 /* fetchUserUseCase.swift in Sources */,

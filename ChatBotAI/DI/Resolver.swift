@@ -86,12 +86,17 @@ extension Resolver {
 extension Resolver {
     @MainActor func injectViewModel() {
         
+        
+        container.register(SettingsViewModel.self) { resolver in
+            SettingsViewModel(
+                signOutUseCase: resolver.resolve(SignOutUseCase.self)!, fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
+                )
+            }.inObjectScope(.container)
+        
         container.register(AuthViewModel.self) { resolver in
                 AuthViewModel(
                     signInUseCase: resolver.resolve(SignInUseCase.self)!,
-                    signUpUseCase: resolver.resolve(SignUpUseCase.self)!,
-                    signOutUseCase: resolver.resolve(SignOutUseCase.self)!,
-                    fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
+                    signUpUseCase: resolver.resolve(SignUpUseCase.self)!
                 )
             }.inObjectScope(.container)
     }

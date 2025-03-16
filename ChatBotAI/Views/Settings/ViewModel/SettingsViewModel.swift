@@ -6,50 +6,70 @@
 //
 
 import Foundation
+import FirebaseAuth
 import Combine
 
 @MainActor
 class SettingsViewModel: ObservableObject {
     @Published var currentUser: User?
-    @Published var state: ViewState = .success
+    @Published var state: ViewState = .initial
     
-    private let fetchUserUseCase: FetchUserUseCase
     private let signOutUseCase: SignOutUseCase
+    private let fetchUserUseCase: FetchUserUseCase
+    private var sessionManager = SessionManager.shared
+    private var cancellables = Set<AnyCancellable>()
     
-    init(fetchUserUseCase: FetchUserUseCase, signOutUseCase: SignOutUseCase) {
-        self.fetchUserUseCase = fetchUserUseCase
+    init(signOutUseCase: SignOutUseCase, fetchUserUseCase: FetchUserUseCase) {
         self.signOutUseCase = signOutUseCase
+        self.fetchUserUseCase = fetchUserUseCase
         
         Task {
             await fetchUser()
+        }
+        
+        sessionManager.$userSession
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                Task {
+                    await self?.fetchUser()
+                }
+            }
+            .store(in: &cancellables)
+        
+        Task {
+            await fetchUser()
+        }
+    
+    }
+    
+    func signOut() {
+        Task {
+            let result = signOutUseCase.execute(with: ())
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    SessionManager.shared.userSession = nil
+                    self.currentUser = nil
+                }
+            case .failure(let error):
+                print("DEBUG: Sign-out error \(error.localizedDescription)")
+            }
         }
     }
     
     func fetchUser() async {
         state = .loading
         let result = await fetchUserUseCase.execute(with: ())
-        
         switch result {
         case .success(let user):
-            self.currentUser = user
-            state = .success
-        case .failure(let error):
-            state = .error(error.localizedDescription)
-        }
-    }
-    
-    func signOut() {
-        state = .loading
-        let result = signOutUseCase.execute(with: ())
-        
-        switch result {
-        case .success:
             DispatchQueue.main.async {
-                self.currentUser = nil
+                self.currentUser = user
                 self.state = .success
             }
         case .failure(let error):
-            state = .error(error.localizedDescription)
+            DispatchQueue.main.async {
+                self.state = .error(error.localizedDescription)
+            }
         }
     }
 }

@@ -31,10 +31,12 @@ struct RegistrationView: View {
                           title: "Email Address",
                           placeholder: "name@example.com")
                 .textInputAutocapitalization(.never)
+                .disableAutocorrection(true)
                 
                 InputView(text: $fullName,
                           title: "Full Name",
                           placeholder: "Enter your name")
+                .disableAutocorrection(true)
                 
                 InputView(text: $password,
                           title: "Password",

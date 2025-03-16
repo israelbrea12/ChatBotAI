@@ -37,13 +37,26 @@ class AuthDataSourceImpl: AuthDataSource {
     }
     
     func signUp(email: String, password: String, fullName: String) async throws -> UserModel {
+        print("DEBUG: Iniciando proceso de registro para \(email)")
+        
         let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
+        
+        print("DEBUG: Usuario de Firebase creado con UID: \(authResult.user.uid)")
+        
         let user = UserModel(uid: authResult.user.uid, email: email, fullName: fullName)
         let encodedUser = try Firestore.Encoder().encode(user)
+
+        do {
+            try await Firestore.firestore().collection("users").document(user.uid).setData(encodedUser)
+            print("DEBUG: Usuario guardado en Firestore con éxito")
+        } catch {
+            print("DEBUG: Error al guardar en Firestore: \(error.localizedDescription)")
+            throw AppError.unknownError("Error al guardar usuario en Firestore: \(error.localizedDescription)")
+        }
         
-        try await Firestore.firestore().collection("users").document(user.uid).setData(encodedUser)
         return user
     }
+
     
     func signOut() throws {
         try Auth.auth().signOut()

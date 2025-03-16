@@ -1,19 +1,15 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject var settingsViewModel = Resolver.shared.resolve(SettingsViewModel.self)
     
     var body: some View {
         NavigationStack {
             ZStack {
-                switch authViewModel.state {
-                case .initial, .loading:
-                    ProgressView()
-                        .onAppear {
-                            Task {
-                                await authViewModel.fetchUser()
-                            }
-                        }
+                switch settingsViewModel.state {
+                case .initial,
+                        .loading:
+                    loadingView()
                     
                 case .success:
                     settingsContent()
@@ -31,7 +27,7 @@ struct SettingsView: View {
     
     private func settingsContent() -> some View {
         List {
-            if let user = authViewModel.currentUser {
+            if let user = settingsViewModel.currentUser {
                 Section {
                     userProfile(user: user)
                 }
@@ -83,7 +79,7 @@ struct SettingsView: View {
     
     private func signOutButton() -> some View {
         Button {
-            authViewModel.signOut()
+            settingsViewModel.signOut()
         } label: {
             SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out", tintColor: .red)
         }
@@ -95,6 +91,10 @@ struct SettingsView: View {
         } label: {
             SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
         }
+    }
+    
+    private func loadingView() -> some View {
+        ProgressView()
     }
     
     private func errorView(errorMsg: String) -> some View {

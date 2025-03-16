@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @ObservedObject private var sessionManager = SessionManager.shared
     
     var body: some View {
         Group {
-            if authViewModel.userSession != nil {
+            if sessionManager.userSession != nil {
                 MainView()
             } else {
                 LoginView()
