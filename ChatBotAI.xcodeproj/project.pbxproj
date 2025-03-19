@@ -10,6 +10,12 @@
 		4053F7C32D85CFB50082785E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 4053F7C22D85CFB50082785E /* Swinject */; };
 		4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */; };
 		4053F7C72D8736F20082785E /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C62D8736F20082785E /* SessionManager.swift */; };
+		4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB842D8B492A00D2E2B0 /* ImagePicker.swift */; };
+		4057DB872D8B5D1500D2E2B0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 4057DB862D8B5D1500D2E2B0 /* FirebaseStorage */; };
+		4057DB892D8B744F00D2E2B0 /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB882D8B744F00D2E2B0 /* UploadImageUseCase.swift */; };
+		4057DB8B2D8B747B00D2E2B0 /* StorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB8A2D8B747B00D2E2B0 /* StorageRepository.swift */; };
+		4057DB8D2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB8C2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift */; };
+		4057DB8F2D8B751400D2E2B0 /* StorageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB8E2D8B751400D2E2B0 /* StorageDataSource.swift */; };
 		40810FAC2D8398D8000DEBC3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAB2D8398D8000DEBC3 /* FirebaseAuth */; };
 		40810FAE2D8398D8000DEBC3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAD2D8398D8000DEBC3 /* FirebaseFirestore */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
@@ -71,6 +77,11 @@
 /* Begin PBXFileReference section */
 		4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
 		4053F7C62D8736F20082785E /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
+		4057DB842D8B492A00D2E2B0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		4057DB882D8B744F00D2E2B0 /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
+		4057DB8A2D8B747B00D2E2B0 /* StorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepository.swift; sourceTree = "<group>"; };
+		4057DB8C2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepositoryImpl.swift; sourceTree = "<group>"; };
+		4057DB8E2D8B751400D2E2B0 /* StorageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDataSource.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,6 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40810FAC2D8398D8000DEBC3 /* FirebaseAuth in Frameworks */,
+				4057DB872D8B5D1500D2E2B0 /* FirebaseStorage in Frameworks */,
 				40810FAE2D8398D8000DEBC3 /* FirebaseFirestore in Frameworks */,
 				4053F7C32D85CFB50082785E /* Swinject in Frameworks */,
 			);
@@ -322,6 +334,7 @@
 				40D384E52D843A7700406AC1 /* InfoView.swift */,
 				40D384E62D843A7700406AC1 /* InputView.swift */,
 				40D384E72D843A7700406AC1 /* SettingsRowView.swift */,
+				4057DB842D8B492A00D2E2B0 /* ImagePicker.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -362,6 +375,7 @@
 			isa = PBXGroup;
 			children = (
 				40D385092D84DD8000406AC1 /* AuthRepository.swift */,
+				4057DB8A2D8B747B00D2E2B0 /* StorageRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -374,6 +388,7 @@
 				40D3852B2D84EC7700406AC1 /* SignUpUseCase.swift */,
 				40D3852D2D84EC9D00406AC1 /* SignOutUseCase.swift */,
 				40D3852F2D84ECC000406AC1 /* fetchUserUseCase.swift */,
+				4057DB882D8B744F00D2E2B0 /* UploadImageUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -423,6 +438,7 @@
 			isa = PBXGroup;
 			children = (
 				40D385242D84E56900406AC1 /* AuthDataSource.swift */,
+				4057DB8E2D8B751400D2E2B0 /* StorageDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -431,6 +447,7 @@
 			isa = PBXGroup;
 			children = (
 				40D385262D84E76200406AC1 /* AuthRepositoryImpl.swift */,
+				4057DB8C2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -472,6 +489,7 @@
 				40810FAB2D8398D8000DEBC3 /* FirebaseAuth */,
 				40810FAD2D8398D8000DEBC3 /* FirebaseFirestore */,
 				4053F7C22D85CFB50082785E /* Swinject */,
+				4057DB862D8B5D1500D2E2B0 /* FirebaseStorage */,
 			);
 			productName = ChatBotAI;
 			productReference = 40956E1A2D805F8C00307A53 /* ChatBotAI.app */;
@@ -605,12 +623,15 @@
 			files = (
 				40D384F22D843A7700406AC1 /* User.swift in Sources */,
 				40D385322D84ED3800406AC1 /* SignUpParam.swift in Sources */,
+				4057DB892D8B744F00D2E2B0 /* UploadImageUseCase.swift in Sources */,
 				4053F7C72D8736F20082785E /* SessionManager.swift in Sources */,
 				40D384F32D843A7700406AC1 /* LoginView.swift in Sources */,
+				4057DB8D2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
 				40D385302D84ECC000406AC1 /* fetchUserUseCase.swift in Sources */,
 				40D3850A2D84DD8000406AC1 /* AuthRepository.swift in Sources */,
 				40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */,
+				4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */,
 				40D384F52D843A7700406AC1 /* AuthViewModel.swift in Sources */,
 				40D385152D84E02000406AC1 /* SignInParam.swift in Sources */,
 				40D385272D84E76200406AC1 /* AuthRepositoryImpl.swift in Sources */,
@@ -628,6 +649,7 @@
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
+				4057DB8F2D8B751400D2E2B0 /* StorageDataSource.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,
 				40D385122D84DF5E00406AC1 /* UseCaseProtocol.swift in Sources */,
 				40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */,
@@ -637,6 +659,7 @@
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
+				4057DB8B2D8B747B00D2E2B0 /* StorageRepository.swift in Sources */,
 				40D385022D843A7700406AC1 /* ChatBotAIApp.swift in Sources */,
 				40D385032D843A7700406AC1 /* ContentView.swift in Sources */,
 			);
@@ -986,6 +1009,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4053F7C12D85CFB50082785E /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		4057DB862D8B5D1500D2E2B0 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40810FAA2D8398D8000DEBC3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 		40810FAB2D8398D8000DEBC3 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

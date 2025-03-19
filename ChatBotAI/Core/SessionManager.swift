@@ -1,16 +1,19 @@
 import FirebaseAuth
 import Combine
+import FirebaseStorage
 
 @MainActor // 🔥 Garantiza que todo en esta clase se ejecute en el hilo principal
 class SessionManager: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User? = User.placeholder // 🔥 Se evita que sea `nil` al inicio
+    let storage: Storage
     
     static let shared = SessionManager()
     private var authStateDidChangeListenerHandle: AuthStateDidChangeListenerHandle?
 
     private init() {
         self.userSession = Auth.auth().currentUser
+        self.storage = Storage.storage()
         
         // Escuchar cambios de autenticación
         authStateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
