@@ -22,6 +22,7 @@ struct ChatBotAIApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(authViewModel)
+                .environmentObject(SessionManager.shared)
         }
     }
 }

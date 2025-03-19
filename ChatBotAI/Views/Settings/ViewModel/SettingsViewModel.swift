@@ -15,31 +15,20 @@ class SettingsViewModel: ObservableObject {
     @Published var state: ViewState = .initial
     
     private let signOutUseCase: SignOutUseCase
-    private let fetchUserUseCase: FetchUserUseCase
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
-    
-    init(signOutUseCase: SignOutUseCase, fetchUserUseCase: FetchUserUseCase) {
+
+    init(signOutUseCase: SignOutUseCase) {
         self.signOutUseCase = signOutUseCase
-        self.fetchUserUseCase = fetchUserUseCase
         
-        Task {
-            await fetchUser()
-        }
-        
-        sessionManager.$userSession
+        // 🔥 Nos suscribimos a los cambios en SessionManager
+        sessionManager.$currentUser
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                Task {
-                    await self?.fetchUser()
-                }
+            .sink { [weak self] user in
+                self?.currentUser = user
+                self?.state = user != nil ? .success : .empty
             }
             .store(in: &cancellables)
-        
-        Task {
-            await fetchUser()
-        }
-    
     }
     
     func signOut() {
@@ -49,26 +38,10 @@ class SettingsViewModel: ObservableObject {
             case .success:
                 DispatchQueue.main.async {
                     SessionManager.shared.userSession = nil
-                    self.currentUser = nil
+                    SessionManager.shared.currentUser = nil
                 }
             case .failure(let error):
                 print("DEBUG: Sign-out error \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    func fetchUser() async {
-        state = .loading
-        let result = await fetchUserUseCase.execute(with: ())
-        switch result {
-        case .success(let user):
-            DispatchQueue.main.async {
-                self.currentUser = user
-                self.state = .success
-            }
-        case .failure(let error):
-            DispatchQueue.main.async {
-                self.state = .error(error.localizedDescription)
             }
         }
     }

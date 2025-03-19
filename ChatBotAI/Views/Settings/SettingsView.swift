@@ -10,15 +10,18 @@ struct SettingsView: View {
                 case .initial,
                         .loading:
                     loadingView()
+                    signOutButton()
                     
                 case .success:
                     settingsContent()
                     
                 case .error(let errorMessage):
                     errorView(errorMsg: errorMessage)
+                    signOutButton()
                     
                 case .empty:
                     emptyView()
+                    signOutButton()
                 }
             }
             .navigationTitle("Settings")
