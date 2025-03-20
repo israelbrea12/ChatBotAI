@@ -25,11 +25,42 @@ struct HomeView: View {
                     emptyView()
                 }
             }
+            .task {
+                 
+            }
         }
     }
     
     private func successView() -> some View {
-        Text("Bienvenido, \(sessionManager.currentUser?.fullName ?? "Invitado")") // 🔥 Ahora reacciona a cambios
+        VStack {
+            if let user = sessionManager.currentUser {
+                Text("Bienvenido, \(user.fullName ?? "")")
+                AsyncImage(
+                    url: URL(string: user.profileImageUrl ?? "")
+                ) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                    case .failure:
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.gray)
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+            } else {
+                ProgressView() // Si aún no hay usuario, muestra un loader
+            }
+        }
+        
     }
 
     private func loadingView() -> some View {

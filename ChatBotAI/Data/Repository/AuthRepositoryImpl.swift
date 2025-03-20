@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class AuthRepositoryImpl: AuthRepository {
     
@@ -24,10 +25,10 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
     
-    func signUp(email: String, password: String, fullName: String) async -> Result<User, AppError> {
+    func signUp(email: String, password: String, fullName: String, profileImage: UIImage?) async -> Result<User, AppError> {
         do {
             print("DEBUG: Iniciando signUp en AuthRepositoryImpl")
-            let userModel = try await dataSource.signUp(email: email, password: password, fullName: fullName)
+            let userModel = try await dataSource.signUp(email: email, password: password, fullName: fullName, profileImage: profileImage)
             print("DEBUG: Usuario registrado correctamente: \(userModel)")
             return .success(userModel.toDomain())
         } catch {
@@ -35,6 +36,7 @@ class AuthRepositoryImpl: AuthRepository {
             return .failure(error.toAppError())
         }
     }
+
 
     
     func signOut() -> Result<Bool, AppError> {

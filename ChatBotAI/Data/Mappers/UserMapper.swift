@@ -9,6 +9,6 @@ import Foundation
 
 extension UserModel {
     func toDomain() -> User {
-        return User(id: self.uid, fullName: self.fullName, email: self.email)
+        return User(id: self.uid, fullName: self.fullName, email: self.email, profileImageUrl: self.profileImageUrl)
     }
 }

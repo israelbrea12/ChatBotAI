@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct SignUpUseCase {
     private let repository: AuthRepository
@@ -14,7 +15,8 @@ struct SignUpUseCase {
         self.repository = repository
     }
     
-    func execute(with params: SignUpParam) async -> Result<User, AppError> {
-        await repository.signUp(email: params.email, password: params.password, fullName: params.fullName)
+    func execute(with params: SignUpParam, profileImage: UIImage?) async -> Result<User, AppError> {
+        await repository.signUp(email: params.email, password: params.password, fullName: params.fullName, profileImage: profileImage)
     }
 }
+

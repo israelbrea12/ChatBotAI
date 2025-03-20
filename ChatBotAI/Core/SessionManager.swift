@@ -1,6 +1,7 @@
 import FirebaseAuth
 import Combine
 import FirebaseStorage
+import FirebaseFirestore
 
 @MainActor // 🔥 Garantiza que todo en esta clase se ejecute en el hilo principal
 class SessionManager: ObservableObject {
@@ -37,24 +38,37 @@ class SessionManager: ObservableObject {
     }
     
     func fetchUser() async {
-        guard let _ = Auth.auth().currentUser else {
+        guard let currentUser = Auth.auth().currentUser else {
             self.currentUser = User.placeholder
             return
-        } // 🔥 Evita llamadas innecesarias
+        }
         
-        let fetchUserUseCase = Resolver.shared.resolve(FetchUserUseCase.self)
-        let result = await fetchUserUseCase.execute(with: ())
-
-        switch result {
-        case .success(let user):
-            self.currentUser = user
-        case .failure(let error):
-            print("Error al obtener usuario: \(error.localizedDescription)")
+        // Si ya tenemos los datos del usuario, no volvemos a cargarlos
+        if self.currentUser?.id == currentUser.uid {
+            return
+        }
+        
+        let db = Firestore.firestore()
+        do {
+            let snapshot = try await db.collection("users").document(currentUser.uid).getDocument()
+            if let data = snapshot.data() {
+                let userModel = UserModel(
+                    uid: currentUser.uid,
+                    email: data["email"] as? String,
+                    fullName: data["fullName"] as? String,
+                    profileImageUrl: data["profileImageUrl"] as? String
+                )
+                self.currentUser = userModel.toDomain()
+            } else {
+                self.currentUser = User.placeholder
+            }
+        } catch {
+            print("DEBUG: Error al obtener datos del usuario: \(error.localizedDescription)")
         }
     }
 }
 
 // 🔥 Definir un usuario "placeholder" para evitar retrasos en la UI
 extension User {
-    static let placeholder = User(id: "", fullName: "Cargando...", email: "")
+    static let placeholder = User(id: "", fullName: "Cargando...", email: "", profileImageUrl: "")
 }

@@ -14,15 +14,11 @@ struct ChatBotAIApp: App {
         Resolver.shared.injectDependencies()
     }
     
-    @StateObject var authViewModel = Resolver.shared.resolve(AuthViewModel.self)
-    
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(authViewModel)
-                .environmentObject(SessionManager.shared)
         }
     }
 }
