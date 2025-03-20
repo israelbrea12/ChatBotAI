@@ -52,8 +52,7 @@ class AuthViewModel: ObservableObject {
                 SessionManager.shared.currentUser = user
             }
         case .failure(let error):
-            state = .success
-            self.currentUser = nil
+            state = .loading
             print("DEBUG: Error al registrar usuario: \(error.localizedDescription)")
         }
     }

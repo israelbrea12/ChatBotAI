@@ -17,6 +17,8 @@
 		4057DB8D2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB8C2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift */; };
 		4057DB8F2D8B751400D2E2B0 /* StorageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB8E2D8B751400D2E2B0 /* StorageDataSource.swift */; };
 		4057DBFD2D8C9D4200D2E2B0 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 4057DBFC2D8C9D4200D2E2B0 /* SDWebImageSwiftUI */; };
+		4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */; };
+		4057DC032D8CCE9D00D2E2B0 /* NewMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */; };
 		40810FAC2D8398D8000DEBC3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAB2D8398D8000DEBC3 /* FirebaseAuth */; };
 		40810FAE2D8398D8000DEBC3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAD2D8398D8000DEBC3 /* FirebaseFirestore */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
@@ -83,6 +85,8 @@
 		4057DB8A2D8B747B00D2E2B0 /* StorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepository.swift; sourceTree = "<group>"; };
 		4057DB8C2D8B74F000D2E2B0 /* StorageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepositoryImpl.swift; sourceTree = "<group>"; };
 		4057DB8E2D8B751400D2E2B0 /* StorageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDataSource.swift; sourceTree = "<group>"; };
+		4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageView.swift; sourceTree = "<group>"; };
+		4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewModel.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -174,6 +178,23 @@
 				4053F7C62D8736F20082785E /* SessionManager.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		4057DBFE2D8CCE5300D2E2B0 /* NewMessage */ = {
+			isa = PBXGroup;
+			children = (
+				4057DBFF2D8CCE7700D2E2B0 /* ViewModel */,
+				4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */,
+			);
+			path = NewMessage;
+			sourceTree = "<group>";
+		};
+		4057DBFF2D8CCE7700D2E2B0 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		40956E112D805F8C00307A53 = {
@@ -346,6 +367,7 @@
 			children = (
 				40D384E92D843A7700406AC1 /* MainView.swift */,
 				40D384EA2D843A7700406AC1 /* ViewState.swift */,
+				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
 				40D384D82D843A7700406AC1 /* Authentication */,
 				40D384E02D843A7700406AC1 /* Home */,
 				40D384DC2D843A7700406AC1 /* ChatBotIA */,
@@ -634,6 +656,7 @@
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
 				40D385302D84ECC000406AC1 /* fetchUserUseCase.swift in Sources */,
 				40D3850A2D84DD8000406AC1 /* AuthRepository.swift in Sources */,
+				4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */,
 				40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */,
 				4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */,
 				40D384F52D843A7700406AC1 /* AuthViewModel.swift in Sources */,
@@ -664,6 +687,7 @@
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
 				4057DB8B2D8B747B00D2E2B0 /* StorageRepository.swift in Sources */,
+				4057DC032D8CCE9D00D2E2B0 /* NewMessageViewModel.swift in Sources */,
 				40D385022D843A7700406AC1 /* ChatBotAIApp.swift in Sources */,
 				40D385032D843A7700406AC1 /* ContentView.swift in Sources */,
 			);

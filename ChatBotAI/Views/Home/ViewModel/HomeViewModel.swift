@@ -13,6 +13,7 @@ final class HomeViewModel: ObservableObject {
     
     @Published var currentUser: User?
     @Published var state: ViewState = .initial
+    @Published var isPresentingNewMessageView = false
     
     private let fetchUserUseCase: FetchUserUseCase
     private var sessionManager = SessionManager.shared
@@ -51,5 +52,12 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
+    
+    func startNewChat(with user: User) {
+        print("Iniciando chat con \(user.fullName)")
+        isPresentingNewMessageView = false
+        // Aquí podrías manejar la lógica para crear un nuevo chat en Firestore
+    }
+
 }
 

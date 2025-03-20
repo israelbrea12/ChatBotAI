@@ -33,6 +33,8 @@ class SettingsViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+        
+        
     }
     
     func signOut() {

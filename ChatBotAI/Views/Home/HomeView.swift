@@ -30,11 +30,17 @@ struct HomeView: View {
                 ToolbarItem (placement: .topBarTrailing) {
                     Button {
                         // Llamada al ViewModel al método para añadir nuevo chat.
+                        homeViewModel.isPresentingNewMessageView = true
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .resizable()
                             .frame(width: 32, height: 32)
                             .foregroundStyle(.green)
+                    }
+                    .sheet(isPresented: $homeViewModel.isPresentingNewMessageView) {
+                        NewMessageView { selectedUser in
+                            homeViewModel.startNewChat(with: selectedUser)
+                        }
                     }
                 }
                 ToolbarItem (placement: .topBarLeading) {

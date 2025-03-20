@@ -83,12 +83,6 @@ class AuthDataSourceImpl: AuthDataSource {
     
     func signOut() throws {
         try Auth.auth().signOut()
-        
-        // 🔥 Limpia los datos en SessionManager
-        DispatchQueue.main.async {
-            SessionManager.shared.userSession = nil
-            SessionManager.shared.currentUser = nil
-        }
     }
 
     

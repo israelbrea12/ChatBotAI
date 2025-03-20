@@ -17,6 +17,7 @@ class SessionManager: NSObject, ObservableObject {
     
     private var authStateListenerHandle: AuthStateDidChangeListenerHandle?
 
+    
     override init() {
         FirebaseApp.configure()
         
@@ -24,6 +25,7 @@ class SessionManager: NSObject, ObservableObject {
         self.storage = Storage.storage()
         self.firestore = Firestore.firestore()
         
+        self.userSession = auth.currentUser
         super.init()
         
     }
