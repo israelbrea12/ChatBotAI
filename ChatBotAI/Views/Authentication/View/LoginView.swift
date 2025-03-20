@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
+    @StateObject var authViewModel = Resolver.shared.resolve(AuthViewModel.self)
     
     @State private var email = ""
     @State private var password = ""

@@ -101,7 +101,9 @@ extension Resolver {
         
         container.register(SettingsViewModel.self) { resolver in
             SettingsViewModel(
-                signOutUseCase: resolver.resolve(SignOutUseCase.self)!                )
+                signOutUseCase: resolver.resolve(SignOutUseCase.self)!,
+                fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
+            )
             }.inObjectScope(.container)
         
         container.register(AuthViewModel.self) { resolver in

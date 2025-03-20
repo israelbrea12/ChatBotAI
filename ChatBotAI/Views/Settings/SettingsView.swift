@@ -10,7 +10,6 @@ struct SettingsView: View {
                 case .initial,
                         .loading:
                     loadingView()
-                    signOutButton()
                     
                 case .success:
                     settingsContent()
@@ -21,7 +20,6 @@ struct SettingsView: View {
                     
                 case .empty:
                     emptyView()
-                    signOutButton()
                 }
             }
             .navigationTitle("Settings")
@@ -31,6 +29,7 @@ struct SettingsView: View {
     private func settingsContent() -> some View {
         List {
             if let user = settingsViewModel.currentUser {
+                
                 Section {
                     userProfile(user: user)
                 }
@@ -49,6 +48,30 @@ struct SettingsView: View {
     
     private func userProfile(user: User) -> some View {
         HStack {
+            
+            AsyncImage(
+                url: URL(string: user.profileImageUrl ?? "")
+            ) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                case .failure:
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .frame(width: 100, height: 100)
+                        .foregroundColor(.gray)
+                @unknown default:
+                    EmptyView()
+                }
+            }
+
+            
             Text(user.initials)
                 .font(.title)
                 .fontWeight(.semibold)

@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel = HomeViewModel()
-    @EnvironmentObject var sessionManager: SessionManager // 🔥 Obtener datos en tiempo real
 
     var body: some View {
         NavigationStack {
@@ -33,7 +32,7 @@ struct HomeView: View {
     
     private func successView() -> some View {
         VStack {
-            if let user = sessionManager.currentUser {
+            if let user = SessionManager.shared.currentUser {
                 Text("Bienvenido, \(user.fullName ?? "")")
                 AsyncImage(
                     url: URL(string: user.profileImageUrl ?? "")

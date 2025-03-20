@@ -14,8 +14,6 @@ struct ChatBotAIApp: App {
         Resolver.shared.injectDependencies()
     }
     
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    
     var body: some Scene {
         WindowGroup {
             ContentView()

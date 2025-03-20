@@ -9,8 +9,6 @@ import SwiftUI
 
 struct ChatBotIAView: View {
     
-    @EnvironmentObject private var authViewModel: AuthViewModel
-    
     var body: some View {
         Text("ChatBotIA View")
     }

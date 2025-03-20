@@ -58,6 +58,7 @@ struct RegistrationView: View {
                               placeholder: "name@example.com")
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
+                    .keyboardType(.emailAddress)
                 
                     InputView(text: $fullName,
                               title: "Full Name",

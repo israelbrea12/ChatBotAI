@@ -7,6 +7,7 @@ import FirebaseFirestore
 class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var state: ViewState = .success
+    @Published var isLoading = false // Estado de carga
     
     private let signInUseCase: SignInUseCase
     private let signUpUseCase: SignUpUseCase
@@ -26,12 +27,14 @@ class AuthViewModel: ObservableObject {
     }
     
     func signIn(withEmail email: String, password: String) async {
+        isLoading = true
         let result = await signInUseCase.execute(
             with: SignInParam(email: email, password: password)
         )
         switch result {
         case .success(let user):
             DispatchQueue.main.async {
+                self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
                 self.currentUser = user
             }
@@ -41,6 +44,7 @@ class AuthViewModel: ObservableObject {
     }
     
     func createUser(withEmail email: String, password: String, fullName: String) async {
+        isLoading = true
         let result = await signUpUseCase.execute(
             with: SignUpParam(email: email, fullName: fullName, password: password),
             profileImage: self.image
@@ -49,6 +53,7 @@ class AuthViewModel: ObservableObject {
         switch result {
         case .success(let user):
             DispatchQueue.main.async {
+                self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
                 self.currentUser = user
                 SessionManager.shared.currentUser = user

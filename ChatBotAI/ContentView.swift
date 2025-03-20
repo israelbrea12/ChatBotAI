@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject private var sessionManager = SessionManager.shared
+    @StateObject private var sessionManager = SessionManager.shared
     
     var body: some View {
         Group {
