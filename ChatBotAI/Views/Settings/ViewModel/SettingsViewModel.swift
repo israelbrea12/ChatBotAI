@@ -42,7 +42,7 @@ class SettingsViewModel: ObservableObject {
             case .success:
                 DispatchQueue.main.async {
                     SessionManager.shared.userSession = nil
-                    self.currentUser = nil
+                    SessionManager.shared.currentUser = nil
                 }
             case .failure(let error):
                 print("DEBUG: Sign-out error \(error.localizedDescription)")
@@ -56,7 +56,7 @@ class SettingsViewModel: ObservableObject {
             return
         }
 
-        state = .loading
+        
         let result = await fetchUserUseCase.execute(with: ())
             
         switch result {
@@ -67,7 +67,7 @@ class SettingsViewModel: ObservableObject {
             }
         case .failure(let error):
             DispatchQueue.main.async {
-                self.state = .loading
+                self.state = .success
                 print(error.localizedDescription)
             }
         }

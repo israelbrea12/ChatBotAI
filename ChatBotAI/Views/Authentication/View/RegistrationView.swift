@@ -133,6 +133,9 @@ struct RegistrationView: View {
                 .font(.system(size: 14))
             }
         }
+        .onAppear {
+                            authViewModel.image = nil
+                        }
         .fullScreenCover(isPresented: $authViewModel.shouldShowImagePicker, onDismiss: nil) {
             ImagePicker(image: $authViewModel.image)
         }

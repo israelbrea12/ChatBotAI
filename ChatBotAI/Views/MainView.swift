@@ -34,4 +34,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .preferredColorScheme(.dark)
 }

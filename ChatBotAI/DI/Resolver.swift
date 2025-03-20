@@ -109,9 +109,14 @@ extension Resolver {
         container.register(AuthViewModel.self) { resolver in
                 AuthViewModel(
                     signInUseCase: resolver.resolve(SignInUseCase.self)!,
-                    signUpUseCase: resolver.resolve(SignUpUseCase.self)!,
-                    uploadImageUseCase: resolver.resolve(UploadImageUseCase.self)!
+                    signUpUseCase: resolver.resolve(SignUpUseCase.self)!
                 )
+            }.inObjectScope(.container)
+        
+        container.register(HomeViewModel.self) { resolver in
+            HomeViewModel(
+                fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
+            )
             }.inObjectScope(.container)
     }
 }

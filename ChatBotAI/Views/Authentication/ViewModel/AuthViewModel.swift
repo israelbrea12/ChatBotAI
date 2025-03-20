@@ -11,19 +11,15 @@ class AuthViewModel: ObservableObject {
     
     private let signInUseCase: SignInUseCase
     private let signUpUseCase: SignUpUseCase
-    private let uploadImageUseCase: UploadImageUseCase
-    
     @Published var image: UIImage?
     @Published var shouldShowImagePicker = false
     
     init(
         signInUseCase: SignInUseCase,
-        signUpUseCase: SignUpUseCase,
-        uploadImageUseCase: UploadImageUseCase
+        signUpUseCase: SignUpUseCase
     ) {
         self.signInUseCase = signInUseCase
         self.signUpUseCase = signUpUseCase
-        self.uploadImageUseCase = uploadImageUseCase
     }
     
     func signIn(withEmail email: String, password: String) async {
@@ -44,21 +40,20 @@ class AuthViewModel: ObservableObject {
     }
     
     func createUser(withEmail email: String, password: String, fullName: String) async {
-        isLoading = true
         let result = await signUpUseCase.execute(
             with: SignUpParam(email: email, fullName: fullName, password: password),
             profileImage: self.image
-        )
-            
+        )            
         switch result {
         case .success(let user):
             DispatchQueue.main.async {
-                self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
                 self.currentUser = user
                 SessionManager.shared.currentUser = user
             }
         case .failure(let error):
+            state = .success
+            self.currentUser = nil
             print("DEBUG: Error al registrar usuario: \(error.localizedDescription)")
         }
     }

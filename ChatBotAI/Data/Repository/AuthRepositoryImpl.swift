@@ -37,7 +37,6 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
 
-
     
     func signOut() -> Result<Bool, AppError> {
         do {

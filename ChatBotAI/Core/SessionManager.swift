@@ -7,7 +7,7 @@ import FirebaseFirestore
 @MainActor
 class SessionManager: NSObject, ObservableObject {
     @Published var userSession: FirebaseAuth.User?
-    @Published var currentUser: User?
+    var currentUser: User?
     
     let auth: Auth
     let storage: Storage
@@ -26,7 +26,6 @@ class SessionManager: NSObject, ObservableObject {
         
         super.init()
         
-        listenToAuthChanges()
     }
 
     private func listenToAuthChanges() {

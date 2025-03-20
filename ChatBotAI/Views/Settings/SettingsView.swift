@@ -54,31 +54,25 @@ struct SettingsView: View {
             ) { phase in
                 switch phase {
                 case .empty:
-                    ProgressView()
+                    Image(systemName: "person.circle.fill")
+                        .resizable()
+                        .frame(width: 72, height: 72)
+                        .foregroundColor(.gray)
                 case .success(let image):
                     image
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 72, height: 72)
                         .clipShape(Circle())
                 case .failure:
                     Image(systemName: "person.circle.fill")
                         .resizable()
-                        .frame(width: 100, height: 100)
+                        .frame(width: 72, height: 72)
                         .foregroundColor(.gray)
                 @unknown default:
                     EmptyView()
                 }
             }
-
-            
-            Text(user.initials)
-                .font(.title)
-                .fontWeight(.semibold)
-                .foregroundColor(.white)
-                .frame(width: 72, height: 72)
-                .background(Color(.systemGray3))
-                .clipShape(Circle())
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(user.fullName ?? "")
