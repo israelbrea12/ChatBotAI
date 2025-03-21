@@ -15,9 +15,6 @@ class SessionManager: NSObject, ObservableObject {
     
     static let shared = SessionManager()
     
-    private var authStateListenerHandle: AuthStateDidChangeListenerHandle?
-
-    
     override init() {
         FirebaseApp.configure()
         
@@ -28,22 +25,5 @@ class SessionManager: NSObject, ObservableObject {
         self.userSession = auth.currentUser
         super.init()
         
-    }
-
-    private func listenToAuthChanges() {
-        authStateListenerHandle = auth.addStateDidChangeListener { [weak self] _, user in
-            guard let self = self else { return }
-
-            // 🔥 Publicamos el usuario solo después de actualizarse completamente
-            DispatchQueue.main.async {
-                self.userSession = user
-            }
-        }
-    }
-
-    deinit {
-        if let handle = authStateListenerHandle {
-            auth.removeStateDidChangeListener(handle)
-        }
     }
 }

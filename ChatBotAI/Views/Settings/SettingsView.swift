@@ -1,4 +1,5 @@
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct SettingsView: View {
     @StateObject var settingsViewModel = Resolver.shared.resolve(SettingsViewModel.self)
@@ -49,7 +50,7 @@ struct SettingsView: View {
     private func userProfile(user: User) -> some View {
         HStack {
             
-            AsyncImage(
+            WebImage(
                 url: URL(string: user.profileImageUrl ?? "")
             ) { phase in
                 switch phase {

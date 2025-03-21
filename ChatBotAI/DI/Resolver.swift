@@ -88,6 +88,10 @@ extension Resolver {
         container.register(UploadImageUseCase.self) { resolver in
             UploadImageUseCase(repository: resolver.resolve(StorageRepository.self)!)
         }.inObjectScope(.container)
+        
+        container.register(FetchAllUsersExceptCurrentUseCase.self) { resolver in
+            FetchAllUsersExceptCurrentUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        }.inObjectScope(.container)
     }
 
 }
@@ -116,6 +120,12 @@ extension Resolver {
         container.register(HomeViewModel.self) { resolver in
             HomeViewModel(
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
+            )
+            }.inObjectScope(.container)
+        
+        container.register(NewMessageViewModel.self) { resolver in
+            NewMessageViewModel(
+                fetchAllUsersExceptCurrentUseCase: resolver.resolve(FetchAllUsersExceptCurrentUseCase.self)!
             )
             }.inObjectScope(.container)
     }

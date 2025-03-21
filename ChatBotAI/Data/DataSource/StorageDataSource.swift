@@ -17,7 +17,7 @@ class StorageDataSourceImpl: StorageDataSource {
     
     func uploadImage(image: UIImage, userId: String) async throws -> String {
         let ref = await SessionManager.shared.storage.reference().child("profile_images/\(userId).jpg")
-        guard let imageData = image.jpegData(compressionQuality: 0.5) else {
+        guard let imageData = image.jpegData(compressionQuality: 0.3) else {
             throw AppError.unknownError("Error converting image to data")
         }
         

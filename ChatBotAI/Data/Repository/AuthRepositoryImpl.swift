@@ -55,4 +55,13 @@ class AuthRepositoryImpl: AuthRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func fetchAllUsersExceptCurrent() async -> Result<[User?], AppError> {
+            do {
+                let users = try await dataSource.fetchAllUsersExceptCurrent()
+                return .success(users.map { $0.toDomain() })
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
 }
