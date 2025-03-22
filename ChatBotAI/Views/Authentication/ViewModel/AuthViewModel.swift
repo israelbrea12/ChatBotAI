@@ -40,6 +40,7 @@ class AuthViewModel: ObservableObject {
     }
     
     func createUser(withEmail email: String, password: String, fullName: String) async {
+        DispatchQueue.main.async { self.isLoading = true }
         let result = await signUpUseCase.execute(
             with: SignUpParam(email: email, fullName: fullName, password: password),
             profileImage: self.image
@@ -47,6 +48,7 @@ class AuthViewModel: ObservableObject {
         switch result {
         case .success(let user):
             DispatchQueue.main.async {
+                self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
                 self.currentUser = user
                 SessionManager.shared.currentUser = user
