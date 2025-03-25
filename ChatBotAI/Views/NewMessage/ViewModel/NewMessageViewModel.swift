@@ -18,10 +18,12 @@ class NewMessageViewModel: ObservableObject {
     
     init(fetchAllUsersExceptCurrentUseCase: FetchAllUsersExceptCurrentUseCase) {
         self.fetchAllUserExceptCurrentUseCase = fetchAllUsersExceptCurrentUseCase
-        fetchAllUsersExceptCurrent()
+        Task {
+            await fetchAllUsersExceptCurrent()
+        }
     }
     
-    func fetchAllUsersExceptCurrent() {
+    func fetchAllUsersExceptCurrent() async {
         state = .loading
         Task {
             let result = await fetchAllUserExceptCurrentUseCase.execute(with: ())

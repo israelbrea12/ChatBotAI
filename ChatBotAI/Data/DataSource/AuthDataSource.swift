@@ -138,7 +138,7 @@ class AuthDataSourceImpl: AuthDataSource {
     }
     
     func fetchAllUsersExceptCurrent() async throws -> [UserModel] {
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
+        guard let currentUserID = await SessionManager.shared.auth.currentUser?.uid else {
             throw AppError.authenticationError("Unauthorized")
         }
         let snapshot = try await Firestore.firestore().collection("users").getDocuments()

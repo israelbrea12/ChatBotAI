@@ -174,12 +174,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4053F7C82D8762270082785E /* Core */ = {
+		4053F7C82D8762270082785E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				4053F7C62D8736F20082785E /* SessionManager.swift */,
 			);
-			path = Core;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		4057DBFE2D8CCE5300D2E2B0 /* NewMessage */ = {
@@ -382,7 +382,7 @@
 		40D384F12D843A7700406AC1 /* ChatBotAI */ = {
 			isa = PBXGroup;
 			children = (
-				4053F7C82D8762270082785E /* Core */,
+				4053F7C82D8762270082785E /* Utils */,
 				40D384CC2D843A7700406AC1 /* DI */,
 				40D384CB2D843A7700406AC1 /* Data */,
 				40D384D02D843A7700406AC1 /* Domain */,

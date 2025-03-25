@@ -6,6 +6,7 @@ import FirebaseFirestore
 
 @MainActor
 class SessionManager: NSObject, ObservableObject {
+    
     @Published var userSession: FirebaseAuth.User?
     var currentUser: User?
     

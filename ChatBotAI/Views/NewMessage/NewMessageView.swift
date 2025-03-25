@@ -38,6 +38,11 @@ struct NewMessageView: View {
                     }
                 }
             }
+            .onAppear {
+                Task {
+                    await viewModel.fetchAllUsersExceptCurrent()
+                }
+            }
         }
     }
     
