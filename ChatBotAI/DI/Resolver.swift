@@ -43,10 +43,6 @@ extension Resolver {
         container.register(AuthDataSource.self) { _ in
             AuthDataSourceImpl()
         }.inObjectScope(.container)
-        
-        container.register(StorageDataSource.self) { _ in
-            StorageDataSourceImpl()
-        }.inObjectScope(.container)
     }
 }
 
@@ -56,10 +52,6 @@ extension Resolver {
     @MainActor func injectRepository() {
         container.register(AuthRepository.self){resolver in
             AuthRepositoryImpl(dataSource: resolver.resolve(AuthDataSource.self)!)
-        }.inObjectScope(.container)
-        
-        container.register(StorageRepository.self){resolver in
-            StorageRepositoryImpl(dataSource: resolver.resolve(StorageDataSource.self)!)
         }.inObjectScope(.container)
     }
 }
@@ -83,10 +75,6 @@ extension Resolver {
         
         container.register(FetchUserUseCase.self) { resolver in
             FetchUserUseCase(repository: resolver.resolve(AuthRepository.self)!)
-        }.inObjectScope(.container)
-        
-        container.register(UploadImageUseCase.self) { resolver in
-            UploadImageUseCase(repository: resolver.resolve(StorageRepository.self)!)
         }.inObjectScope(.container)
         
         container.register(FetchAllUsersExceptCurrentUseCase.self) { resolver in
