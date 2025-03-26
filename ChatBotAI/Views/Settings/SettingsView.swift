@@ -21,6 +21,7 @@ struct SettingsView: View {
                     
                 case .empty:
                     emptyView()
+                    signOutButton()
                 }
             }
             .navigationTitle("Settings")

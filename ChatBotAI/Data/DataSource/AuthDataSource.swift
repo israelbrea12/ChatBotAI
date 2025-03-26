@@ -7,16 +7,15 @@
 
 import Foundation
 import FirebaseAuth
-import FirebaseFirestore
-
-import Foundation
+import FirebaseDatabase
 import FirebaseStorage
+import UIKit
 
 protocol AuthDataSource {
     func signIn(email: String, password: String) async throws -> UserModel
     func signUp(email: String, password: String, fullName: String, profileImage: UIImage?) async throws -> UserModel
     func signOut() throws
-    func fetchCurrentUser() async throws -> UserModel
+    func fetchUser() async throws -> UserModel
     func fetchAllUsersExceptCurrent() async throws -> [UserModel]
 }
 
@@ -32,11 +31,11 @@ class AuthDataSourceImpl: AuthDataSource {
         print("Usuario autenticado con UID: \(authResult.user.uid)")
 
         do {
-            let user = try await fetchUser(uid: authResult.user.uid)
-            print("Usuario recuperado de Firestore: \(user)")
+            let user = try await fetchUser()
+            print("Usuario recuperado de Firebase Database: \(user)")
             return user
         } catch {
-            print("Error al recuperar usuario de Firestore: \(error)")
+            print("Error al recuperar usuario de Firebase Database: \(error)")
             throw error
         }
     }
@@ -48,9 +47,7 @@ class AuthDataSourceImpl: AuthDataSource {
             withEmail: email,
             password: password
         )
-        print(
-            "DEBUG: Usuario de Firebase creado con UID: \(authResult.user.uid)"
-        )
+        print("DEBUG: Usuario de Firebase creado con UID: \(authResult.user.uid)")
 
         var profileImageUrl: String? = nil
 
@@ -60,17 +57,10 @@ class AuthDataSourceImpl: AuthDataSource {
                     image: image,
                     userId: authResult.user.uid
                 )
-                print(
-                    "DEBUG: Imagen subida con éxito: \(profileImageUrl ?? "")"
-                )
+                print("DEBUG: Imagen subida con éxito: \(profileImageUrl ?? "")")
             } catch {
-                print(
-                    "DEBUG: Error al subir la imagen: \(error.localizedDescription)"
-                )
-                throw AppError
-                    .unknownError(
-                        "Error al subir la imagen: \(error.localizedDescription)"
-                    )
+                print("DEBUG: Error al subir la imagen: \(error.localizedDescription)")
+                throw AppError.unknownError("Error al subir la imagen: \(error.localizedDescription)")
             }
         }
 
@@ -80,22 +70,22 @@ class AuthDataSourceImpl: AuthDataSource {
             fullName: fullName,
             profileImageUrl: profileImageUrl
         )
-        let encodedUser = try Firestore.Encoder().encode(user)
+
+        let userValues: [String: Any] = [
+            "uid": user.uid,
+            "email": user.email ?? "",
+            "fullName": user.fullName ?? "",
+            "profileImageUrl": user.profileImageUrl ?? ""
+        ]
+
+        let ref = Database.database().reference().child("users").child(user.uid)
 
         do {
-            try await SessionManager.shared.firestore
-                .collection("users")
-                .document(user.uid)
-                .setData(encodedUser)
-            print("DEBUG: Usuario guardado en Firestore con éxito")
+            try await ref.setValue(userValues)
+            print("DEBUG: Usuario guardado en Realtime Database con éxito")
         } catch {
-            print(
-                "DEBUG: Error al guardar en Firestore: \(error.localizedDescription)"
-            )
-            throw AppError
-                .unknownError(
-                    "Error al guardar usuario en Firestore: \(error.localizedDescription)"
-                )
+            print("DEBUG: Error al guardar en Realtime Database: \(error.localizedDescription)")
+            throw AppError.unknownError("Error al guardar usuario en Realtime Database: \(error.localizedDescription)")
         }
 
         return user
@@ -121,31 +111,46 @@ class AuthDataSourceImpl: AuthDataSource {
     }
 
     
-    func fetchCurrentUser() async throws -> UserModel {
+    func fetchUser() async throws -> UserModel {
         guard let uid = await SessionManager.shared.auth.currentUser?.uid else {
-            throw AppError.unknownError("No user session found")
+            throw AppError.authenticationError("Unauthorized")
         }
-        return try await fetchUser(uid: uid)
-    }
-    
-    private func fetchUser(uid: String) async throws -> UserModel {
-        let snapshot = try await SessionManager.shared.firestore.collection("users").document(uid).getDocument()
-        guard let user = try? snapshot.data(as: UserModel.self) else {
+        let ref = Database.database().reference().child("users").child(uid)
+        let snapshot = try await ref.getData()
+        
+        guard let data = snapshot.value as? [String: Any] else {
             throw AppError.unknownError("Failed to fetch user")
         }
-        print(user)
-        return user
+
+        return UserModel(
+            uid: uid,
+            email: data["email"] as? String,
+            fullName: data["fullName"] as? String,
+            profileImageUrl: data["profileImageUrl"] as? String
+        )
     }
     
     func fetchAllUsersExceptCurrent() async throws -> [UserModel] {
-        guard let currentUserID = await SessionManager.shared.auth.currentUser?.uid else {
+        guard let currentUserID = Auth.auth().currentUser?.uid else {
             throw AppError.authenticationError("Unauthorized")
         }
-        let snapshot = try await Firestore.firestore().collection("users").getDocuments()
-        let users = snapshot.documents.compactMap { doc -> UserModel? in
-            let user = try? doc.data(as: UserModel.self)
-            return user?.uid != currentUserID ? user : nil
+
+        let ref = Database.database().reference().child("users")
+        let snapshot = try await ref.getData()
+        
+        guard let usersData = snapshot.value as? [String: [String: Any]] else {
+            throw AppError.unknownError("Failed to fetch users")
         }
-        return users
+
+        return usersData.compactMap { (key, value) -> UserModel? in
+            guard key != currentUserID else { return nil }
+            return UserModel(
+                uid: key,
+                email: value["email"] as? String,
+                fullName: value["fullName"] as? String,
+                profileImageUrl: value["profileImageUrl"] as? String
+            )
+        }
     }
+
 }

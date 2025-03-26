@@ -49,7 +49,7 @@ class AuthRepositoryImpl: AuthRepository {
     
     func fetchUser() async -> Result<User?, AppError> {
         do {
-            let userModel = try await dataSource.fetchCurrentUser()
+            let userModel = try await dataSource.fetchUser()
             return .success(userModel.toDomain())
         } catch {
             return .failure(error.toAppError())

@@ -69,8 +69,7 @@ class SettingsViewModel: ObservableObject {
             }
         case .failure(let error):
             DispatchQueue.main.async {
-                self.state = .success
-                print(error.localizedDescription)
+                self.state = .error("Error al cargar pantalla settings: \(error), intente más tarde. \(error.localizedDescription)")
             }
         }
     }

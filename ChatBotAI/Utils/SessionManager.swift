@@ -3,6 +3,7 @@ import Combine
 import Firebase
 import FirebaseStorage
 import FirebaseFirestore
+import FirebaseDatabase
 
 @MainActor
 class SessionManager: NSObject, ObservableObject {

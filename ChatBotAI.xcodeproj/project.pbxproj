@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		402CB7F32D94573F008EAEF0 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 402CB7F22D94573F008EAEF0 /* FirebaseDatabase */; };
 		4053F7C32D85CFB50082785E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 4053F7C22D85CFB50082785E /* Swinject */; };
 		4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */; };
 		4053F7C72D8736F20082785E /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C62D8736F20082785E /* SessionManager.swift */; };
@@ -149,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				402CB7F32D94573F008EAEF0 /* FirebaseDatabase in Frameworks */,
 				4057DBFD2D8C9D4200D2E2B0 /* SDWebImageSwiftUI in Frameworks */,
 				40810FAC2D8398D8000DEBC3 /* FirebaseAuth in Frameworks */,
 				4057DB872D8B5D1500D2E2B0 /* FirebaseStorage in Frameworks */,
@@ -518,6 +520,7 @@
 				4053F7C22D85CFB50082785E /* Swinject */,
 				4057DB862D8B5D1500D2E2B0 /* FirebaseStorage */,
 				4057DBFC2D8C9D4200D2E2B0 /* SDWebImageSwiftUI */,
+				402CB7F22D94573F008EAEF0 /* FirebaseDatabase */,
 			);
 			productName = ChatBotAI;
 			productReference = 40956E1A2D805F8C00307A53 /* ChatBotAI.app */;
@@ -1045,6 +1048,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		402CB7F22D94573F008EAEF0 /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40810FAA2D8398D8000DEBC3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
 		4053F7C22D85CFB50082785E /* Swinject */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4053F7C12D85CFB50082785E /* XCRemoteSwiftPackageReference "Swinject" */;
