@@ -10,6 +10,7 @@ import SDWebImageSwiftUI
 
 struct NewMessageView: View {
     @StateObject var viewModel = Resolver.shared.resolve(NewMessageViewModel.self)
+    
     let didSelectNewUser: (User) -> ()
     
     @Environment(\.presentationMode) var presentationMode

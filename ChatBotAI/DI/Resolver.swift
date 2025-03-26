@@ -116,5 +116,11 @@ extension Resolver {
                 fetchAllUsersExceptCurrentUseCase: resolver.resolve(FetchAllUsersExceptCurrentUseCase.self)!
             )
             }.inObjectScope(.container)
+        
+        container.register(ChatLogViewModel.self) { resolver in
+            ChatLogViewModel(
+                
+            )
+            }.inObjectScope(.container)
     }
 }

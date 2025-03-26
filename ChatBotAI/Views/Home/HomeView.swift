@@ -38,58 +38,23 @@ struct HomeView: View {
                             .foregroundStyle(.green)
                     }
                     .sheet(isPresented: $homeViewModel.isPresentingNewMessageView) {
-                        NewMessageView { selectedUser in
-                            homeViewModel.startNewChat(with: selectedUser)
-                        }
-                    }
-                }
-                ToolbarItem (placement: .topBarLeading) {
-                
-                    HStack {
-                        WebImage(
-                            url: URL(string: homeViewModel.currentUser?.profileImageUrl ?? "")
-                        ) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                                    .frame(width: 36, height: 36)
-                                    .overlay(RoundedRectangle(cornerRadius: 44 )
-                                        .stroke(Color.gray, lineWidth: 0.5))
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 36, height: 36)
-                                    .clipShape(Circle())
-                                    .overlay(RoundedRectangle(cornerRadius: 44 )
-                                        .stroke(Color.gray, lineWidth: 0.5))
-                            case .failure:
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .frame(width: 36, height: 36)
-                                    .foregroundColor(.gray)
-                                    .overlay(RoundedRectangle(cornerRadius: 44 )
-                                        .stroke(Color.gray, lineWidth: 0.5))
-                            @unknown default:
-                                EmptyView()
-                            }
-                        }
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(homeViewModel.currentUser?.fullName ?? "")
-                                .font(.system(size: 14, weight: .bold))
-                                .foregroundStyle(Color(.label))
-                            HStack {
-                                Circle()
-                                    .foregroundColor(.green)
-                                    .frame(width: 14, height: 14)
-                                Text("online")
-                                    .font(.system(size: 12))
-                                    .foregroundColor(Color(.lightGray))
-                            }
-                        }
+                                            NewMessageView { selectedUser in
+                                                homeViewModel.startNewChat(with: selectedUser)
+                                                homeViewModel.chatUser = selectedUser
+                                                homeViewModel.shouldNavigateToChatLogView.toggle()
+                                            }
+                                        }
 
-                    }
+                                    }
+                ToolbarItem (placement: .topBarLeading) {
+                    UserProfileView(user: homeViewModel.currentUser)
+                }
+            }
+            .navigationDestination(
+                isPresented: $homeViewModel.shouldNavigateToChatLogView
+            ) {
+                if let chatUser = homeViewModel.chatUser {
+                    ChatLogView(user: chatUser)
                 }
             }
         }
@@ -98,25 +63,30 @@ struct HomeView: View {
     private func successView() -> some View {
         ForEach(0..<10, id: \.self) { num in
             VStack {
-                HStack (spacing: 16) {
-                    Image(systemName: "person.fill")
-                        .font(.system(size: 32))
-                        .padding(8)
-                        .overlay(RoundedRectangle(cornerRadius: 44 )
-                            .stroke(Color.gray, lineWidth: 0.5))
-                    
-                    VStack(alignment: .leading) {
-                        Text("username")
-                            .font(.system(size: 16, weight: .bold))
-                        Text("Message sent to user")
+                NavigationLink {
+                    Text("Destination")
+                } label: {
+                    HStack (spacing: 16) {
+                        Image(systemName: "person.fill")
+                            .font(.system(size: 32))
+                            .padding(8)
+                            .overlay(RoundedRectangle(cornerRadius: 44 )
+                                .stroke(Color.gray, lineWidth: 0.5))
+                        
+                        VStack(alignment: .leading) {
+                            Text("username")
+                                .font(.system(size: 16, weight: .bold))
+                            Text("Message sent to user")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(Color(.lightGray))
+                        }
+                        Spacer()
+                        
+                        Text("22d")
                             .font(.system(size: 14, weight: .semibold))
-                            .foregroundStyle(Color(.lightGray))
                     }
-                    Spacer()
-                    
-                    Text("22d")
-                        .font(.system(size: 14, weight: .semibold))
                 }
+                
                 Divider()
                     .padding(.vertical, 8)
             }
