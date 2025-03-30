@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import GoogleSignIn
+import GoogleSignInSwift
 
 struct LoginView: View {
     @StateObject var authViewModel = Resolver.shared.resolve(AuthViewModel.self)
@@ -59,6 +61,27 @@ struct LoginView: View {
                 .opacity(formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
                 .padding(.top, 24)
+                
+                Button {
+                    Task {
+                        await authViewModel.signInWithGoogle()
+                    }
+                } label: {
+                    HStack {
+                        Image("google_icon") // Asegúrate de agregar un icono de Google
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text("Sign in with Google")
+                            .fontWeight(.semibold)
+                    }
+                    .foregroundColor(.black)
+                    .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                }
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(radius: 2)
+                .padding(.top, 12)
+
                 
                 Spacer()
                 

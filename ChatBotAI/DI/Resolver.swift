@@ -80,6 +80,10 @@ extension Resolver {
         container.register(FetchAllUsersExceptCurrentUseCase.self) { resolver in
             FetchAllUsersExceptCurrentUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }.inObjectScope(.container)
+        
+        container.register(SignInWithGoogleUseCase.self) { resolver in
+            SignInWithGoogleUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        }.inObjectScope(.container)
     }
 
 }
@@ -101,7 +105,8 @@ extension Resolver {
         container.register(AuthViewModel.self) { resolver in
                 AuthViewModel(
                     signInUseCase: resolver.resolve(SignInUseCase.self)!,
-                    signUpUseCase: resolver.resolve(SignUpUseCase.self)!
+                    signUpUseCase: resolver.resolve(SignUpUseCase.self)!,
+                    signInWithGoogleUseCase: resolver.resolve(SignInWithGoogleUseCase.self)!
                 )
             }.inObjectScope(.container)
         

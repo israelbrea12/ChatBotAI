@@ -64,4 +64,14 @@ class AuthRepositoryImpl: AuthRepository {
                 return .failure(error.toAppError())
             }
         }
+    
+    func signInWithGoogle() async -> Result<User, AppError> {
+        do {
+            let userModel = try await dataSource.signInWithGoogle()
+            return .success(userModel.toDomain())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
+
 }

@@ -1,4 +1,6 @@
 import Foundation
+import FirebaseCore
+import GoogleSignIn
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
@@ -11,15 +13,18 @@ class AuthViewModel: ObservableObject {
     
     private let signInUseCase: SignInUseCase
     private let signUpUseCase: SignUpUseCase
+    private let signInWithGoogleUseCase: SignInWithGoogleUseCase
     @Published var image: UIImage?
     @Published var shouldShowImagePicker = false
     
     init(
         signInUseCase: SignInUseCase,
-        signUpUseCase: SignUpUseCase
+        signUpUseCase: SignUpUseCase,
+        signInWithGoogleUseCase: SignInWithGoogleUseCase
     ) {
         self.signInUseCase = signInUseCase
         self.signUpUseCase = signUpUseCase
+        self.signInWithGoogleUseCase = signInWithGoogleUseCase
     }
     
     func signIn(withEmail email: String, password: String) async {
@@ -58,4 +63,17 @@ class AuthViewModel: ObservableObject {
             print("DEBUG: Error al registrar usuario: \(error.localizedDescription)")
         }
     }
+    
+    func signInWithGoogle() async {
+            let result = await signInWithGoogleUseCase.execute()
+            switch result {
+            case .success(let user):
+                DispatchQueue.main.async {
+                    self.currentUser = user
+                }
+            case .failure(let error):
+                print("DEBUG: Error signing in with Google: \(error.localizedDescription)")
+            }
+        }
 }
+

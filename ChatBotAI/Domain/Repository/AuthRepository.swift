@@ -14,4 +14,5 @@ protocol AuthRepository {
     func signOut() -> Result<Bool, AppError>
     func fetchUser() async -> Result<User?, AppError>
     func fetchAllUsersExceptCurrent() async -> Result<[User?], AppError>
+    func signInWithGoogle() async -> Result<User, AppError>
 }
