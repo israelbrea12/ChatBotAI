@@ -5,46 +5,37 @@
 //  Created by Israel Brea Piñero on 19/3/25.
 //
 
-import Foundation
-import UIKit
 import SwiftUI
+import PhotosUI
 
-struct ImagePicker: UIViewControllerRepresentable {
-    
+struct ImagePickerView: View {
     @Binding var image: UIImage?
+    @State private var selectedItem: PhotosPickerItem?
     
-    private let controller = UIImagePickerController()
-    
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(parent: self)
-    }
-    
-    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        
-        let parent: ImagePicker
-        
-        init(parent: ImagePicker) {
-            self.parent = parent
+    var body: some View {
+        PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+            VStack {
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 128, height: 128)
+                        .clipShape(Circle())
+                } else {
+                    Image(systemName: "person.fill")
+                        .font(.system(size: 64))
+                        .padding()
+                        .foregroundColor(.gray)
+                }
+            }
+            .overlay(RoundedRectangle(cornerRadius: 64).stroke(Color.gray, lineWidth: 1))
         }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            parent.image = info[.originalImage] as? UIImage
-            picker.dismiss(animated: true)
+        .onChange(of: selectedItem) { newItem in
+            Task {
+                if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                    image = UIImage(data: data)
+                }
+            }
         }
-        
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            picker.dismiss(animated: true)
-        }
-        
     }
-    
-    func makeUIViewController(context: Context) -> some UIViewController {
-        controller.delegate = context.coordinator
-        return controller
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
-    }
-    
 }

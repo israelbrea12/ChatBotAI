@@ -29,27 +29,8 @@ struct RegistrationView: View {
                     
                     // form fields
                     VStack(spacing: 24) {
-                        Button {
-                            authViewModel.shouldShowImagePicker.toggle()
-                        } label: {
-                            VStack {
-                                if let image = authViewModel.image {
-                                    Image(uiImage: image)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 128, height: 128)
-                                        .cornerRadius(64)
-                                } else {
-                                    Image(systemName: "person.fill")
-                                        .font(.system(size: 64))
-                                        .padding()
-                                        .foregroundStyle(Color(.label))
-                                }
-                            }
-                            .overlay(RoundedRectangle(cornerRadius: 64)
-                                .stroke(Color.gray, lineWidth: 1))
-                        }
-                        
+                        ImagePickerView(image: $authViewModel.image)
+
                         InputView(text: $email,
                                   title: "Email Address",
                                   placeholder: "name@example.com")
@@ -135,7 +116,7 @@ struct RegistrationView: View {
                     authViewModel.isLoading = false
                 }
                 .fullScreenCover(isPresented: $authViewModel.shouldShowImagePicker, onDismiss: nil) {
-                    ImagePicker(image: $authViewModel.image)
+                    ImagePickerView(image: $authViewModel.image)
                 }
             }
             
