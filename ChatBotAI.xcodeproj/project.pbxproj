@@ -64,6 +64,7 @@
 		40F35FCF2D99DFBF0078BE23 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCE2D99DFBF0078BE23 /* GoogleSignInSwift */; };
 		40F35FD12D99E0130078BE23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40F35FD02D99E0130078BE23 /* GoogleService-Info.plist */; };
 		40F35FD42D99E4E60078BE23 /* SignInWithGoogleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */; };
+		40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +138,7 @@
 		40F35FD02D99E0130078BE23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40F35FD22D99E1C80078BE23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleUseCase.swift; sourceTree = "<group>"; };
+		40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -464,6 +466,7 @@
 				40D3852F2D84ECC000406AC1 /* fetchUserUseCase.swift */,
 				40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */,
 				40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */,
+				40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -736,6 +739,7 @@
 				40D385122D84DF5E00406AC1 /* UseCaseProtocol.swift in Sources */,
 				40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */,
 				40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */,
+				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,

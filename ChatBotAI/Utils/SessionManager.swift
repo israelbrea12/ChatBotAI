@@ -28,4 +28,5 @@ class SessionManager: NSObject, ObservableObject {
         super.init()
         
     }
+    
 }

@@ -8,20 +8,23 @@
 import Foundation
 import FirebaseAuth
 import Combine
+import FirebaseDatabaseInternal
 
 @MainActor
 class SettingsViewModel: ObservableObject {
     @Published var currentUser: User?
     @Published var state: ViewState = .initial
     
+    private let deleteAccountUseCase: DeleteAccountUseCase
     private let signOutUseCase: SignOutUseCase
     private let fetchUserUseCase: FetchUserUseCase
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
     
-    init(signOutUseCase: SignOutUseCase, fetchUserUseCase: FetchUserUseCase) {
+    init(signOutUseCase: SignOutUseCase, fetchUserUseCase: FetchUserUseCase, deleteAccountUseCase: DeleteAccountUseCase) {
         self.signOutUseCase = signOutUseCase
         self.fetchUserUseCase = fetchUserUseCase
+        self.deleteAccountUseCase = deleteAccountUseCase
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -73,4 +76,18 @@ class SettingsViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteAccount() async {
+            let result = await deleteAccountUseCase.execute(with: ())
+            switch result {
+            case .success:
+                DispatchQueue.main.async {
+                    SessionManager.shared.userSession = nil
+                    SessionManager.shared.currentUser = nil
+                }
+            case .failure(let error):
+                print("DEBUG: Error deleting account \(error.localizedDescription)")
+            }
+        }
+
 }

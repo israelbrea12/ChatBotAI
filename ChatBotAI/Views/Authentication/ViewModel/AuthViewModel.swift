@@ -53,7 +53,7 @@ class AuthViewModel: ObservableObject {
         switch result {
         case .success(let user):
             DispatchQueue.main.async {
-                self.isLoading = false
+                DispatchQueue.main.async { self.isLoading = false }
                 SessionManager.shared.userSession = Auth.auth().currentUser
                 self.currentUser = user
                 SessionManager.shared.currentUser = user

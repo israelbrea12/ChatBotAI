@@ -73,5 +73,13 @@ class AuthRepositoryImpl: AuthRepository {
             return .failure(error.toAppError())
         }
     }
-
+    
+    func deleteAccount() async -> Result<Void, AppError> {
+            do {
+                try await dataSource.deleteAccount()
+                return .success(())
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
 }

@@ -84,6 +84,10 @@ extension Resolver {
         container.register(SignInWithGoogleUseCase.self) { resolver in
             SignInWithGoogleUseCase(repository: resolver.resolve(AuthRepository.self)!)
         }.inObjectScope(.container)
+        
+        container.register(DeleteAccountUseCase.self) { resolver in
+            DeleteAccountUseCase(repository: resolver.resolve(AuthRepository.self)!)
+        }.inObjectScope(.container)
     }
 
 }
@@ -98,7 +102,8 @@ extension Resolver {
         container.register(SettingsViewModel.self) { resolver in
             SettingsViewModel(
                 signOutUseCase: resolver.resolve(SignOutUseCase.self)!,
-                fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
+                fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
+                deleteAccountUseCase: resolver.resolve(DeleteAccountUseCase.self)!
             )
             }.inObjectScope(.container)
         

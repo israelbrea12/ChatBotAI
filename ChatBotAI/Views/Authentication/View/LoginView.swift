@@ -62,6 +62,20 @@ struct LoginView: View {
                 .cornerRadius(10)
                 .padding(.top, 24)
                 
+                HStack {
+                    Divider()
+                        .frame(maxWidth: .infinity, maxHeight: 1)
+                        .background(Color(.systemGray5))
+                    Text("or")
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 8)
+                    Divider()
+                        .frame(maxWidth: .infinity, maxHeight: 1)
+                        .background(Color(.systemGray5))
+                }
+                .padding(.horizontal, 24)
+                .padding(.top, 16)
+
                 Button {
                     Task {
                         await authViewModel.signInWithGoogle()
@@ -75,13 +89,25 @@ struct LoginView: View {
                             .fontWeight(.semibold)
                     }
                     .foregroundColor(.black)
-                    .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                    .frame(width: UIScreen.main.bounds.width - 32, height: 38)
                 }
-                .background(Color.white)
+                .background(Color(.systemGray6))
                 .cornerRadius(10)
-                .shadow(radius: 2)
                 .padding(.top, 12)
 
+                Button {
+                                } label: {
+                                    HStack {
+                                        Image(systemName: "applelogo")
+                                        Text("Sign in with Apple")
+                                            .fontWeight(.semibold)
+                                    }
+                                    .foregroundColor(.white)
+                                    .frame(width: UIScreen.main.bounds.width - 32, height: 38)
+                                }
+                                .background(Color.black)
+                                .cornerRadius(10)
+                                .padding(.top, 12)
                 
                 Spacer()
                 

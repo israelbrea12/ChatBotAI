@@ -15,4 +15,5 @@ protocol AuthRepository {
     func fetchUser() async -> Result<User?, AppError>
     func fetchAllUsersExceptCurrent() async -> Result<[User?], AppError>
     func signInWithGoogle() async -> Result<User, AppError>
+    func deleteAccount() async -> Result<Void, AppError>
 }

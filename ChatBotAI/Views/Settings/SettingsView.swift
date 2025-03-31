@@ -4,6 +4,8 @@ import SDWebImageSwiftUI
 struct SettingsView: View {
     @StateObject var settingsViewModel = Resolver.shared.resolve(SettingsViewModel.self)
     
+    @State private var showDeleteAlert = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -109,9 +111,17 @@ struct SettingsView: View {
     
     private func deleteAccountButton() -> some View {
         Button {
-            print("Delete account..")
+            showDeleteAlert = true
         } label: {
             SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
+        }
+        .alert("¿Seguro que quieres eliminar tu cuenta?", isPresented: $showDeleteAlert) {
+            Button("Cancelar", role: .cancel) { }
+            Button("Eliminar", role: .destructive) {
+                Task {
+                    await settingsViewModel.deleteAccount()
+                }
+            }
         }
     }
     

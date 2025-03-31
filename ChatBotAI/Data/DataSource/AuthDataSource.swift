@@ -13,6 +13,7 @@ import UIKit
 import GoogleSignIn
 import GoogleSignInSwift
 import FirebaseCore
+import AuthenticationServices
 
 protocol AuthDataSource {
     func signIn(email: String, password: String) async throws -> UserModel
@@ -21,6 +22,7 @@ protocol AuthDataSource {
     func fetchUser() async throws -> UserModel
     func fetchAllUsersExceptCurrent() async throws -> [UserModel]
     func signInWithGoogle() async throws -> UserModel
+    func deleteAccount() async throws
 }
 
 
@@ -171,6 +173,8 @@ class AuthDataSourceImpl: AuthDataSource {
         }
     }
     
+    // MARK: - Sign In With Google
+    
     func signInWithGoogle() async throws -> UserModel {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             throw AppError.unknownError("Missing Google Client ID")
@@ -195,7 +199,7 @@ class AuthDataSourceImpl: AuthDataSource {
                 withIDToken: idToken,
                 accessToken: result.user.accessToken.tokenString
             )
-            let authResult = try await Auth.auth().signIn(with: credential)
+            let authResult = try await SessionManager.shared.auth.signIn(with: credential)
 
             let googleUser = result.user
             let email = googleUser.profile?.email ?? authResult.user.email
@@ -246,5 +250,21 @@ class AuthDataSourceImpl: AuthDataSource {
             throw AppError.unknownError("Error signing in with Google: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - Delete Account
+    
+    func deleteAccount() async throws {
+            guard let user = Auth.auth().currentUser else {
+                throw AppError.authenticationError("No user logged in")
+            }
 
+            let userRef = Database.database().reference().child("users").child(user.uid)
+
+            do {
+                try await userRef.removeValue()
+                try await user.delete()
+            } catch {
+                throw AppError.unknownError("Error deleting account: \(error.localizedDescription)")
+            }
+        }
 }
