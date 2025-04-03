@@ -10,6 +10,8 @@ import Foundation
 struct Chat: Identifiable, Codable {
     let id: String
     let participants: [String]
-    let lastMessage: String?
+    let createdAt: TimeInterval?
+    let lastMessageText: String?
+    let lastMessageSenderId: String?
     let lastMessageTimestamp: TimeInterval?
 }

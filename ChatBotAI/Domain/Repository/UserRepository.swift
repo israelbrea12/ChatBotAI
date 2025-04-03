@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 protocol UserRepository {
     func fetchUser() async -> Result<User?, AppError>

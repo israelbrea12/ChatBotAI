@@ -51,6 +51,10 @@ extension Resolver {
                 googleAuthService: resolver.resolve(GoogleAuthService.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(ChatDataSource.self) { resolver in
+            ChatDataSourceImpl()
+        }.inObjectScope(.container)
     }
 }
 
@@ -77,9 +81,16 @@ extension Resolver {
                 dataSource: resolver.resolve(AuthDataSource.self)!
             )
         }.inObjectScope(.container)
+        
         container.register(UserRepository.self){resolver in
             UserRepositoryImpl(
                 userDataSource: resolver.resolve(UserDataSource.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(ChatRepository.self){resolver in
+            ChatRepositoryImpl(
+                chatDataSource: resolver.resolve(ChatDataSource.self)!
             )
         }.inObjectScope(.container)
     }
@@ -129,6 +140,12 @@ extension Resolver {
                 repository: resolver.resolve(AuthRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(CreateChatUseCase.self) { resolver in
+            CreateChatUseCase(
+                chatRepository: resolver.resolve(ChatRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -166,7 +183,8 @@ extension Resolver {
         
         container.register(HomeViewModel.self) { resolver in
             HomeViewModel(
-                fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
+                fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
+                createChatUseCase: resolver.resolve(CreateChatUseCase.self)!
             )
         }.inObjectScope(.container)
         

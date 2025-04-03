@@ -18,11 +18,14 @@ final class HomeViewModel: ObservableObject {
     @Published var chatUser: User?
     
     private let fetchUserUseCase: FetchUserUseCase
+    private let createChatUseCase: CreateChatUseCase
+    
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
     
-    init(fetchUserUseCase: FetchUserUseCase) {
+    init(fetchUserUseCase: FetchUserUseCase, createChatUseCase: CreateChatUseCase) {
         self.fetchUserUseCase = fetchUserUseCase
+        self.createChatUseCase = createChatUseCase
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -49,16 +52,38 @@ final class HomeViewModel: ObservableObject {
             }
         case .failure(let error):
             DispatchQueue.main.async {
-                self.state = .success
+                self.state = 
+                    .error("El error es: \(error.localizedDescription)")
                 print(error.localizedDescription)
             }
         }
     }
     
     func startNewChat(with user: User) {
-        print("Iniciando chat con \(user.fullName ?? "")")
-        isPresentingNewMessageView = false
-        // Aquí podrías manejar la lógica para crear un nuevo chat en Realtime Database
+        Task {
+            await self.createChat(with: user)
+        }
+    }
+    
+    private func createChat(with user: User) async {
+        state = .loading
+        let result = await createChatUseCase.execute(with: CreateChatParams(userId: user.id))
+        
+        switch result {
+        case .success(let chat):
+            DispatchQueue.main.async {
+                print("Chat creado con éxito: \(result)")
+                self.isPresentingNewMessageView = false
+                self.chatUser = user
+                self.shouldNavigateToChatLogView = true
+                self.state = .success
+            }
+        case .failure(let error):
+            DispatchQueue.main.async {
+                print("Error al crear el chat: \(error.localizedDescription)")
+                self.state = .error("Error al crear el chat: \(error.localizedDescription)")
+            }
+        }
     }
 }
 
