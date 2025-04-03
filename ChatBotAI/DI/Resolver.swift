@@ -40,8 +40,14 @@ extension Resolver {
 // MARK: - DataSource
 extension Resolver {
     @MainActor func injectDataSource() {
-        container.register(AuthDataSource.self) { _ in
-            AuthDataSourceImpl()
+        container.register(UserDataSource.self) { _ in
+            UserDataSourceImpl()
+        }.inObjectScope(.container)
+                
+        container.register(AuthDataSource.self) { resolver in
+            AuthDataSourceImpl(
+                userDataSource: resolver.resolve(UserDataSource.self)!
+            )
         }.inObjectScope(.container)
     }
 }
@@ -51,7 +57,14 @@ extension Resolver {
 extension Resolver {
     @MainActor func injectRepository() {
         container.register(AuthRepository.self){resolver in
-            AuthRepositoryImpl(dataSource: resolver.resolve(AuthDataSource.self)!)
+            AuthRepositoryImpl(
+                dataSource: resolver.resolve(AuthDataSource.self)!
+            )
+        }.inObjectScope(.container)
+        container.register(UserRepository.self){resolver in
+            UserRepositoryImpl(
+                userDataSource: resolver.resolve(UserDataSource.self)!
+            )
         }.inObjectScope(.container)
     }
 }
@@ -74,19 +87,31 @@ extension Resolver {
         }.inObjectScope(.container)
         
         container.register(FetchUserUseCase.self) { resolver in
-            FetchUserUseCase(repository: resolver.resolve(AuthRepository.self)!)
+            FetchUserUseCase(repository: resolver.resolve(UserRepository.self)!)
         }.inObjectScope(.container)
         
         container.register(FetchAllUsersExceptCurrentUseCase.self) { resolver in
-            FetchAllUsersExceptCurrentUseCase(repository: resolver.resolve(AuthRepository.self)!)
+            FetchAllUsersExceptCurrentUseCase(
+                repository: resolver.resolve(UserRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(SignInWithGoogleUseCase.self) { resolver in
-            SignInWithGoogleUseCase(repository: resolver.resolve(AuthRepository.self)!)
+            SignInWithGoogleUseCase(
+                repository: resolver.resolve(AuthRepository.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(SignInWithAppleUseCase.self) { resolver in
+            SignInWithAppleUseCase(
+                repository: resolver.resolve(AuthRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(DeleteAccountUseCase.self) { resolver in
-            DeleteAccountUseCase(repository: resolver.resolve(AuthRepository.self)!)
+            DeleteAccountUseCase(
+                repository: resolver.resolve(AuthRepository.self)!
+            )
         }.inObjectScope(.container)
     }
 
@@ -103,34 +128,43 @@ extension Resolver {
             SettingsViewModel(
                 signOutUseCase: resolver.resolve(SignOutUseCase.self)!,
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
-                deleteAccountUseCase: resolver.resolve(DeleteAccountUseCase.self)!
+                deleteAccountUseCase: resolver
+                    .resolve(DeleteAccountUseCase.self)!
             )
-            }.inObjectScope(.container)
+        }.inObjectScope(.container)
         
-        container.register(AuthViewModel.self) { resolver in
-                AuthViewModel(
-                    signInUseCase: resolver.resolve(SignInUseCase.self)!,
-                    signUpUseCase: resolver.resolve(SignUpUseCase.self)!,
-                    signInWithGoogleUseCase: resolver.resolve(SignInWithGoogleUseCase.self)!
-                )
-            }.inObjectScope(.container)
+        container.register(LoginViewModel.self) { resolver in
+            LoginViewModel(
+                signInUseCase: resolver.resolve(SignInUseCase.self)!,
+                signInWithGoogleUseCase: resolver.resolve(SignInWithGoogleUseCase.self)!,
+                signInWithAppleUseCase: resolver.resolve(SignInWithAppleUseCase.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(RegistrationViewModel.self) { resolver in
+            RegistrationViewModel(
+
+                signUpUseCase: resolver.resolve(SignUpUseCase.self)!
+            )
+        }.inObjectScope(.container)
         
         container.register(HomeViewModel.self) { resolver in
             HomeViewModel(
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!
             )
-            }.inObjectScope(.container)
+        }.inObjectScope(.container)
         
         container.register(NewMessageViewModel.self) { resolver in
             NewMessageViewModel(
-                fetchAllUsersExceptCurrentUseCase: resolver.resolve(FetchAllUsersExceptCurrentUseCase.self)!
+                fetchAllUsersExceptCurrentUseCase: resolver
+                    .resolve(FetchAllUsersExceptCurrentUseCase.self)!
             )
-            }.inObjectScope(.container)
+        }.inObjectScope(.container)
         
         container.register(ChatLogViewModel.self) { resolver in
             ChatLogViewModel(
                 
             )
-            }.inObjectScope(.container)
+        }.inObjectScope(.container)
     }
 }

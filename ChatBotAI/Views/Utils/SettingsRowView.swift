@@ -17,8 +17,9 @@ struct SettingsRowView: View {
         HStack(spacing: 12) {
             Image(systemName: imageName)
                 .imageScale(.small)
-                .font(.title)
+                .font(.headline)
                 .foregroundStyle(tintColor)
+                .padding(.horizontal, 8)
             
             Text(title)
                 .font(.subheadline)

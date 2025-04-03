@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 enum AppError: Error {
     case networkError(String)  // Para problemas de conexión
     case authenticationError(String)  // Errores de autenticación en Firebase

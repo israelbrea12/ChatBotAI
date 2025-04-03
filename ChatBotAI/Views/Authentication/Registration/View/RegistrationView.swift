@@ -9,27 +9,23 @@ import SwiftUI
 
 struct RegistrationView: View {
     
-    @StateObject var authViewModel = Resolver.shared.resolve(AuthViewModel.self)
+    @StateObject var registrationViewModel = Resolver.shared.resolve(RegistrationViewModel.self)
     
     @State private var email = ""
     @State private var fullName = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
         ZStack {
             NavigationStack {
                 VStack {
-                    // image
-                    Image("logo_firebase")
-                        .resizable()
-                        .scaledToFit()
-                        .padding(32)
-                    
                     // form fields
                     VStack(spacing: 24) {
-                        ImagePickerView(image: $authViewModel.image)
+                        ImagePickerView(image: $registrationViewModel.image)
+                            .padding(.top)
 
                         InputView(text: $email,
                                   title: "Email Address",
@@ -42,6 +38,7 @@ struct RegistrationView: View {
                                   title: "Full Name",
                                   placeholder: "Enter your name")
                         .disableAutocorrection(true)
+                                                
                         
                         InputView(text: $password,
                                   title: "Password",
@@ -76,7 +73,7 @@ struct RegistrationView: View {
                     
                     Button {
                         Task {
-                            await authViewModel
+                            await registrationViewModel
                                 .createUser(
                                     withEmail: email,
                                     password: password,
@@ -112,16 +109,16 @@ struct RegistrationView: View {
                     }
                 }
                 .onAppear {
-                    authViewModel.image = nil
-                    authViewModel.isLoading = false
+                    registrationViewModel.image = nil
+                    registrationViewModel.isLoading = false
                 }
-                .fullScreenCover(isPresented: $authViewModel.shouldShowImagePicker, onDismiss: nil) {
-                    ImagePickerView(image: $authViewModel.image)
+                .fullScreenCover(isPresented: $registrationViewModel.shouldShowImagePicker, onDismiss: nil) {
+                    ImagePickerView(image: $registrationViewModel.image)
                 }
             }
             
             // Pantalla de carga en el centro de la vista
-            if authViewModel.isLoading {
+            if registrationViewModel.isLoading {
                 ZStack {
                     Color.black.opacity(0.3)
                         .edgesIgnoringSafeArea(.all)

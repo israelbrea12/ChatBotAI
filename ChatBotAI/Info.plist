@@ -13,5 +13,7 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSUserAuthenticationServicesUsageDescription</key>
+	<string>We use Sign in with Apple to authenticate users securely.</string>
 </dict>
 </plist>

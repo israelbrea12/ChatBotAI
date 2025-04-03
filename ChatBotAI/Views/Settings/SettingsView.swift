@@ -5,6 +5,7 @@ struct SettingsView: View {
     @StateObject var settingsViewModel = Resolver.shared.resolve(SettingsViewModel.self)
     
     @State private var showDeleteAlert = false
+    @State private var showSignOutAlert = false
     
     var body: some View {
         NavigationStack {
@@ -15,7 +16,7 @@ struct SettingsView: View {
                     loadingView()
                     
                 case .success:
-                    settingsContent()
+                    successView()
                     
                 case .error(let errorMessage):
                     errorView(errorMsg: errorMessage)
@@ -30,7 +31,7 @@ struct SettingsView: View {
         }
     }
     
-    private func settingsContent() -> some View {
+    private func successView() -> some View {
         List {
             if let user = settingsViewModel.currentUser {
                 
@@ -39,12 +40,27 @@ struct SettingsView: View {
                 }
                 
                 Section("General") {
-                    versionInfo()
+                    listButton()
+                    broadcastButton()
+                    starredButton()
+                    linkedDevicesButton()
+                }
+                
+                Section("Settings") {
+                    accountButton()
+                    privacyButton()
+                    chatsButton()
+                    notificationsButton()
+                    storageButton()
                 }
                 
                 Section("Account") {
                     signOutButton()
                     deleteAccountButton()
+                }
+                
+                Section("") {
+                    helpButton()
                 }
             }
         }
@@ -103,9 +119,17 @@ struct SettingsView: View {
     
     private func signOutButton() -> some View {
         Button {
-            settingsViewModel.signOut()
+            showSignOutAlert = true
         } label: {
             SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out", tintColor: .red)
+        }
+        .alert("¿Seguro que quieres cerrar sesión?", isPresented: $showSignOutAlert) {
+            Button("Cancelar", role: .cancel) { }
+            Button("Cerrar sesión", role: .destructive) {
+                Task {
+                    settingsViewModel.signOut()
+                }
+            }
         }
     }
     
@@ -124,6 +148,46 @@ struct SettingsView: View {
             }
         }
     }
+    
+    private func listButton() -> some View {
+        SettingsRowView(imageName: "person.crop.rectangle.stack", title: "Chats", tintColor: .black)
+        }
+        
+        private func broadcastButton() -> some View {
+                SettingsRowView(imageName: "megaphone", title: "Broadcast Lists", tintColor: .black)
+        }
+        
+        private func starredButton() -> some View {
+                SettingsRowView(imageName: "star", title: "Starred Messages", tintColor: .black)
+        }
+        
+        private func linkedDevicesButton() -> some View {
+            SettingsRowView(imageName: "laptopcomputer", title: "Linked Devices", tintColor: .black).symbolRenderingMode(.monochrome)
+        }
+        
+        private func accountButton() -> some View {
+                SettingsRowView(imageName: "key", title: "Account", tintColor: .black)
+        }
+        
+        private func privacyButton() -> some View {
+                SettingsRowView(imageName: "lock", title: "Privacy", tintColor: .black)
+        }
+        
+        private func chatsButton() -> some View {
+                SettingsRowView(imageName: "message", title: "Chats", tintColor: .black)
+        }
+        
+        private func notificationsButton() -> some View {
+                SettingsRowView(imageName: "bell", title: "Notifications", tintColor: .black)
+        }
+        
+        private func storageButton() -> some View {
+                SettingsRowView(imageName: "arrow.up.arrow.down", title: "Storage and Data", tintColor: .black)
+        }
+        
+        private func helpButton() -> some View {
+            SettingsRowView(imageName: "info.circle", title: "Help", tintColor: .black)
+        }
     
     private func loadingView() -> some View {
         ProgressView()

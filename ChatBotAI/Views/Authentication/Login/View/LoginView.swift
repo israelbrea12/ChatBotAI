@@ -10,7 +10,7 @@ import GoogleSignIn
 import GoogleSignInSwift
 
 struct LoginView: View {
-    @StateObject var authViewModel = Resolver.shared.resolve(AuthViewModel.self)
+    @StateObject var loginViewModel = Resolver.shared.resolve(LoginViewModel.self)
     
     @State private var email = ""
     @State private var password = ""
@@ -38,6 +38,7 @@ struct LoginView: View {
                               isSecureField: true)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
+
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 40)
@@ -45,7 +46,7 @@ struct LoginView: View {
                 // sign in button
                 Button {
                     Task {
-                        await authViewModel.signIn(withEmail: email, password: password)
+                        await loginViewModel.signIn(withEmail: email, password: password)
                     }
                 } label: {
                     HStack {
@@ -78,7 +79,7 @@ struct LoginView: View {
 
                 Button {
                     Task {
-                        await authViewModel.signInWithGoogle()
+                        await loginViewModel.signInWithGoogle()
                     }
                 } label: {
                     HStack {
@@ -96,6 +97,9 @@ struct LoginView: View {
                 .padding(.top, 12)
 
                 Button {
+                    Task {
+                            await loginViewModel.signInWithApple()
+                        }
                                 } label: {
                                     HStack {
                                         Image(systemName: "applelogo")

@@ -19,14 +19,20 @@ protocol AuthDataSource {
     func signIn(email: String, password: String) async throws -> UserModel
     func signUp(email: String, password: String, fullName: String, profileImage: UIImage?) async throws -> UserModel
     func signOut() throws
-    func fetchUser() async throws -> UserModel
-    func fetchAllUsersExceptCurrent() async throws -> [UserModel]
     func signInWithGoogle() async throws -> UserModel
+    func signInWithApple() async throws -> UserModel
     func deleteAccount() async throws
 }
 
 
 class AuthDataSourceImpl: AuthDataSource {
+    
+    private let userDataSource: UserDataSource
+    private var appleSignInDelegate: AppleSignInDelegate?
+    
+    init(userDataSource: UserDataSource) {
+        self.userDataSource = userDataSource
+    }
     
     func signIn(email: String, password: String) async throws -> UserModel {
         print("Llega aqui")
@@ -37,7 +43,7 @@ class AuthDataSourceImpl: AuthDataSource {
         print("Usuario autenticado con UID: \(authResult.user.uid)")
 
         do {
-            let user = try await fetchUser()
+            let user = try await userDataSource.fetchUser()
             print("Usuario recuperado de Firebase Database: \(user)")
             return user
         } catch {
@@ -131,48 +137,6 @@ class AuthDataSourceImpl: AuthDataSource {
     }
 
     
-    func fetchUser() async throws -> UserModel {
-        guard let uid = await SessionManager.shared.auth.currentUser?.uid else {
-            throw AppError.authenticationError("Unauthorized")
-        }
-        let ref = Database.database().reference().child("users").child(uid)
-        let snapshot = try await ref.getData()
-        
-        guard let data = snapshot.value as? [String: Any] else {
-            throw AppError.unknownError("Failed to fetch user")
-        }
-
-        return UserModel(
-            uid: uid,
-            email: data["email"] as? String,
-            fullName: data["fullName"] as? String,
-            profileImageUrl: data["profileImageUrl"] as? String
-        )
-    }
-    
-    func fetchAllUsersExceptCurrent() async throws -> [UserModel] {
-        guard let currentUserID = Auth.auth().currentUser?.uid else {
-            throw AppError.authenticationError("Unauthorized")
-        }
-
-        let ref = Database.database().reference().child("users")
-        let snapshot = try await ref.getData()
-        
-        guard let usersData = snapshot.value as? [String: [String: Any]] else {
-            throw AppError.unknownError("Failed to fetch users")
-        }
-
-        return usersData.compactMap { (key, value) -> UserModel? in
-            guard key != currentUserID else { return nil }
-            return UserModel(
-                uid: key,
-                email: value["email"] as? String,
-                fullName: value["fullName"] as? String,
-                profileImageUrl: value["profileImageUrl"] as? String
-            )
-        }
-    }
-    
     // MARK: - Sign In With Google
     
     func signInWithGoogle() async throws -> UserModel {
@@ -250,6 +214,29 @@ class AuthDataSourceImpl: AuthDataSource {
             throw AppError.unknownError("Error signing in with Google: \(error.localizedDescription)")
         }
     }
+    
+    // MARK: - Sign In With Apple
+    func signInWithApple() async throws -> UserModel {
+            let nonce = CryptoUtils.randomNonceString()
+            let hashedNonce = CryptoUtils.sha256(nonce)
+
+            return try await withCheckedThrowingContinuation { continuation in
+                Task { @MainActor in
+                    let request = ASAuthorizationAppleIDProvider().createRequest()
+                    request.requestedScopes = [.fullName, .email]
+                    request.nonce = hashedNonce
+
+                    let delegate = AppleSignInDelegate(continuation: continuation, nonce: nonce)
+                    self.appleSignInDelegate = delegate // Guardamos la referencia para evitar que se libere
+
+                    let controller = ASAuthorizationController(authorizationRequests: [request])
+                    controller.delegate = delegate
+                    controller.presentationContextProvider = delegate
+                    controller.performRequests()
+                }
+            }
+        }
+
     
     // MARK: - Delete Account
     

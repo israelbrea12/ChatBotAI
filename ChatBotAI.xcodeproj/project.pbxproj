@@ -26,7 +26,7 @@
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
-		40D384F52D843A7700406AC1 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D62D843A7700406AC1 /* AuthViewModel.swift */; };
+		40D384F52D843A7700406AC1 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D62D843A7700406AC1 /* LoginViewModel.swift */; };
 		40D384F62D843A7700406AC1 /* ChatBotIAViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D92D843A7700406AC1 /* ChatBotIAViewModel.swift */; };
 		40D384F72D843A7700406AC1 /* ChatBotIAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384DB2D843A7700406AC1 /* ChatBotIAView.swift */; };
 		40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384DD2D843A7700406AC1 /* HomeViewModel.swift */; };
@@ -56,15 +56,22 @@
 		40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D385292D84E9C300406AC1 /* NetworkExtensions.swift */; };
 		40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D3852B2D84EC7700406AC1 /* SignUpUseCase.swift */; };
 		40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D3852D2D84EC9D00406AC1 /* SignOutUseCase.swift */; };
-		40D385302D84ECC000406AC1 /* fetchUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D3852F2D84ECC000406AC1 /* fetchUserUseCase.swift */; };
+		40D385302D84ECC000406AC1 /* FetchUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D3852F2D84ECC000406AC1 /* FetchUserUseCase.swift */; };
 		40D385322D84ED3800406AC1 /* SignUpParam.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D385312D84ED3800406AC1 /* SignUpParam.swift */; };
 		40D385392D85C68200406AC1 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D385382D85C68200406AC1 /* Resolver.swift */; };
 		40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */; };
 		40F35FCD2D99DFBF0078BE23 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCC2D99DFBF0078BE23 /* GoogleSignIn */; };
 		40F35FCF2D99DFBF0078BE23 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCE2D99DFBF0078BE23 /* GoogleSignInSwift */; };
-		40F35FD12D99E0130078BE23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40F35FD02D99E0130078BE23 /* GoogleService-Info.plist */; };
 		40F35FD42D99E4E60078BE23 /* SignInWithGoogleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */; };
 		40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */; };
+		40F35FFA2D9DB5840078BE23 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F35FF92D9DB5840078BE23 /* RegistrationViewModel.swift */; };
+		40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360042D9DC33C0078BE23 /* UserRepository.swift */; };
+		40F360072D9DC3580078BE23 /* UserRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360062D9DC3580078BE23 /* UserRepositoryImpl.swift */; };
+		40F360092D9DC3A80078BE23 /* UserDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360082D9DC3A80078BE23 /* UserDataSource.swift */; };
+		40F3600D2D9DCC870078BE23 /* SignInWithAppleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3600C2D9DCC870078BE23 /* SignInWithAppleUseCase.swift */; };
+		40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */; };
+		40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360102D9DCEA80078BE23 /* CryptoUtils.swift */; };
+		40F3602C2D9EA61A0078BE23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,7 +109,7 @@
 		40D384D12D843A7700406AC1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		40D384D32D843A7700406AC1 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		40D384D42D843A7700406AC1 /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
-		40D384D62D843A7700406AC1 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		40D384D62D843A7700406AC1 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		40D384D92D843A7700406AC1 /* ChatBotIAViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotIAViewModel.swift; sourceTree = "<group>"; };
 		40D384DB2D843A7700406AC1 /* ChatBotIAView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotIAView.swift; sourceTree = "<group>"; };
 		40D384DD2D843A7700406AC1 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -131,14 +138,22 @@
 		40D385292D84E9C300406AC1 /* NetworkExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkExtensions.swift; sourceTree = "<group>"; };
 		40D3852B2D84EC7700406AC1 /* SignUpUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUseCase.swift; sourceTree = "<group>"; };
 		40D3852D2D84EC9D00406AC1 /* SignOutUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutUseCase.swift; sourceTree = "<group>"; };
-		40D3852F2D84ECC000406AC1 /* fetchUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchUserUseCase.swift; sourceTree = "<group>"; };
+		40D3852F2D84ECC000406AC1 /* FetchUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserUseCase.swift; sourceTree = "<group>"; };
 		40D385312D84ED3800406AC1 /* SignUpParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpParam.swift; sourceTree = "<group>"; };
 		40D385382D85C68200406AC1 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllUsersExceptCurrentUseCase.swift; sourceTree = "<group>"; };
-		40F35FD02D99E0130078BE23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40F35FD22D99E1C80078BE23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleUseCase.swift; sourceTree = "<group>"; };
 		40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
+		40F35FF92D9DB5840078BE23 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		40F360042D9DC33C0078BE23 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		40F360062D9DC3580078BE23 /* UserRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryImpl.swift; sourceTree = "<group>"; };
+		40F360082D9DC3A80078BE23 /* UserDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataSource.swift; sourceTree = "<group>"; };
+		40F3600C2D9DCC870078BE23 /* SignInWithAppleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithAppleUseCase.swift; sourceTree = "<group>"; };
+		40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInDelegate.swift; sourceTree = "<group>"; };
+		40F360102D9DCEA80078BE23 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
+		40F360152D9DD4BF0078BE23 /* ChatBotAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatBotAI.entitlements; sourceTree = "<group>"; };
+		40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -226,6 +241,8 @@
 			isa = PBXGroup;
 			children = (
 				4053F7C62D8736F20082785E /* SessionManager.swift */,
+				40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */,
+				40F360102D9DCEA80078BE23 /* CryptoUtils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -327,7 +344,6 @@
 			isa = PBXGroup;
 			children = (
 				40D384D32D843A7700406AC1 /* LoginView.swift */,
-				40D384D42D843A7700406AC1 /* RegistrationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -335,8 +351,7 @@
 		40D384D72D843A7700406AC1 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */,
-				40D384D62D843A7700406AC1 /* AuthViewModel.swift */,
+				40D384D62D843A7700406AC1 /* LoginViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -344,8 +359,9 @@
 		40D384D82D843A7700406AC1 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				40D384D52D843A7700406AC1 /* View */,
-				40D384D72D843A7700406AC1 /* ViewModel */,
+				40F35FFB2D9DB7110078BE23 /* Utils */,
+				40F35FF62D9DB5370078BE23 /* Registration */,
+				40F35FF52D9DB5300078BE23 /* Login */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -443,7 +459,8 @@
 				40D384EF2D843A7700406AC1 /* ContentView.swift */,
 				40D384ED2D843A7700406AC1 /* Assets.xcassets */,
 				40D384D22D843A7700406AC1 /* Preview Content */,
-				40F35FD02D99E0130078BE23 /* GoogleService-Info.plist */,
+				40F360152D9DD4BF0078BE23 /* ChatBotAI.entitlements */,
+				40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */,
 			);
 			path = ChatBotAI;
 			sourceTree = "<group>";
@@ -452,6 +469,7 @@
 			isa = PBXGroup;
 			children = (
 				40D385092D84DD8000406AC1 /* AuthRepository.swift */,
+				40F360042D9DC33C0078BE23 /* UserRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -460,13 +478,8 @@
 			isa = PBXGroup;
 			children = (
 				40D3850E2D84DF1500406AC1 /* Base */,
-				40D3850F2D84DF2200406AC1 /* SignInUseCase.swift */,
-				40D3852B2D84EC7700406AC1 /* SignUpUseCase.swift */,
-				40D3852D2D84EC9D00406AC1 /* SignOutUseCase.swift */,
-				40D3852F2D84ECC000406AC1 /* fetchUserUseCase.swift */,
-				40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */,
-				40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */,
-				40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */,
+				40F35FFD2D9DBA960078BE23 /* Auth */,
+				40F35FFC2D9DBA8B0078BE23 /* User */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -516,6 +529,7 @@
 			isa = PBXGroup;
 			children = (
 				40D385242D84E56900406AC1 /* AuthDataSource.swift */,
+				40F360082D9DC3A80078BE23 /* UserDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -524,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				40D385262D84E76200406AC1 /* AuthRepositoryImpl.swift */,
+				40F360062D9DC3580078BE23 /* UserRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -543,6 +558,70 @@
 				40D385292D84E9C300406AC1 /* NetworkExtensions.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		40F35FF52D9DB5300078BE23 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				40D384D52D843A7700406AC1 /* View */,
+				40D384D72D843A7700406AC1 /* ViewModel */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		40F35FF62D9DB5370078BE23 /* Registration */ = {
+			isa = PBXGroup;
+			children = (
+				40F35FF72D9DB5420078BE23 /* View */,
+				40F35FF82D9DB5620078BE23 /* ViewModel */,
+			);
+			path = Registration;
+			sourceTree = "<group>";
+		};
+		40F35FF72D9DB5420078BE23 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				40D384D42D843A7700406AC1 /* RegistrationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		40F35FF82D9DB5620078BE23 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				40F35FF92D9DB5840078BE23 /* RegistrationViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		40F35FFB2D9DB7110078BE23 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		40F35FFC2D9DBA8B0078BE23 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				40D3852F2D84ECC000406AC1 /* FetchUserUseCase.swift */,
+				40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		40F35FFD2D9DBA960078BE23 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				40D3850F2D84DF2200406AC1 /* SignInUseCase.swift */,
+				40D3852B2D84EC7700406AC1 /* SignUpUseCase.swift */,
+				40D3852D2D84EC9D00406AC1 /* SignOutUseCase.swift */,
+				40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */,
+				40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */,
+				40F3600C2D9DCC870078BE23 /* SignInWithAppleUseCase.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -678,7 +757,7 @@
 			files = (
 				40D385042D843A7700406AC1 /* Preview Assets.xcassets in Resources */,
 				40D385052D843A7700406AC1 /* Assets.xcassets in Resources */,
-				40F35FD12D99E0130078BE23 /* GoogleService-Info.plist in Resources */,
+				40F3602C2D9EA61A0078BE23 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,13 +788,16 @@
 				40D384F32D843A7700406AC1 /* LoginView.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
 				402CB8032D94B591008EAEF0 /* ChatLogBottomBar.swift in Sources */,
-				40D385302D84ECC000406AC1 /* fetchUserUseCase.swift in Sources */,
+				40D385302D84ECC000406AC1 /* FetchUserUseCase.swift in Sources */,
 				40D3850A2D84DD8000406AC1 /* AuthRepository.swift in Sources */,
 				402CB7FF2D949C7E008EAEF0 /* UserProfileView.swift in Sources */,
 				4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */,
 				40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */,
+				40F360092D9DC3A80078BE23 /* UserDataSource.swift in Sources */,
 				4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */,
-				40D384F52D843A7700406AC1 /* AuthViewModel.swift in Sources */,
+				40D384F52D843A7700406AC1 /* LoginViewModel.swift in Sources */,
+				40F3600D2D9DCC870078BE23 /* SignInWithAppleUseCase.swift in Sources */,
+				40F35FFA2D9DB5840078BE23 /* RegistrationViewModel.swift in Sources */,
 				40D385152D84E02000406AC1 /* SignInParam.swift in Sources */,
 				40D385272D84E76200406AC1 /* AuthRepositoryImpl.swift in Sources */,
 				4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */,
@@ -728,11 +810,14 @@
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,
 				40D384F92D843A7700406AC1 /* HomeView.swift in Sources */,
 				40D384FA2D843A7700406AC1 /* SettingsViewModel.swift in Sources */,
+				40F360072D9DC3580078BE23 /* UserRepositoryImpl.swift in Sources */,
 				40D385232D84E51A00406AC1 /* SignInRequest.swift in Sources */,
 				40D384FB2D843A7700406AC1 /* SettingsView.swift in Sources */,
 				40D384FC2D843A7700406AC1 /* InfoView.swift in Sources */,
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
+				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
+				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
 				402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,
@@ -741,6 +826,7 @@
 				40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */,
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
+				40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */,
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
@@ -907,6 +993,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatBotAI/ChatBotAI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatBotAI/Preview Content\"";
@@ -937,6 +1024,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatBotAI/ChatBotAI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatBotAI/Preview Content\"";

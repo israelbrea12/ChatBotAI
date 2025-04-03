@@ -47,24 +47,6 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
     
-    func fetchUser() async -> Result<User?, AppError> {
-        do {
-            let userModel = try await dataSource.fetchUser()
-            return .success(userModel.toDomain())
-        } catch {
-            return .failure(error.toAppError())
-        }
-    }
-    
-    func fetchAllUsersExceptCurrent() async -> Result<[User?], AppError> {
-            do {
-                let users = try await dataSource.fetchAllUsersExceptCurrent()
-                return .success(users.map { $0.toDomain() })
-            } catch {
-                return .failure(error.toAppError())
-            }
-        }
-    
     func signInWithGoogle() async -> Result<User, AppError> {
         do {
             let userModel = try await dataSource.signInWithGoogle()
@@ -73,6 +55,15 @@ class AuthRepositoryImpl: AuthRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func signInWithApple() async -> Result<User, AppError> {
+            do {
+                let userModel = try await dataSource.signInWithApple()
+                return .success(userModel.toDomain())
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
     
     func deleteAccount() async -> Result<Void, AppError> {
             do {

@@ -30,7 +30,7 @@ struct ImagePickerView: View {
             }
             .overlay(RoundedRectangle(cornerRadius: 64).stroke(Color.gray, lineWidth: 1))
         }
-        .onChange(of: selectedItem) { newItem in
+        .onChange(of: selectedItem) { _, newItem in
             Task {
                 if let data = try? await newItem?.loadTransferable(type: Data.self) {
                     image = UIImage(data: data)

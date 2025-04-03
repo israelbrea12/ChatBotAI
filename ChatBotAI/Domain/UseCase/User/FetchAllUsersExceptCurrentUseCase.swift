@@ -9,9 +9,9 @@ import Foundation
 
 class FetchAllUsersExceptCurrentUseCase: UseCaseProtocol {
     
-    private let repository: AuthRepository
+    private let repository: UserRepository
     
-    init(repository: AuthRepository) {
+    init(repository: UserRepository) {
         self.repository = repository
     }
     
