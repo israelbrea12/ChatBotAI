@@ -28,10 +28,12 @@ protocol AuthDataSource {
 class AuthDataSourceImpl: AuthDataSource {
     
     private let userDataSource: UserDataSource
+    private let googleAuthService: GoogleAuthService
     private var appleSignInDelegate: AppleSignInDelegate?
     
-    init(userDataSource: UserDataSource) {
+    init(userDataSource: UserDataSource, googleAuthService: GoogleAuthService) {
         self.userDataSource = userDataSource
+        self.googleAuthService = googleAuthService
     }
     
     func signIn(email: String, password: String) async throws -> UserModel {
@@ -140,80 +142,41 @@ class AuthDataSourceImpl: AuthDataSource {
     // MARK: - Sign In With Google
     
     func signInWithGoogle() async throws -> UserModel {
-        guard let clientID = FirebaseApp.app()?.options.clientID else {
-            throw AppError.unknownError("Missing Google Client ID")
-        }
-
-        let config = GIDConfiguration(clientID: clientID)
-        GIDSignIn.sharedInstance.configuration = config
-
-        guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let window = await windowScene.windows.first,
-              let rootViewController = await window.rootViewController else {
-            throw AppError.unknownError("No root view controller found")
-        }
-
-        do {
-            let result = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
-            guard let idToken = result.user.idToken?.tokenString else {
-                throw AppError.authenticationError("Invalid ID Token")
-            }
-
-            let credential = GoogleAuthProvider.credential(
-                withIDToken: idToken,
-                accessToken: result.user.accessToken.tokenString
-            )
-            let authResult = try await SessionManager.shared.auth.signIn(with: credential)
-
-            let googleUser = result.user
-            let email = googleUser.profile?.email ?? authResult.user.email
-            let fullName = googleUser.profile?.name ?? email?.components(separatedBy: "@").first ?? "Unknown"
-            let profileImageUrl = googleUser.profile?.imageURL(withDimension: 200)?.absoluteString
-
-            let uid = authResult.user.uid
-
-            print("DEBUG: Usuario autenticado con Google -> \(uid)")
-
-            // Referencia a la base de datos
-            let userRef = Database.database().reference().child("users").child(uid)
-
-            // Verificar si el usuario ya está guardado en Firebase
-            let snapshot = try await userRef.getData()
-            if !snapshot.exists() {
-                let userValues: [String: Any] = [
-                    "uid": uid,
-                    "email": email ?? "",
-                    "fullName": fullName,
-                    "profileImageUrl": profileImageUrl ?? ""
-                ]
-
+            switch await googleAuthService.signIn() {
+            case .success(let authResult):
+                let uid = authResult.user.uid
+                let email = authResult.user.email ?? "No email"
+                let fullName = authResult.user.displayName ?? email.components(separatedBy: "@").first ?? "Unknown"
+                let profileImageUrl = authResult.user.photoURL?.absoluteString
+                
+                let userModel = UserModel(uid: uid, email: email, fullName: fullName, profileImageUrl: profileImageUrl)
+                
+                // Guardar usuario en Firebase Database si no existe
+                let userRef = Database.database().reference().child("users").child(uid)
                 do {
-                    try await userRef.setValue(userValues)
-                    print("DEBUG: Usuario guardado en Firebase Database con éxito")
+                    let snapshot = try await userRef.getData()
+                    if !snapshot.exists() {
+                        let userValues: [String: Any] = [
+                            "uid": uid,
+                            "email": email,
+                            "fullName": fullName,
+                            "profileImageUrl": profileImageUrl ?? ""
+                        ]
+                        try await userRef.setValue(userValues)
+                    }
                 } catch {
-                    print("DEBUG: Error al guardar usuario en Firebase Database: \(error.localizedDescription)")
-                    throw AppError.unknownError("Error al guardar usuario en Firebase Database: \(error.localizedDescription)")
+                    throw AppError.unknownError("Error log in google account: \(error.localizedDescription)")
                 }
-            } else {
-                print("DEBUG: Usuario ya existente en Firebase Database")
+                
+                DispatchQueue.main.async {
+                    SessionManager.shared.userSession = authResult.user
+                }
+                
+                return userModel
+            case .failure(let error):
+                throw AppError.unknownError("Error log in google account: \(error.localizedDescription)")
             }
-
-            let userModel = UserModel(
-                uid: uid,
-                email: email,
-                fullName: fullName,
-                profileImageUrl: profileImageUrl
-            )
-
-            DispatchQueue.main.async {
-                SessionManager.shared.userSession = authResult.user
-            }
-
-            return userModel
-        } catch {
-            throw AppError.unknownError("Error signing in with Google: \(error.localizedDescription)")
         }
-    }
     
     // MARK: - Sign In With Apple
     func signInWithApple() async throws -> UserModel {

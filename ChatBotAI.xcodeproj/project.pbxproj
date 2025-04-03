@@ -72,6 +72,8 @@
 		40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */; };
 		40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360102D9DCEA80078BE23 /* CryptoUtils.swift */; };
 		40F3602C2D9EA61A0078BE23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */; };
+		40F3602E2D9EC20F0078BE23 /* GoogleAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3602D2D9EC20F0078BE23 /* GoogleAuthService.swift */; };
+		40F360312D9F014D0078BE23 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360302D9F014D0078BE23 /* Chat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +156,8 @@
 		40F360102D9DCEA80078BE23 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		40F360152D9DD4BF0078BE23 /* ChatBotAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatBotAI.entitlements; sourceTree = "<group>"; };
 		40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		40F3602D2D9EC20F0078BE23 /* GoogleAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthService.swift; sourceTree = "<group>"; };
+		40F360302D9F014D0078BE23 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -243,6 +247,7 @@
 				4053F7C62D8736F20082785E /* SessionManager.swift */,
 				40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */,
 				40F360102D9DCEA80078BE23 /* CryptoUtils.swift */,
+				40F3602D2D9EC20F0078BE23 /* GoogleAuthService.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -317,6 +322,7 @@
 			children = (
 				40D385132D84E00700406AC1 /* Auth */,
 				40D384CE2D843A7700406AC1 /* Users */,
+				40F3602F2D9F01380078BE23 /* Chats */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -624,6 +630,14 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		40F3602F2D9F01380078BE23 /* Chats */ = {
+			isa = PBXGroup;
+			children = (
+				40F360302D9F014D0078BE23 /* Chat.swift */,
+			);
+			path = Chats;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -812,12 +826,14 @@
 				40D384FA2D843A7700406AC1 /* SettingsViewModel.swift in Sources */,
 				40F360072D9DC3580078BE23 /* UserRepositoryImpl.swift in Sources */,
 				40D385232D84E51A00406AC1 /* SignInRequest.swift in Sources */,
+				40F3602E2D9EC20F0078BE23 /* GoogleAuthService.swift in Sources */,
 				40D384FB2D843A7700406AC1 /* SettingsView.swift in Sources */,
 				40D384FC2D843A7700406AC1 /* InfoView.swift in Sources */,
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
+				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
 				402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,

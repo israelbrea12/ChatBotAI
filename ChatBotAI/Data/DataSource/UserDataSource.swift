@@ -6,14 +6,9 @@
 //
 
 import Foundation
-@preconcurrency import FirebaseAuth
+import FirebaseAuth
 import FirebaseDatabase
 import FirebaseStorage
-import UIKit
-import GoogleSignIn
-import GoogleSignInSwift
-import FirebaseCore
-import AuthenticationServices
 
 protocol UserDataSource {
     func fetchUser() async throws -> UserModel

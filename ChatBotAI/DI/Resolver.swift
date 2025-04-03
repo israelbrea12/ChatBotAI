@@ -19,6 +19,7 @@ public final class Resolver {
     @MainActor func injectDependencies() {
         injectNetwork()
         injectDataSource()
+        injectService()
         injectRepository()
         injectUseCase()
         injectViewModel()
@@ -46,11 +47,26 @@ extension Resolver {
                 
         container.register(AuthDataSource.self) { resolver in
             AuthDataSourceImpl(
-                userDataSource: resolver.resolve(UserDataSource.self)!
+                userDataSource: resolver.resolve(UserDataSource.self)!,
+                googleAuthService: resolver.resolve(GoogleAuthService.self)!
             )
         }.inObjectScope(.container)
     }
 }
+
+// MARK: - Service
+
+extension Resolver {
+    @MainActor func injectService() {
+        
+        container.register(GoogleAuthService.self) { resolver in
+            GoogleAuthServiceImpl(
+                
+            )
+        }.inObjectScope(.container)
+    }
+}
+
 
 // MARK: - Repository
 
