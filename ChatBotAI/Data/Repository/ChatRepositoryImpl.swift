@@ -18,8 +18,19 @@ class ChatRepositoryImpl: ChatRepository {
     
     func createChat(userId: String) async -> Result<Chat, AppError> {
         do {
-            let chatModel = try await chatDataSource.createChat(otherUserId: userId)
+            let chatModel = try await chatDataSource.createChat(
+                otherUserId: userId
+            )
             return .success(chatModel.toDomain())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
+    
+    func fetchUserChats() async -> Result<[Chat], AppError> {
+        do {
+            let chatModels = try await chatDataSource.fetchUserChats()
+            return .success(chatModels.map { $0.toDomain() })
         } catch {
             return .failure(error.toAppError())
         }

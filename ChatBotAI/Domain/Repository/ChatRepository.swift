@@ -9,4 +9,5 @@ import Foundation
 
 protocol ChatRepository {
     func createChat(userId: String) async -> Result<Chat, AppError>
+    func fetchUserChats() async -> Result<[Chat], AppError>
 }

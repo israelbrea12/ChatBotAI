@@ -13,19 +13,29 @@ final class HomeViewModel: ObservableObject {
     
     @Published var currentUser: User?
     @Published var state: ViewState = .initial
+    @Published var chatUser: User?
+    @Published var chats: [Chat] = []
+    @Published var chatUsers: [String: User] = [:]
     @Published var isPresentingNewMessageView = false
     @Published var shouldNavigateToChatLogView = false
-    @Published var chatUser: User?
     
     private let fetchUserUseCase: FetchUserUseCase
     private let createChatUseCase: CreateChatUseCase
+    private let fetchUserChatsUseCase: FetchUserChatsUseCase
+    private let fetchUserByIdUseCase: FetchUserByIdUseCase
     
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
     
-    init(fetchUserUseCase: FetchUserUseCase, createChatUseCase: CreateChatUseCase) {
+    init(fetchUserUseCase: FetchUserUseCase,
+         createChatUseCase: CreateChatUseCase,
+         fetchUserChatsUseCase: FetchUserChatsUseCase,
+         fetchUserByIdUseCase: FetchUserByIdUseCase
+    ) {
         self.fetchUserUseCase = fetchUserUseCase
         self.createChatUseCase = createChatUseCase
+        self.fetchUserChatsUseCase = fetchUserChatsUseCase
+        self.fetchUserByIdUseCase = fetchUserByIdUseCase
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -49,6 +59,10 @@ final class HomeViewModel: ObservableObject {
                 self.currentUser = user
                 self.state = .success
                 SessionManager.shared.currentUser = self.currentUser
+                
+                Task {
+                    await self.fetchUserChats()
+                }
             }
         case .failure(let error):
             DispatchQueue.main.async {
@@ -60,17 +74,24 @@ final class HomeViewModel: ObservableObject {
     }
     
     func startNewChat(with user: User) {
-        Task {
-            await self.createChat(with: user)
+        if chats.first(where: { $0.participants.contains(user.id) }) != nil {
+            chatUser = user
+            isPresentingNewMessageView = false
+        } else {
+            Task {
+                await createChat(with: user)
+            }
         }
     }
     
     private func createChat(with user: User) async {
         state = .loading
-        let result = await createChatUseCase.execute(with: CreateChatParams(userId: user.id))
+        let result = await createChatUseCase.execute(
+            with: CreateChatParams(userId: user.id)
+        )
         
         switch result {
-        case .success(let chat):
+        case .success(_):
             DispatchQueue.main.async {
                 print("Chat creado con éxito: \(result)")
                 self.isPresentingNewMessageView = false
@@ -78,10 +99,75 @@ final class HomeViewModel: ObservableObject {
                 self.shouldNavigateToChatLogView = true
                 self.state = .success
             }
+            
+            await fetchUserChats()
+            
         case .failure(let error):
             DispatchQueue.main.async {
                 print("Error al crear el chat: \(error.localizedDescription)")
-                self.state = .error("Error al crear el chat: \(error.localizedDescription)")
+                self.state = 
+                    .error(
+                        "Error al crear el chat: \(error.localizedDescription)"
+                    )
+            }
+        }
+    }
+    
+    func fetchUserChats() async {
+        state = .loading
+        let result = await fetchUserChatsUseCase.execute(with: ())
+
+        switch result {
+        case .success(let chats):
+            DispatchQueue.main.async {
+                print("Se obtuvieron \(chats.count) chats")
+                self.chats = chats.sorted {
+                    ($0.lastMessageTimestamp ?? $0.createdAt ?? 0) > ($1.lastMessageTimestamp ?? $1.createdAt ?? 0)
+                }
+                Task {
+                    await self.fetchChatUsers()
+                }
+                self.state = .success
+            }
+        case .failure(let error):
+            DispatchQueue.main.async {
+                self.state = 
+                    .error(
+                        "Error al obtener los chats: \(error.localizedDescription)"
+                    )
+            }
+        }
+    }
+    
+    func fetchChatUsers() async {
+        let userIds = chats.compactMap {
+            $0.participants.first { $0 != currentUser?.id }
+        }
+
+        await withTaskGroup(of: (String, User?).self) { group in
+            for userId in userIds {
+                group.addTask {
+                    let result = await self.fetchUserByIdUseCase.execute(
+                        with: FetchUserByIdParams(userId: userId)
+                    )
+                    switch result {
+                    case .success(let user):
+                        return (userId, user)
+                    case .failure(let error):
+                        print(
+                            "Error fetching user \(userId): \(error.localizedDescription)"
+                        )
+                        return (userId, nil)
+                    }
+                }
+            }
+
+            for await (userId, user) in group {
+                if let user = user {
+                    DispatchQueue.main.async {
+                        self.chatUsers[userId] = user
+                    }
+                }
             }
         }
     }

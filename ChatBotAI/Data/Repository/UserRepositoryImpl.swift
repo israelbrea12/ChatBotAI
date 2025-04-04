@@ -34,4 +34,13 @@ class UserRepositoryImpl: UserRepository {
                 return .failure(error.toAppError())
             }
         }
+    
+    func fetchUserById(userId: String) async -> Result<User?, AppError> {
+            do {
+                let userModel = try await userDataSource.fetchUserById(userId: userId)
+                return .success(userModel.toDomain())
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
 }

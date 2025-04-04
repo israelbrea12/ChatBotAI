@@ -37,15 +37,17 @@ struct HomeView: View {
                             .frame(width: 32, height: 32)
                             .foregroundStyle(.green)
                     }
-                    .sheet(isPresented: $homeViewModel.isPresentingNewMessageView) {
-                                            NewMessageView { selectedUser in
-                                                homeViewModel.startNewChat(with: selectedUser)
-                                                homeViewModel.chatUser = selectedUser
-                                                homeViewModel.shouldNavigateToChatLogView.toggle()
-                                            }
-                                        }
+                    .sheet(
+                        isPresented: $homeViewModel.isPresentingNewMessageView
+                    ) {
+                        NewMessageView { selectedUser in
+                            homeViewModel.startNewChat(with: selectedUser)
+                            homeViewModel.chatUser = selectedUser
+                            homeViewModel.shouldNavigateToChatLogView.toggle()
+                        }
+                    }
 
-                                    }
+                }
                 ToolbarItem (placement: .topBarLeading) {
                     UserProfileView(user: homeViewModel.currentUser)
                 }
@@ -61,32 +63,67 @@ struct HomeView: View {
     }
     
     private func successView() -> some View {
-        ForEach(0..<10, id: \.self) { num in
+        ForEach(homeViewModel.chats, id: \.id) { chat in
             VStack {
                 NavigationLink {
-                    Text("Destination")
+                    ChatLogView(
+                        user: homeViewModel
+                            .chatUsers[chat.participants.first { $0 != homeViewModel.currentUser?.id } ?? ""] ?? User(
+                                id: "",
+                                fullName: "Desconocido",
+                                email: nil,
+                                profileImageUrl: nil
+                            )
+                    )
                 } label: {
                     HStack (spacing: 16) {
-                        Image(systemName: "person.fill")
-                            .font(.system(size: 32))
-                            .padding(8)
-                            .overlay(RoundedRectangle(cornerRadius: 44 )
-                                .stroke(Color.gray, lineWidth: 0.5))
-                        
-                        VStack(alignment: .leading) {
-                            Text("username")
-                                .font(.system(size: 16, weight: .bold))
-                            Text("Message sent to user")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(Color(.lightGray))
+                        if let userId = chat.participants.first(
+                            where: { $0 != homeViewModel.currentUser?.id
+                            }),
+                           let user = homeViewModel.chatUsers[userId] {
+                            WebImage(url: URL(string: user.profileImageUrl ?? "")) { phase in
+                                switch phase {
+                                case .empty:
+                                    Image(systemName: "person.fill")
+                                        .resizable()
+                                        .frame(width: 44, height: 44)
+                                        .foregroundColor(.gray)
+                                case .success(let image):
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 44, height: 44)
+                                        .clipShape(Circle())
+                                case .failure:
+                                    Image(systemName: "person.fill")
+                                        .resizable()
+                                        .frame(width: 44, height: 44)
+                                        .foregroundColor(.gray)
+                                @unknown default:
+                                    EmptyView()
+                                }
+                            }
+
+                            VStack(alignment: .leading) {
+                                Text(user.fullName ?? "Usuario desconocido")
+                                    .font(.system(size: 16, weight: .bold))
+                                Text(chat.lastMessageText ?? "Sin mensajes aún")
+                                    .font(.system(size: 14, weight: .semibold))
+                                    .foregroundStyle(Color(.lightGray))
+                            }
                         }
                         Spacer()
-                        
-                        Text("22d")
-                            .font(.system(size: 14, weight: .semibold))
+
+                        if let timestamp = chat.lastMessageTimestamp ?? chat.createdAt {
+                            Text(Date(timeIntervalSince1970: timestamp).whatsappFormattedTimeAgo())
+                                    .font(.system(size: 14, weight: .semibold))
+                        } else {
+                            Text("Fecha desconocida")
+                                .font(.system(size: 14, weight: .semibold))
+                        }
                     }
                 }
-                
+
                 Divider()
                     .padding(.vertical, 8)
             }

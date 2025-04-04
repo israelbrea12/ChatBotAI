@@ -83,6 +83,9 @@
 		40F360412D9F09A80078BE23 /* ChatDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360402D9F09A80078BE23 /* ChatDataSource.swift */; };
 		40F360432D9F0C2A0078BE23 /* LastMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360422D9F0C2A0078BE23 /* LastMessageModel.swift */; };
 		40F360452D9F12490078BE23 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360442D9F12490078BE23 /* Extensions.swift */; };
+		40F360472D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */; };
+		40F360492D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */; };
+		40F3604B2D9FD94F0078BE23 /* FetchUserByIdParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +179,9 @@
 		40F360402D9F09A80078BE23 /* ChatDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataSource.swift; sourceTree = "<group>"; };
 		40F360422D9F0C2A0078BE23 /* LastMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMessageModel.swift; sourceTree = "<group>"; };
 		40F360442D9F12490078BE23 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserChatsUseCase.swift; sourceTree = "<group>"; };
+		40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserByIdUseCase.swift; sourceTree = "<group>"; };
+		40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserByIdParams.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -332,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				40D384CD2D843A7700406AC1 /* User.swift */,
+				40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -638,6 +645,7 @@
 			children = (
 				40D3852F2D84ECC000406AC1 /* FetchUserUseCase.swift */,
 				40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */,
+				40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -677,6 +685,7 @@
 			isa = PBXGroup;
 			children = (
 				40F360382D9F04380078BE23 /* CreateChatUseCase.swift */,
+				40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -840,6 +849,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40D384F22D843A7700406AC1 /* User.swift in Sources */,
+				40F360472D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift in Sources */,
 				40D385322D84ED3800406AC1 /* SignUpParam.swift in Sources */,
 				40F360342D9F01E00078BE23 /* ChatModel.swift in Sources */,
 				4053F7C72D8736F20082785E /* SessionManager.swift in Sources */,
@@ -899,6 +909,8 @@
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
 				40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */,
 				40F360432D9F0C2A0078BE23 /* LastMessageModel.swift in Sources */,
+				40F3604B2D9FD94F0078BE23 /* FetchUserByIdParams.swift in Sources */,
+				40F360492D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift in Sources */,
 				40F360452D9F12490078BE23 /* Extensions.swift in Sources */,
 				40F35FD42D99E4E60078BE23 /* SignInWithGoogleUseCase.swift in Sources */,
 				4057DC032D8CCE9D00D2E2B0 /* NewMessageViewModel.swift in Sources */,

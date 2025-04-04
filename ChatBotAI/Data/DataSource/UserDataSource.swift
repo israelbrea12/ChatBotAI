@@ -13,6 +13,7 @@ import FirebaseStorage
 protocol UserDataSource {
     func fetchUser() async throws -> UserModel
     func fetchAllUsersExceptCurrent() async throws -> [UserModel]
+    func fetchUserById(userId: String) async throws -> UserModel
 }
 
 
@@ -59,5 +60,21 @@ class UserDataSourceImpl: UserDataSource {
             )
         }
     }
+    
+    func fetchUserById(userId: String) async throws -> UserModel {
+            let ref = Database.database().reference().child("users").child(userId)
+            let snapshot = try await ref.getData()
+            
+            guard let data = snapshot.value as? [String: Any] else {
+                throw AppError.unknownError("User not found")
+            }
+
+            return UserModel(
+                uid: userId,
+                email: data["email"] as? String,
+                fullName: data["fullName"] as? String,
+                profileImageUrl: data["profileImageUrl"] as? String
+            )
+        }
 }
 
