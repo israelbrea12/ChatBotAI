@@ -92,19 +92,10 @@ class ChatDataSourceImpl: ChatDataSource {
 
         for chatId in chatIds {
             let chatSnapshot = try await databaseRef.child("chats").child(chatId).getData()
-            if let chatData = chatSnapshot.value as? [String: Any] {
-                let participants = chatData["participants"] as? [String] ?? []
-                let createdAt = chatData["createdAt"] as? Double ?? 0
-                let lastMessage = chatData["lastMessage"] as? LastMessageModel
-
-                let chatModel = ChatModel(
-                    id: chatId,
-                    participants: participants,
-                    createdAt: createdAt,
-                    lastMessage: lastMessage
-                )
-                chatModels.append(chatModel)
-            }
+                        if let chatData = chatSnapshot.value as? [String: Any] {
+                            let chatModel = ChatModel.toData(chatData, chatId: chatId)
+                            chatModels.append(chatModel)
+                        }
         }
         print("Chat IDs encontrados: \(chatIds)")
 
@@ -119,20 +110,12 @@ class ChatDataSourceImpl: ChatDataSource {
 
             userChatsRef = databaseRef.child("user_chats").child(currentUserId).child("chats")
 
-            newChatsHandle = userChatsRef?.observe(.childAdded) { snapshot in
+            newChatsHandle = userChatsRef?.observe(.childAdded) { [weak self] snapshot in
+                guard let self = self else { return }
                 let chatId = snapshot.key
                 self.databaseRef.child("chats").child(chatId).observeSingleEvent(of: .value) { chatSnapshot in
                     if let chatData = chatSnapshot.value as? [String: Any] {
-                        let participants = chatData["participants"] as? [String] ?? []
-                        let createdAt = chatData["createdAt"] as? Double ?? 0
-                        let lastMessage = chatData["lastMessage"] as? LastMessageModel
-
-                        let chatModel = ChatModel(
-                            id: chatId,
-                            participants: participants,
-                            createdAt: createdAt,
-                            lastMessage: lastMessage
-                        )
+                        let chatModel = ChatModel.toData(chatData, chatId: chatId)
                         onNewChat(chatModel)
                     }
                 }

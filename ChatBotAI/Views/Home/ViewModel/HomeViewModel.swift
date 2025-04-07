@@ -68,18 +68,9 @@ final class HomeViewModel: ObservableObject {
                 Task {
                     await self.fetchUserChats()
                 }
+                self.observeNewChats()
                 
-                self.observeNewChatsUseCase.execute { [weak self] newChat in
-                    guard let self else { return }
-                    if !self.chats.contains(where: { $0.id == newChat.id }) {
-                        DispatchQueue.main.async {
-                            self.chats.insert(newChat, at: 0)
-                            Task {
-                                await self.fetchUserNewChat(chat: newChat)
-                            }
-                        }
-                    }
-                }
+                
             }
         case .failure(let error):
             DispatchQueue.main.async {
@@ -195,6 +186,20 @@ final class HomeViewModel: ObservableObject {
         if case .success(let user) = result {
             DispatchQueue.main.async {
                 self.chatUsers[otherUserId] = user
+            }
+        }
+    }
+    
+    func observeNewChats() {
+        observeNewChatsUseCase.execute { [weak self] newChat in
+            guard let self else { return }
+            if !self.chats.contains(where: { $0.id == newChat.id }) {
+                DispatchQueue.main.async {
+                    self.chats.insert(newChat, at: 0)
+                    Task {
+                        await self.fetchUserNewChat(chat: newChat)
+                    }
+                }
             }
         }
     }
