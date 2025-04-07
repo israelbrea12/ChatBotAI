@@ -86,6 +86,8 @@
 		40F360472D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */; };
 		40F360492D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */; };
 		40F3604B2D9FD94F0078BE23 /* FetchUserByIdParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */; };
+		40F3609C2DA435B80078BE23 /* ObserveNewChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3609B2DA435B80078BE23 /* ObserveNewChatsUseCase.swift */; };
+		40F3609E2DA4465F0078BE23 /* StopObservingChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -182,6 +184,8 @@
 		40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserChatsUseCase.swift; sourceTree = "<group>"; };
 		40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserByIdUseCase.swift; sourceTree = "<group>"; };
 		40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserByIdParams.swift; sourceTree = "<group>"; };
+		40F3609B2DA435B80078BE23 /* ObserveNewChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveNewChatsUseCase.swift; sourceTree = "<group>"; };
+		40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopObservingChatsUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -686,6 +690,8 @@
 			children = (
 				40F360382D9F04380078BE23 /* CreateChatUseCase.swift */,
 				40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */,
+				40F3609B2DA435B80078BE23 /* ObserveNewChatsUseCase.swift */,
+				40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -861,6 +867,7 @@
 				40D385302D84ECC000406AC1 /* FetchUserUseCase.swift in Sources */,
 				40D3850A2D84DD8000406AC1 /* AuthRepository.swift in Sources */,
 				402CB7FF2D949C7E008EAEF0 /* UserProfileView.swift in Sources */,
+				40F3609C2DA435B80078BE23 /* ObserveNewChatsUseCase.swift in Sources */,
 				4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */,
 				40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */,
 				40F360362D9F02180078BE23 /* ChatMapper.swift in Sources */,
@@ -878,6 +885,7 @@
 				40D384F72D843A7700406AC1 /* ChatBotIAView.swift in Sources */,
 				402CB8062D94B748008EAEF0 /* MessagesView.swift in Sources */,
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
+				40F3609E2DA4465F0078BE23 /* StopObservingChatsUseCase.swift in Sources */,
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,
 				40F3603B2D9F065D0078BE23 /* CreateChatParams.swift in Sources */,
 				40D384F92D843A7700406AC1 /* HomeView.swift in Sources */,

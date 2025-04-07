@@ -116,14 +116,16 @@ struct HomeView: View {
 
                         if let timestamp = chat.lastMessageTimestamp ?? chat.createdAt {
                             Text(Date(timeIntervalSince1970: timestamp).whatsappFormattedTimeAgo())
-                                    .font(.system(size: 14, weight: .semibold))
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(Color(.gray))
                         } else {
                             Text("Fecha desconocida")
                                 .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(Color(.gray))
                         }
                     }
                 }
-
+                .foregroundColor(.primary)
                 Divider()
                     .padding(.vertical, 8)
             }

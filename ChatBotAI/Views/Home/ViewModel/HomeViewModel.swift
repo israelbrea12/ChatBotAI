@@ -23,6 +23,7 @@ final class HomeViewModel: ObservableObject {
     private let createChatUseCase: CreateChatUseCase
     private let fetchUserChatsUseCase: FetchUserChatsUseCase
     private let fetchUserByIdUseCase: FetchUserByIdUseCase
+    private let observeNewChatsUseCase: ObserveNewChatsUseCase
     
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
@@ -30,12 +31,16 @@ final class HomeViewModel: ObservableObject {
     init(fetchUserUseCase: FetchUserUseCase,
          createChatUseCase: CreateChatUseCase,
          fetchUserChatsUseCase: FetchUserChatsUseCase,
-         fetchUserByIdUseCase: FetchUserByIdUseCase
+         fetchUserByIdUseCase: FetchUserByIdUseCase,
+         observeNewChatsUseCase: ObserveNewChatsUseCase
+         
     ) {
         self.fetchUserUseCase = fetchUserUseCase
         self.createChatUseCase = createChatUseCase
         self.fetchUserChatsUseCase = fetchUserChatsUseCase
         self.fetchUserByIdUseCase = fetchUserByIdUseCase
+        self.observeNewChatsUseCase = observeNewChatsUseCase
+        
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -62,6 +67,18 @@ final class HomeViewModel: ObservableObject {
                 
                 Task {
                     await self.fetchUserChats()
+                }
+                
+                self.observeNewChatsUseCase.execute { [weak self] newChat in
+                    guard let self else { return }
+                    if !self.chats.contains(where: { $0.id == newChat.id }) {
+                        DispatchQueue.main.async {
+                            self.chats.insert(newChat, at: 0)
+                            Task {
+                                await self.fetchUserNewChat(chat: newChat)
+                            }
+                        }
+                    }
                 }
             }
         case .failure(let error):
@@ -168,6 +185,16 @@ final class HomeViewModel: ObservableObject {
                         self.chatUsers[userId] = user
                     }
                 }
+            }
+        }
+    }
+    
+    private func fetchUserNewChat(chat: Chat) async {
+        guard let otherUserId = chat.participants.first(where: { $0 != currentUser?.id }) else { return }
+        let result = await fetchUserByIdUseCase.execute(with: FetchUserByIdParams(userId: otherUserId))
+        if case .success(let user) = result {
+            DispatchQueue.main.async {
+                self.chatUsers[otherUserId] = user
             }
         }
     }

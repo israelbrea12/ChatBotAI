@@ -11,12 +11,16 @@ import FirebaseDatabase
 protocol ChatDataSource {
     func createChat(otherUserId: String) async throws -> ChatModel
     func fetchUserChats() async throws -> [ChatModel]
+    func observeNewChats(onNewChat: @escaping (ChatModel) -> Void)
+    func stopObservingNewChats()  async -> Void
 }
 
 
 class ChatDataSourceImpl: ChatDataSource {
     
     private let databaseRef = Database.database().reference()
+    private var newChatsHandle: DatabaseHandle?
+    private var userChatsRef: DatabaseReference?
         
     func createChat(otherUserId: String) async throws -> ChatModel {
         guard let currentUserId = await SessionManager.shared.currentUser?.id else {
@@ -105,5 +109,42 @@ class ChatDataSourceImpl: ChatDataSource {
         print("Chat IDs encontrados: \(chatIds)")
 
         return chatModels
+    }
+    
+    func observeNewChats(onNewChat: @escaping (ChatModel) -> Void) {
+        Task { @MainActor in
+            guard let currentUserId = SessionManager.shared.currentUser?.id else {
+                return
+            }
+
+            userChatsRef = databaseRef.child("user_chats").child(currentUserId).child("chats")
+
+            newChatsHandle = userChatsRef?.observe(.childAdded) { snapshot in
+                let chatId = snapshot.key
+                self.databaseRef.child("chats").child(chatId).observeSingleEvent(of: .value) { chatSnapshot in
+                    if let chatData = chatSnapshot.value as? [String: Any] {
+                        let participants = chatData["participants"] as? [String] ?? []
+                        let createdAt = chatData["createdAt"] as? Double ?? 0
+                        let lastMessage = chatData["lastMessage"] as? LastMessageModel
+
+                        let chatModel = ChatModel(
+                            id: chatId,
+                            participants: participants,
+                            createdAt: createdAt,
+                            lastMessage: lastMessage
+                        )
+                        onNewChat(chatModel)
+                    }
+                }
+            }
+        }
+    }
+
+    func stopObservingNewChats() async {
+        if let handle = newChatsHandle, let ref = userChatsRef {
+            ref.removeObserver(withHandle: handle)
+            newChatsHandle = nil
+            userChatsRef = nil
+        }
     }
 }

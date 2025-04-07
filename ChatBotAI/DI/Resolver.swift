@@ -158,6 +158,18 @@ extension Resolver {
                 repository: resolver.resolve(UserRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(ObserveNewChatsUseCase.self) { resolver in
+            ObserveNewChatsUseCase(
+                chatRepository: resolver.resolve(ChatRepository.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(StopObservingChatsUseCase.self) { resolver in
+            StopObservingChatsUseCase(
+                chatRepository: resolver.resolve(ChatRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -174,7 +186,8 @@ extension Resolver {
                 signOutUseCase: resolver.resolve(SignOutUseCase.self)!,
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
                 deleteAccountUseCase: resolver
-                    .resolve(DeleteAccountUseCase.self)!
+                    .resolve(DeleteAccountUseCase.self)!,
+                stopObservingChatsUseCase: resolver.resolve(StopObservingChatsUseCase.self)!
             )
         }.inObjectScope(.container)
         
@@ -198,7 +211,8 @@ extension Resolver {
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
                 createChatUseCase: resolver.resolve(CreateChatUseCase.self)!,
                 fetchUserChatsUseCase: resolver.resolve(FetchUserChatsUseCase.self)!,
-                fetchUserByIdUseCase: resolver.resolve(FetchUserByIdUseCase.self)!
+                fetchUserByIdUseCase: resolver.resolve(FetchUserByIdUseCase.self)!,
+                observeNewChatsUseCase: resolver.resolve(ObserveNewChatsUseCase.self)!
             )
         }.inObjectScope(.container)
         

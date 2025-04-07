@@ -35,4 +35,18 @@ class ChatRepositoryImpl: ChatRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func observeNewChats(onNewChat: @escaping (Chat) -> Void) {
+        chatDataSource.observeNewChats { chatModel in
+            onNewChat(chatModel.toDomain())
+        }
+    }
+    
+    func stopObservingNewChats() async -> Result<Void, AppError> {
+        do {
+            await chatDataSource.stopObservingNewChats()
+            return .success(())
+        } 
+    }
+
 }

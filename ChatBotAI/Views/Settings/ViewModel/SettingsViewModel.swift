@@ -18,13 +18,19 @@ class SettingsViewModel: ObservableObject {
     private let deleteAccountUseCase: DeleteAccountUseCase
     private let signOutUseCase: SignOutUseCase
     private let fetchUserUseCase: FetchUserUseCase
+    private let stopObservingChatsUseCase: StopObservingChatsUseCase
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
     
-    init(signOutUseCase: SignOutUseCase, fetchUserUseCase: FetchUserUseCase, deleteAccountUseCase: DeleteAccountUseCase) {
+    init(signOutUseCase: SignOutUseCase,
+         fetchUserUseCase: FetchUserUseCase,
+         deleteAccountUseCase: DeleteAccountUseCase,
+         stopObservingChatsUseCase: StopObservingChatsUseCase
+    ) {
         self.signOutUseCase = signOutUseCase
         self.fetchUserUseCase = fetchUserUseCase
         self.deleteAccountUseCase = deleteAccountUseCase
+        self.stopObservingChatsUseCase = stopObservingChatsUseCase
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -45,6 +51,8 @@ class SettingsViewModel: ObservableObject {
             let result = signOutUseCase.execute(with: ())
             switch result {
             case .success:
+                _ = await stopObservingChatsUseCase.execute(with: ())
+                
                 DispatchQueue.main.async {
                     SessionManager.shared.userSession = nil
                     SessionManager.shared.currentUser = nil
