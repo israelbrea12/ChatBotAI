@@ -96,6 +96,7 @@
 		40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CA2DA47F590078BE23 /* MessageModel.swift */; };
 		40F360CD2DA47FF80078BE23 /* MessageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */; };
 		40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */; };
+		40F360D12DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -202,6 +203,7 @@
 		40F360CA2DA47F590078BE23 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDataSource.swift; sourceTree = "<group>"; };
 		40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageParams.swift; sourceTree = "<group>"; };
+		40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveUpdatedChatsUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -715,6 +717,7 @@
 				40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */,
 				40F3609B2DA435B80078BE23 /* ObserveNewChatsUseCase.swift */,
 				40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */,
+				40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -950,6 +953,7 @@
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
+				40F360D12DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
 				40F360C62DA47DFC0078BE23 /* MessageRepositoryImpl.swift in Sources */,

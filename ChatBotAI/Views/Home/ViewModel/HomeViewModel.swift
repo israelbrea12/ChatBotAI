@@ -24,6 +24,7 @@ final class HomeViewModel: ObservableObject {
     private let fetchUserChatsUseCase: FetchUserChatsUseCase
     private let fetchUserByIdUseCase: FetchUserByIdUseCase
     private let observeNewChatsUseCase: ObserveNewChatsUseCase
+    private let observeUpdatedChatsUseCase: ObserveUpdatedChatsUseCase
     
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
@@ -32,7 +33,8 @@ final class HomeViewModel: ObservableObject {
          createChatUseCase: CreateChatUseCase,
          fetchUserChatsUseCase: FetchUserChatsUseCase,
          fetchUserByIdUseCase: FetchUserByIdUseCase,
-         observeNewChatsUseCase: ObserveNewChatsUseCase
+         observeNewChatsUseCase: ObserveNewChatsUseCase,
+         observeUpdatedChatsUseCase: ObserveUpdatedChatsUseCase
          
     ) {
         self.fetchUserUseCase = fetchUserUseCase
@@ -40,6 +42,7 @@ final class HomeViewModel: ObservableObject {
         self.fetchUserChatsUseCase = fetchUserChatsUseCase
         self.fetchUserByIdUseCase = fetchUserByIdUseCase
         self.observeNewChatsUseCase = observeNewChatsUseCase
+        self.observeUpdatedChatsUseCase = observeUpdatedChatsUseCase
         
         
         sessionManager.$userSession
@@ -69,6 +72,7 @@ final class HomeViewModel: ObservableObject {
                     await self.fetchUserChats()
                 }
                 self.observeNewChats()
+                self.observeUpdatedChats()
                 
                 
             }
@@ -206,6 +210,21 @@ final class HomeViewModel: ObservableObject {
                     self.chats.insert(updatedChat, at: 0)
                     Task {
                         await self.fetchUserNewChat(chat: updatedChat)
+                    }
+                }
+            }
+        }
+    }
+    
+    func observeUpdatedChats() {
+        observeUpdatedChatsUseCase.execute { [weak self] updatedChat in
+            guard let self else { return }
+
+            DispatchQueue.main.async {
+                if let index = self.chats.firstIndex(where: { $0.id == updatedChat.id }) {
+                    self.chats[index] = updatedChat
+                    self.chats.sort {
+                        ($0.lastMessageTimestamp ?? $0.createdAt ?? 0) > ($1.lastMessageTimestamp ?? $1.createdAt ?? 0)
                     }
                 }
             }

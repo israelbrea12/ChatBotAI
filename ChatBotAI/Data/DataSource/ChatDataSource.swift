@@ -13,6 +13,7 @@ protocol ChatDataSource {
     func fetchUserChats() async throws -> [ChatModel]
     func observeNewChats(onNewChat: @escaping (ChatModel) -> Void)
     func stopObservingNewChats()  async -> Void
+    func observeUpdatedChats(onUpdatedChat: @escaping (ChatModel) -> Void)
 }
 
 
@@ -21,6 +22,8 @@ class ChatDataSourceImpl: ChatDataSource {
     private let databaseRef = Database.database().reference()
     private var newChatsHandle: DatabaseHandle?
     private var userChatsRef: DatabaseReference?
+    private var updatedChatsHandle: DatabaseHandle?
+
         
     func createChat(otherUserId: String) async throws -> ChatModel {
         guard let currentUserId = await SessionManager.shared.currentUser?.id else {
@@ -128,6 +131,38 @@ class ChatDataSourceImpl: ChatDataSource {
             ref.removeObserver(withHandle: handle)
             newChatsHandle = nil
             userChatsRef = nil
+        }
+    }
+    
+    func observeUpdatedChats(onUpdatedChat: @escaping (ChatModel) -> Void) {
+        Task { @MainActor in
+            guard let currentUserId = SessionManager.shared.currentUser?.id else {
+                return
+            }
+
+            let userChatsSnapshot = try? await databaseRef
+                .child("user_chats")
+                .child(currentUserId)
+                .child("chats")
+                .getData()
+            
+            guard let userChatsDict = userChatsSnapshot?.value as? [String: Any] else {
+                return
+            }
+
+            let chatIds = Array(userChatsDict.keys)
+
+            for chatId in chatIds {
+                let chatRef = databaseRef.child("chats").child(chatId)
+                
+                // Observa los cambios de valor en cada chat
+                chatRef.observe(.value) { snapshot in
+                    if let chatData = snapshot.value as? [String: Any] {
+                        let chatModel = ChatModel.toData(chatData, chatId: chatId)
+                        onUpdatedChat(chatModel)
+                    }
+                }
+            }
         }
     }
 }

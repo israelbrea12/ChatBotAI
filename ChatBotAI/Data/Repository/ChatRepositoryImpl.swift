@@ -48,5 +48,9 @@ class ChatRepositoryImpl: ChatRepository {
             return .success(())
         } 
     }
-
+    func observeUpdatedChats(onUpdatedChat: @escaping (Chat) -> Void) {
+        chatDataSource.observeUpdatedChats { chatModel in
+            onUpdatedChat(chatModel.toDomain())
+        }
+    }
 }
