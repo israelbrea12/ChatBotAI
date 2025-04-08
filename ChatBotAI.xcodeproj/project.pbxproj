@@ -88,6 +88,14 @@
 		40F3604B2D9FD94F0078BE23 /* FetchUserByIdParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */; };
 		40F3609C2DA435B80078BE23 /* ObserveNewChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3609B2DA435B80078BE23 /* ObserveNewChatsUseCase.swift */; };
 		40F3609E2DA4465F0078BE23 /* StopObservingChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */; };
+		40F360BF2DA47C160078BE23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360BE2DA47C160078BE23 /* Message.swift */; };
+		40F360C22DA47C660078BE23 /* SendMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360C12DA47C660078BE23 /* SendMessageUseCase.swift */; };
+		40F360C42DA47D590078BE23 /* MessageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360C32DA47D590078BE23 /* MessageRepository.swift */; };
+		40F360C62DA47DFC0078BE23 /* MessageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360C52DA47DFC0078BE23 /* MessageRepositoryImpl.swift */; };
+		40F360C82DA47EE60078BE23 /* MessageMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360C72DA47EE60078BE23 /* MessageMapper.swift */; };
+		40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CA2DA47F590078BE23 /* MessageModel.swift */; };
+		40F360CD2DA47FF80078BE23 /* MessageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */; };
+		40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +194,14 @@
 		40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUserByIdParams.swift; sourceTree = "<group>"; };
 		40F3609B2DA435B80078BE23 /* ObserveNewChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveNewChatsUseCase.swift; sourceTree = "<group>"; };
 		40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopObservingChatsUseCase.swift; sourceTree = "<group>"; };
+		40F360BE2DA47C160078BE23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		40F360C12DA47C660078BE23 /* SendMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageUseCase.swift; sourceTree = "<group>"; };
+		40F360C32DA47D590078BE23 /* MessageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRepository.swift; sourceTree = "<group>"; };
+		40F360C52DA47DFC0078BE23 /* MessageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRepositoryImpl.swift; sourceTree = "<group>"; };
+		40F360C72DA47EE60078BE23 /* MessageMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageMapper.swift; sourceTree = "<group>"; };
+		40F360CA2DA47F590078BE23 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
+		40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDataSource.swift; sourceTree = "<group>"; };
+		40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageParams.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -353,6 +369,7 @@
 				40D385132D84E00700406AC1 /* Auth */,
 				40D384CE2D843A7700406AC1 /* Users */,
 				40F3602F2D9F01380078BE23 /* Chats */,
+				40F360BD2DA47BF20078BE23 /* Message */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -507,6 +524,7 @@
 				40D385092D84DD8000406AC1 /* AuthRepository.swift */,
 				40F360042D9DC33C0078BE23 /* UserRepository.swift */,
 				40F3603C2D9F07B00078BE23 /* ChatRepository.swift */,
+				40F360C32DA47D590078BE23 /* MessageRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -518,6 +536,7 @@
 				40F35FFD2D9DBA960078BE23 /* Auth */,
 				40F35FFC2D9DBA8B0078BE23 /* User */,
 				40F360372D9F04180078BE23 /* Chat */,
+				40F360C02DA47C440078BE23 /* Message */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -552,6 +571,7 @@
 			children = (
 				40D3851B2D84E23800406AC1 /* UserMapper.swift */,
 				40F360352D9F02180078BE23 /* ChatMapper.swift */,
+				40F360C72DA47EE60078BE23 /* MessageMapper.swift */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -559,8 +579,9 @@
 		40D385172D84E0BC00406AC1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				40F360322D9F01BB0078BE23 /* Chat */,
 				40D385212D84E38100406AC1 /* User */,
+				40F360322D9F01BB0078BE23 /* Chat */,
+				40F360C92DA47F460078BE23 /* Message */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -571,6 +592,7 @@
 				40D385242D84E56900406AC1 /* AuthDataSource.swift */,
 				40F360082D9DC3A80078BE23 /* UserDataSource.swift */,
 				40F360402D9F09A80078BE23 /* ChatDataSource.swift */,
+				40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -581,6 +603,7 @@
 				40D385262D84E76200406AC1 /* AuthRepositoryImpl.swift */,
 				40F360062D9DC3580078BE23 /* UserRepositoryImpl.swift */,
 				40F3603E2D9F08590078BE23 /* ChatRepositoryImpl.swift */,
+				40F360C52DA47DFC0078BE23 /* MessageRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -694,6 +717,31 @@
 				40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		40F360BD2DA47BF20078BE23 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				40F360BE2DA47C160078BE23 /* Message.swift */,
+				40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		40F360C02DA47C440078BE23 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				40F360C12DA47C660078BE23 /* SendMessageUseCase.swift */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		40F360C92DA47F460078BE23 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				40F360CA2DA47F590078BE23 /* MessageModel.swift */,
+			);
+			path = Message;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -881,9 +929,11 @@
 				4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */,
 				40D384F62D843A7700406AC1 /* ChatBotIAViewModel.swift in Sources */,
 				402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */,
+				40F360C22DA47C660078BE23 /* SendMessageUseCase.swift in Sources */,
 				40D385202D84E37500406AC1 /* UserModel.swift in Sources */,
 				40D384F72D843A7700406AC1 /* ChatBotIAView.swift in Sources */,
 				402CB8062D94B748008EAEF0 /* MessagesView.swift in Sources */,
+				40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */,
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
 				40F3609E2DA4465F0078BE23 /* StopObservingChatsUseCase.swift in Sources */,
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,
@@ -902,7 +952,10 @@
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
+				40F360C62DA47DFC0078BE23 /* MessageRepositoryImpl.swift in Sources */,
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
+				40F360C42DA47D590078BE23 /* MessageRepository.swift in Sources */,
+				40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */,
 				402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,
 				40D385122D84DF5E00406AC1 /* UseCaseProtocol.swift in Sources */,
@@ -912,10 +965,13 @@
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
 				40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */,
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
+				40F360C82DA47EE60078BE23 /* MessageMapper.swift in Sources */,
+				40F360BF2DA47C160078BE23 /* Message.swift in Sources */,
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
 				40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */,
+				40F360CD2DA47FF80078BE23 /* MessageDataSource.swift in Sources */,
 				40F360432D9F0C2A0078BE23 /* LastMessageModel.swift in Sources */,
 				40F3604B2D9FD94F0078BE23 /* FetchUserByIdParams.swift in Sources */,
 				40F360492D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift in Sources */,

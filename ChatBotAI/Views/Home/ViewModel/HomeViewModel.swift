@@ -191,13 +191,21 @@ final class HomeViewModel: ObservableObject {
     }
     
     func observeNewChats() {
-        observeNewChatsUseCase.execute { [weak self] newChat in
+        observeNewChatsUseCase.execute { [weak self] updatedChat in
             guard let self else { return }
-            if !self.chats.contains(where: { $0.id == newChat.id }) {
+
+            if let index = self.chats.firstIndex(where: { $0.id == updatedChat.id }) {
                 DispatchQueue.main.async {
-                    self.chats.insert(newChat, at: 0)
+                    self.chats[index] = updatedChat
+                    self.chats.sort {
+                        ($0.lastMessageTimestamp ?? $0.createdAt ?? 0) > ($1.lastMessageTimestamp ?? $1.createdAt ?? 0)
+                    }
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.chats.insert(updatedChat, at: 0)
                     Task {
-                        await self.fetchUserNewChat(chat: newChat)
+                        await self.fetchUserNewChat(chat: updatedChat)
                     }
                 }
             }

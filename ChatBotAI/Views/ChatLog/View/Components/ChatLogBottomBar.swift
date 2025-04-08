@@ -10,6 +10,7 @@ import SwiftUI
 struct ChatLogBottomBar: View {
     
     @Binding var chatText: String
+    var onSendMessage: () -> Void
     
     var body: some View {
         HStack(spacing: 16) {
@@ -24,7 +25,7 @@ struct ChatLogBottomBar: View {
             .frame(height: 40)
             
             Button {
-                
+                onSendMessage()
             } label: {
                 Image(systemName: "paperplane.fill")
                     .rotationEffect(.degrees(45))

@@ -37,13 +37,19 @@ struct ChatLogView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden, for: .tabBar)
         }
+        .onAppear {
+            if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
+                chatLogViewModel.setupChat(currentUser: currentUser, otherUser: otherUser)
+            }
+        }
     }
     
     private func successView() -> some View {
         VStack {
             MessagesView()
             Spacer()
-            ChatLogBottomBar(chatText: $chatLogViewModel.chatText)
+            ChatLogBottomBar(chatText: $chatLogViewModel.chatText,
+                             onSendMessage: {chatLogViewModel.sendMessage(currentUser: user)})
                 .background(Color.white.ignoresSafeArea())
         }
     }

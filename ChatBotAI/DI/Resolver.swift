@@ -28,6 +28,11 @@ public final class Resolver {
     func resolve<T>(_ type: T.Type) -> T {
         container.resolve(T.self)!
     }
+    
+    func resolve<T, Arg1>(_ serviceType: T.Type, arguments arg1: Arg1) -> T {
+        container.resolve(serviceType, argument: arg1)!
+    }
+
 }
 
 // MARK: - Network
@@ -54,6 +59,10 @@ extension Resolver {
         
         container.register(ChatDataSource.self) { resolver in
             ChatDataSourceImpl()
+        }.inObjectScope(.container)
+        
+        container.register(MessageDataSource.self) { resolver in
+            MessageDataSourceImpl()
         }.inObjectScope(.container)
     }
 }
@@ -91,6 +100,12 @@ extension Resolver {
         container.register(ChatRepository.self){resolver in
             ChatRepositoryImpl(
                 chatDataSource: resolver.resolve(ChatDataSource.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(MessageRepository.self){resolver in
+            MessageRepositoryImpl(
+                messageDataSource: resolver.resolve(MessageDataSource.self)!
             )
         }.inObjectScope(.container)
     }
@@ -170,6 +185,12 @@ extension Resolver {
                 chatRepository: resolver.resolve(ChatRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(SendMessageUseCase.self) { resolver in
+            SendMessageUseCase(
+                messageRepository: resolver.resolve(MessageRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -225,8 +246,8 @@ extension Resolver {
         
         container.register(ChatLogViewModel.self) { resolver in
             ChatLogViewModel(
-                
+                sendMessageUseCase: resolver.resolve(SendMessageUseCase.self)!
             )
-        }.inObjectScope(.container)
+        }
     }
 }
