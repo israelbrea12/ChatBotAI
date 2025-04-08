@@ -13,4 +13,5 @@ protocol ChatRepository {
     func observeNewChats(onNewChat: @escaping (Chat) -> Void)
     func stopObservingNewChats() async -> Result<Void, AppError>
     func observeUpdatedChats(onUpdatedChat: @escaping (Chat) -> Void)
+    func stopObservingUpdatedChats() async -> Result<Void, AppError>
 }

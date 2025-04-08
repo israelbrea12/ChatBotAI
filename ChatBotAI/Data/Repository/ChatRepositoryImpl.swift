@@ -53,4 +53,11 @@ class ChatRepositoryImpl: ChatRepository {
             onUpdatedChat(chatModel.toDomain())
         }
     }
+    
+    func stopObservingUpdatedChats() async -> Result<Void, AppError> {
+        do {
+            await chatDataSource.stopObservingUpdatedChats()
+            return .success(())
+        }
+    }
 }

@@ -14,6 +14,7 @@ protocol ChatDataSource {
     func observeNewChats(onNewChat: @escaping (ChatModel) -> Void)
     func stopObservingNewChats()  async -> Void
     func observeUpdatedChats(onUpdatedChat: @escaping (ChatModel) -> Void)
+    func stopObservingUpdatedChats() async -> Void
 }
 
 
@@ -24,6 +25,8 @@ class ChatDataSourceImpl: ChatDataSource {
     private var userChatsRef: DatabaseReference?
     private var updatedChatsHandle: DatabaseHandle?
 
+    private var updatedChatsHandles: [String: DatabaseHandle] = [:]
+    private var updatedChatRefs: [String: DatabaseReference] = [:]
         
     func createChat(otherUserId: String) async throws -> ChatModel {
         guard let currentUserId = await SessionManager.shared.currentUser?.id else {
@@ -95,10 +98,10 @@ class ChatDataSourceImpl: ChatDataSource {
 
         for chatId in chatIds {
             let chatSnapshot = try await databaseRef.child("chats").child(chatId).getData()
-                        if let chatData = chatSnapshot.value as? [String: Any] {
-                            let chatModel = ChatModel.toData(chatData, chatId: chatId)
-                            chatModels.append(chatModel)
-                        }
+            if let chatData = chatSnapshot.value as? [String: Any] {
+                let chatModel = ChatModel.toData(chatData, chatId: chatId)
+                chatModels.append(chatModel)
+            }
         }
         print("Chat IDs encontrados: \(chatIds)")
 
@@ -106,35 +109,49 @@ class ChatDataSourceImpl: ChatDataSource {
     }
     
     func observeNewChats(onNewChat: @escaping (ChatModel) -> Void) {
+        print("🔥 Observando nuevos chats")
         Task { @MainActor in
             guard let currentUserId = SessionManager.shared.currentUser?.id else {
                 return
             }
 
-            userChatsRef = databaseRef.child("user_chats").child(currentUserId).child("chats")
+            userChatsRef = databaseRef
+                .child("user_chats")
+                .child(currentUserId)
+                .child("chats")
 
-            newChatsHandle = userChatsRef?.observe(.childAdded) { [weak self] snapshot in
-                guard let self = self else { return }
-                let chatId = snapshot.key
-                self.databaseRef.child("chats").child(chatId).observeSingleEvent(of: .value) { chatSnapshot in
-                    if let chatData = chatSnapshot.value as? [String: Any] {
-                        let chatModel = ChatModel.toData(chatData, chatId: chatId)
-                        onNewChat(chatModel)
-                    }
+            newChatsHandle = userChatsRef?
+                .observe(.childAdded) { [weak self] snapshot in
+                    guard let self = self else { return }
+                    let chatId = snapshot.key
+                    self.databaseRef
+                        .child("chats")
+                        .child(chatId)
+                        .observeSingleEvent(of: .value) { chatSnapshot in
+                            if let chatData = chatSnapshot.value as? [String: Any] {
+                                let chatModel = ChatModel.toData(
+                                    chatData,
+                                    chatId: chatId
+                                )
+                                onNewChat(chatModel)
+                            }
+                        }
                 }
-            }
         }
     }
 
     func stopObservingNewChats() async {
+        print("🧯 Eliminando observer de nuevos chats")
         if let handle = newChatsHandle, let ref = userChatsRef {
             ref.removeObserver(withHandle: handle)
             newChatsHandle = nil
             userChatsRef = nil
         }
+        databaseRef.child("user_chats").removeAllObservers()
     }
     
     func observeUpdatedChats(onUpdatedChat: @escaping (ChatModel) -> Void) {
+        print("🔥 Observando updated chats")
         Task { @MainActor in
             guard let currentUserId = SessionManager.shared.currentUser?.id else {
                 return
@@ -154,15 +171,32 @@ class ChatDataSourceImpl: ChatDataSource {
 
             for chatId in chatIds {
                 let chatRef = databaseRef.child("chats").child(chatId)
-                
-                // Observa los cambios de valor en cada chat
-                chatRef.observe(.value) { snapshot in
+                let handle = chatRef.observe(.value) { snapshot in
                     if let chatData = snapshot.value as? [String: Any] {
-                        let chatModel = ChatModel.toData(chatData, chatId: chatId)
+                        let chatModel = ChatModel.toData(
+                            chatData,
+                            chatId: chatId
+                        )
                         onUpdatedChat(chatModel)
                     }
                 }
+                
+                updatedChatsHandles[chatId] = handle
+                updatedChatRefs[chatId] = chatRef
+            
             }
         }
+    }
+    
+    func stopObservingUpdatedChats() async {
+        print("🧯 Eliminando observer de updated chats")
+        for (chatId, handle) in updatedChatsHandles {
+            print("🧯 Eliminando observer para chatId: \(chatId)")
+            updatedChatRefs[chatId]?.removeObserver(withHandle: handle)
+        }
+
+        updatedChatsHandles.removeAll()
+        updatedChatRefs.removeAll()
+        databaseRef.child("chats").removeAllObservers()
     }
 }

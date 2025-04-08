@@ -97,6 +97,7 @@
 		40F360CD2DA47FF80078BE23 /* MessageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */; };
 		40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */; };
 		40F360D12DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */; };
+		40F360D32DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D22DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -204,6 +205,7 @@
 		40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDataSource.swift; sourceTree = "<group>"; };
 		40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageParams.swift; sourceTree = "<group>"; };
 		40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveUpdatedChatsUseCase.swift; sourceTree = "<group>"; };
+		40F360D22DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopObservingUpdatedChatsUseCase.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -718,6 +720,7 @@
 				40F3609B2DA435B80078BE23 /* ObserveNewChatsUseCase.swift */,
 				40F3609D2DA4465F0078BE23 /* StopObservingChatsUseCase.swift */,
 				40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */,
+				40F360D22DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -962,6 +965,7 @@
 				40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */,
 				402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,
+				40F360D32DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift in Sources */,
 				40D385122D84DF5E00406AC1 /* UseCaseProtocol.swift in Sources */,
 				40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */,
 				40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */,

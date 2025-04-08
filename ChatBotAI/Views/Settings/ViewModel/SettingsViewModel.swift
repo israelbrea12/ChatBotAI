@@ -19,18 +19,21 @@ class SettingsViewModel: ObservableObject {
     private let signOutUseCase: SignOutUseCase
     private let fetchUserUseCase: FetchUserUseCase
     private let stopObservingChatsUseCase: StopObservingChatsUseCase
+    private let stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
     
     init(signOutUseCase: SignOutUseCase,
          fetchUserUseCase: FetchUserUseCase,
          deleteAccountUseCase: DeleteAccountUseCase,
-         stopObservingChatsUseCase: StopObservingChatsUseCase
+         stopObservingChatsUseCase: StopObservingChatsUseCase,
+         stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
     ) {
         self.signOutUseCase = signOutUseCase
         self.fetchUserUseCase = fetchUserUseCase
         self.deleteAccountUseCase = deleteAccountUseCase
         self.stopObservingChatsUseCase = stopObservingChatsUseCase
+        self.stopObservingUpdatedChatsUseCase = stopObservingUpdatedChatsUseCase
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -52,11 +55,13 @@ class SettingsViewModel: ObservableObject {
             switch result {
             case .success:
                 _ = await stopObservingChatsUseCase.execute(with: ())
+                _ = await stopObservingUpdatedChatsUseCase.execute(with: ())
                 
                 DispatchQueue.main.async {
                     SessionManager.shared.userSession = nil
                     SessionManager.shared.currentUser = nil
                 }
+                print("🧼 Sesión cerrada. Usuario: \(String(describing: SessionManager.shared.userSession))")
             case .failure(let error):
                 print("DEBUG: Sign-out error \(error.localizedDescription)")
             }
