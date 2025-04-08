@@ -11,16 +11,26 @@ import Foundation
 class ChatLogViewModel: ObservableObject {
     @Published var state: ViewState = .success
     @Published var chatText = ""
+    @Published var messages: [Message] = []
 
     private let sendMessageUseCase: SendMessageUseCase
+    private let fetchMessagesUseCase: FetchMessagesUseCase
+    
     private var chatId: String?
 
-    init(sendMessageUseCase: SendMessageUseCase) {
+    init(sendMessageUseCase: SendMessageUseCase,
+    fetchMessagesUseCase: FetchMessagesUseCase
+    ) {
         self.sendMessageUseCase = sendMessageUseCase
+        self.fetchMessagesUseCase = fetchMessagesUseCase
     }
 
     func setupChat(currentUser: User, otherUser: User) {
         chatId = generateChatId(for: currentUser.id, and: otherUser.id)
+        
+        Task {
+            await loadMessages()
+        }
     }
 
     private func generateChatId(for user1: String, and user2: String) -> String {
@@ -54,6 +64,20 @@ class ChatLogViewModel: ObservableObject {
                 print("Error enviando mensaje: \(error.localizedDescription)")
                 state = .error("Error al enviar el mensaje")
             }
+        }
+    }
+    
+    func loadMessages() async {
+        guard let chatId = chatId else { return }
+
+        let result = await fetchMessagesUseCase.execute(chatId: chatId)
+        switch result {
+        case .success(let fetchedMessages):
+            self.messages = fetchedMessages
+            self.state = .success
+        case .failure(let error):
+            print("Error fetching messages: \(error.localizedDescription)")
+            self.state = .error("No se pudieron cargar los mensajes.")
         }
     }
 }

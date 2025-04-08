@@ -46,7 +46,8 @@ struct ChatLogView: View {
     
     private func successView() -> some View {
         VStack {
-            MessagesView()
+            MessagesView(messages: chatLogViewModel.messages,
+                         currentUserId: SessionManager.shared.currentUser?.id)
             Spacer()
             ChatLogBottomBar(chatText: $chatLogViewModel.chatText,
                              onSendMessage: {chatLogViewModel.sendMessage(currentUser: user)})

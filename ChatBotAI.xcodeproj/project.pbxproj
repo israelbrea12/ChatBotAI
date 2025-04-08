@@ -98,6 +98,8 @@
 		40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */; };
 		40F360D12DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */; };
 		40F360D32DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D22DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift */; };
+		40F360D52DA52D200078BE23 /* fetchMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D42DA52D200078BE23 /* fetchMessagesUseCase.swift */; };
+		40F360D72DA52E7E0078BE23 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D62DA52E7E0078BE23 /* MessageBubbleView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +208,8 @@
 		40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageParams.swift; sourceTree = "<group>"; };
 		40F360D02DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveUpdatedChatsUseCase.swift; sourceTree = "<group>"; };
 		40F360D22DA51D1A0078BE23 /* StopObservingUpdatedChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopObservingUpdatedChatsUseCase.swift; sourceTree = "<group>"; };
+		40F360D42DA52D200078BE23 /* fetchMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchMessagesUseCase.swift; sourceTree = "<group>"; };
+		40F360D62DA52E7E0078BE23 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -285,6 +289,7 @@
 			children = (
 				402CB8022D94B591008EAEF0 /* ChatLogBottomBar.swift */,
 				402CB8052D94B748008EAEF0 /* MessagesView.swift */,
+				40F360D62DA52E7E0078BE23 /* MessageBubbleView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -738,6 +743,7 @@
 			isa = PBXGroup;
 			children = (
 				40F360C12DA47C660078BE23 /* SendMessageUseCase.swift */,
+				40F360D42DA52D200078BE23 /* fetchMessagesUseCase.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -956,9 +962,11 @@
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
+				40F360D72DA52E7E0078BE23 /* MessageBubbleView.swift in Sources */,
 				40F360D12DA5156D0078BE23 /* ObserveUpdatedChatsUseCase.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
+				40F360D52DA52D200078BE23 /* fetchMessagesUseCase.swift in Sources */,
 				40F360C62DA47DFC0078BE23 /* MessageRepositoryImpl.swift in Sources */,
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
 				40F360C42DA47D590078BE23 /* MessageRepository.swift in Sources */,

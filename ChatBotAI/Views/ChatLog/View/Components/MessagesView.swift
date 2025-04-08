@@ -8,30 +8,19 @@
 import SwiftUI
 
 struct MessagesView: View {
+    
+    let messages: [Message]
+    let currentUserId: String?
+    
     var body: some View {
-        ScrollView {
-            ForEach(0..<20) { num in
-                HStack {
-                    Spacer()
-                    HStack {
-                        Text("Fake message for now")
-                            .foregroundColor(.white)
+            ScrollView {
+                LazyVStack {
+                    ForEach(messages) { message in
+                        MessageBubbleView(message: message, isCurrentUser: message.senderId != currentUserId)
                     }
-                    .padding(8)
-                    .background(Color.blue)
-                    .cornerRadius(12)
                 }
-                .padding(.horizontal)
-                .padding(.top, 8)
+                .padding(.vertical, 8)
             }
-                
-            HStack{ Spacer() }
-                .frame(height: 50)
+            .background(Color(.init(white: 0.95, alpha: 1)))
         }
-        .background(Color(.init(white: 0.95, alpha: 1)))
-                        
-    }
-}
-#Preview {
-    MessagesView()
 }

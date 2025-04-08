@@ -24,4 +24,13 @@ class MessageRepositoryImpl: MessageRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func fetchMessages(chatId: String) async -> Result<[Message], AppError> {
+        do {
+            let models = try await messageDataSource.fetchMessages(chatId: chatId)
+            return .success(models.map { $0.toDomain() })
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }
