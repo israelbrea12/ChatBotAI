@@ -104,13 +104,18 @@ struct HomeView: View {
                                 }
                             }
 
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 4) {
                                 Text(user.fullName ?? "Usuario desconocido")
                                     .font(.system(size: 16, weight: .bold))
+
                                 Text(chat.lastMessageText ?? "Sin mensajes aún")
                                     .font(.system(size: 14, weight: .semibold))
                                     .foregroundStyle(Color(.lightGray))
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(2)
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+
                         }
                         Spacer()
 

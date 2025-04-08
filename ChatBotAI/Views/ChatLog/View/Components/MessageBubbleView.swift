@@ -15,14 +15,23 @@ struct MessageBubbleView: View {
         HStack {
             if isCurrentUser { Spacer() }
 
-            VStack(alignment: .leading, spacing: 4) {
+            ZStack(alignment: .bottomTrailing) {
                 Text(message.text)
-                    .padding(10)
+                    .padding(.all, 10)
+                    .padding(.trailing, 40) // deja espacio para la hora
                     .foregroundColor(isCurrentUser ? .white : .black)
                     .background(isCurrentUser ? Color.blue : Color.gray.opacity(0.2))
                     .cornerRadius(12)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                if let sentAt = message.sentAt {
+                    Text(Date(timeIntervalSince1970: sentAt).whatsappFormattedTimeAgoWithoutAMOrPM())
+                        .font(.caption2)
+                        .foregroundColor(isCurrentUser ? .white.opacity(0.8) : .gray)
+                        .padding([.bottom, .trailing], 6)
+                }
             }
-            .frame(maxWidth: 250, alignment: isCurrentUser ? .trailing : .leading)
+            .frame(maxWidth: UIScreen.main.bounds.width * 0.85, alignment: isCurrentUser ? .trailing : .leading)
 
             if !isCurrentUser { Spacer() }
         }
@@ -30,3 +39,4 @@ struct MessageBubbleView: View {
         .padding(.top, 4)
     }
 }
+

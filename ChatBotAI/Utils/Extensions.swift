@@ -62,4 +62,30 @@ extension Date {
             formatter.dateFormat = "dd/MM/yyyy" // Ejemplo: 03/04/2025
             return formatter.string(from: self)
         }
+    
+    func whatsappFormattedTimeAgoWithoutAMOrPM() -> String {
+        let now = Date()
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+
+        let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .year], from: self, to: now)
+        
+        formatter.dateFormat = "HH:mm" // 🔁 Cambiado aquí
+        if calendar.isDateInToday(self) {
+            return formatter.string(from: self)
+        }
+        
+        if calendar.isDateInYesterday(self) {
+            return "Ayer"
+        }
+        
+        if let days = components.day, days < 7 {
+            formatter.dateFormat = "EEEE" // Ejemplo: Lunes, Martes
+            return formatter.string(from: self)
+        }
+
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: self)
+    }
+
 }
