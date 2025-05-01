@@ -71,12 +71,12 @@ final class HomeViewModel: ObservableObject {
                 self.state = .success
                 SessionManager.shared.currentUser = self.currentUser
                 
-                Task {
-                    await self.fetchUserChats()
-                }
                 self.observeNewChats()
                 self.observeUpdatedChats()
                 
+                Task {
+                    await self.fetchUserChats()
+                }
             }
         case .failure(let error):
             DispatchQueue.main.async {
@@ -88,13 +88,9 @@ final class HomeViewModel: ObservableObject {
     }
     
     func startNewChat(with user: User) {
-        if let existingChat = chats.first(where: { $0.participants.contains(user.id) }) {
+        if chats.first(where: { $0.participants.contains(user.id) }) != nil {
             chatUser = user
             isPresentingNewMessageView = false
-            shouldNavigateToChatLogView = true
-            
-            observeUpdatedChat(chatId: existingChat.id)
-
         } else {
             Task {
                 await createChat(with: user)
@@ -118,7 +114,7 @@ final class HomeViewModel: ObservableObject {
                 self.state = .success
             }
             
-            await fetchUserChats()
+            //await fetchUserChats()
             
         case .failure(let error):
             DispatchQueue.main.async {
@@ -236,23 +232,5 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
-    
-    private func observeUpdatedChat(chatId: String) {
-        observeUpdatedChatUseCase.execute(chatId: chatId) { [weak self] updatedChat in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                if let index = self.chats.firstIndex(where: { $0.id == updatedChat.id }) {
-                    self.chats[index] = updatedChat
-                } else {
-                    self.chats.append(updatedChat)
-                }
-                self.chats.sort {
-                    ($0.lastMessageTimestamp ?? $0.createdAt ?? 0) >
-                    ($1.lastMessageTimestamp ?? $1.createdAt ?? 0)
-                }
-            }
-        }
-    }
-
 }
 

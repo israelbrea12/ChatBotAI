@@ -15,21 +15,36 @@ class ChatLogViewModel: ObservableObject {
 
     private let sendMessageUseCase: SendMessageUseCase
     private let fetchMessagesUseCase: FetchMessagesUseCase
+    private let observeMessagesUseCase: ObserveMessagesUseCase
     
     private var chatId: String?
 
-    init(sendMessageUseCase: SendMessageUseCase,
-    fetchMessagesUseCase: FetchMessagesUseCase
+    init(
+        sendMessageUseCase: SendMessageUseCase,
+        fetchMessagesUseCase: FetchMessagesUseCase,
+        observeMessagesUseCase: ObserveMessagesUseCase
     ) {
         self.sendMessageUseCase = sendMessageUseCase
         self.fetchMessagesUseCase = fetchMessagesUseCase
+        self.observeMessagesUseCase = observeMessagesUseCase
     }
 
     func setupChat(currentUser: User, otherUser: User) {
         chatId = generateChatId(for: currentUser.id, and: otherUser.id)
-        
+
         Task {
             await loadMessages()
+
+            if let chatId = chatId {
+                observeMessagesUseCase.execute(chatId: chatId) { [weak self] newMessage in
+                    guard let self = self else { return }
+
+                    // Añade el nuevo mensaje si aún no está en la lista
+                    if !self.messages.contains(where: { $0.id == newMessage.id }) {
+                        self.messages.append(newMessage)
+                    }
+                }
+            }
         }
     }
 
@@ -78,6 +93,12 @@ class ChatLogViewModel: ObservableObject {
         case .failure(let error):
             print("Error fetching messages: \(error.localizedDescription)")
             self.state = .error("No se pudieron cargar los mensajes.")
+        }
+    }
+    
+    func stopObservingMessages() {
+        if let chatId = chatId {
+            observeMessagesUseCase.stop(chatId: chatId)
         }
     }
 }

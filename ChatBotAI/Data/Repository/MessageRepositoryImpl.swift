@@ -18,7 +18,8 @@ class MessageRepositoryImpl: MessageRepository {
     
     func sendMessage(chatId: String, message: Message) async -> Result<Bool, AppError> {
         do{
-            try  await messageDataSource.sendMessage(chatId: chatId, message: message)
+            try  await messageDataSource
+                .sendMessage(chatId: chatId, message: message)
             return .success(true)
         }catch{
             return .failure(error.toAppError())
@@ -27,10 +28,25 @@ class MessageRepositoryImpl: MessageRepository {
     
     func fetchMessages(chatId: String) async -> Result<[Message], AppError> {
         do {
-            let models = try await messageDataSource.fetchMessages(chatId: chatId)
+            let models = try await messageDataSource.fetchMessages(
+                chatId: chatId
+            )
             return .success(models.map { $0.toDomain() })
         } catch {
             return .failure(error.toAppError())
         }
+    }
+    
+    func observeMessages(
+        chatId: String,
+        onNewMessage: @escaping (Message) -> Void
+    ) {
+        messageDataSource.observeMessages(for: chatId) { model in
+            onNewMessage(model.toDomain())
+        }
+    }
+
+    func stopObservingMessages(chatId: String) {
+        messageDataSource.stopObservingMessages(for: chatId)
     }
 }

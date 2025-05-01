@@ -11,11 +11,14 @@ import FirebaseDatabase
 protocol MessageDataSource {
     func sendMessage(chatId: String, message: Message) async throws
     func fetchMessages(chatId: String) async throws -> [MessageModel]
+    func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void)
+    func stopObservingMessages(for chatId: String)
 }
 
 
 class MessageDataSourceImpl: MessageDataSource {
     private let databaseRef = Database.database().reference()
+    private var messageObservers: [String: DatabaseHandle] = [:]
         
     func sendMessage(chatId: String, message: Message) async throws {
         let messageId = databaseRef.child("chats").child(chatId).child("messages").childByAutoId().key ?? UUID().uuidString
@@ -104,6 +107,29 @@ class MessageDataSourceImpl: MessageDataSource {
             } withCancel: { error in
                 continuation.resume(throwing: error)
             }
+        }
+    }
+    
+    func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void) {
+        let messagesRef = databaseRef.child("chats").child(chatId).child("messages")
+        let handle = messagesRef.observe(.childAdded) { snapshot in
+            guard
+                let messageData = snapshot.value as? [String: Any],
+                let jsonData = try? JSONSerialization.data(withJSONObject: messageData),
+                let message = try? JSONDecoder().decode(MessageModel.self, from: jsonData)
+            else {
+                return
+            }
+            onNewMessage(message)
+        }
+        
+        messageObservers[chatId] = handle
+    }
+
+    func stopObservingMessages(for chatId: String) {
+        if let handle = messageObservers[chatId] {
+            databaseRef.child("messages").child(chatId).removeObserver(withHandle: handle)
+            messageObservers.removeValue(forKey: chatId)
         }
     }
 }

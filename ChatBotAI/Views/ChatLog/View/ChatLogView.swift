@@ -42,6 +42,9 @@ struct ChatLogView: View {
                 chatLogViewModel.setupChat(currentUser: currentUser, otherUser: otherUser)
             }
         }
+        .onDisappear {
+            chatLogViewModel.stopObservingMessages()
+        }
     }
     
     private func successView() -> some View {
