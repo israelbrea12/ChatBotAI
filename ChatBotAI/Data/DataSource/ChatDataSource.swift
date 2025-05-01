@@ -15,6 +15,7 @@ protocol ChatDataSource {
     func stopObservingNewChats()  async -> Void
     func observeUpdatedChats(onUpdatedChat: @escaping (ChatModel) -> Void)
     func stopObservingUpdatedChats() async -> Void
+    func observeUpdatedChat(chatId: String, onUpdatedChat: @escaping (ChatModel) -> Void)
 }
 
 
@@ -109,7 +110,6 @@ class ChatDataSourceImpl: ChatDataSource {
     }
     
     func observeNewChats(onNewChat: @escaping (ChatModel) -> Void) {
-        print("🔥 Observando nuevos chats")
         Task { @MainActor in
             guard let currentUserId = SessionManager.shared.currentUser?.id else {
                 return
@@ -141,7 +141,6 @@ class ChatDataSourceImpl: ChatDataSource {
     }
 
     func stopObservingNewChats() async {
-        print("🧯 Eliminando observer de nuevos chats")
         if let handle = newChatsHandle, let ref = userChatsRef {
             ref.removeObserver(withHandle: handle)
             newChatsHandle = nil
@@ -151,7 +150,6 @@ class ChatDataSourceImpl: ChatDataSource {
     }
     
     func observeUpdatedChats(onUpdatedChat: @escaping (ChatModel) -> Void) {
-        print("🔥 Observando updated chats")
         Task { @MainActor in
             guard let currentUserId = SessionManager.shared.currentUser?.id else {
                 return
@@ -170,28 +168,24 @@ class ChatDataSourceImpl: ChatDataSource {
             let chatIds = Array(userChatsDict.keys)
 
             for chatId in chatIds {
-                let chatRef = databaseRef.child("chats").child(chatId)
-                let handle = chatRef.observe(.value) { snapshot in
+                let chatsRef = databaseRef.child("chats")
+                let handle = chatsRef.observe(.childChanged) { snapshot in
                     if let chatData = snapshot.value as? [String: Any] {
-                        let chatModel = ChatModel.toData(
-                            chatData,
-                            chatId: chatId
-                        )
+                        let chatId = snapshot.key
+                        let chatModel = ChatModel.toData(chatData, chatId: chatId)
                         onUpdatedChat(chatModel)
                     }
                 }
                 
                 updatedChatsHandles[chatId] = handle
-                updatedChatRefs[chatId] = chatRef
+                updatedChatRefs[chatId] = chatsRef
             
             }
         }
     }
     
     func stopObservingUpdatedChats() async {
-        print("🧯 Eliminando observer de updated chats")
         for (chatId, handle) in updatedChatsHandles {
-            print("🧯 Eliminando observer para chatId: \(chatId)")
             updatedChatRefs[chatId]?.removeObserver(withHandle: handle)
         }
 
@@ -199,4 +193,23 @@ class ChatDataSourceImpl: ChatDataSource {
         updatedChatRefs.removeAll()
         databaseRef.child("chats").removeAllObservers()
     }
+    
+    func observeUpdatedChat(chatId: String, onUpdatedChat: @escaping (ChatModel) -> Void) {
+        if updatedChatsHandles[chatId] != nil {
+            // Ya se está observando este chat
+            return
+        }
+
+        let chatRef = databaseRef.child("chats").child(chatId)
+        let handle = chatRef.observe(.value) { snapshot in
+            if let chatData = snapshot.value as? [String: Any] {
+                let chatModel = ChatModel.toData(chatData, chatId: chatId)
+                onUpdatedChat(chatModel)
+            }
+        }
+
+        updatedChatsHandles[chatId] = handle
+        updatedChatRefs[chatId] = chatRef
+    }
+
 }

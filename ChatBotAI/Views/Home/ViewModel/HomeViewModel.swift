@@ -25,6 +25,7 @@ final class HomeViewModel: ObservableObject {
     private let fetchUserByIdUseCase: FetchUserByIdUseCase
     private let observeNewChatsUseCase: ObserveNewChatsUseCase
     private let observeUpdatedChatsUseCase: ObserveUpdatedChatsUseCase
+    private let observeUpdatedChatUseCase: ObserveUpdatedChatUseCase
     
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
@@ -34,7 +35,8 @@ final class HomeViewModel: ObservableObject {
          fetchUserChatsUseCase: FetchUserChatsUseCase,
          fetchUserByIdUseCase: FetchUserByIdUseCase,
          observeNewChatsUseCase: ObserveNewChatsUseCase,
-         observeUpdatedChatsUseCase: ObserveUpdatedChatsUseCase
+         observeUpdatedChatsUseCase: ObserveUpdatedChatsUseCase,
+         observeUpdatedChatUseCase: ObserveUpdatedChatUseCase
          
     ) {
         self.fetchUserUseCase = fetchUserUseCase
@@ -43,6 +45,7 @@ final class HomeViewModel: ObservableObject {
         self.fetchUserByIdUseCase = fetchUserByIdUseCase
         self.observeNewChatsUseCase = observeNewChatsUseCase
         self.observeUpdatedChatsUseCase = observeUpdatedChatsUseCase
+        self.observeUpdatedChatUseCase = observeUpdatedChatUseCase
         
         
         sessionManager.$userSession
@@ -74,7 +77,6 @@ final class HomeViewModel: ObservableObject {
                 self.observeNewChats()
                 self.observeUpdatedChats()
                 
-                
             }
         case .failure(let error):
             DispatchQueue.main.async {
@@ -86,9 +88,13 @@ final class HomeViewModel: ObservableObject {
     }
     
     func startNewChat(with user: User) {
-        if chats.first(where: { $0.participants.contains(user.id) }) != nil {
+        if let existingChat = chats.first(where: { $0.participants.contains(user.id) }) {
             chatUser = user
             isPresentingNewMessageView = false
+            shouldNavigateToChatLogView = true
+            
+            observeUpdatedChat(chatId: existingChat.id)
+
         } else {
             Task {
                 await createChat(with: user)
@@ -230,5 +236,23 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
+    
+    private func observeUpdatedChat(chatId: String) {
+        observeUpdatedChatUseCase.execute(chatId: chatId) { [weak self] updatedChat in
+            guard let self else { return }
+            DispatchQueue.main.async {
+                if let index = self.chats.firstIndex(where: { $0.id == updatedChat.id }) {
+                    self.chats[index] = updatedChat
+                } else {
+                    self.chats.append(updatedChat)
+                }
+                self.chats.sort {
+                    ($0.lastMessageTimestamp ?? $0.createdAt ?? 0) >
+                    ($1.lastMessageTimestamp ?? $1.createdAt ?? 0)
+                }
+            }
+        }
+    }
+
 }
 

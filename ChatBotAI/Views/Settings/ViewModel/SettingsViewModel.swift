@@ -61,7 +61,7 @@ class SettingsViewModel: ObservableObject {
                     SessionManager.shared.userSession = nil
                     SessionManager.shared.currentUser = nil
                 }
-                print("🧼 Sesión cerrada. Usuario: \(String(describing: SessionManager.shared.userSession))")
+                print("Sesión cerrada. Usuario: \(String(describing: SessionManager.shared.userSession))")
             case .failure(let error):
                 print("DEBUG: Sign-out error \(error.localizedDescription)")
             }
