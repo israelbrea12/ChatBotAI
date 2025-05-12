@@ -27,7 +27,8 @@
 		408685112DD284D900D5832D /* ObserveChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685102DD284D900D5832D /* ObserveChatsUseCase.swift */; };
 		408685142DD2A64A00D5832D /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 408685132DD2A64A00D5832D /* GoogleGenerativeAI */; };
 		408685162DD2A79500D5832D /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685152DD2A78D00D5832D /* APIKey.swift */; };
-		408685182DD2A8B500D5832D /* GenerativeAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 408685172DD2A89F00D5832D /* GenerativeAI-Info.plist */; };
+		408685212DD2B9B900D5832D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 408685202DD2B9B900D5832D /* GoogleService-Info.plist */; };
+		408685222DD2B9B900D5832D /* GenerativeAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -76,7 +77,6 @@
 		40F3600D2D9DCC870078BE23 /* SignInWithAppleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3600C2D9DCC870078BE23 /* SignInWithAppleUseCase.swift */; };
 		40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */; };
 		40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360102D9DCEA80078BE23 /* CryptoUtils.swift */; };
-		40F3602C2D9EA61A0078BE23 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */; };
 		40F3602E2D9EC20F0078BE23 /* GoogleAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F3602D2D9EC20F0078BE23 /* GoogleAuthService.swift */; };
 		40F360312D9F014D0078BE23 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360302D9F014D0078BE23 /* Chat.swift */; };
 		40F360342D9F01E00078BE23 /* ChatModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360332D9F01E00078BE23 /* ChatModel.swift */; };
@@ -134,7 +134,8 @@
 		407F36A02DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveMessagesUseCase.swift; sourceTree = "<group>"; };
 		408685102DD284D900D5832D /* ObserveChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveChatsUseCase.swift; sourceTree = "<group>"; };
 		408685152DD2A78D00D5832D /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
-		408685172DD2A89F00D5832D /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
+		4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
+		408685202DD2B9B900D5832D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,7 +187,6 @@
 		40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleSignInDelegate.swift; sourceTree = "<group>"; };
 		40F360102D9DCEA80078BE23 /* CryptoUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoUtils.swift; sourceTree = "<group>"; };
 		40F360152D9DD4BF0078BE23 /* ChatBotAI.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatBotAI.entitlements; sourceTree = "<group>"; };
-		40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		40F3602D2D9EC20F0078BE23 /* GoogleAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleAuthService.swift; sourceTree = "<group>"; };
 		40F360302D9F014D0078BE23 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		40F360332D9F01E00078BE23 /* ChatModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatModel.swift; sourceTree = "<group>"; };
@@ -512,7 +512,8 @@
 		40D384F12D843A7700406AC1 /* ChatBotAI */ = {
 			isa = PBXGroup;
 			children = (
-				408685172DD2A89F00D5832D /* GenerativeAI-Info.plist */,
+				4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */,
+				408685202DD2B9B900D5832D /* GoogleService-Info.plist */,
 				408685152DD2A78D00D5832D /* APIKey.swift */,
 				40F35FD22D99E1C80078BE23 /* Info.plist */,
 				4053F7C82D8762270082785E /* Utils */,
@@ -526,7 +527,6 @@
 				40D384ED2D843A7700406AC1 /* Assets.xcassets */,
 				40D384D22D843A7700406AC1 /* Preview Content */,
 				40F360152D9DD4BF0078BE23 /* ChatBotAI.entitlements */,
-				40F3602B2D9EA61A0078BE23 /* GoogleService-Info.plist */,
 			);
 			path = ChatBotAI;
 			sourceTree = "<group>";
@@ -893,8 +893,8 @@
 			files = (
 				40D385042D843A7700406AC1 /* Preview Assets.xcassets in Resources */,
 				40D385052D843A7700406AC1 /* Assets.xcassets in Resources */,
-				408685182DD2A8B500D5832D /* GenerativeAI-Info.plist in Resources */,
-				40F3602C2D9EA61A0078BE23 /* GoogleService-Info.plist in Resources */,
+				408685212DD2B9B900D5832D /* GoogleService-Info.plist in Resources */,
+				408685222DD2B9B900D5832D /* GenerativeAI-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

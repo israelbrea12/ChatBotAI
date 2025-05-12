@@ -1,5 +1,13 @@
-GoogleService-Info.plist
+# Archivos de configuración específicos del entorno o sensibles
 ChatBotAI/GoogleService-Info.plist
-GoogleService-Info.plist
 ChatBotAI/GenerativeAI-Info.plist
-GenerativeAI-Info.plist
+
+# Otros archivos comunes de Xcode/macOS que se suelen ignorar (recomendado)
+*.DS_Store
+UserInterfaceState.xcuserstate
+xcuserdata/
+DerivedData/
+Build/
+*.xcodeproj/project.xcworkspace
+*.xcodeproj/xcuserdata
+*.xcworkspace/xcuserdata
