@@ -25,6 +25,9 @@
 		40810FAC2D8398D8000DEBC3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAB2D8398D8000DEBC3 /* FirebaseAuth */; };
 		40810FAE2D8398D8000DEBC3 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 40810FAD2D8398D8000DEBC3 /* FirebaseFirestore */; };
 		408685112DD284D900D5832D /* ObserveChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685102DD284D900D5832D /* ObserveChatsUseCase.swift */; };
+		408685142DD2A64A00D5832D /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 408685132DD2A64A00D5832D /* GoogleGenerativeAI */; };
+		408685162DD2A79500D5832D /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685152DD2A78D00D5832D /* APIKey.swift */; };
+		408685182DD2A8B500D5832D /* GenerativeAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 408685172DD2A89F00D5832D /* GenerativeAI-Info.plist */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -130,6 +133,8 @@
 		4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewModel.swift; sourceTree = "<group>"; };
 		407F36A02DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveMessagesUseCase.swift; sourceTree = "<group>"; };
 		408685102DD284D900D5832D /* ObserveChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveChatsUseCase.swift; sourceTree = "<group>"; };
+		408685152DD2A78D00D5832D /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		408685172DD2A89F00D5832D /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -232,6 +237,7 @@
 				40F35FCF2D99DFBF0078BE23 /* GoogleSignInSwift in Frameworks */,
 				4057DB872D8B5D1500D2E2B0 /* FirebaseStorage in Frameworks */,
 				40810FAE2D8398D8000DEBC3 /* FirebaseFirestore in Frameworks */,
+				408685142DD2A64A00D5832D /* GoogleGenerativeAI in Frameworks */,
 				4053F7C32D85CFB50082785E /* Swinject in Frameworks */,
 				40F35FCD2D99DFBF0078BE23 /* GoogleSignIn in Frameworks */,
 			);
@@ -506,6 +512,8 @@
 		40D384F12D843A7700406AC1 /* ChatBotAI */ = {
 			isa = PBXGroup;
 			children = (
+				408685172DD2A89F00D5832D /* GenerativeAI-Info.plist */,
+				408685152DD2A78D00D5832D /* APIKey.swift */,
 				40F35FD22D99E1C80078BE23 /* Info.plist */,
 				4053F7C82D8762270082785E /* Utils */,
 				40D384CC2D843A7700406AC1 /* DI */,
@@ -775,6 +783,7 @@
 				402CB7F22D94573F008EAEF0 /* FirebaseDatabase */,
 				40F35FCC2D99DFBF0078BE23 /* GoogleSignIn */,
 				40F35FCE2D99DFBF0078BE23 /* GoogleSignInSwift */,
+				408685132DD2A64A00D5832D /* GoogleGenerativeAI */,
 			);
 			productName = ChatBotAI;
 			productReference = 40956E1A2D805F8C00307A53 /* ChatBotAI.app */;
@@ -863,6 +872,7 @@
 				4053F7C12D85CFB50082785E /* XCRemoteSwiftPackageReference "Swinject" */,
 				4057DBFB2D8C9D4200D2E2B0 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				40F35FCB2D99DFBF0078BE23 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				408685122DD2A64A00D5832D /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 40956E1B2D805F8C00307A53 /* Products */;
@@ -883,6 +893,7 @@
 			files = (
 				40D385042D843A7700406AC1 /* Preview Assets.xcassets in Resources */,
 				40D385052D843A7700406AC1 /* Assets.xcassets in Resources */,
+				408685182DD2A8B500D5832D /* GenerativeAI-Info.plist in Resources */,
 				40F3602C2D9EA61A0078BE23 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -969,6 +980,7 @@
 				40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */,
 				40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */,
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
+				408685162DD2A79500D5832D /* APIKey.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
 				40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */,
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
@@ -1340,6 +1352,14 @@
 				minimumVersion = 11.9.0;
 			};
 		};
+		408685122DD2A64A00D5832D /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google-gemini/deprecated-generative-ai-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.6;
+			};
+		};
 		40F35FCB2D99DFBF0078BE23 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -1380,6 +1400,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 40810FAA2D8398D8000DEBC3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		408685132DD2A64A00D5832D /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 408685122DD2A64A00D5832D /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
 		};
 		40F35FCC2D99DFBF0078BE23 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;

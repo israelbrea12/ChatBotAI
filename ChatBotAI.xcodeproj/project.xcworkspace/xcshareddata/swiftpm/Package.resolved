@@ -1,5 +1,5 @@
 {
-  "originHash" : "3be5de29f8ec545047f3835b71153156c7bb49f1303444f3a7dffdafbf6658c1",
+  "originHash" : "93502495df07c8123a9b2bdae2397b3d870c1e6e9e030cc03b6d5d55ab327cca",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -26,6 +26,15 @@
       "state" : {
         "revision" : "2781038865a80e2c425a1da12cc1327bcd56501f",
         "version" : "1.7.6"
+      }
+    },
+    {
+      "identity" : "deprecated-generative-ai-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/google-gemini/deprecated-generative-ai-swift.git",
+      "state" : {
+        "revision" : "44b8ce120425f9cf53ca756f3434ca2c2696f8bd",
+        "version" : "0.5.6"
       }
     },
     {
