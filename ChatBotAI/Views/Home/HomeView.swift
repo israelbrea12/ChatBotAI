@@ -60,6 +60,14 @@ struct HomeView: View {
                 }
             }
         }
+        .onAppear {
+                    print("HomeView: .onAppear - llamando a homeViewModel.setupViewModel()")
+                    homeViewModel.setupViewModel()
+                }
+        .onDisappear {
+                    print("HomeView: .onDisappear - llamando a homeViewModel.stopAllListeners()")
+                    homeViewModel.stopAllListeners()
+                }
     }
     
     private func successView() -> some View {

@@ -18,22 +18,22 @@ class SettingsViewModel: ObservableObject {
     private let deleteAccountUseCase: DeleteAccountUseCase
     private let signOutUseCase: SignOutUseCase
     private let fetchUserUseCase: FetchUserUseCase
-    private let stopObservingChatsUseCase: StopObservingChatsUseCase
-    private let stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
+//    private let stopObservingChatsUseCase: StopObservingChatsUseCase
+//    private let stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
     
     init(signOutUseCase: SignOutUseCase,
          fetchUserUseCase: FetchUserUseCase,
          deleteAccountUseCase: DeleteAccountUseCase,
-         stopObservingChatsUseCase: StopObservingChatsUseCase,
-         stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
+//         stopObservingChatsUseCase: StopObservingChatsUseCase,
+//         stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
     ) {
         self.signOutUseCase = signOutUseCase
         self.fetchUserUseCase = fetchUserUseCase
         self.deleteAccountUseCase = deleteAccountUseCase
-        self.stopObservingChatsUseCase = stopObservingChatsUseCase
-        self.stopObservingUpdatedChatsUseCase = stopObservingUpdatedChatsUseCase
+//        self.stopObservingChatsUseCase = stopObservingChatsUseCase
+//        self.stopObservingUpdatedChatsUseCase = stopObservingUpdatedChatsUseCase
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -54,8 +54,8 @@ class SettingsViewModel: ObservableObject {
             let result = signOutUseCase.execute(with: ())
             switch result {
             case .success:
-                _ = await stopObservingChatsUseCase.execute(with: ())
-                _ = await stopObservingUpdatedChatsUseCase.execute(with: ())
+//                _ = await stopObservingChatsUseCase.execute(with: ())
+//                _ = await stopObservingUpdatedChatsUseCase.execute(with: ())
                 
                 DispatchQueue.main.async {
                     SessionManager.shared.userSession = nil

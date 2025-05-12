@@ -36,34 +36,16 @@ class ChatRepositoryImpl: ChatRepository {
         }
     }
     
-    func observeNewChats(onNewChat: @escaping (Chat) -> Void) {
-        chatDataSource.observeNewChats { chatModel in
-            onNewChat(chatModel.toDomain())
+    func observeAllChatEvents(userId: String, onChatEvent: @escaping (Chat) -> Void) {
+            chatDataSource.observeAllChatActivity(userId: userId) { chatModel in
+                onChatEvent(chatModel.toDomain())
+            }
         }
-    }
-    
-    func stopObservingNewChats() async -> Result<Void, AppError> {
-        do {
-            await chatDataSource.stopObservingNewChats()
-            return .success(())
-        } 
-    }
-    func observeUpdatedChats(onUpdatedChat: @escaping (Chat) -> Void) {
-        chatDataSource.observeUpdatedChats { chatModel in
-            onUpdatedChat(chatModel.toDomain())
+        
+        func stopObservingAllChatEvents(userId: String) {
+            // El dataSource debe ser async si sus operaciones de stop lo son
+            Task { // Si chatDataSource.stopObservingAllChatActivity es async
+                 await chatDataSource.stopObservingAllChatActivity(userId: userId)
+            }
         }
-    }
-    
-    func stopObservingUpdatedChats() async -> Result<Void, AppError> {
-        do {
-            await chatDataSource.stopObservingUpdatedChats()
-            return .success(())
-        }
-    }
-    
-    func observeUpdatedChat(chatId: String, onUpdatedChat: @escaping (Chat) -> Void) {
-        chatDataSource.observeUpdatedChat(chatId: chatId) { chatModel in
-            onUpdatedChat(chatModel.toDomain())
-        }
-    }
 }

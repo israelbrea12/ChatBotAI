@@ -10,9 +10,6 @@ import Foundation
 protocol ChatRepository {
     func createChat(userId: String) async -> Result<Chat, AppError>
     func fetchUserChats() async -> Result<[Chat], AppError>
-    func observeNewChats(onNewChat: @escaping (Chat) -> Void)
-    func stopObservingNewChats() async -> Result<Void, AppError>
-    func observeUpdatedChats(onUpdatedChat: @escaping (Chat) -> Void)
-    func stopObservingUpdatedChats() async -> Result<Void, AppError>
-    func observeUpdatedChat(chatId: String, onUpdatedChat: @escaping (Chat) -> Void)
+    func observeAllChatEvents(userId: String, onChatEvent: @escaping (Chat) -> Void)
+    func stopObservingAllChatEvents(userId: String)
 }

@@ -174,33 +174,9 @@ extension Resolver {
             )
         }.inObjectScope(.container)
         
-        container.register(ObserveNewChatsUseCase.self) { resolver in
-            ObserveNewChatsUseCase(
-                chatRepository: resolver.resolve(ChatRepository.self)!
-            )
-        }.inObjectScope(.container)
-        
-        container.register(StopObservingChatsUseCase.self) { resolver in
-            StopObservingChatsUseCase(
-                chatRepository: resolver.resolve(ChatRepository.self)!
-            )
-        }.inObjectScope(.container)
-        
         container.register(SendMessageUseCase.self) { resolver in
             SendMessageUseCase(
                 messageRepository: resolver.resolve(MessageRepository.self)!
-            )
-        }.inObjectScope(.container)
-        
-        container.register(ObserveUpdatedChatsUseCase.self) { resolver in
-            ObserveUpdatedChatsUseCase(
-                chatRepository: resolver.resolve(ChatRepository.self)!
-            )
-        }.inObjectScope(.container)
-        
-        container.register(StopObservingUpdatedChatsUseCase.self) { resolver in
-            StopObservingUpdatedChatsUseCase(
-                chatRepository: resolver.resolve(ChatRepository.self)!
             )
         }.inObjectScope(.container)
         
@@ -210,17 +186,18 @@ extension Resolver {
             )
         }.inObjectScope(.container)
         
-        container.register(ObserveUpdatedChatUseCase.self) { resolver in
-            ObserveUpdatedChatUseCase(
-                chatRepository: resolver.resolve(ChatRepository.self)!
-            )
-        }.inObjectScope(.container)
-        
         container.register(ObserveMessagesUseCase.self) { resolver in
             ObserveMessagesUseCase(
                 messageRepository: resolver.resolve(MessageRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(ObserveUserChatsUseCase.self) { resolver in
+            ObserveUserChatsUseCase(
+                chatRepository: resolver.resolve(ChatRepository.self)!
+            )
+        }.inObjectScope(.container)
+
     }
 
 }
@@ -237,9 +214,7 @@ extension Resolver {
                 signOutUseCase: resolver.resolve(SignOutUseCase.self)!,
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
                 deleteAccountUseCase: resolver
-                    .resolve(DeleteAccountUseCase.self)!,
-                stopObservingChatsUseCase: resolver.resolve(StopObservingChatsUseCase.self)!,
-                stopObservingUpdatedChatsUseCase: resolver.resolve(StopObservingUpdatedChatsUseCase.self)!
+                    .resolve(DeleteAccountUseCase.self)!
             )
         }.inObjectScope(.container)
         
@@ -264,9 +239,7 @@ extension Resolver {
                 createChatUseCase: resolver.resolve(CreateChatUseCase.self)!,
                 fetchUserChatsUseCase: resolver.resolve(FetchUserChatsUseCase.self)!,
                 fetchUserByIdUseCase: resolver.resolve(FetchUserByIdUseCase.self)!,
-                observeNewChatsUseCase: resolver.resolve(ObserveNewChatsUseCase.self)!,
-                observeUpdatedChatsUseCase: resolver.resolve(ObserveUpdatedChatsUseCase.self)!,
-                observeUpdatedChatUseCase: resolver.resolve(ObserveUpdatedChatUseCase.self)!
+                observeUserChatsUseCase: resolver.resolve(ObserveUserChatsUseCase.self)!
                 
             )
         }.inObjectScope(.container)
