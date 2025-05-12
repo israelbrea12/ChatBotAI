@@ -17,7 +17,7 @@ struct ChatBotIAView: View {
     let model = GenerativeModel(name: "gemini-1.5-flash", apiKey: APIKey.default)
 
     var body: some View {
-        VStack(spacing: 0) { // Espacio entre elementos a 0 para que parezcan más unidos
+        VStack(spacing: 0) {
             if !hasStartedChatting {
                 Text("¿En qué puedo ayudarte?")
                     .font(.title2)
