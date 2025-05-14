@@ -176,7 +176,7 @@
 		40D385312D84ED3800406AC1 /* SignUpParam.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpParam.swift; sourceTree = "<group>"; };
 		40D385382D85C68200406AC1 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllUsersExceptCurrentUseCase.swift; sourceTree = "<group>"; };
-		40F35FD22D99E1C80078BE23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		40F35FD22D99E1C80078BE23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleUseCase.swift; sourceTree = "<group>"; };
 		40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
 		40F35FF92D9DB5840078BE23 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
@@ -290,8 +290,8 @@
 			isa = PBXGroup;
 			children = (
 				402CB8022D94B591008EAEF0 /* ChatLogBottomBar.swift */,
-				402CB8052D94B748008EAEF0 /* MessagesView.swift */,
 				40F360D62DA52E7E0078BE23 /* MessageBubbleView.swift */,
+				402CB8052D94B748008EAEF0 /* MessagesView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -493,7 +493,7 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		40D384EB2D843A7700406AC1 /* Views */ = {
+		40D384EB2D843A7700406AC1 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				40D384E92D843A7700406AC1 /* MainView.swift */,
@@ -506,27 +506,27 @@
 				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
 				40D384E82D843A7700406AC1 /* Utils */,
 			);
-			path = Views;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		40D384F12D843A7700406AC1 /* ChatBotAI */ = {
 			isa = PBXGroup;
 			children = (
-				4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */,
-				408685202DD2B9B900D5832D /* GoogleService-Info.plist */,
 				408685152DD2A78D00D5832D /* APIKey.swift */,
-				40F35FD22D99E1C80078BE23 /* Info.plist */,
 				4053F7C82D8762270082785E /* Utils */,
 				40D384CC2D843A7700406AC1 /* DI */,
 				40D384CB2D843A7700406AC1 /* Data */,
 				40D384D02D843A7700406AC1 /* Domain */,
-				40D384EB2D843A7700406AC1 /* Views */,
+				40D384EB2D843A7700406AC1 /* Presentation */,
 				40D384EE2D843A7700406AC1 /* ChatBotAIApp.swift */,
 				40D384EC2D843A7700406AC1 /* AppDelegate.swift */,
 				40D384EF2D843A7700406AC1 /* ContentView.swift */,
 				40D384ED2D843A7700406AC1 /* Assets.xcassets */,
 				40D384D22D843A7700406AC1 /* Preview Content */,
 				40F360152D9DD4BF0078BE23 /* ChatBotAI.entitlements */,
+				4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */,
+				408685202DD2B9B900D5832D /* GoogleService-Info.plist */,
+				40F35FD22D99E1C80078BE23 /* Info.plist */,
 			);
 			path = ChatBotAI;
 			sourceTree = "<group>";

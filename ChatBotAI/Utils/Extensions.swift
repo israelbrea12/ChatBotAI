@@ -45,7 +45,7 @@ extension Date {
 
             let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .year], from: self, to: now)
             
-            formatter.dateFormat = "h:mm a" // Ejemplo: 10:30 AM
+            formatter.dateFormat = "h:mm a"
             if calendar.isDateInToday(self) {
                 return formatter.string(from: self)
             }
@@ -63,6 +63,13 @@ extension Date {
             return formatter.string(from: self)
         }
     
+    func BublesFormattedTime() -> String {
+        let formatter = DateFormatter()
+        
+        formatter.dateFormat = "HH:mm" // 🔁 Cambiado aquí
+            return formatter.string(from: self)
+    }
+    
     func whatsappFormattedTimeAgoWithoutAMOrPM() -> String {
         let now = Date()
         let calendar = Calendar.current
@@ -70,9 +77,9 @@ extension Date {
 
         let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .year], from: self, to: now)
         
-        formatter.dateFormat = "HH:mm" // 🔁 Cambiado aquí
+        formatter.dateFormat = "HH:mm"
         if calendar.isDateInToday(self) {
-            return formatter.string(from: self)
+            return "Hoy"
         }
         
         if calendar.isDateInYesterday(self) {
@@ -80,7 +87,7 @@ extension Date {
         }
         
         if let days = components.day, days < 7 {
-            formatter.dateFormat = "EEEE" // Ejemplo: Lunes, Martes
+            formatter.dateFormat = "EEEE"
             return formatter.string(from: self)
         }
 

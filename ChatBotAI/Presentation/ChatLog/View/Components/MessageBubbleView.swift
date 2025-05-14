@@ -25,7 +25,7 @@ struct MessageBubbleView: View {
                     .fixedSize(horizontal: false, vertical: true)
 
                 if let sentAt = message.sentAt {
-                    Text(Date(timeIntervalSince1970: sentAt).whatsappFormattedTimeAgoWithoutAMOrPM())
+                    Text(Date(timeIntervalSince1970: sentAt).BublesFormattedTime())
                         .font(.caption2)
                         .foregroundColor(isCurrentUser ? .white.opacity(0.8) : .gray)
                         .padding([.bottom, .trailing], 6)
