@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SendMessageToChatbotUseCaseParams {
+struct SendMessageToChatBotParams {
     let prompt: String
     let apiKey: String
 }

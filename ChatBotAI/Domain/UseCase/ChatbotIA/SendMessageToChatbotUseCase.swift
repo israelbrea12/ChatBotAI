@@ -10,18 +10,18 @@
 import Foundation
 
 // Protocolo (buena práctica, aunque solo tengas una implementación)
-protocol SendMessageUseCaseProtocol {
-    func execute(with params: SendMessageToChatbotUseCaseParams) async -> Result<String, Error>
+protocol SendMessageToChatBotUseCaseProtocol {
+    func execute(with params: SendMessageToChatBotParams) async -> Result<String, Error>
 }
 
-class SendMessageToChatbotUseCase: SendMessageUseCaseProtocol {
+class SendMessageToChatBotUseCase: SendMessageToChatBotUseCaseProtocol {
     private let chatBotRepository: ChatBotRepository
 
     init(chatBotRepository: ChatBotRepository) {
         self.chatBotRepository = chatBotRepository
     }
 
-    func execute(with params: SendMessageToChatbotUseCaseParams) async -> Result<String, Error> {
+    func execute(with params: SendMessageToChatBotParams) async -> Result<String, Error> {
         // Aquí podrías añadir lógica adicional si fuera necesario antes o después de llamar al repositorio
         return await chatBotRepository.sendMessageToChatBot(prompt: params.prompt, apiKey: params.apiKey)
     }

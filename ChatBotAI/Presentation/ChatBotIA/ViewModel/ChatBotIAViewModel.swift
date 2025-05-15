@@ -20,11 +20,11 @@ final class ChatBotIAViewModel: ObservableObject {
     @Published var isGenerating: Bool = false
     @Published var hasStartedChatting: Bool = false
 
-    private let sendMessageToChatbotUseCase: SendMessageToChatbotUseCase
+    private let sendMessageToChatBotUseCase: SendMessageToChatBotUseCase
     private let apiKey: String = APIKey.default // Asegúrate que APIKey.default sea accesible y seguro
 
-    init(sendMessageToChatbotUseCase: SendMessageToChatbotUseCase) {
-        self.sendMessageToChatbotUseCase = sendMessageToChatbotUseCase
+    init(sendMessageToChatBotUseCase: SendMessageToChatBotUseCase) {
+        self.sendMessageToChatBotUseCase = sendMessageToChatBotUseCase
         // Considera añadir un mensaje de bienvenida si es necesario.
         // addInitialBotMessage(text: "Hola, ¿cómo puedo ayudarte hoy?")
     }
