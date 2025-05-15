@@ -5,121 +5,62 @@
 //  Created by Israel Brea Piñero on 12/3/25.
 //
 
+// Presentation/ChatBotIA/View/ChatBotIAView.swift
 import SwiftUI
-import GoogleGenerativeAI
 
 struct ChatBotIAView: View {
-    @State private var prompt: String = ""
-    @State private var messages: [ChatbotMessage] = []
-    @State private var isGenerating: Bool = false
-    @State private var hasStartedChatting: Bool = false // Nueva variable de estado
-
-    let model = GenerativeModel(name: "gemini-1.5-flash", apiKey: APIKey.default)
+    
+    @StateObject var chatBotIAViewModel = Resolver.shared.resolve(ChatBotIAViewModel.self)
 
     var body: some View {
         VStack(spacing: 0) {
-            if !hasStartedChatting {
+            if !chatBotIAViewModel.hasStartedChatting && chatBotIAViewModel.messages.isEmpty {
                 Text("¿En qué puedo ayudarte?")
                     .font(.title2)
+                    .foregroundColor(.secondary)
                     .padding(.top)
             }
 
             ScrollView {
                 ScrollViewReader { scrollViewProxy in
-                    VStack {
-                        ForEach(messages) { message in
-                            if message.isUser {
-                                HStack {
-                                    Spacer()
-                                    Text(message.text)
-                                        .padding()
-                                        .background(Color(.systemGray5))
-                                        .foregroundColor(.primary)
-                                        .cornerRadius(10)
-                                }
-                                .padding(.horizontal)
-                                .padding(.vertical, 4)
-                            } else {
-                                HStack(alignment: .top) {
-                                    Image(systemName: "brain.head.profile") // Un icono para la IA
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                        .padding(.trailing, 4)
-                                        .padding(.top, 8)
-                                    Text(message.text)
-                                        .padding()
-                                        .background(Color(.systemBlue).opacity(0.2))
-                                        .foregroundColor(.primary)
-                                        .cornerRadius(10)
-                                    Spacer()
-                                }
-                                .padding(.horizontal)
-                                .padding(.vertical, 4)
+                    VStack(spacing: 8) { // Añadido spacing para los mensajes
+                        ForEach(chatBotIAViewModel.messages) { message in
+                            MessageRow(message: message)
+                                .id(message.id) // Asegúrate que el ID es usado por el ScrollViewReader
+                        }
+                    }
+                    .padding(.horizontal) // Padding horizontal para el contenido del ScrollView
+                    .padding(.top, 10) // Espacio arriba de los mensajes
+                    .onChange(of: chatBotIAViewModel.messages) { oldValue, newValue in
+                        // Usar el último mensaje de la nueva lista
+                        if let lastMessageId = newValue.last?.id {
+                            withAnimation { // Animación suave para el scroll
+                                scrollViewProxy.scrollTo(lastMessageId, anchor: .bottom)
                             }
                         }
                     }
-                    .onChange(of: messages) {
-                        // Desplazar al último mensaje cuando la lista de mensajes cambia
-                        if let lastMessageId = messages.last?.id {
-                            scrollViewProxy.scrollTo(lastMessageId, anchor: .bottom)
-                        }
-                    }
                 }
             }
-            .frame(maxHeight: .infinity) // El ScrollView ocupa todo el espacio vertical disponible
+            .frame(maxWidth: .infinity, maxHeight: .infinity) // Ocupa el espacio disponible
 
-            HStack {
-                TextField("Escribe tu mensaje...", text: $prompt)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-
-                Button {
-                    Task {
-                        await sendMessage(currentPrompt: prompt)
-                    }
-                } label: {
-                    if isGenerating {
-                        ProgressView()
-                    } else {
-                        Text("Enviar")
-                    }
-                }
-                .disabled(isGenerating || prompt.isEmpty)
+            // Muestra errores de forma no intrusiva si es necesario
+            if case .error(let errorMessage) = chatBotIAViewModel.viewState {
+                Text(errorMessage)
+                    .foregroundColor(.red)
+                    .padding(.horizontal)
+                    .padding(.vertical, 5)
+                    .font(.caption)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.red.opacity(0.1))
             }
-            .padding(.horizontal)
-            .padding(.bottom)
-            .background(Color(.systemBackground).ignoresSafeArea(edges: .bottom)) // Añadir un fondo al área de entrada
+            
+            MessageInputView(
+                prompt: $chatBotIAViewModel.prompt,
+                isGenerating: chatBotIAViewModel.isGenerating,
+                sendMessageAction: chatBotIAViewModel.sendMessage
+            )
         }
+        // .navigationTitle("ChatBot AI") // Si está dentro de un NavigationStack
+        // .navigationBarTitleDisplayMode(.inline)
     }
-
-    func sendMessage(currentPrompt: String) async {
-        guard !currentPrompt.isEmpty else { return }
-
-        let userMessage = ChatbotMessage(text: currentPrompt, isUser: true)
-        messages.append(userMessage)
-        prompt = ""
-        hasStartedChatting = true // Marcamos que el chat ha comenzado
-
-        isGenerating = true
-        do {
-            let result = try await model.generateContent(currentPrompt)
-            if let text = result.text {
-                let aiMessage = ChatbotMessage(text: text, isUser: false)
-                messages.append(aiMessage)
-            }
-        } catch {
-            let errorMessage = ChatbotMessage(text: "Error al obtener la respuesta: \(error.localizedDescription)", isUser: false)
-            messages.append(errorMessage)
-        }
-        isGenerating = false
-    }
-}
-
-struct ChatbotMessage: Identifiable, Equatable {
-    let id = UUID()
-    let text: String
-    let isUser: Bool
-}
-
-#Preview {
-    ChatBotIAView()
 }

@@ -29,6 +29,16 @@
 		408685162DD2A79500D5832D /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685152DD2A78D00D5832D /* APIKey.swift */; };
 		408685212DD2B9B900D5832D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 408685202DD2B9B900D5832D /* GoogleService-Info.plist */; };
 		408685222DD2B9B900D5832D /* GenerativeAI-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */; };
+		4086852E2DD6215200D5832D /* ChatbotMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086852D2DD6215200D5832D /* ChatbotMessage.swift */; };
+		408685312DD6257A00D5832D /* SendMessageToChatbotUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685302DD6257A00D5832D /* SendMessageToChatbotUseCase.swift */; };
+		408685332DD6263400D5832D /* SendMessageToChatbotUseCaseParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685322DD6263400D5832D /* SendMessageToChatbotUseCaseParams.swift */; };
+		408685352DD6265700D5832D /* ChatBotRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685342DD6265700D5832D /* ChatBotRepository.swift */; };
+		408685372DD6267D00D5832D /* ChatBotRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685362DD6267D00D5832D /* ChatBotRepositoryImpl.swift */; };
+		408685392DD6269C00D5832D /* ChatBotDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685382DD6269C00D5832D /* ChatBotDataSource.swift */; };
+		4086853C2DD62BD200D5832D /* MessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853B2DD62BD200D5832D /* MessageRow.swift */; };
+		4086853E2DD62C5400D5832D /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853D2DD62C5400D5832D /* MessageBubble.swift */; };
+		408685402DD62C6200D5832D /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853F2DD62C6200D5832D /* MessageInputView.swift */; };
+		408685422DD62CA500D5832D /* DataConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685412DD62CA500D5832D /* DataConstants.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -136,6 +146,16 @@
 		408685152DD2A78D00D5832D /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
 		408685202DD2B9B900D5832D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4086852D2DD6215200D5832D /* ChatbotMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatbotMessage.swift; sourceTree = "<group>"; };
+		408685302DD6257A00D5832D /* SendMessageToChatbotUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageToChatbotUseCase.swift; sourceTree = "<group>"; };
+		408685322DD6263400D5832D /* SendMessageToChatbotUseCaseParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageToChatbotUseCaseParams.swift; sourceTree = "<group>"; };
+		408685342DD6265700D5832D /* ChatBotRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotRepository.swift; sourceTree = "<group>"; };
+		408685362DD6267D00D5832D /* ChatBotRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotRepositoryImpl.swift; sourceTree = "<group>"; };
+		408685382DD6269C00D5832D /* ChatBotDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotDataSource.swift; sourceTree = "<group>"; };
+		4086853B2DD62BD200D5832D /* MessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRow.swift; sourceTree = "<group>"; };
+		4086853D2DD62C5400D5832D /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
+		4086853F2DD62C6200D5832D /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
+		408685412DD62CA500D5832D /* DataConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConstants.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -325,6 +345,33 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		4086852C2DD6214400D5832D /* ChatbotMessage */ = {
+			isa = PBXGroup;
+			children = (
+				4086852D2DD6215200D5832D /* ChatbotMessage.swift */,
+				408685322DD6263400D5832D /* SendMessageToChatbotUseCaseParams.swift */,
+			);
+			path = ChatbotMessage;
+			sourceTree = "<group>";
+		};
+		4086852F2DD6254B00D5832D /* ChatbotIA */ = {
+			isa = PBXGroup;
+			children = (
+				408685302DD6257A00D5832D /* SendMessageToChatbotUseCase.swift */,
+			);
+			path = ChatbotIA;
+			sourceTree = "<group>";
+		};
+		4086853A2DD62BC400D5832D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				4086853F2DD62C6200D5832D /* MessageInputView.swift */,
+				4086853D2DD62C5400D5832D /* MessageBubble.swift */,
+				4086853B2DD62BD200D5832D /* MessageRow.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		40956E112D805F8C00307A53 = {
 			isa = PBXGroup;
 			children = (
@@ -348,6 +395,7 @@
 		40D384CB2D843A7700406AC1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				408685412DD62CA500D5832D /* DataConstants.swift */,
 				40D385282D84E9AF00406AC1 /* Network */,
 				40D385162D84E0B500406AC1 /* Mappers */,
 				40D385172D84E0BC00406AC1 /* Model */,
@@ -377,6 +425,7 @@
 		40D384CF2D843A7700406AC1 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				4086852C2DD6214400D5832D /* ChatbotMessage */,
 				40D385132D84E00700406AC1 /* Auth */,
 				40D384CE2D843A7700406AC1 /* Users */,
 				40F3602F2D9F01380078BE23 /* Chats */,
@@ -441,6 +490,7 @@
 		40D384DC2D843A7700406AC1 /* ChatBotIA */ = {
 			isa = PBXGroup;
 			children = (
+				4086853A2DD62BC400D5832D /* Components */,
 				40D384DB2D843A7700406AC1 /* ChatBotIAView.swift */,
 				40D384DA2D843A7700406AC1 /* ViewModel */,
 			);
@@ -538,6 +588,7 @@
 				40F360042D9DC33C0078BE23 /* UserRepository.swift */,
 				40F3603C2D9F07B00078BE23 /* ChatRepository.swift */,
 				40F360C32DA47D590078BE23 /* MessageRepository.swift */,
+				408685342DD6265700D5832D /* ChatBotRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -550,6 +601,7 @@
 				40F35FFC2D9DBA8B0078BE23 /* User */,
 				40F360372D9F04180078BE23 /* Chat */,
 				40F360C02DA47C440078BE23 /* Message */,
+				4086852F2DD6254B00D5832D /* ChatbotIA */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -606,6 +658,7 @@
 				40F360082D9DC3A80078BE23 /* UserDataSource.swift */,
 				40F360402D9F09A80078BE23 /* ChatDataSource.swift */,
 				40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */,
+				408685382DD6269C00D5832D /* ChatBotDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -617,6 +670,7 @@
 				40F360062D9DC3580078BE23 /* UserRepositoryImpl.swift */,
 				40F3603E2D9F08590078BE23 /* ChatRepositoryImpl.swift */,
 				40F360C52DA47DFC0078BE23 /* MessageRepositoryImpl.swift */,
+				408685362DD6267D00D5832D /* ChatBotRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -935,15 +989,21 @@
 				4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */,
 				40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */,
 				40F360362D9F02180078BE23 /* ChatMapper.swift in Sources */,
+				408685392DD6269C00D5832D /* ChatBotDataSource.swift in Sources */,
+				408685312DD6257A00D5832D /* SendMessageToChatbotUseCase.swift in Sources */,
 				40F360092D9DC3A80078BE23 /* UserDataSource.swift in Sources */,
 				4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */,
 				40D384F52D843A7700406AC1 /* LoginViewModel.swift in Sources */,
+				4086852E2DD6215200D5832D /* ChatbotMessage.swift in Sources */,
 				40F3600D2D9DCC870078BE23 /* SignInWithAppleUseCase.swift in Sources */,
 				40F35FFA2D9DB5840078BE23 /* RegistrationViewModel.swift in Sources */,
 				40D385152D84E02000406AC1 /* SignInParam.swift in Sources */,
 				40D385272D84E76200406AC1 /* AuthRepositoryImpl.swift in Sources */,
+				408685352DD6265700D5832D /* ChatBotRepository.swift in Sources */,
 				4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */,
+				408685372DD6267D00D5832D /* ChatBotRepositoryImpl.swift in Sources */,
 				40D384F62D843A7700406AC1 /* ChatBotIAViewModel.swift in Sources */,
+				4086853E2DD62C5400D5832D /* MessageBubble.swift in Sources */,
 				402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */,
 				40F360C22DA47C660078BE23 /* SendMessageUseCase.swift in Sources */,
 				40D385202D84E37500406AC1 /* UserModel.swift in Sources */,
@@ -959,16 +1019,19 @@
 				40F360072D9DC3580078BE23 /* UserRepositoryImpl.swift in Sources */,
 				40D385232D84E51A00406AC1 /* SignInRequest.swift in Sources */,
 				40F3602E2D9EC20F0078BE23 /* GoogleAuthService.swift in Sources */,
+				408685332DD6263400D5832D /* SendMessageToChatbotUseCaseParams.swift in Sources */,
 				407F36A12DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift in Sources */,
 				40F360412D9F09A80078BE23 /* ChatDataSource.swift in Sources */,
 				40D384FB2D843A7700406AC1 /* SettingsView.swift in Sources */,
 				40D384FC2D843A7700406AC1 /* InfoView.swift in Sources */,
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
+				408685422DD62CA500D5832D /* DataConstants.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
 				40F360D72DA52E7E0078BE23 /* MessageBubbleView.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
+				4086853C2DD62BD200D5832D /* MessageRow.swift in Sources */,
 				40F360D52DA52D200078BE23 /* fetchMessagesUseCase.swift in Sources */,
 				40F360C62DA47DFC0078BE23 /* MessageRepositoryImpl.swift in Sources */,
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
@@ -982,6 +1045,7 @@
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
 				408685162DD2A79500D5832D /* APIKey.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
+				408685402DD62C6200D5832D /* MessageInputView.swift in Sources */,
 				40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */,
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
 				40F360C82DA47EE60078BE23 /* MessageMapper.swift in Sources */,

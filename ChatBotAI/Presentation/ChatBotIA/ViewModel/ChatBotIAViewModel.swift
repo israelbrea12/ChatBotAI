@@ -6,3 +6,60 @@
 //
 
 import Foundation
+import Combine
+import SwiftUI // Para @MainActor
+
+@MainActor
+final class ChatBotIAViewModel: ObservableObject {
+
+    @Published var prompt: String = ""
+    @Published var messages: [ChatbotMessage] = []
+    @Published var viewState: ViewState = .initial
+    // 'isGenerating' y 'hasStartedChatting' pueden derivarse o integrarse en 'viewState'
+    // Por simplicidad y para mantenerlo similar a tu código original, los mantenemos separados por ahora.
+    @Published var isGenerating: Bool = false
+    @Published var hasStartedChatting: Bool = false
+
+    private let sendMessageToChatbotUseCase: SendMessageToChatbotUseCase
+    private let apiKey: String = APIKey.default // Asegúrate que APIKey.default sea accesible y seguro
+
+    init(sendMessageToChatbotUseCase: SendMessageToChatbotUseCase) {
+        self.sendMessageToChatbotUseCase = sendMessageToChatbotUseCase
+        // Considera añadir un mensaje de bienvenida si es necesario.
+        // addInitialBotMessage(text: "Hola, ¿cómo puedo ayudarte hoy?")
+    }
+
+    private func addMessage(_ message: ChatbotMessage) {
+        messages.append(message)
+        if !hasStartedChatting {
+            hasStartedChatting = true
+        }
+    }
+
+    func sendMessage() {
+        let currentPrompt = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !currentPrompt.isEmpty else { return }
+
+        addMessage(ChatbotMessage(text: currentPrompt, isUser: true))
+        self.prompt = "" // Limpiar el campo de texto
+
+        self.isGenerating = true
+        self.viewState = .loading
+
+        Task {
+            let params = SendMessageToChatbotUseCaseParams(prompt: currentPrompt, apiKey: self.apiKey)
+            let result = await sendMessageToChatbotUseCase.execute(with: params)
+
+            self.isGenerating = false
+            switch result {
+            case .success(let aiResponseText):
+                self.addMessage(ChatbotMessage(text: aiResponseText, isUser: false))
+                self.viewState = .success
+            case .failure(let error):
+                let errorMessage = "Error: \(error.localizedDescription)"
+                self.addMessage(ChatbotMessage(text: errorMessage, isUser: false))
+                self.viewState = .error(errorMessage)
+            }
+        }
+    }
+}

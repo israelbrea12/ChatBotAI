@@ -64,6 +64,10 @@ extension Resolver {
         container.register(MessageDataSource.self) { resolver in
             MessageDataSourceImpl()
         }.inObjectScope(.container)
+        
+        container.register(ChatBotDataSource.self) { resolver in
+            ChatBotDataSourceImpl()
+        }.inObjectScope(.container)
     }
 }
 
@@ -107,6 +111,11 @@ extension Resolver {
             MessageRepositoryImpl(
                 messageDataSource: resolver.resolve(MessageDataSource.self)!
             )
+        }.inObjectScope(.container)
+        
+        container.register(ChatBotRepository.self){resolver in
+            ChatBotRepositoryImpl(
+                chatBotDataSource: resolver.resolve(ChatBotDataSource.self)!)
         }.inObjectScope(.container)
     }
 }
@@ -197,6 +206,12 @@ extension Resolver {
                 chatRepository: resolver.resolve(ChatRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(SendMessageToChatbotUseCase.self) { resolver in
+            SendMessageToChatbotUseCase(
+                chatBotRepository: resolver.resolve(ChatBotRepository.self)!
+            )
+        }.inObjectScope(.container)
 
     }
 
@@ -257,6 +272,13 @@ extension Resolver {
                 fetchMessagesUseCase: resolver.resolve(FetchMessagesUseCase.self)!,
                 observeMessagesUseCase: resolver.resolve(ObserveMessagesUseCase.self)!
             )
-        }
+        }.inObjectScope(.container)
+        
+        container.register(ChatBotIAViewModel.self) { resolver in
+            ChatBotIAViewModel(
+                sendMessageToChatbotUseCase: resolver
+                    .resolve(SendMessageToChatbotUseCase.self)!
+            )
+        }.inObjectScope(.container)
     }
 }
