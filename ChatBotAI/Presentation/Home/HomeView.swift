@@ -137,16 +137,16 @@ struct HomeView: View {
                                 .foregroundStyle(Color(.gray))
                         }
                     }
-                    .swipeActions {
-                        Action(symbolImage: "trash.fill", tint: .white, background: .red) {
-                            resetPosition in
-                            resetPosition.toggle()
-                        }
-                    }
                 }
                 .foregroundColor(.primary)
                 Divider()
                     .padding(.vertical, 8)
+            }
+            .swipeActions {
+                Action(symbolImage: "trash.fill", tint: .white, background: .red) {
+                    resetPosition in
+                    resetPosition.toggle()
+                }
             }
             .padding(.horizontal)
         }

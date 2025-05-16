@@ -45,35 +45,53 @@ final class HomeViewModel: ObservableObject {
     }
     
     func setupViewModel() {
-           print("HomeViewModel: setupViewModel()")
-           if let firebaseUser = sessionManager.userSession {
-               if currentUser == nil {
-                   Task {
-                       await fetchCurrentUserAndDependents()
-                   }
-               }
-           } else {
-               self.state = .empty
-               print("HomeViewModel: No hay sesión de usuario al momento de setup.")
-           }
+        print("HomeViewModel: setupViewModel()")
+        if let firebaseUser = sessionManager.userSession {
+            if currentUser == nil { // Se ejecuta la primera vez o después de un logout completo
+                print("HomeViewModel: currentUser es nil, iniciando fetchCurrentUserAndDependents.")
+                Task {
+                    await fetchCurrentUserAndDependents() // Esto ya llama a startObservingUserChats
+                }
+            } else {
+                // currentUser ya existe, lo que significa que la vista está reapareciendo
+                // y el usuario es el mismo. Necesitamos reiniciar los listeners.
+                print("HomeViewModel: currentUser ya existe (\(currentUser!.id)). Asegurando que los listeners estén activos.")
+                // Podrías optar por recargar los chats iniciales también si es necesario,
+                // o simplemente reiniciar los listeners.
+                // Si loadInitialChats no es costoso y quieres asegurar consistencia:
+                // Task {
+                //     await self.loadInitialChats() // Opcional, si quieres refrescar la lista base
+                //     self.startObservingUserChats()
+                // }
+                // O si solo quieres reiniciar los listeners:
+                self.startObservingUserChats() // Asegúrate de que esta función pueda ser llamada aunque ya esté "escuchando"
+                                              // o que observeUserChatsUseCase.stop() realmente los haya limpiado.
+            }
+        } else {
+            self.state = .empty
+            print("HomeViewModel: No hay sesión de usuario al momento de setup.")
+            // Considera si cleanupAfterLogout() debería llamarse aquí si no se maneja
+            // completamente por el sink de userSession.
+        }
 
-           sessionManager.$userSession
-               .dropFirst()
-               .receive(on: DispatchQueue.main)
-               .sink { [weak self] firebaseUser in
-                   guard let self = self else { return }
-                   if firebaseUser != nil {
-                       print("HomeViewModel: Sesión de usuario detectada/cambiada. Recargando datos.")
-                       Task {
-                           await self.fetchCurrentUserAndDependents()
-                       }
-                   } else {
-                       print("HomeViewModel: Cierre de sesión detectado. Limpiando.")
-                       self.cleanupAfterLogout()
-                   }
-               }
-               .store(in: &cancellables)
-       }
+        // El sink para cambios de sesión es importante y debe mantenerse
+        sessionManager.$userSession
+            .dropFirst() // Evita la notificación inicial si ya se manejó arriba
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] firebaseUser in
+                guard let self = self else { return }
+                if firebaseUser != nil {
+                    print("HomeViewModel (Sink): Sesión de usuario detectada/cambiada. Recargando datos.")
+                    Task {
+                        await self.fetchCurrentUserAndDependents()
+                    }
+                } else {
+                    print("HomeViewModel (Sink): Cierre de sesión detectado. Limpiando.")
+                    self.cleanupAfterLogout()
+                }
+            }
+            .store(in: &cancellables)
+    }
 
        func stopAllListeners() {
            print("HomeViewModel: stopAllListeners()")
