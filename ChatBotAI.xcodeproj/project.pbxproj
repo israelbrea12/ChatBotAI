@@ -39,6 +39,8 @@
 		4086853E2DD62C5400D5832D /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853D2DD62C5400D5832D /* MessageBubble.swift */; };
 		408685402DD62C6200D5832D /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853F2DD62C6200D5832D /* MessageInputView.swift */; };
 		408685422DD62CA500D5832D /* DataConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685412DD62CA500D5832D /* DataConstants.swift */; };
+		408685452DD6309500D5832D /* CustomSwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685442DD6309500D5832D /* CustomSwipeAction.swift */; };
+		408685472DD75C4300D5832D /* PanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685462DD75C4300D5832D /* PanGesture.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -156,6 +158,8 @@
 		4086853D2DD62C5400D5832D /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		4086853F2DD62C6200D5832D /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
 		408685412DD62CA500D5832D /* DataConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConstants.swift; sourceTree = "<group>"; };
+		408685442DD6309500D5832D /* CustomSwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwipeAction.swift; sourceTree = "<group>"; };
+		408685462DD75C4300D5832D /* PanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanGesture.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -372,6 +376,15 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		408685432DD6306500D5832D /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				408685442DD6309500D5832D /* CustomSwipeAction.swift */,
+				408685462DD75C4300D5832D /* PanGesture.swift */,
+			);
+			path = Animations;
+			sourceTree = "<group>";
+		};
 		40956E112D805F8C00307A53 = {
 			isa = PBXGroup;
 			children = (
@@ -546,8 +559,8 @@
 		40D384EB2D843A7700406AC1 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				40D384E92D843A7700406AC1 /* MainView.swift */,
 				40D384EA2D843A7700406AC1 /* ViewState.swift */,
+				40D384E92D843A7700406AC1 /* MainView.swift */,
 				40D384D82D843A7700406AC1 /* Authentication */,
 				40D384E02D843A7700406AC1 /* Home */,
 				40D384E42D843A7700406AC1 /* Settings */,
@@ -555,6 +568,7 @@
 				402CB7F82D949490008EAEF0 /* ChatLog */,
 				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
 				40D384E82D843A7700406AC1 /* Utils */,
+				408685432DD6306500D5832D /* Animations */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -976,6 +990,7 @@
 				40D384F22D843A7700406AC1 /* User.swift in Sources */,
 				40F360472D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift in Sources */,
 				40D385322D84ED3800406AC1 /* SignUpParam.swift in Sources */,
+				408685452DD6309500D5832D /* CustomSwipeAction.swift in Sources */,
 				40F360342D9F01E00078BE23 /* ChatModel.swift in Sources */,
 				4053F7C72D8736F20082785E /* SessionManager.swift in Sources */,
 				40D384F32D843A7700406AC1 /* LoginView.swift in Sources */,
@@ -1009,6 +1024,7 @@
 				40D385202D84E37500406AC1 /* UserModel.swift in Sources */,
 				40D384F72D843A7700406AC1 /* ChatBotIAView.swift in Sources */,
 				402CB8062D94B748008EAEF0 /* MessagesView.swift in Sources */,
+				408685472DD75C4300D5832D /* PanGesture.swift in Sources */,
 				40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */,
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,

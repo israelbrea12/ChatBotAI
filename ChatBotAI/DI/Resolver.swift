@@ -207,8 +207,8 @@ extension Resolver {
             )
         }.inObjectScope(.container)
         
-        container.register(SendMessageToChatbotUseCase.self) { resolver in
-            SendMessageToChatbotUseCase(
+        container.register(SendMessageToChatBotUseCase.self) { resolver in
+            SendMessageToChatBotUseCase(
                 chatBotRepository: resolver.resolve(ChatBotRepository.self)!
             )
         }.inObjectScope(.container)
@@ -276,8 +276,8 @@ extension Resolver {
         
         container.register(ChatBotIAViewModel.self) { resolver in
             ChatBotIAViewModel(
-                sendMessageToChatbotUseCase: resolver
-                    .resolve(SendMessageToChatbotUseCase.self)!
+                sendMessageToChatBotUseCase: resolver
+                    .resolve(SendMessageToChatBotUseCase.self)!
             )
         }.inObjectScope(.container)
     }

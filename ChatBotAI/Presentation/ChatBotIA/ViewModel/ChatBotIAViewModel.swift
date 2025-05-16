@@ -47,8 +47,8 @@ final class ChatBotIAViewModel: ObservableObject {
         self.viewState = .loading
 
         Task {
-            let params = SendMessageToChatbotUseCaseParams(prompt: currentPrompt, apiKey: self.apiKey)
-            let result = await sendMessageToChatbotUseCase.execute(with: params)
+            let params = SendMessageToChatBotParams(prompt: currentPrompt, apiKey: self.apiKey)
+            let result = await sendMessageToChatBotUseCase.execute(with: params)
 
             self.isGenerating = false
             switch result {
