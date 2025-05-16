@@ -46,7 +46,7 @@ final class HomeViewModel: ObservableObject {
     
     func setupViewModel() {
         print("HomeViewModel: setupViewModel()")
-        if let firebaseUser = sessionManager.userSession {
+        if sessionManager.userSession != nil {
             if currentUser == nil { // Se ejecuta la primera vez o después de un logout completo
                 print("HomeViewModel: currentUser es nil, iniciando fetchCurrentUserAndDependents.")
                 Task {

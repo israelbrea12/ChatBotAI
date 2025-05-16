@@ -100,5 +100,6 @@ class ChatLogViewModel: ObservableObject {
         if let chatId = chatId {
             observeMessagesUseCase.stop(chatId: chatId)
         }
+        print("Dejando de observar mensajes")
     }
 }
