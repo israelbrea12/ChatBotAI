@@ -41,6 +41,8 @@
 		408685422DD62CA500D5832D /* DataConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685412DD62CA500D5832D /* DataConstants.swift */; };
 		408685452DD6309500D5832D /* CustomSwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685442DD6309500D5832D /* CustomSwipeAction.swift */; };
 		408685472DD75C4300D5832D /* PanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685462DD75C4300D5832D /* PanGesture.swift */; };
+		408685492DD8098F00D5832D /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685482DD8098F00D5832D /* CustomAlert.swift */; };
+		4086854B2DD8188900D5832D /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086854A2DD8188900D5832D /* CustomDialog.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -160,6 +162,8 @@
 		408685412DD62CA500D5832D /* DataConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConstants.swift; sourceTree = "<group>"; };
 		408685442DD6309500D5832D /* CustomSwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwipeAction.swift; sourceTree = "<group>"; };
 		408685462DD75C4300D5832D /* PanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanGesture.swift; sourceTree = "<group>"; };
+		408685482DD8098F00D5832D /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
+		4086854A2DD8188900D5832D /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -381,6 +385,7 @@
 			children = (
 				408685442DD6309500D5832D /* CustomSwipeAction.swift */,
 				408685462DD75C4300D5832D /* PanGesture.swift */,
+				408685482DD8098F00D5832D /* CustomAlert.swift */,
 			);
 			path = Animations;
 			sourceTree = "<group>";
@@ -552,6 +557,7 @@
 				40D384E72D843A7700406AC1 /* SettingsRowView.swift */,
 				4057DB842D8B492A00D2E2B0 /* ImagePicker.swift */,
 				402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */,
+				4086854A2DD8188900D5832D /* CustomDialog.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -998,6 +1004,7 @@
 				40F360392D9F04380078BE23 /* CreateChatUseCase.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
 				402CB8032D94B591008EAEF0 /* ChatLogBottomBar.swift in Sources */,
+				408685492DD8098F00D5832D /* CustomAlert.swift in Sources */,
 				40D385302D84ECC000406AC1 /* FetchUserUseCase.swift in Sources */,
 				40D3850A2D84DD8000406AC1 /* AuthRepository.swift in Sources */,
 				402CB7FF2D949C7E008EAEF0 /* UserProfileView.swift in Sources */,
@@ -1080,6 +1087,7 @@
 				4057DC032D8CCE9D00D2E2B0 /* NewMessageViewModel.swift in Sources */,
 				40D385022D843A7700406AC1 /* ChatBotAIApp.swift in Sources */,
 				40D385032D843A7700406AC1 /* ContentView.swift in Sources */,
+				4086854B2DD8188900D5832D /* CustomDialog.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
