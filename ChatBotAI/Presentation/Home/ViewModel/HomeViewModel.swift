@@ -25,6 +25,7 @@ final class HomeViewModel: ObservableObject {
     private let fetchUserChatsUseCase: FetchUserChatsUseCase
     private let fetchUserByIdUseCase: FetchUserByIdUseCase
     private let observeUserChatsUseCase: ObserveUserChatsUseCase
+    private let deleteUserChatUseCase: DeleteUserChatUseCase
     
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
@@ -33,7 +34,8 @@ final class HomeViewModel: ObservableObject {
          createChatUseCase: CreateChatUseCase,
          fetchUserChatsUseCase: FetchUserChatsUseCase,
          fetchUserByIdUseCase: FetchUserByIdUseCase,
-         observeUserChatsUseCase: ObserveUserChatsUseCase
+         observeUserChatsUseCase: ObserveUserChatsUseCase,
+         deleteUserChatUseCase: DeleteUserChatUseCase
          
     ) {
         self.fetchUserUseCase = fetchUserUseCase
@@ -41,31 +43,23 @@ final class HomeViewModel: ObservableObject {
         self.fetchUserChatsUseCase = fetchUserChatsUseCase
         self.fetchUserByIdUseCase = fetchUserByIdUseCase
         self.observeUserChatsUseCase = observeUserChatsUseCase
+        self.deleteUserChatUseCase = deleteUserChatUseCase
         
     }
     
     func setupViewModel() {
         print("HomeViewModel: setupViewModel()")
         if sessionManager.userSession != nil {
-            if currentUser == nil { // Se ejecuta la primera vez o después de un logout completo
+            if currentUser == nil {
                 print("HomeViewModel: currentUser es nil, iniciando fetchCurrentUserAndDependents.")
                 Task {
                     await fetchCurrentUserAndDependents() // Esto ya llama a startObservingUserChats
                 }
             } else {
-                // currentUser ya existe, lo que significa que la vista está reapareciendo
-                // y el usuario es el mismo. Necesitamos reiniciar los listeners.
+
                 print("HomeViewModel: currentUser ya existe (\(currentUser!.id)). Asegurando que los listeners estén activos.")
-                // Podrías optar por recargar los chats iniciales también si es necesario,
-                // o simplemente reiniciar los listeners.
-                // Si loadInitialChats no es costoso y quieres asegurar consistencia:
-                // Task {
-                //     await self.loadInitialChats() // Opcional, si quieres refrescar la lista base
-                //     self.startObservingUserChats()
-                // }
-                // O si solo quieres reiniciar los listeners:
-                self.startObservingUserChats() // Asegúrate de que esta función pueda ser llamada aunque ya esté "escuchando"
-                                              // o que observeUserChatsUseCase.stop() realmente los haya limpiado.
+
+                self.startObservingUserChats()
             }
         } else {
             self.state = .empty
@@ -292,5 +286,19 @@ final class HomeViewModel: ObservableObject {
            cancellables.forEach { $0.cancel() }
            cancellables.removeAll()
        }
+    
+    func deleteChat(for chatId: String) {
+        guard let currentUserId = currentUser?.id else { return }
+        Task {
+            let result = await deleteUserChatUseCase.execute(with: DeleteUserChatParams(userId: currentUserId, chatId: chatId))
+            switch result {
+            case .success:
+                print("Chat eliminado exitosamente para usuario: \(currentUserId)")
+            case .failure(let error):
+                print("Error al eliminar el chat: \(error.localizedDescription)")
+            }
+        }
+    }
+
 }
 

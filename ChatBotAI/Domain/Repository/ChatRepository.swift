@@ -12,4 +12,5 @@ protocol ChatRepository {
     func fetchUserChats() async -> Result<[Chat], AppError>
     func observeAllChatEvents(userId: String, onChatEvent: @escaping (Chat) -> Void)
     func stopObservingAllChatEvents(userId: String)
+    func deleteUserChat(userId: String, chatId: String) async -> Result<Void, AppError>
 }

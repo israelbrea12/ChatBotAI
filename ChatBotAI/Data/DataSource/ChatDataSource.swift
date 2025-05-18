@@ -13,6 +13,7 @@ protocol ChatDataSource {
     func fetchUserChats() async throws -> [ChatModel]
     func observeAllChatActivity(userId: String, onChatEvent: @escaping (ChatModel) -> Void)
     func stopObservingAllChatActivity(userId: String) async
+    func deleteUserChat(userId: String, chatId: String) async throws
 }
 
 class ChatDataSourceImpl: ChatDataSource {
@@ -107,21 +108,18 @@ class ChatDataSourceImpl: ChatDataSource {
     }
     
     func observeAllChatActivity(userId: String, onChatEvent: @escaping (ChatModel) -> Void) {
-            // Detener cualquier observador anterior para este usuario para evitar duplicados
             Task { await stopObservingAllChatActivity(userId: userId) }
 
             userChatsRefForActivity = databaseRef.child("user_chats").child(userId).child("chats")
             
             print("FirebaseDataSource: Iniciando observeAllChatActivity para usuario \(userId)")
 
-            // 1. Observar cuando se añade un nuevo chatId a la lista de chats del usuario
             userChatsListenerHandle = userChatsRefForActivity?.observe(.childAdded, with: { [weak self] userChatSnapshot in
                 guard let self = self else { return }
                 let chatId = userChatSnapshot.key
                 print("FirebaseDataSource: Nuevo chatId \(chatId) detectado para usuario \(userId)")
 
-                // 2. Para cada chatId (nuevo o ya existente que se reprocesa), observar el nodo de chat real en /chats/<chatId>
-                if self.individualChatListeners[chatId] == nil { // Solo si no lo estamos observando ya
+                if self.individualChatListeners[chatId] == nil {
                     let specificChatRef = self.databaseRef.child("chats").child(chatId)
                     self.individualChatRefsForActivity[chatId] = specificChatRef
                     
@@ -132,9 +130,6 @@ class ChatDataSourceImpl: ChatDataSource {
                             onChatEvent(model)
                         } else {
                              print("FirebaseDataSource: Chat \(chatId) eliminado o datos no válidos.")
-                            // Podrías querer notificar la eliminación si manejas la eliminación de chats.
-                            // Por ahora, simplemente no llamamos a onChatEvent.
-                            // También sería bueno limpiar el listener si el chat es borrado.
                             if !chatDataSnapshot.exists() {
                                 self.individualChatRefsForActivity[chatId]?.removeObserver(withHandle: self.individualChatListeners[chatId]!)
                                 self.individualChatListeners.removeValue(forKey: chatId)
@@ -146,20 +141,29 @@ class ChatDataSourceImpl: ChatDataSource {
                     self.individualChatListeners[chatId] = handle
                 }
             })
+
+        userChatsRefForActivity?.observe(.childRemoved, with: { [weak self] userChatSnapshot in
+            guard let self = self else { return }
+            let chatId = userChatSnapshot.key
+            print("FirebaseDataSource: ChatId \(chatId) eliminado de la lista del usuario \(userId)")
             
-            // (Opcional) Observar cuando un chatId es eliminado de la lista del usuario
-            userChatsRefForActivity?.observe(.childRemoved, with: { [weak self] userChatSnapshot in
-                guard let self = self else { return }
-                let chatId = userChatSnapshot.key
-                print("FirebaseDataSource: ChatId \(chatId) eliminado de la lista del usuario \(userId)")
-                if let handle = self.individualChatListeners[chatId], let ref = self.individualChatRefsForActivity[chatId] {
-                    ref.removeObserver(withHandle: handle)
-                    self.individualChatListeners.removeValue(forKey: chatId)
-                    self.individualChatRefsForActivity.removeValue(forKey: chatId)
-                    // Aquí podrías querer enviar un evento especial al ViewModel para que elimine el chat de la UI.
-                    // Por ahora, solo dejamos de observarlo. El ViewModel tendrá que manejar la ausencia.
-                }
-            })
+            if let handle = self.individualChatListeners[chatId],
+               let ref = self.individualChatRefsForActivity[chatId] {
+                ref.removeObserver(withHandle: handle)
+                self.individualChatListeners.removeValue(forKey: chatId)
+                self.individualChatRefsForActivity.removeValue(forKey: chatId)
+            }
+
+            // 👉 Notificar al HomeViewModel que el chat fue eliminado
+            let deletedChat = ChatModel(
+                id: chatId,
+                participants: [],
+                createdAt: 0,
+                lastMessage: nil
+            )
+            onChatEvent(deletedChat)
+        })
+
         }
 
         func stopObservingAllChatActivity(userId: String) async {
@@ -180,6 +184,15 @@ class ChatDataSourceImpl: ChatDataSource {
             individualChatListeners.removeAll()
             individualChatRefsForActivity.removeAll()
             print("FirebaseDataSource: Todos los observadores individuales de chats detenidos.")
+        }
+    
+    func deleteUserChat(userId: String, chatId: String) async throws {
+            let ref = Database.database().reference()
+                .child("user_chats")
+                .child(userId)
+                .child("chats")
+                .child(chatId)
+            try await ref.removeValue()
         }
 
 }

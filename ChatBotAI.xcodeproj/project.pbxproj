@@ -43,6 +43,9 @@
 		408685472DD75C4300D5832D /* PanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685462DD75C4300D5832D /* PanGesture.swift */; };
 		408685492DD8098F00D5832D /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685482DD8098F00D5832D /* CustomAlert.swift */; };
 		4086854B2DD8188900D5832D /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086854A2DD8188900D5832D /* CustomDialog.swift */; };
+		408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */; };
+		408685592DDA4D2E00D5832D /* DeleteUserChatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */; };
+		4086855B2DDA53B300D5832D /* ChatEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086855A2DDA53B300D5832D /* ChatEventType.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -164,6 +167,9 @@
 		408685462DD75C4300D5832D /* PanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanGesture.swift; sourceTree = "<group>"; };
 		408685482DD8098F00D5832D /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
 		4086854A2DD8188900D5832D /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
+		408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatUseCase.swift; sourceTree = "<group>"; };
+		408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatParams.swift; sourceTree = "<group>"; };
+		4086855A2DDA53B300D5832D /* ChatEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEventType.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -782,6 +788,7 @@
 			children = (
 				40F360302D9F014D0078BE23 /* Chat.swift */,
 				40F3603A2D9F065D0078BE23 /* CreateChatParams.swift */,
+				408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -789,6 +796,7 @@
 		40F360322D9F01BB0078BE23 /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				4086855A2DDA53B300D5832D /* ChatEventType.swift */,
 				40F360332D9F01E00078BE23 /* ChatModel.swift */,
 				40F360422D9F0C2A0078BE23 /* LastMessageModel.swift */,
 			);
@@ -801,6 +809,7 @@
 				40F360382D9F04380078BE23 /* CreateChatUseCase.swift */,
 				40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */,
 				408685102DD284D900D5832D /* ObserveChatsUseCase.swift */,
+				408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1036,6 +1045,7 @@
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,
 				40F3603B2D9F065D0078BE23 /* CreateChatParams.swift in Sources */,
+				408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */,
 				40D384F92D843A7700406AC1 /* HomeView.swift in Sources */,
 				40F3603D2D9F07B00078BE23 /* ChatRepository.swift in Sources */,
 				40D384FA2D843A7700406AC1 /* SettingsViewModel.swift in Sources */,
@@ -1052,6 +1062,8 @@
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
 				40F360D72DA52E7E0078BE23 /* MessageBubbleView.swift in Sources */,
+				4086855B2DDA53B300D5832D /* ChatEventType.swift in Sources */,
+				408685592DDA4D2E00D5832D /* DeleteUserChatParams.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
 				4086853C2DD62BD200D5832D /* MessageRow.swift in Sources */,

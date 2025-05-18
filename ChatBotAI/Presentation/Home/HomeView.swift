@@ -103,9 +103,8 @@ struct HomeView: View {
                                 tint: .red,
                                 foreground: .white
                              ),
-                             button1: .init(content: "Delete chat", tint: .red, foreground: .white, action: {
-                                 folder in
-                                 print(folder)
+                             button1: .init(content: "Delete chat", tint: .red, foreground: .white, action: { _ in 
+                                 homeViewModel.deleteChat(for: chat.id)
                                  showAlert.toggle()
                              }),
                              button2: .init(content: "cancel", tint: .blue, foreground: .white, action: { _ in showAlert = false

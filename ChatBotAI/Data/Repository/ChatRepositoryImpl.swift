@@ -48,4 +48,13 @@ class ChatRepositoryImpl: ChatRepository {
                  await chatDataSource.stopObservingAllChatActivity(userId: userId)
             }
         }
+    
+    func deleteUserChat(userId: String, chatId: String) async -> Result<Void, AppError> {
+            do {
+                try await chatDataSource.deleteUserChat(userId: userId, chatId: chatId)
+                return .success(())
+            } catch {
+                return .failure(error.toAppError())
+            }
+        }
 }
