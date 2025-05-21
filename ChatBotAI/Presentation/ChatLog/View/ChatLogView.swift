@@ -56,6 +56,10 @@ struct ChatLogView: View {
                              onSendMessage: {chatLogViewModel.sendMessage(currentUser: user)})
                 .background(Color.white.ignoresSafeArea())
         }
+        .background(Color.clear) // Fondo necesario para detectar gestos
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
     }
     
     private func loadingView() -> some View {

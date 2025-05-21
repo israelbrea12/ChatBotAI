@@ -40,7 +40,7 @@ struct MessagesView: View {
                             .font(.caption)
                             .foregroundColor(.gray)
                             .padding(.horizontal, 10)
-                            .padding(.vertical, 5)
+                            .padding(.vertical, 8)
                             .background(Capsule().fill(Color.gray.opacity(0.2)))
                         
                         ForEach(group.messages) { message in
@@ -61,6 +61,11 @@ struct MessagesView: View {
                 }
                 .padding(.vertical, 8)
             }
+            .gesture(
+                        DragGesture().onChanged { _ in
+                            UIApplication.shared.endEditing()
+                        }
+                    )
             .background(Color(.init(white: 0.95, alpha: 1)))
             .onAppear {
                 DispatchQueue.main

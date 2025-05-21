@@ -24,7 +24,9 @@ struct MessageInputView: View {
                 )
                 .lineLimit(1...5) // Limita el número de líneas visibles
 
-            Button(action: sendMessageAction) {
+            Button(action: {
+                sendMessageAction()
+            }) {
                 if isGenerating {
                     ProgressView()
                         .frame(width: 28, height: 28) // Tamaño consistente

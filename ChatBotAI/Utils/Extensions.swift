@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Date {
     func formattedDateString() -> String {
@@ -93,5 +94,12 @@ extension Date {
 
         formatter.dateFormat = "dd/MM/yyyy"
         return formatter.string(from: self)
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder),
+                   to: nil, from: nil, for: nil)
     }
 }

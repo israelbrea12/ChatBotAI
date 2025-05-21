@@ -13,43 +13,40 @@ struct ChatLogBottomBar: View {
     var onSendMessage: () -> Void
     
     var body: some View {
-        HStack(spacing: 16) {
+        HStack(spacing: 12) {
+            
             Image(systemName: "photo.on.rectangle")
                 .font(.system(size: 24))
-                .foregroundColor(Color(.darkGray))
-            ZStack {
-                DescriptionPlaceholder()
-                TextEditor(text: $chatText)
-                    .opacity(chatText.isEmpty ? 0.5 : 1)
-            }
-            .frame(height: 40)
+                .foregroundColor(.gray)
             
-            Button {
+            ZStack(alignment: .leading) {
+                if chatText.isEmpty {
+                    Text("Description")
+                        .foregroundColor(.gray)
+                        .padding(.leading, 8)
+                }
+                
+                TextField("", text: $chatText)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 10)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(20)
+            }
+            
+            Button(action: {
                 onSendMessage()
-            } label: {
+            }) {
                 Image(systemName: "paperplane.fill")
                     .rotationEffect(.degrees(45))
                     .foregroundColor(.white)
-                    .offset(x: -1.5, y: 0)
+                    .padding(10)
+                    .background(Color.blue)
+                    .clipShape(Circle())
             }
-            .padding(6)
-            .background(Color.blue)
-            .clipShape(.circle)
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
+        .background(Color.white)
     }
 }
 
-private struct DescriptionPlaceholder: View {
-    var body: some View {
-        HStack {
-            Text("Description")
-                .foregroundColor(Color(.gray))
-                .font(.system(size: 17))
-                .padding(.leading, 5)
-                .padding(.top, -4)
-            Spacer()
-        }
-    }
-}

@@ -39,8 +39,23 @@ class ChatDataSourceImpl: ChatDataSource {
         let chatId = generateChatId(for: currentUserId, and: otherUserId)
         let chatRef = databaseRef.child("chats").child(chatId)
 
+        // Verifica si el chat ya existe
+        let chatSnapshot = try await chatRef.getData()
+        let chatExists = chatSnapshot.exists()
+
+        if chatExists {
+            print("ChatDataSource: El chat ya existe. Solo restaurando referencia si es necesario.")
+            
+            // Restaurar solo la referencia del usuario actual
+            let userChatsRefCurrent = databaseRef.child("user_chats").child(currentUserId).child("chats").child(chatId)
+            try await userChatsRefCurrent.setValue(true)
+            
+            let chatData = chatSnapshot.value as? [String: Any] ?? [:]
+            return ChatModel.toData(chatData, chatId: chatId)
+        }
+
+        // Si no existe, crear uno nuevo
         let createdAt = Date().timeIntervalSince1970
-        
         let chatData: [String: Any] = [
             "id": chatId,
             "participants": [currentUserId, otherUserId],
@@ -49,17 +64,12 @@ class ChatDataSourceImpl: ChatDataSource {
 
         try await chatRef.setValue(chatData)
 
-        // Guardar referencias en user_chats para ambos usuarios
-        let userChatsRefCurrent = databaseRef.child("user_chats").child(currentUserId).child("chats").child(
-            chatId
-        )
-        let userChatsRefOther = databaseRef.child("user_chats").child(otherUserId).child("chats").child(
-            chatId
-        )
+        let userChatsRefCurrent = databaseRef.child("user_chats").child(currentUserId).child("chats").child(chatId)
+        let userChatsRefOther = databaseRef.child("user_chats").child(otherUserId).child("chats").child(chatId)
 
         try await userChatsRefCurrent.setValue(true)
         try await userChatsRefOther.setValue(true)
-        
+
         return ChatModel(
             id: chatId,
             participants: [currentUserId, otherUserId],

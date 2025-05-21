@@ -12,6 +12,7 @@ struct HomeView: View {
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
     
     @State private var showAlert = false // Esta variable veo bien que esté aquí porque solo sirve para la vista.
+    @State private var chatToDelete: Chat? = nil
 
     var body: some View {
         NavigationStack {
@@ -104,7 +105,9 @@ struct HomeView: View {
                                 foreground: .white
                              ),
                              button1: .init(content: "Delete chat", tint: .red, foreground: .white, action: { _ in 
-                                 homeViewModel.deleteChat(for: chat.id)
+                                 if let chatToDelete = chatToDelete {
+                                                     homeViewModel.deleteChat(for: chatToDelete.id)
+                                                 }
                                  showAlert.toggle()
                              }),
                              button2: .init(content: "cancel", tint: .blue, foreground: .white, action: { _ in showAlert = false
@@ -126,6 +129,7 @@ struct HomeView: View {
                     background: .red
                 ) {
                     resetPosition in
+                    chatToDelete = chat
                     showAlert.toggle()
                     resetPosition.toggle()
                 }

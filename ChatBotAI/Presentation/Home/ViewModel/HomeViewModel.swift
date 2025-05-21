@@ -150,36 +150,60 @@ final class HomeViewModel: ObservableObject {
        }
        
     private func processChatEvent(_ chat: Chat) {
-            // La tarea para buscar detalles del usuario puede seguir siendo asíncrona
+        // La tarea para buscar detalles del usuario puede seguir siendo asíncrona
+        // Solo busca detalles si el chat no es una señal de eliminación (participantes no vacíos)
+        if !chat.participants.isEmpty { // O una condición más explícita si la tienes
             Task {
                 await self.fetchUserDetailsForChat(chat)
             }
-            DispatchQueue.main.async { [weak self] in // Usa weak self para evitar ciclos de retención si es necesario (aunque aquí puede no ser estrictamente vital)
-                guard let self = self else { return }
+        }
 
-                var chatUpdated = false
-                if let index = self.chats.firstIndex(where: { $0.id == chat.id }) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+
+            var listChanged = false
+            if let index = self.chats.firstIndex(where: { $0.id == chat.id }) {
+                // Comprueba si este es el evento "chat eliminado" enviado por ChatDataSourceImpl
+                // El indicador es un array de participantes vacío y, opcionalmente, otros campos reseteados.
+                if chat.participants.isEmpty && chat.createdAt == 0 && chat.lastMessageText == nil {
+                    self.chats.remove(at: index)
+                    listChanged = true
+                    print("HomeViewModel: Chat \(chat.id) REMOVIDO de la lista.")
+                    // Opcionalmente, podrías querer limpiar `chatUsers` si ese usuario ya no participa en ningún otro chat,
+                    // pero esto puede ser más complejo de gestionar y podría no ser necesario.
+                } else {
+                    // Es una actualización de un chat existente (nuevo mensaje, etc.)
                     self.chats[index] = chat
-                    chatUpdated = true
+                    listChanged = true
                     print("HomeViewModel: Chat \(chat.id) actualizado en la lista.")
-                } else {
-                    self.chats.append(chat)
-                    chatUpdated = true // Se añadió un chat, la lista cambió
-                    print("HomeViewModel: Nuevo chat \(chat.id) añadido a la lista.")
                 }
+            } else if !chat.participants.isEmpty {
+                // Es un chat completamente nuevo (no un marcador de eliminación para un chat que ya no debería estar)
+                // Solo añade si tiene participantes, indicando que es un chat válido.
+                self.chats.append(chat)
+                listChanged = true
+                print("HomeViewModel: Nuevo chat \(chat.id) añadido a la lista.")
+            }
 
-                if chatUpdated {
-                    self.chats.sort(by: self.sortChats)
-                    
-                    if self.state != .error("") {
-                         self.state = self.chats.isEmpty ? .empty : .success
-                    }
-                    print("HomeViewModel: processChatEvent finalizado en main thread para chat \(chat.id). Chats count: \(self.chats.count), State: \(self.state)")
+            if listChanged {
+                self.chats.sort(by: self.sortChats)
+                
+                // Asegúrate de que el estado se actualice correctamente.
+                // Si el estado es un error, quizás no quieras cambiarlo a .success o .empty
+                // hasta que el error se resuelva.
+                if case .error = self.state {
+                     // Mantener el estado de error si ya está en error,
+                     // o decidir una lógica específica
+                     print("HomeViewModel: processChatEvent - Estado actual es error, no se cambiará automáticamente.")
                 } else {
-                     print("HomeViewModel: processChatEvent - no se realizaron cambios para chat \(chat.id)")
+                     self.state = self.chats.isEmpty ? .empty : .success
                 }
+                print("HomeViewModel: processChatEvent finalizado en main thread para chat \(chat.id). Chats count: \(self.chats.count), State: \(self.state)")
+            } else {
+                print("HomeViewModel: processChatEvent - no se realizaron cambios para chat \(chat.id)")
             }
         }
+    }
 
        private func sortChats(chat1: Chat, chat2: Chat) -> Bool {
            (chat1.lastMessageTimestamp ?? chat1.createdAt ?? 0) > (chat2.lastMessageTimestamp ?? chat2.createdAt ?? 0)
