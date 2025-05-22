@@ -21,7 +21,6 @@ final class ChatBotIAViewModel: ObservableObject {
     @Published var hasStartedChatting: Bool = false
 
     private let sendMessageToChatBotUseCase: SendMessageToChatBotUseCase
-    private let apiKey: String = APIKey.default // Asegúrate que APIKey.default sea accesible y seguro
 
     init(sendMessageToChatBotUseCase: SendMessageToChatBotUseCase) {
         self.sendMessageToChatBotUseCase = sendMessageToChatBotUseCase
@@ -47,7 +46,7 @@ final class ChatBotIAViewModel: ObservableObject {
         self.viewState = .loading
 
         Task {
-            let params = SendMessageToChatBotParams(prompt: currentPrompt, apiKey: self.apiKey)
+            let params = SendMessageToChatBotParams(prompt: currentPrompt)
             let result = await sendMessageToChatBotUseCase.execute(with: params)
 
             self.isGenerating = false

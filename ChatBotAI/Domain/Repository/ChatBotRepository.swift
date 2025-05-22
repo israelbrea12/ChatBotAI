@@ -10,7 +10,7 @@
 import Foundation
 
 protocol ChatBotRepository {
-    func sendMessageToChatBot(prompt: String, apiKey: String) async -> Result<String, Error>
+    func sendMessageToChatBot(prompt: String) async -> Result<String, Error>
     // Podrías añadir más funciones como:
     // func fetchChatHistory() async -> Result<[ChatbotMessage], Error>
 }

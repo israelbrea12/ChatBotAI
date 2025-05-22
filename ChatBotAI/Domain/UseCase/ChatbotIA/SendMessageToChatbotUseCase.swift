@@ -23,6 +23,6 @@ class SendMessageToChatBotUseCase: SendMessageToChatBotUseCaseProtocol {
 
     func execute(with params: SendMessageToChatBotParams) async -> Result<String, Error> {
         // Aquí podrías añadir lógica adicional si fuera necesario antes o después de llamar al repositorio
-        return await chatBotRepository.sendMessageToChatBot(prompt: params.prompt, apiKey: params.apiKey)
+        return await chatBotRepository.sendMessageToChatBot(prompt: params.prompt)
     }
 }

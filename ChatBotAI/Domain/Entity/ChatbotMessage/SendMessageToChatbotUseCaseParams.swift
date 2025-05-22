@@ -9,5 +9,5 @@ import Foundation
 
 struct SendMessageToChatBotParams {
     let prompt: String
-    let apiKey: String
 }
+

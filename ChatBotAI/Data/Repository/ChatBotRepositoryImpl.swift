@@ -16,8 +16,8 @@ class ChatBotRepositoryImpl: ChatBotRepository {
         self.chatBotDataSource = chatBotDataSource
     }
 
-    func sendMessageToChatBot(prompt: String, apiKey: String) async -> Result<String, Error> {
+    func sendMessageToChatBot(prompt: String) async -> Result<String, Error> {
         // Aquí se podría mapear errores del DataSource a errores del Dominio si fueran diferentes
-        return await chatBotDataSource.generateResponse(prompt: prompt, apiKey: apiKey)
+        return await chatBotDataSource.generateResponse(prompt: prompt)
     }
 }

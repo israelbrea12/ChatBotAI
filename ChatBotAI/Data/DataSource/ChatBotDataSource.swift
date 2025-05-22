@@ -6,31 +6,36 @@
 //
 
 import Foundation
-import GoogleGenerativeAI
+import FirebaseAI
 
 protocol ChatBotDataSource {
-    func generateResponse(prompt: String, apiKey: String) async -> Result<String, Error>
+    func generateResponse(prompt: String) async -> Result<String, Error>
 }
 
 class ChatBotDataSourceImpl: ChatBotDataSource {
 
-    private func getGenerativeModel(apiKey: String) -> GenerativeModel {
-        return GenerativeModel(name: DataConstant.geminiModel, apiKey: apiKey)
-    }
+    private lazy var model: GenerativeModel = {
+        let ai = FirebaseAI.firebaseAI(
+            backend: .googleAI()
+        ) // Usa Firebase para conectar con Vertex AI
+        return ai
+            .generativeModel(
+                modelName: DataConstant.geminiModel
+            ) // o "gemini-pro" según necesidad
+    }()
 
-    func generateResponse(prompt: String, apiKey: String) async -> Result<String, Error> {
-        let model = getGenerativeModel(apiKey: apiKey)
+    func generateResponse(prompt: String) async -> Result<String, Error> {
         do {
             let response = try await model.generateContent(prompt)
             if let text = response.text {
                 return .success(text)
             } else {
-                let noTextError = NSError(
+                let error = NSError(
                     domain: "ChatBotDataSourceError",
-                    code: 1001,
-                    userInfo: [NSLocalizedDescriptionKey: "La respuesta de la IA no contenía texto."]
+                    code: 1002,
+                    userInfo: [NSLocalizedDescriptionKey: "La IA no devolvió texto."]
                 )
-                return .failure(noTextError)
+                return .failure(error)
             }
         } catch {
             return .failure(error)
