@@ -37,7 +37,7 @@ final class ChatBotIAViewModel: ObservableObject {
             case .rolePlay: // El prompt se pasa en el primer mensaje
                 addMessage(ChatbotMessage(text: chatMode.initialPrompt, isUser: true))
                 sendMessageToModel(prompt: chatMode.initialPrompt)
-            case .basicCorrection, .advancedCorrection, .grammarHelp:
+            case .classicConversation, .textImprovement, .grammarHelp:
                 break // Espera a que el usuario introduzca el texto
             }
         }
