@@ -17,11 +17,11 @@ class ChatBotDataSourceImpl: ChatBotDataSource {
     private lazy var model: GenerativeModel = {
         let ai = FirebaseAI.firebaseAI(
             backend: .googleAI()
-        ) // Usa Firebase para conectar con Vertex AI
+        )
         return ai
             .generativeModel(
                 modelName: DataConstant.geminiModel
-            ) // o "gemini-pro" según necesidad
+            )
     }()
 
     func generateResponse(prompt: String) async -> Result<String, Error> {

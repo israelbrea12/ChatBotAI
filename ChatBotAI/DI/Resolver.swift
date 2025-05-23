@@ -281,11 +281,11 @@ extension Resolver {
             )
         }.inObjectScope(.container)
         
-        container.register(ChatBotIAViewModel.self) { resolver in
+        container.register(ChatBotIAViewModel.self) { resolver, chatMode in
             ChatBotIAViewModel(
-                sendMessageToChatBotUseCase: resolver
-                    .resolve(SendMessageToChatBotUseCase.self)!
+                sendMessageToChatBotUseCase: resolver.resolve(SendMessageToChatBotUseCase.self)!,
+                chatMode: chatMode
             )
-        }.inObjectScope(.container)
+        }.inObjectScope(.transient)
     }
 }

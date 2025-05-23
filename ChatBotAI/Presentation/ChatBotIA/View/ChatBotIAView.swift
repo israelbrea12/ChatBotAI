@@ -14,7 +14,7 @@ struct ChatBotIAView: View {
 
     var body: some View {
         ZStack {
-            // Fondo invisible para detectar taps y cerrar el teclado
+            
             Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture {

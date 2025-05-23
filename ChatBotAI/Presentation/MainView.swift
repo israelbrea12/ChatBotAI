@@ -15,7 +15,7 @@ struct MainView: View {
                     Image(systemName: "bubble.left.and.text.bubble.right")
                     Text("Chats")
                 }
-            ChatBotIAView()
+            ModeSelectionView()
                 .tabItem {
                     Label("ChatBotIA", systemImage: "translate")
                 }

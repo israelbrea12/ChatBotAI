@@ -12,6 +12,10 @@
 		401581E32DDFA353001789E9 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 401581E22DDFA353001789E9 /* FirebaseDatabase */; };
 		401581E52DDFA353001789E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 401581E42DDFA353001789E9 /* FirebaseFirestore */; };
 		401581E72DDFA353001789E9 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 401581E62DDFA353001789E9 /* FirebaseStorage */; };
+		401581EA2DDFB145001789E9 /* ChatMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401581E92DDFB145001789E9 /* ChatMode.swift */; };
+		401581ED2DDFB1DC001789E9 /* ModeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401581EC2DDFB1DC001789E9 /* ModeSelectionView.swift */; };
+		401581EF2DDFB1E8001789E9 /* RolePlaySetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401581EE2DDFB1E8001789E9 /* RolePlaySetupView.swift */; };
+		401581F12DDFB3AF001789E9 /* NavigationTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401581F02DDFB3AF001789E9 /* NavigationTarget.swift */; };
 		402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB7FC2D9494C6008EAEF0 /* ChatLogView.swift */; };
 		402CB7FF2D949C7E008EAEF0 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */; };
 		402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB8002D94A369008EAEF0 /* ChatLogViewModel.swift */; };
@@ -138,6 +142,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		401581E92DDFB145001789E9 /* ChatMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMode.swift; sourceTree = "<group>"; };
+		401581EC2DDFB1DC001789E9 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
+		401581EE2DDFB1E8001789E9 /* RolePlaySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlaySetupView.swift; sourceTree = "<group>"; };
+		401581F02DDFB3AF001789E9 /* NavigationTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTarget.swift; sourceTree = "<group>"; };
 		402CB7FC2D9494C6008EAEF0 /* ChatLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogView.swift; sourceTree = "<group>"; };
 		402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		402CB8002D94A369008EAEF0 /* ChatLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewModel.swift; sourceTree = "<group>"; };
@@ -294,6 +302,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		401581E82DDFB101001789E9 /* ChatMode */ = {
+			isa = PBXGroup;
+			children = (
+				401581E92DDFB145001789E9 /* ChatMode.swift */,
+			);
+			path = ChatMode;
+			sourceTree = "<group>";
+		};
+		401581EB2DDFB1D1001789E9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				401581EC2DDFB1DC001789E9 /* ModeSelectionView.swift */,
+				40D384DB2D843A7700406AC1 /* ChatBotIAView.swift */,
+				401581EE2DDFB1E8001789E9 /* RolePlaySetupView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		402CB7F82D949490008EAEF0 /* ChatLog */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +364,7 @@
 				40F360102D9DCEA80078BE23 /* CryptoUtils.swift */,
 				40F3602D2D9EC20F0078BE23 /* GoogleAuthService.swift */,
 				40F360442D9F12490078BE23 /* Extensions.swift */,
+				408685152DD2A78D00D5832D /* APIKey.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -379,6 +406,7 @@
 		4086853A2DD62BC400D5832D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				401581F02DDFB3AF001789E9 /* NavigationTarget.swift */,
 				4086853F2DD62C6200D5832D /* MessageInputView.swift */,
 				4086853D2DD62C5400D5832D /* MessageBubble.swift */,
 				4086853B2DD62BD200D5832D /* MessageRow.swift */,
@@ -449,11 +477,12 @@
 		40D384CF2D843A7700406AC1 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				4086852C2DD6214400D5832D /* ChatbotMessage */,
 				40D385132D84E00700406AC1 /* Auth */,
 				40D384CE2D843A7700406AC1 /* Users */,
 				40F3602F2D9F01380078BE23 /* Chats */,
 				40F360BD2DA47BF20078BE23 /* Message */,
+				4086852C2DD6214400D5832D /* ChatbotMessage */,
+				401581E82DDFB101001789E9 /* ChatMode */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -515,7 +544,7 @@
 			isa = PBXGroup;
 			children = (
 				4086853A2DD62BC400D5832D /* Components */,
-				40D384DB2D843A7700406AC1 /* ChatBotIAView.swift */,
+				401581EB2DDFB1D1001789E9 /* View */,
 				40D384DA2D843A7700406AC1 /* ViewModel */,
 			);
 			path = ChatBotIA;
@@ -588,7 +617,6 @@
 		40D384F12D843A7700406AC1 /* ChatBotAI */ = {
 			isa = PBXGroup;
 			children = (
-				408685152DD2A78D00D5832D /* APIKey.swift */,
 				4053F7C82D8762270082785E /* Utils */,
 				40D384CC2D843A7700406AC1 /* DI */,
 				40D384CB2D843A7700406AC1 /* Data */,
@@ -1038,6 +1066,8 @@
 				402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */,
 				40F360C22DA47C660078BE23 /* SendMessageUseCase.swift in Sources */,
 				40D385202D84E37500406AC1 /* UserModel.swift in Sources */,
+				401581ED2DDFB1DC001789E9 /* ModeSelectionView.swift in Sources */,
+				401581F12DDFB3AF001789E9 /* NavigationTarget.swift in Sources */,
 				40D384F72D843A7700406AC1 /* ChatBotIAView.swift in Sources */,
 				402CB8062D94B748008EAEF0 /* MessagesView.swift in Sources */,
 				408685472DD75C4300D5832D /* PanGesture.swift in Sources */,
@@ -1056,6 +1086,7 @@
 				407F36A12DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift in Sources */,
 				40F360412D9F09A80078BE23 /* ChatDataSource.swift in Sources */,
 				40D384FB2D843A7700406AC1 /* SettingsView.swift in Sources */,
+				401581EA2DDFB145001789E9 /* ChatMode.swift in Sources */,
 				40D384FC2D843A7700406AC1 /* InfoView.swift in Sources */,
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				408685422DD62CA500D5832D /* DataConstants.swift in Sources */,
@@ -1074,6 +1105,7 @@
 				402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,
 				40D385122D84DF5E00406AC1 /* UseCaseProtocol.swift in Sources */,
+				401581EF2DDFB1E8001789E9 /* RolePlaySetupView.swift in Sources */,
 				40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */,
 				40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */,
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,

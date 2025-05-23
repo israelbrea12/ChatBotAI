@@ -21,12 +21,26 @@ final class ChatBotIAViewModel: ObservableObject {
     @Published var hasStartedChatting: Bool = false
 
     private let sendMessageToChatBotUseCase: SendMessageToChatBotUseCase
+    
+    private(set) var chatMode: ChatMode
 
-    init(sendMessageToChatBotUseCase: SendMessageToChatBotUseCase) {
+    init(sendMessageToChatBotUseCase: SendMessageToChatBotUseCase, chatMode: ChatMode) {
         self.sendMessageToChatBotUseCase = sendMessageToChatBotUseCase
         // Considera añadir un mensaje de bienvenida si es necesario.
         // addInitialBotMessage(text: "Hola, ¿cómo puedo ayudarte hoy?")
+        self.chatMode = chatMode
+        self.startChatWithInitialPrompt()
     }
+    
+    private func startChatWithInitialPrompt() {
+            switch chatMode {
+            case .rolePlay: // El prompt se pasa en el primer mensaje
+                addMessage(ChatbotMessage(text: chatMode.initialPrompt, isUser: true))
+                sendMessageToModel(prompt: chatMode.initialPrompt)
+            case .basicCorrection, .advancedCorrection, .grammarHelp:
+                break // Espera a que el usuario introduzca el texto
+            }
+        }
 
     private func addMessage(_ message: ChatbotMessage) {
         messages.append(message)
@@ -36,29 +50,41 @@ final class ChatBotIAViewModel: ObservableObject {
     }
 
     func sendMessage() {
-        let currentPrompt = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !currentPrompt.isEmpty else { return }
+            let userText = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !userText.isEmpty else { return }
 
-        addMessage(ChatbotMessage(text: currentPrompt, isUser: true))
-        self.prompt = "" // Limpiar el campo de texto
+            addMessage(ChatbotMessage(text: userText, isUser: true))
+            self.prompt = ""
+            self.isGenerating = true
+            self.viewState = .loading
 
-        self.isGenerating = true
-        self.viewState = .loading
+            let promptToSend: String
+            switch chatMode {
+            case .rolePlay:
+                promptToSend = userText
+            default:
+                promptToSend = "\(chatMode.initialPrompt)\n\(userText)"
+            }
 
-        Task {
-            let params = SendMessageToChatBotParams(prompt: currentPrompt)
-            let result = await sendMessageToChatBotUseCase.execute(with: params)
+            sendMessageToModel(prompt: promptToSend)
+        }
 
-            self.isGenerating = false
-            switch result {
-            case .success(let aiResponseText):
-                self.addMessage(ChatbotMessage(text: aiResponseText, isUser: false))
-                self.viewState = .success
-            case .failure(let error):
-                let errorMessage = "Error: \(error.localizedDescription)"
-                self.addMessage(ChatbotMessage(text: errorMessage, isUser: false))
-                self.viewState = .error(errorMessage)
+        private func sendMessageToModel(prompt: String) {
+            Task {
+                let params = SendMessageToChatBotParams(prompt: prompt)
+                print("Prompt: \(prompt)")
+                let result = await sendMessageToChatBotUseCase.execute(with: params)
+
+                self.isGenerating = false
+                switch result {
+                case .success(let aiResponseText):
+                    self.addMessage(ChatbotMessage(text: aiResponseText, isUser: false))
+                    self.viewState = .success
+                case .failure(let error):
+                    let errorMessage = "Error: \(error.localizedDescription)"
+                    self.addMessage(ChatbotMessage(text: errorMessage, isUser: false))
+                    self.viewState = .error(errorMessage)
+                }
             }
         }
-    }
 }
