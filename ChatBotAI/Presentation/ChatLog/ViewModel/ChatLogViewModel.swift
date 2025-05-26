@@ -54,14 +54,21 @@ class ChatLogViewModel: ObservableObject {
 
     func sendMessage(currentUser: User?) {
         guard let user = currentUser,
-              let chatId = chatId,
-              !chatText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+              let chatId = chatId else {
+            return
+        }
+
+        // Trim leading/trailing whitespaces and newlines
+        let trimmedText = chatText.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Prevent sending empty messages after trimming
+        guard !trimmedText.isEmpty else {
             return
         }
 
         let message = Message(
             id: UUID().uuidString,
-            text: chatText,
+            text: trimmedText,
             senderId: user.id,
             senderName: user.fullName ?? ""
         )

@@ -19,19 +19,13 @@ struct ChatLogBottomBar: View {
                 .font(.system(size: 24))
                 .foregroundColor(.gray)
             
-            ZStack(alignment: .leading) {
-                if chatText.isEmpty {
-                    Text("Description")
-                        .foregroundColor(.gray)
-                        .padding(.leading, 8)
-                }
-                
-                TextField("", text: $chatText)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 10)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(20)
-            }
+            ZStack {
+                            DescriptionPlaceholder()
+                            TextEditor(text: $chatText)
+                                .opacity(chatText.isEmpty ? 0.5 : 1)
+                                .submitLabel(.next)
+                        }
+                        .frame(height: 40)
             
             Button(action: {
                 onSendMessage()
@@ -50,3 +44,15 @@ struct ChatLogBottomBar: View {
     }
 }
 
+private struct DescriptionPlaceholder: View {
+    var body: some View {
+        HStack {
+            Text("Description")
+                .foregroundColor(Color(.gray))
+                .font(.system(size: 17))
+                .padding(.leading, 5)
+                .padding(.top, -4)
+            Spacer()
+        }
+    }
+}

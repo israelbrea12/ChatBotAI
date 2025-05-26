@@ -1,5 +1,5 @@
 {
-  "originHash" : "c35e737f622c1930c53cc4a7bc94a93dfd067b454b04a732d3863ae62e39d3df",
+  "originHash" : "4a646f26c10a1f80acb1091a4e3a3e5d524fb79507a5b7ca66a5d63e73dac1b1",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -143,6 +143,15 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "richtextkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielsaidi/RichTextKit.git",
+      "state" : {
+        "revision" : "8aa44cfa645404ad84e52e3ab7723ecf4b82f92b",
+        "version" : "1.2.0"
       }
     },
     {

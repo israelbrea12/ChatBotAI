@@ -61,11 +61,11 @@ struct MessagesView: View {
                 }
                 .padding(.vertical, 8)
             }
-            .gesture(
-                        DragGesture().onChanged { _ in
-                            UIApplication.shared.endEditing()
-                        }
-                    )
+            .simultaneousGesture(
+                DragGesture().onChanged { _ in
+                    UIApplication.shared.endEditing()
+                }
+            )
             .background(Color(.init(white: 0.95, alpha: 1)))
             .onAppear {
                 DispatchQueue.main

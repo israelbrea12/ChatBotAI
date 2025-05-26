@@ -36,6 +36,10 @@ struct ChatLogView: View {
             .navigationTitle("\(user?.fullName ?? "")")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar(.hidden, for: .tabBar)
+            .contentShape(Rectangle()) // Permite que los taps se detecten en cualquier parte vacía
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+            }
         }
         .onAppear {
             if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
@@ -56,10 +60,6 @@ struct ChatLogView: View {
                              onSendMessage: {chatLogViewModel.sendMessage(currentUser: user)})
                 .background(Color.white.ignoresSafeArea())
         }
-        .background(Color.clear) // Fondo necesario para detectar gestos
-            .onTapGesture {
-                UIApplication.shared.endEditing()
-            }
     }
     
     private func loadingView() -> some View {
