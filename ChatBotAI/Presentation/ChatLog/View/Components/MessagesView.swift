@@ -44,15 +44,15 @@ struct MessagesView: View {
                             .background(Capsule().fill(Color.gray.opacity(0.2)))
                         
                         ForEach(group.messages) { message in
-                            MessageBubbleView(message: message,
-                                              isCurrentUser: message.senderId != currentUserId)
-                            .id(
-                                message.id
-                            )
-                            .padding(
-                                .bottom,
-                                group.messages.last?.id == message.id ? 5 : 0
-                            )
+                            MessageBubbleView(
+                                message: message,
+                                isCurrentUser: message.senderId == currentUserId,
+                                onLongPress: {
+                                    print("Mensaje con ID \(message.id) fue presionado largo.")
+                                    // Aquí puedes más adelante mostrar un menú, alertas, etc.
+                                })
+                            .id(message.id)
+                            .padding(.bottom, group.messages.last?.id == message.id ? 5 : 0)
                         }
                     }
                     Color.clear

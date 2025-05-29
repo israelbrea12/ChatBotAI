@@ -128,8 +128,12 @@ class MessageDataSourceImpl: MessageDataSource {
 
     func stopObservingMessages(for chatId: String) {
         if let handle = messageObservers[chatId] {
-            databaseRef.child("messages").child(chatId).removeObserver(withHandle: handle)
+            // Corregir la ruta aquí:
+            databaseRef.child("chats").child(chatId).child("messages").removeObserver(withHandle: handle)
             messageObservers.removeValue(forKey: chatId)
+            print("Firebase observer stopped for chatId: \(chatId)")
+        } else {
+            print("No observer found to stop for chatId: \(chatId)")
         }
     }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct MessageBubbleView: View {
     let message: Message
     let isCurrentUser: Bool
+    var onLongPress: (() -> Void)? = nil
 
     var body: some View {
         HStack {
