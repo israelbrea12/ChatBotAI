@@ -13,8 +13,8 @@ protocol MessageDataSource {
     func fetchMessages(chatId: String) async throws -> [MessageModel]
     func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void)
     func stopObservingMessages(for chatId: String)
+    func deleteMessage(chatId: String, messageId: String) async throws
 }
-
 
 class MessageDataSourceImpl: MessageDataSource {
     private let databaseRef = Database.database().reference()
@@ -135,5 +135,15 @@ class MessageDataSourceImpl: MessageDataSource {
         } else {
             print("No observer found to stop for chatId: \(chatId)")
         }
+    }
+    
+    func deleteMessage(chatId: String, messageId: String) async throws {
+        let messageRef = databaseRef
+            .child("chats")
+            .child(chatId)
+            .child("messages")
+            .child(messageId)
+
+        try await setValueAsync(messageRef, value: NSNull()) // Esto borra el mensaje
     }
 }

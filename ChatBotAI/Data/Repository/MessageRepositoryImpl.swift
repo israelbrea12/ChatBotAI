@@ -49,4 +49,13 @@ class MessageRepositoryImpl: MessageRepository {
     func stopObservingMessages(chatId: String) {
         messageDataSource.stopObservingMessages(for: chatId)
     }
+    
+    func deleteMessage(chatId: String, messageId: String) async -> Result<Bool, AppError> {
+        do {
+            try await messageDataSource.deleteMessage(chatId: chatId, messageId: messageId)
+            return .success(true)
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

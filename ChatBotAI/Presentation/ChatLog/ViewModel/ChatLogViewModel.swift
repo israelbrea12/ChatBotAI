@@ -16,17 +16,20 @@ class ChatLogViewModel: ObservableObject {
     private let sendMessageUseCase: SendMessageUseCase
     private let fetchMessagesUseCase: FetchMessagesUseCase
     private let observeMessagesUseCase: ObserveMessagesUseCase
+    private let deleteMessageUseCase: DeleteMessageUseCase
     
     private var chatId: String?
 
     init(
         sendMessageUseCase: SendMessageUseCase,
         fetchMessagesUseCase: FetchMessagesUseCase,
-        observeMessagesUseCase: ObserveMessagesUseCase
+        observeMessagesUseCase: ObserveMessagesUseCase,
+        deleteMessageUseCase: DeleteMessageUseCase
     ) {
         self.sendMessageUseCase = sendMessageUseCase
         self.fetchMessagesUseCase = fetchMessagesUseCase
         self.observeMessagesUseCase = observeMessagesUseCase
+        self.deleteMessageUseCase = deleteMessageUseCase
     }
 
     func setupChat(currentUser: User, otherUser: User) {
@@ -108,5 +111,18 @@ class ChatLogViewModel: ObservableObject {
             observeMessagesUseCase.stop(chatId: chatId)
         }
         print("Dejando de observar mensajes")
+    }
+    
+    func deleteMessage(messageId: String) async {
+        guard let chatId = chatId else { return }
+        let result = await deleteMessageUseCase.execute(chatId: chatId, messageId: messageId)
+        
+        switch result {
+        case .success:
+            messages.removeAll { $0.id == messageId }
+        case .failure(let error):
+            print("Error eliminando mensaje: \(error.localizedDescription)")
+            state = .error("No se pudo eliminar el mensaje.")
+        }
     }
 }

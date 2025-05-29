@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct MessagesView: View {
+    
+    @StateObject var chatLogViewModel = Resolver.shared.resolve(
+        ChatLogViewModel.self
+    )
+    
     let messages: [Message]
     let currentUserId: String?
     
@@ -142,10 +147,15 @@ struct MessagesView: View {
                                     }
                                 },
                                 MessageActionItem(label: "Eliminar", systemImage: "trash.circle.fill") {
-                                    print("Acción: Eliminar mensaje con ID '\(message.id ?? "N/A")'")
-                                    // Implementa la lógica de eliminación
-                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                        self.showContextMenu = false // Cierra el menú
+                                    Task {
+                                        if let message = contextMenuMessage {
+                                            let messageId = message.id
+                                            await chatLogViewModel.deleteMessage(messageId: messageId)
+                                        }
+
+                                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                                            self.showContextMenu = false
+                                        }
                                     }
                                 }
                             ],

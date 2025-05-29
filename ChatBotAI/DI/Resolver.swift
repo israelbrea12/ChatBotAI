@@ -218,6 +218,12 @@ extension Resolver {
                 chatRepository: resolver.resolve(ChatRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(DeleteMessageUseCase.self) { resolver in
+            DeleteMessageUseCase(
+                messageRepository: resolver.resolve(MessageRepository.self)!
+            )
+        }.inObjectScope(.container)
 
     }
 
@@ -277,7 +283,8 @@ extension Resolver {
             ChatLogViewModel(
                 sendMessageUseCase: resolver.resolve(SendMessageUseCase.self)!,
                 fetchMessagesUseCase: resolver.resolve(FetchMessagesUseCase.self)!,
-                observeMessagesUseCase: resolver.resolve(ObserveMessagesUseCase.self)!
+                observeMessagesUseCase: resolver.resolve(ObserveMessagesUseCase.self)!,
+                deleteMessageUseCase: resolver.resolve(DeleteMessageUseCase.self)!
             )
         }.inObjectScope(.container)
         
@@ -287,5 +294,6 @@ extension Resolver {
                 chatMode: chatMode
             )
         }.inObjectScope(.transient)
+    
     }
 }
