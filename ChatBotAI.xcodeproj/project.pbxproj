@@ -52,6 +52,7 @@
 		4086854B2DD8188900D5832D /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086854A2DD8188900D5832D /* CustomDialog.swift */; };
 		408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */; };
 		408685592DDA4D2E00D5832D /* DeleteUserChatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */; };
+		408CA9342DE8C9AD000C0FAD /* MessageActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9332DE8C9AD000C0FAD /* MessageActionItem.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -180,6 +181,7 @@
 		4086854A2DD8188900D5832D /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
 		408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatUseCase.swift; sourceTree = "<group>"; };
 		408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatParams.swift; sourceTree = "<group>"; };
+		408CA9332DE8C9AD000C0FAD /* MessageActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionItem.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -446,6 +448,7 @@
 		408685432DD6306500D5832D /* Animations */ = {
 			isa = PBXGroup;
 			children = (
+				408CA9332DE8C9AD000C0FAD /* MessageActionItem.swift */,
 				401581FF2DE84A8C001789E9 /* CustomMenu */,
 				401581FE2DE8497D001789E9 /* CustomAlert */,
 				401581FD2DE84969001789E9 /* CustomSwipeAction */,
@@ -1104,6 +1107,7 @@
 				408685472DD75C4300D5832D /* PanGesture.swift in Sources */,
 				40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */,
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
+				408CA9342DE8C9AD000C0FAD /* MessageActionItem.swift in Sources */,
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,
 				40F3603B2D9F065D0078BE23 /* CreateChatParams.swift in Sources */,
 				408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */,
