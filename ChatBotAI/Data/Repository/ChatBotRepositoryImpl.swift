@@ -5,8 +5,6 @@
 //  Created by Israel Brea Piñero on 15/5/25.
 //
 
-
-// Data/Repositories/ChatBotRepositoryImpl.swift
 import Foundation
 
 class ChatBotRepositoryImpl: ChatBotRepository {
@@ -17,7 +15,10 @@ class ChatBotRepositoryImpl: ChatBotRepository {
     }
 
     func sendMessageToChatBot(prompt: String) async -> Result<String, Error> {
-        // Aquí se podría mapear errores del DataSource a errores del Dominio si fueran diferentes
         return await chatBotDataSource.generateResponse(prompt: prompt)
     }
+    
+    func sendMessageToChatBotStream(prompt: String) -> AsyncThrowingStream<String, Error> {
+            return chatBotDataSource.generateResponseStream(prompt: prompt)
+        }
 }

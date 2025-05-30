@@ -5,13 +5,11 @@
 //  Created by Israel Brea Piñero on 15/5/25.
 //
 
-
-// Domain/UseCases/SendMessageUseCase.swift
 import Foundation
 
-// Protocolo (buena práctica, aunque solo tengas una implementación)
 protocol SendMessageToChatBotUseCaseProtocol {
     func execute(with params: SendMessageToChatBotParams) async -> Result<String, Error>
+    func executeStream(with params: SendMessageToChatBotParams) -> AsyncThrowingStream<String, Error>
 }
 
 class SendMessageToChatBotUseCase: SendMessageToChatBotUseCaseProtocol {
@@ -22,7 +20,10 @@ class SendMessageToChatBotUseCase: SendMessageToChatBotUseCaseProtocol {
     }
 
     func execute(with params: SendMessageToChatBotParams) async -> Result<String, Error> {
-        // Aquí podrías añadir lógica adicional si fuera necesario antes o después de llamar al repositorio
         return await chatBotRepository.sendMessageToChatBot(prompt: params.prompt)
+    }
+    
+    func executeStream(with params: SendMessageToChatBotParams) -> AsyncThrowingStream<String, Error> {
+        return chatBotRepository.sendMessageToChatBotStream(prompt: params.prompt)
     }
 }

@@ -10,6 +10,7 @@ import FirebaseAI
 
 protocol ChatBotDataSource {
     func generateResponse(prompt: String) async -> Result<String, Error>
+    func generateResponseStream(prompt: String) -> AsyncThrowingStream<String, Error>
 }
 
 class ChatBotDataSourceImpl: ChatBotDataSource {
@@ -41,4 +42,23 @@ class ChatBotDataSourceImpl: ChatBotDataSource {
             return .failure(error)
         }
     }
+    
+    func generateResponseStream(prompt: String) -> AsyncThrowingStream<String, Error> {
+            return AsyncThrowingStream { continuation in
+                Task {
+                    do {
+                        let stream = try model.generateContentStream(prompt)
+                        
+                        for try await chunk in stream {
+                            if let text = chunk.text {
+                                continuation.yield(text)
+                            }
+                        }
+                        continuation.finish()
+                    } catch {
+                        continuation.finish(throwing: error)
+                    }
+                }
+            }
+        }
 }
