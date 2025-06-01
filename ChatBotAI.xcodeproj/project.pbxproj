@@ -57,6 +57,14 @@
 		408CA9382DE8E3D4000C0FAD /* DeleteMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */; };
 		408CA9412DEC9FFD000C0FAD /* MessageActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9402DEC9FFD000C0FAD /* MessageActionItem.swift */; };
 		408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9432DECA366000C0FAD /* ModeOption.swift */; };
+		408CA9502DECC033000C0FAD /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA94F2DECC033000C0FAD /* PhotoPicker.swift */; };
+		408CA9522DECC104000C0FAD /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9512DECC104000C0FAD /* MessageType.swift */; };
+		408CA9542DECC2E1000C0FAD /* GoogleStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9532DECC2E1000C0FAD /* GoogleStorageService.swift */; };
+		408CA9562DECC7AE000C0FAD /* StorageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9552DECC7AE000C0FAD /* StorageDataSource.swift */; };
+		408CA95A2DECC938000C0FAD /* StorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9592DECC938000C0FAD /* StorageRepository.swift */; };
+		408CA95C2DECC941000C0FAD /* StorageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA95B2DECC941000C0FAD /* StorageRepositoryImpl.swift */; };
+		408CA95F2DECC96C000C0FAD /* UploadImageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA95E2DECC96C000C0FAD /* UploadImageParams.swift */; };
+		408CA9622DECC98F000C0FAD /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9612DECC98F000C0FAD /* UploadImageUseCase.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -190,6 +198,14 @@
 		408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageUseCase.swift; sourceTree = "<group>"; };
 		408CA9402DEC9FFD000C0FAD /* MessageActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionItem.swift; sourceTree = "<group>"; };
 		408CA9432DECA366000C0FAD /* ModeOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeOption.swift; sourceTree = "<group>"; };
+		408CA94F2DECC033000C0FAD /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
+		408CA9512DECC104000C0FAD /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
+		408CA9532DECC2E1000C0FAD /* GoogleStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleStorageService.swift; sourceTree = "<group>"; };
+		408CA9552DECC7AE000C0FAD /* StorageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDataSource.swift; sourceTree = "<group>"; };
+		408CA9592DECC938000C0FAD /* StorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepository.swift; sourceTree = "<group>"; };
+		408CA95B2DECC941000C0FAD /* StorageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepositoryImpl.swift; sourceTree = "<group>"; };
+		408CA95E2DECC96C000C0FAD /* UploadImageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageParams.swift; sourceTree = "<group>"; };
+		408CA9612DECC98F000C0FAD /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -399,10 +415,12 @@
 		4053F7C82D8762270082785E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				408CA94F2DECC033000C0FAD /* PhotoPicker.swift */,
 				4053F7C62D8736F20082785E /* SessionManager.swift */,
 				40F3600E2D9DCD0E0078BE23 /* AppleSignInDelegate.swift */,
 				40F360102D9DCEA80078BE23 /* CryptoUtils.swift */,
 				40F3602D2D9EC20F0078BE23 /* GoogleAuthService.swift */,
+				408CA9532DECC2E1000C0FAD /* GoogleStorageService.swift */,
 				40F360442D9F12490078BE23 /* Extensions.swift */,
 				408685152DD2A78D00D5832D /* APIKey.swift */,
 			);
@@ -498,6 +516,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		408CA95D2DECC95D000C0FAD /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				408CA95E2DECC96C000C0FAD /* UploadImageParams.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		408CA9602DECC97D000C0FAD /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				408CA9612DECC98F000C0FAD /* UploadImageUseCase.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
 		40956E112D805F8C00307A53 = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +591,7 @@
 				40F360BD2DA47BF20078BE23 /* Message */,
 				4086852C2DD6214400D5832D /* ChatbotMessage */,
 				401581E82DDFB101001789E9 /* ChatMode */,
+				408CA95D2DECC95D000C0FAD /* Storage */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -717,6 +752,7 @@
 				40F3603C2D9F07B00078BE23 /* ChatRepository.swift */,
 				40F360C32DA47D590078BE23 /* MessageRepository.swift */,
 				408685342DD6265700D5832D /* ChatBotRepository.swift */,
+				408CA9592DECC938000C0FAD /* StorageRepository.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -730,6 +766,7 @@
 				40F360372D9F04180078BE23 /* Chat */,
 				40F360C02DA47C440078BE23 /* Message */,
 				4086852F2DD6254B00D5832D /* ChatbotIA */,
+				408CA9602DECC97D000C0FAD /* Storage */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -787,6 +824,7 @@
 				40F360402D9F09A80078BE23 /* ChatDataSource.swift */,
 				40F360CC2DA47FF80078BE23 /* MessageDataSource.swift */,
 				408685382DD6269C00D5832D /* ChatBotDataSource.swift */,
+				408CA9552DECC7AE000C0FAD /* StorageDataSource.swift */,
 			);
 			path = DataSource;
 			sourceTree = "<group>";
@@ -799,6 +837,7 @@
 				40F3603E2D9F08590078BE23 /* ChatRepositoryImpl.swift */,
 				40F360C52DA47DFC0078BE23 /* MessageRepositoryImpl.swift */,
 				408685362DD6267D00D5832D /* ChatBotRepositoryImpl.swift */,
+				408CA95B2DECC941000C0FAD /* StorageRepositoryImpl.swift */,
 			);
 			path = Repository;
 			sourceTree = "<group>";
@@ -918,8 +957,9 @@
 		40F360BD2DA47BF20078BE23 /* Message */ = {
 			isa = PBXGroup;
 			children = (
-				408CA9352DE8E3BA000C0FAD /* DeleteMessageParams.swift */,
 				40F360BE2DA47C160078BE23 /* Message.swift */,
+				408CA9512DECC104000C0FAD /* MessageType.swift */,
+				408CA9352DE8E3BA000C0FAD /* DeleteMessageParams.swift */,
 				40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */,
 			);
 			path = Message;
@@ -1115,6 +1155,7 @@
 				40F360342D9F01E00078BE23 /* ChatModel.swift in Sources */,
 				4053F7C72D8736F20082785E /* SessionManager.swift in Sources */,
 				40D384F32D843A7700406AC1 /* LoginView.swift in Sources */,
+				408CA95A2DECC938000C0FAD /* StorageRepository.swift in Sources */,
 				40F3603F2D9F08590078BE23 /* ChatRepositoryImpl.swift in Sources */,
 				40F360392D9F04380078BE23 /* CreateChatUseCase.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
@@ -1128,10 +1169,12 @@
 				40F360362D9F02180078BE23 /* ChatMapper.swift in Sources */,
 				408685392DD6269C00D5832D /* ChatBotDataSource.swift in Sources */,
 				408685312DD6257A00D5832D /* SendMessageToChatbotUseCase.swift in Sources */,
+				408CA9502DECC033000C0FAD /* PhotoPicker.swift in Sources */,
 				40F360092D9DC3A80078BE23 /* UserDataSource.swift in Sources */,
 				4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */,
 				40D384F52D843A7700406AC1 /* LoginViewModel.swift in Sources */,
 				4086852E2DD6215200D5832D /* ChatbotMessage.swift in Sources */,
+				408CA95F2DECC96C000C0FAD /* UploadImageParams.swift in Sources */,
 				408CA9362DE8E3BA000C0FAD /* DeleteMessageParams.swift in Sources */,
 				40F3600D2D9DCC870078BE23 /* SignInWithAppleUseCase.swift in Sources */,
 				40F35FFA2D9DB5840078BE23 /* RegistrationViewModel.swift in Sources */,
@@ -1152,6 +1195,8 @@
 				402CB8062D94B748008EAEF0 /* MessagesView.swift in Sources */,
 				408685472DD75C4300D5832D /* PanGesture.swift in Sources */,
 				40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */,
+				408CA9622DECC98F000C0FAD /* UploadImageUseCase.swift in Sources */,
+				408CA9562DECC7AE000C0FAD /* StorageDataSource.swift in Sources */,
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
 				408CA9382DE8E3D4000C0FAD /* DeleteMessageUseCase.swift in Sources */,
 				408CA9342DE8C9AD000C0FAD /* MessageActionMenuView.swift in Sources */,
@@ -1185,6 +1230,7 @@
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
 				40F360C42DA47D590078BE23 /* MessageRepository.swift in Sources */,
 				40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */,
+				408CA9542DECC2E1000C0FAD /* GoogleStorageService.swift in Sources */,
 				402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,
 				40D385122D84DF5E00406AC1 /* UseCaseProtocol.swift in Sources */,
@@ -1204,9 +1250,11 @@
 				408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
 				40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */,
+				408CA9522DECC104000C0FAD /* MessageType.swift in Sources */,
 				40F360CD2DA47FF80078BE23 /* MessageDataSource.swift in Sources */,
 				408685112DD284D900D5832D /* ObserveChatsUseCase.swift in Sources */,
 				40F360432D9F0C2A0078BE23 /* LastMessageModel.swift in Sources */,
+				408CA95C2DECC941000C0FAD /* StorageRepositoryImpl.swift in Sources */,
 				40F3604B2D9FD94F0078BE23 /* FetchUserByIdParams.swift in Sources */,
 				40F360492D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift in Sources */,
 				40F360452D9F12490078BE23 /* Extensions.swift in Sources */,

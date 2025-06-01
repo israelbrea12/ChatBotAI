@@ -14,6 +14,7 @@ class ChatLogViewModel: ObservableObject {
     @Published var state: ViewState = .success
     @Published var chatText = ""
     @Published var messages: [Message] = []
+    @Published var isUploadingImage: Bool = false
 
     // MARK: - Private vars
     private var chatId: String?
@@ -23,18 +24,21 @@ class ChatLogViewModel: ObservableObject {
     private let fetchMessagesUseCase: FetchMessagesUseCase
     private let observeMessagesUseCase: ObserveMessagesUseCase
     private let deleteMessageUseCase: DeleteMessageUseCase
+    private let uploadImageUseCase: UploadImageUseCase
 
     // MARK: - Lifecycle functions
     init(
         sendMessageUseCase: SendMessageUseCase,
         fetchMessagesUseCase: FetchMessagesUseCase,
         observeMessagesUseCase: ObserveMessagesUseCase,
-        deleteMessageUseCase: DeleteMessageUseCase
+        deleteMessageUseCase: DeleteMessageUseCase,
+        uploadImageUseCase: UploadImageUseCase
     ) {
         self.sendMessageUseCase = sendMessageUseCase
         self.fetchMessagesUseCase = fetchMessagesUseCase
         self.observeMessagesUseCase = observeMessagesUseCase
         self.deleteMessageUseCase = deleteMessageUseCase
+        self.uploadImageUseCase = uploadImageUseCase
     }
 
     // MARK: - Functions
@@ -57,39 +61,86 @@ class ChatLogViewModel: ObservableObject {
         }
     }
 
-    func sendMessage(currentUser: User?) {
+    func sendTextMessage(currentUser: User?) { // Renombrado para claridad
         guard let user = currentUser,
               let chatId = chatId else {
             return
         }
-
-        // Trim leading/trailing whitespaces and newlines
+        
         let trimmedText = chatText.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        // Prevent sending empty messages after trimming
         guard !trimmedText.isEmpty else {
             return
         }
-
+        
         let message = Message(
-            id: UUID().uuidString,
+            id: UUID().uuidString, // El ID debería generarse en el backend o ser único
             text: trimmedText,
             senderId: user.id,
-            senderName: user.fullName ?? ""
+            senderName: user.fullName ?? "",
+            sentAt: Date().timeIntervalSince1970, // Añade el timestamp aquí
+            messageType: .text // Especifica el tipo
         )
-
+        
         Task {
-            print("\(chatId)")
             let result = await sendMessageUseCase.execute(
                 with: SendMessageParams(chatId: chatId, message: message)
             )
-
+            
             switch result {
             case .success:
-                chatText = ""
+                chatText = "" // Limpia el campo de texto
             case .failure(let error):
-                print("Error enviando mensaje: \(error.localizedDescription)")
+                print("Error enviando mensaje de texto: \(error.localizedDescription)")
                 state = .error("Error al enviar el mensaje")
+            }
+        }
+    }
+    
+    func sendImageMessage(imageData: Data, currentUser: User?, caption: String = "") { // Añadido caption opcional
+        guard let user = currentUser, let chatId = chatId else {
+            print("Error: Usuario o chatId no disponible.")
+            // Podrías establecer state = .error aquí si quieres que la UI reaccione
+            return
+        }
+        
+        self.isUploadingImage = true // Mostrar indicador de carga
+        let messageId = UUID().uuidString // ID único para el mensaje y para la ruta de la imagen
+        
+        Task {
+            let uploadParams = UploadImageParams(imageData: imageData, chatId: chatId, messageId: messageId)
+            let uploadResult = await self.uploadImageUseCase.execute(with: uploadParams)
+            
+            switch uploadResult {
+            case .success(let imageURL):
+                // Imagen subida, ahora envía el mensaje a Realtime Database
+                let message = Message(
+                    id: messageId,
+                    text: caption, // Usa el caption
+                    senderId: user.id,
+                    senderName: user.fullName ?? "",
+                    sentAt: Date().timeIntervalSince1970,
+                    messageType: .image,
+                    imageURL: imageURL.absoluteString
+                )
+                
+                let sendMessageParams = SendMessageParams(chatId: chatId, message: message)
+                let sendResult = await self.sendMessageUseCase.execute(with: sendMessageParams)
+                
+                self.isUploadingImage = false // Ocultar indicador de carga
+                
+                switch sendResult {
+                case .success:
+                    print("Mensaje de imagen enviado exitosamente a RTDB.")
+                    // No es necesario cambiar el `state` si ya es `.success` o `.empty`
+                case .failure(let error):
+                    print("Error enviando mensaje de imagen a RTDB: \(error.localizedDescription)")
+                    self.state = .error("Error al enviar la imagen: \(error.localizedDescription)")
+                }
+                
+            case .failure(let error):
+                self.isUploadingImage = false // Ocultar indicador de carga
+                print("Error al subir la imagen a Firebase Storage: \(error.localizedDescription)")
+                self.state = .error("No se pudo subir la imagen: \(error.localizedDescription)")
             }
         }
     }

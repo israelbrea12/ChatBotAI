@@ -88,6 +88,7 @@ struct HomeView: View {
             }
             .frame(
                 maxWidth: .infinity
+                )
             .background(
                 Color(.systemBackground)
             )

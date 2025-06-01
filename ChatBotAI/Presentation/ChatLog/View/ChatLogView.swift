@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ChatLogView: View {
     
@@ -14,6 +15,9 @@ struct ChatLogView: View {
     )
 
     @State private var config: MenuConfig = .init(symbolImage: "plus")
+    // NUEVOS ESTADOS PARA EL IMAGE PICKER
+    @State private var showingImagePicker = false
+    @State private var selectedPhotoItem: PhotosPickerItem? = nil
     
     
     let user: User?
@@ -45,6 +49,14 @@ struct ChatLogView: View {
                 .onTapGesture {
                     UIApplication.shared.endEditing()
                 }
+                
+                if chatLogViewModel.isUploadingImage {
+                    ProgressView("Enviando imagen...")
+                        .padding()
+                        .background(Color.black.opacity(0.7))
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
             }
             .safeAreaInset(edge: .bottom) {
                 // Pasamos el binding de chatText, el viewModel y el usuario actual
@@ -62,10 +74,39 @@ struct ChatLogView: View {
             .onDisappear {
                 chatLogViewModel.stopObservingMessages()
             }
+            
+            // MODIFICADOR PhotosPicker
+            .photosPicker(
+                isPresented: $showingImagePicker,
+                selection: $selectedPhotoItem,
+                matching: .images // Solo imágenes
+            )
+            .onChange(of: selectedPhotoItem) { newItem in // Cambiado de _ a newItem
+                Task {
+                    if let item = newItem { // Usa el newItem renombrado
+                        do {
+                            if let data = try await item.loadTransferable(type: Data.self) {
+                                // Llama a la función del ViewModel para enviar la imagen
+                                // Podrías añadir una UI para escribir un pie de foto aquí si quisieras
+                                chatLogViewModel.sendImageMessage(imageData: data, currentUser: SessionManager.shared.currentUser, caption: "")
+                                selectedPhotoItem = nil // Resetea para la próxima selección
+                            } else {
+                                print("No se pudieron cargar los datos de la imagen seleccionada.")
+                                // Opcional: mostrar error al usuario
+                            }
+                        } catch {
+                            print("Error al cargar la imagen: \(error.localizedDescription)")
+                            // Opcional: mostrar error al usuario
+                        }
+                    }
+                }
+            }
         } actions: {
             /// Sample Action's
             MenuAction(symbolImage: "camera", text: "Camera")
-            MenuAction(symbolImage: "photo.on.rectangle.angled", text: "Photos")
+            MenuAction(symbolImage: "photo.on.rectangle.angled", text: "Photos") {
+                self.showingImagePicker = true
+            }
             MenuAction(symbolImage: "face.smiling", text: "Genmoji")
             MenuAction(symbolImage: "waveform", text: "Audio")
             MenuAction(symbolImage: "apple.logo", text: "App Store")
@@ -84,7 +125,7 @@ struct ChatLogView: View {
     }
     
     private func loadingView() -> some View {
-        ProgressView()
+        ProgressView("Cargando mensajes...")
     }
     
     private func errorView(errorMsg: String) -> some View {
@@ -128,12 +169,12 @@ struct ChatLogView: View {
                             .stroke(.gray.opacity(0.3), lineWidth: 1.5)
                     }
                     .onSubmit { // Permite enviar con la tecla "Intro"
-                        viewModel.sendMessage(currentUser: currentUser)
+                        viewModel.sendTextMessage(currentUser: currentUser)
                     }
 
                 // Botón de enviar
                 Button(action: {
-                    viewModel.sendMessage(currentUser: currentUser)
+                    viewModel.sendTextMessage(currentUser: currentUser)
                 }) {
                     Image(systemName: "paperplane.fill")
                         .font(.system(size: 18)) // Ajusta el tamaño según sea necesario

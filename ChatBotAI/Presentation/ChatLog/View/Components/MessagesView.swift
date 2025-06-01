@@ -140,7 +140,7 @@ struct MessagesView: View {
                         MessageActionMenuView(
                             items: [
                                 MessageActionItem(label: "Editar", systemImage: "pencil.circle.fill") {
-                                    print("Acción: Editar mensaje con ID '\(message.id ?? "N/A")'")
+                                    print("Acción: Editar mensaje con ID '\(message.id)'")
                                     // Implementa la lógica de edición
                                     withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                                         self.showContextMenu = false // Cierra el menú
