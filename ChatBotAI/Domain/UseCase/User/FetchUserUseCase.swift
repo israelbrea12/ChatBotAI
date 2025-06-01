@@ -7,7 +7,6 @@
 
 import Foundation
 
-// FetchUserUseCase
 class FetchUserUseCase: UseCaseProtocol {
     
     private let repository: UserRepository
