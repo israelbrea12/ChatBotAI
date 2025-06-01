@@ -65,6 +65,7 @@
 		408CA95C2DECC941000C0FAD /* StorageRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA95B2DECC941000C0FAD /* StorageRepositoryImpl.swift */; };
 		408CA95F2DECC96C000C0FAD /* UploadImageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA95E2DECC96C000C0FAD /* UploadImageParams.swift */; };
 		408CA9622DECC98F000C0FAD /* UploadImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9612DECC98F000C0FAD /* UploadImageUseCase.swift */; };
+		408CA9662DECD5A9000C0FAD /* ImagePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9652DECD5A9000C0FAD /* ImagePreviewView.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -206,6 +207,7 @@
 		408CA95B2DECC941000C0FAD /* StorageRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepositoryImpl.swift; sourceTree = "<group>"; };
 		408CA95E2DECC96C000C0FAD /* UploadImageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageParams.swift; sourceTree = "<group>"; };
 		408CA9612DECC98F000C0FAD /* UploadImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUseCase.swift; sourceTree = "<group>"; };
+		408CA9652DECD5A9000C0FAD /* ImagePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewView.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -532,6 +534,22 @@
 			path = Storage;
 			sourceTree = "<group>";
 		};
+		408CA9632DECD591000C0FAD /* ImagePreview */ = {
+			isa = PBXGroup;
+			children = (
+				408CA9642DECD599000C0FAD /* View */,
+			);
+			path = ImagePreview;
+			sourceTree = "<group>";
+		};
+		408CA9642DECD599000C0FAD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				408CA9652DECD5A9000C0FAD /* ImagePreviewView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		40956E112D805F8C00307A53 = {
 			isa = PBXGroup;
 			children = (
@@ -716,6 +734,7 @@
 				40D384E42D843A7700406AC1 /* Settings */,
 				40D384DC2D843A7700406AC1 /* ChatBotIA */,
 				402CB7F82D949490008EAEF0 /* ChatLog */,
+				408CA9632DECD591000C0FAD /* ImagePreview */,
 				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
 				40D384E82D843A7700406AC1 /* Utils */,
 				408685432DD6306500D5832D /* Animations */,
@@ -1245,6 +1264,7 @@
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
 				40F360C82DA47EE60078BE23 /* MessageMapper.swift in Sources */,
 				40F360BF2DA47C160078BE23 /* Message.swift in Sources */,
+				408CA9662DECD5A9000C0FAD /* ImagePreviewView.swift in Sources */,
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
 				408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */,

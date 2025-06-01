@@ -18,53 +18,68 @@ struct ChatLogView: View {
     // NUEVOS ESTADOS PARA EL IMAGE PICKER
     @State private var showingImagePicker = false
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
+    @State private var imageDataToPreview: Data? = nil // Para la imagen seleccionada
+    @State private var showImagePreviewScreen: Bool = false // Para mostrar la pantalla de preview
+    @State private var imagePreviewCaption: String = "" // Para el pie de foto en la preview
     
     
     let user: User?
     
     var body: some View {
         CustomMenuView(config: $config) {
-            /// Your Root View
             NavigationStack {
                 ZStack {
-                    switch chatLogViewModel.state {
-                    case .initial,
-                            .loading:
-                        loadingView()
-                        
-                    case .success:
-                        successView()
-                        
-                    case .error(let errorMessage):
-                        errorView(errorMsg: errorMessage)
-                        
-                    case .empty:
-                        emptyView()
+                    // Contenido principal del chat
+                    VStack { // Añadido VStack para que el ZStack principal pueda superponer el ProgressView correctamente
+                        switch chatLogViewModel.state {
+                        case .initial, .loading:
+                                if !chatLogViewModel.isUploadingImage { // No mostrar si ya se está subiendo una imagen
+                                loadingView()
+                            } else {
+                                successView() // Mostrar chat mientras se sube imagen en segundo plano
+                            }
+                        case .success:
+                            successView()
+                        case .error(let errorMessage):
+                            errorView(errorMsg: errorMessage)
+                        case .empty:
+                            emptyView()
+                        }
                     }
-                }
-                .navigationTitle("\(user?.fullName ?? "")")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar(.hidden, for: .tabBar)
-                .contentShape(Rectangle()) // Permite que los taps se detecten en cualquier parte vacía
-                .onTapGesture {
-                    UIApplication.shared.endEditing()
-                }
-                
-                if chatLogViewModel.isUploadingImage {
-                    ProgressView("Enviando imagen...")
-                        .padding()
-                        .background(Color.black.opacity(0.7))
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+                    .navigationTitle("\(user?.fullName ?? "")")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar(.hidden, for: .tabBar)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        UIApplication.shared.endEditing()
+                    }
+                        
+                    // MODIFICADO: Indicador de carga translúcido
+                    if chatLogViewModel.isUploadingImage {
+                        VStack { // Contenedor para centrar el ProgressView
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                ProgressView("Enviando imagen...")
+                                    .padding()
+                                    .background(.ultraThinMaterial) // Fondo translúcido
+                                    .cornerRadius(10)
+                                    .shadow(radius: 5) // Sombra sutil para destacar
+                                Spacer()
+                            }
+                            Spacer()
+                        }
+                        .background(Color.black.opacity(0.05)) // Fondo muy sutil para todo el ZStack
+                        .edgesIgnoringSafeArea(.all)
+                    }
                 }
             }
             .safeAreaInset(edge: .bottom) {
-                // Pasamos el binding de chatText, el viewModel y el usuario actual
                 BottomBar(
                     chatText: $chatLogViewModel.chatText,
                     viewModel: chatLogViewModel,
-                    currentUser: SessionManager.shared.currentUser // El usuario que envía el mensaje
-                                )
+                    currentUser: SessionManager.shared.currentUser
+                )
             }
             .onAppear {
                 if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
@@ -74,31 +89,58 @@ struct ChatLogView: View {
             .onDisappear {
                 chatLogViewModel.stopObservingMessages()
             }
-            
-            // MODIFICADOR PhotosPicker
-            .photosPicker(
+            .photosPicker( // Se mantiene aquí para la selección inicial
                 isPresented: $showingImagePicker,
                 selection: $selectedPhotoItem,
-                matching: .images // Solo imágenes
+                matching: .images
             )
-            .onChange(of: selectedPhotoItem) { newItem in // Cambiado de _ a newItem
+            .onChange(of: selectedPhotoItem) { newItem in
                 Task {
-                    if let item = newItem { // Usa el newItem renombrado
+                    if let item = newItem {
                         do {
                             if let data = try await item.loadTransferable(type: Data.self) {
-                                // Llama a la función del ViewModel para enviar la imagen
-                                // Podrías añadir una UI para escribir un pie de foto aquí si quisieras
-                                chatLogViewModel.sendImageMessage(imageData: data, currentUser: SessionManager.shared.currentUser, caption: "")
-                                selectedPhotoItem = nil // Resetea para la próxima selección
+                                self.imageDataToPreview = data // Guardar datos para la preview
+                                self.showImagePreviewScreen = true // Mostrar pantalla de preview
+                                self.selectedPhotoItem = nil // Resetear picker para la próxima
+                                // El config.showMenu = false se maneja en la acción del menú
                             } else {
                                 print("No se pudieron cargar los datos de la imagen seleccionada.")
-                                // Opcional: mostrar error al usuario
                             }
                         } catch {
-                            print("Error al cargar la imagen: \(error.localizedDescription)")
-                            // Opcional: mostrar error al usuario
+                                print("Error al cargar la imagen: \(error.localizedDescription)")
                         }
                     }
+                }
+            }
+            // NUEVO: Pantalla de previsualización como fullScreenCover
+            .fullScreenCover(isPresented: $showImagePreviewScreen) {
+                if let dataForPreview = imageDataToPreview {
+                    ImagePreviewView(
+                        imageData: dataForPreview,
+                        caption: $imagePreviewCaption, // Pasa el binding para el pie de foto
+                        onCancel: {
+                            self.imageDataToPreview = nil
+                            self.imagePreviewCaption = "" // Limpia el pie de foto
+                            self.showImagePreviewScreen = false
+                        },
+                        onSend: { confirmedCaption in
+                            chatLogViewModel.sendImageMessage(
+                                imageData: dataForPreview,
+                                currentUser: SessionManager.shared.currentUser,
+                                caption: confirmedCaption // Envía el pie de foto confirmado
+                            )
+                            self.imageDataToPreview = nil
+                            self.imagePreviewCaption = "" // Limpia el pie de foto
+                            self.showImagePreviewScreen = false
+                        }
+                    )
+                } else {
+                    // Fallback en caso de que imageDataToPreview sea nil, aunque no debería ocurrir
+                    // si showImagePreviewScreen es true.
+                    Text("Error al cargar previsualización.")
+                        .onAppear {
+                            self.showImagePreviewScreen = false // Cierra si no hay datos
+                        }
                 }
             }
         } actions: {
@@ -106,6 +148,7 @@ struct ChatLogView: View {
             MenuAction(symbolImage: "camera", text: "Camera")
             MenuAction(symbolImage: "photo.on.rectangle.angled", text: "Photos") {
                 self.showingImagePicker = true
+                self.config.showMenu = false
             }
             MenuAction(symbolImage: "face.smiling", text: "Genmoji")
             MenuAction(symbolImage: "waveform", text: "Audio")
