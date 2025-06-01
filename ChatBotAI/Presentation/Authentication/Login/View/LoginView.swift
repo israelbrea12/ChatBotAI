@@ -10,6 +10,7 @@ import GoogleSignIn
 import GoogleSignInSwift
 
 struct LoginView: View {
+    
     @StateObject var loginViewModel = Resolver.shared.resolve(LoginViewModel.self)
     
     @State private var email = ""

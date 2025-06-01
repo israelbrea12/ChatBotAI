@@ -9,6 +9,7 @@ import SwiftUI
 
 // Subvista para la burbuja del mensaje
 struct MessageBubble: View {
+    
     let text: String
     let backgroundColor: Color
     let textColor: Color

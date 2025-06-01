@@ -9,9 +9,10 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct HomeView: View {
+    
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
     
-    @State private var showAlert = false // Esta variable veo bien que esté aquí porque solo sirve para la vista.
+    @State private var showAlert = false
     @State private var chatToDelete: Chat? = nil
 
     var body: some View {
@@ -79,22 +80,19 @@ struct HomeView: View {
     }
     
     private func successView() -> some View {
-        // Loop through each chat
         ForEach(homeViewModel.chats, id: \.id) { chat in
             NavigationLink {
-                // Navigate to ChatLogView for the selected chat
                 ChatLogView(user: getChatPartner(for: chat))
             } label: {
                 ChatRowLabelView(chat: chat, homeViewModel: homeViewModel)
             }
             .frame(
                 maxWidth: .infinity
-            ) // Ensure the link takes full width before applying background
             .background(
                 Color(.systemBackground)
-            ) // White background for the card
-            .cornerRadius(12) // Rounded corners for the card
-            .foregroundColor(.primary) // Ensure text color is appropriate
+            )
+            .cornerRadius(12)
+            .foregroundColor(.primary)
             .alert(isPresented: $showAlert) {
                 CustomDialog(
                              title: "Delete Chat",
@@ -148,23 +146,15 @@ struct HomeView: View {
 
 
     private func loadingView() -> some View {
-        VStack { // Usamos un VStack para centrar el ProgressView
-            Spacer() // Empuja el ProgressView hacia el centro
+        VStack {
+            Spacer()
             ProgressView()
-            Spacer() // Empuja el ProgressView hacia el centro
+            Spacer()
         }
-        .frame(maxWidth: .infinity) // Asegura que el VStack ocupe el ancho
-        // El truco está en que los Spacers intentarán ocupar todo el alto disponible
-        // dentro del ScrollView, haciendo que el contenido del ScrollView sea "alto".
-        // Necesitamos darle una altura mínima al contenido del ScrollView,
-        // o una altura que coincida con la pantalla.
-        // Para asegurar que el ScrollView sepa que su contenido debe ser alto:
+        .frame(maxWidth: .infinity)
         .frame(
             minHeight: UIScreen.main.bounds.height - 200
-        ) // Un valor aproximado para llenar la pantalla
-        // Ajusta este valor según sea necesario,
-        // considerando barras de navegación, etc.
-        // O usa GeometryReader para una mayor precisión si es necesario.
+        )
     }
 
     private func emptyView() -> some View {
@@ -175,7 +165,6 @@ struct HomeView: View {
         InfoView(message: errorMsg)
     }
     
-    // Función auxiliar para obtener el usuario compañero de chat
     private func getChatPartner(for chat: Chat) -> User {
         let partnerId = chat.participants.first {
             $0 != homeViewModel.currentUser?.id
@@ -189,7 +178,6 @@ struct HomeView: View {
     }
 }
 
-// Subestructura para la etiqueta de la fila del chat (el contenido del NavigationLink)
 struct ChatRowLabelView: View {
     let chat: Chat
     @ObservedObject var homeViewModel: HomeViewModel

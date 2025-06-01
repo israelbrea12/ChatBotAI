@@ -9,7 +9,9 @@ import SwiftUI
 
 // Subvista para el campo de entrada y botón de envío
 struct MessageInputView: View {
+    
     @Binding var prompt: String
+    
     let isGenerating: Bool
     let sendMessageAction: () -> Void
 

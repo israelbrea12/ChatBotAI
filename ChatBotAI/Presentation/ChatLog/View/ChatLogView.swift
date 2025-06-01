@@ -12,10 +12,11 @@ struct ChatLogView: View {
     @StateObject var chatLogViewModel = Resolver.shared.resolve(
         ChatLogViewModel.self
     )
-    
-    let user: User?
 
     @State private var config: MenuConfig = .init(symbolImage: "plus")
+    
+    
+    let user: User?
     
     var body: some View {
         CustomMenuView(config: $config) {

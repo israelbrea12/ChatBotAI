@@ -10,12 +10,18 @@ import Combine
 
 @MainActor
 class NewMessageViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var users: [User] = []
     @Published var state: ViewState = .initial
     
-    private let fetchAllUserExceptCurrentUseCase: FetchAllUsersExceptCurrentUseCase
+    // MARK: - Private vars
     private var cancellables = Set<AnyCancellable>()
     
+    // MARK: - Use Cases
+    private let fetchAllUserExceptCurrentUseCase: FetchAllUsersExceptCurrentUseCase
+    
+    // MARK: - Lifecycle functions
     init(fetchAllUsersExceptCurrentUseCase: FetchAllUsersExceptCurrentUseCase) {
         self.fetchAllUserExceptCurrentUseCase = fetchAllUsersExceptCurrentUseCase
         Task {
@@ -23,6 +29,7 @@ class NewMessageViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Functions
     func fetchAllUsersExceptCurrent() async {
         state = .loading
         Task {

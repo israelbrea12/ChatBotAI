@@ -13,10 +13,10 @@ struct MessagesView: View {
         ChatLogViewModel.self
     )
     
+    @Namespace private var bottomID
+    
     let messages: [Message]
     let currentUserId: String?
-    
-    @Namespace private var bottomID
     
     // Estados para el menú contextual
     @State private var showContextMenu: Bool = false
@@ -137,7 +137,7 @@ struct MessagesView: View {
                             isBubbleCurrentUser: message.senderId == currentUserId // Podría usarse para alineación horizontal avanzada
                         )
                         
-                        ContextMenuView(
+                        MessageActionMenuView(
                             items: [
                                 MessageActionItem(label: "Editar", systemImage: "pencil.circle.fill") {
                                     print("Acción: Editar mensaje con ID '\(message.id ?? "N/A")'")

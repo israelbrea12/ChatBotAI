@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct RolePlaySetupView: View {
+    
     @State private var userRole = ""
     @State private var botRole = ""
     @State private var scenario = ""

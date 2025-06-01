@@ -11,22 +11,25 @@ import FirebaseAuth
 
 @MainActor
 class RegistrationViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var currentUser: User?
     @Published var state: ViewState = .success
     @Published var isLoading = false
-    
-    private let signUpUseCase: SignUpUseCase
     @Published var image: UIImage?
     @Published var shouldShowImagePicker = false
-
     
+    // MARK: - Use Cases
+    private let signUpUseCase: SignUpUseCase
+
+    // MARK: - Lifecycle functions
     init(
         signUpUseCase: SignUpUseCase
     ) {
         self.signUpUseCase = signUpUseCase
     }
     
-    
+    // MARK: - Functions
     func createUser(withEmail email: String, password: String, fullName: String) async {
         DispatchQueue.main.async { self.isLoading = true }
         let result = await signUpUseCase.execute(

@@ -52,9 +52,11 @@
 		4086854B2DD8188900D5832D /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086854A2DD8188900D5832D /* CustomDialog.swift */; };
 		408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */; };
 		408685592DDA4D2E00D5832D /* DeleteUserChatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */; };
-		408CA9342DE8C9AD000C0FAD /* MessageActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9332DE8C9AD000C0FAD /* MessageActionItem.swift */; };
+		408CA9342DE8C9AD000C0FAD /* MessageActionMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9332DE8C9AD000C0FAD /* MessageActionMenuView.swift */; };
 		408CA9362DE8E3BA000C0FAD /* DeleteMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9352DE8E3BA000C0FAD /* DeleteMessageParams.swift */; };
 		408CA9382DE8E3D4000C0FAD /* DeleteMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */; };
+		408CA9412DEC9FFD000C0FAD /* MessageActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9402DEC9FFD000C0FAD /* MessageActionItem.swift */; };
+		408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9432DECA366000C0FAD /* ModeOption.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -183,9 +185,11 @@
 		4086854A2DD8188900D5832D /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
 		408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatUseCase.swift; sourceTree = "<group>"; };
 		408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatParams.swift; sourceTree = "<group>"; };
-		408CA9332DE8C9AD000C0FAD /* MessageActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionItem.swift; sourceTree = "<group>"; };
+		408CA9332DE8C9AD000C0FAD /* MessageActionMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionMenuView.swift; sourceTree = "<group>"; };
 		408CA9352DE8E3BA000C0FAD /* DeleteMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageParams.swift; sourceTree = "<group>"; };
 		408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageUseCase.swift; sourceTree = "<group>"; };
+		408CA9402DEC9FFD000C0FAD /* MessageActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionItem.swift; sourceTree = "<group>"; };
+		408CA9432DECA366000C0FAD /* ModeOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeOption.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,6 +327,7 @@
 		401581EB2DDFB1D1001789E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				408CA9432DECA366000C0FAD /* ModeOption.swift */,
 				401581EC2DDFB1DC001789E9 /* ModeSelectionView.swift */,
 				40D384DB2D843A7700406AC1 /* ChatBotIAView.swift */,
 				401581EE2DDFB1E8001789E9 /* RolePlaySetupView.swift */,
@@ -407,8 +412,8 @@
 		4057DBFE2D8CCE5300D2E2B0 /* NewMessage */ = {
 			isa = PBXGroup;
 			children = (
+				408CA9422DECA135000C0FAD /* View */,
 				4057DBFF2D8CCE7700D2E2B0 /* ViewModel */,
-				4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */,
 			);
 			path = NewMessage;
 			sourceTree = "<group>";
@@ -452,12 +457,45 @@
 		408685432DD6306500D5832D /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				408CA9332DE8C9AD000C0FAD /* MessageActionItem.swift */,
+				408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */,
 				401581FF2DE84A8C001789E9 /* CustomMenu */,
 				401581FE2DE8497D001789E9 /* CustomAlert */,
 				401581FD2DE84969001789E9 /* CustomSwipeAction */,
 			);
 			path = Animations;
+			sourceTree = "<group>";
+		};
+		408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */ = {
+			isa = PBXGroup;
+			children = (
+				408CA9402DEC9FFD000C0FAD /* MessageActionItem.swift */,
+				408CA9332DE8C9AD000C0FAD /* MessageActionMenuView.swift */,
+			);
+			path = CustomMessageActionMenu;
+			sourceTree = "<group>";
+		};
+		408CA9422DECA135000C0FAD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		408CA9452DECA427000C0FAD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				40D384E32D843A7700406AC1 /* SettingsView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		408CA9462DECA503000C0FAD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				40D384DF2D843A7700406AC1 /* HomeView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		40956E112D805F8C00307A53 = {
@@ -597,7 +635,7 @@
 		40D384E02D843A7700406AC1 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				40D384DF2D843A7700406AC1 /* HomeView.swift */,
+				408CA9462DECA503000C0FAD /* View */,
 				40D384DE2D843A7700406AC1 /* ViewModel */,
 			);
 			path = Home;
@@ -614,7 +652,7 @@
 		40D384E42D843A7700406AC1 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				40D384E32D843A7700406AC1 /* SettingsView.swift */,
+				408CA9452DECA427000C0FAD /* View */,
 				40D384E22D843A7700406AC1 /* ViewModel */,
 			);
 			path = Settings;
@@ -1106,6 +1144,7 @@
 				4086853E2DD62C5400D5832D /* MessageBubble.swift in Sources */,
 				402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */,
 				40F360C22DA47C660078BE23 /* SendMessageUseCase.swift in Sources */,
+				408CA9412DEC9FFD000C0FAD /* MessageActionItem.swift in Sources */,
 				40D385202D84E37500406AC1 /* UserModel.swift in Sources */,
 				401581ED2DDFB1DC001789E9 /* ModeSelectionView.swift in Sources */,
 				401581F12DDFB3AF001789E9 /* NavigationTarget.swift in Sources */,
@@ -1115,7 +1154,7 @@
 				40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */,
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
 				408CA9382DE8E3D4000C0FAD /* DeleteMessageUseCase.swift in Sources */,
-				408CA9342DE8C9AD000C0FAD /* MessageActionItem.swift in Sources */,
+				408CA9342DE8C9AD000C0FAD /* MessageActionMenuView.swift in Sources */,
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,
 				40F3603B2D9F065D0078BE23 /* CreateChatParams.swift in Sources */,
 				408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */,
@@ -1162,6 +1201,7 @@
 				40F360BF2DA47C160078BE23 /* Message.swift in Sources */,
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
+				408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
 				40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */,
 				40F360CD2DA47FF80078BE23 /* MessageDataSource.swift in Sources */,

@@ -7,14 +7,6 @@
 
 import SwiftUI
 
-struct ModeOption: Identifiable {
-    let id = UUID()
-    let title: String
-    let description: String
-    let imageName: String
-    let destination: AnyView
-}
-
 struct ModeSelectionView: View {
     
     let modes: [ModeOption] = [

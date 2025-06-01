@@ -6,17 +6,20 @@ import FirebaseFirestore
 
 @MainActor
 class LoginViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var currentUser: User?
     @Published var state: ViewState = .success
     @Published var isLoading = false // Estado de carga
+    @Published var image: UIImage?
+    @Published var shouldShowImagePicker = false
     
+    // MARK: - Use Cases
     private let signInUseCase: SignInUseCase
     private let signInWithGoogleUseCase: SignInWithGoogleUseCase
     private let signInWithAppleUseCase: SignInWithAppleUseCase
-    @Published var image: UIImage?
-    @Published var shouldShowImagePicker = false
 
-    
+    // MARK: Lifecycle functions
     init(
         signInUseCase: SignInUseCase,
         signInWithGoogleUseCase: SignInWithGoogleUseCase,
@@ -27,6 +30,7 @@ class LoginViewModel: ObservableObject {
         self.signInWithAppleUseCase = signInWithAppleUseCase
     }
     
+    // MARK: - Functions
     func signIn(withEmail email: String, password: String) async {
         isLoading = true
         let result = await signInUseCase.execute(

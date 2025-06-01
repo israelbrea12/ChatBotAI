@@ -12,28 +12,28 @@ import FirebaseDatabaseInternal
 
 @MainActor
 class SettingsViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var currentUser: User?
     @Published var state: ViewState = .initial
     
-    private let deleteAccountUseCase: DeleteAccountUseCase
-    private let signOutUseCase: SignOutUseCase
-    private let fetchUserUseCase: FetchUserUseCase
-//    private let stopObservingChatsUseCase: StopObservingChatsUseCase
-//    private let stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
+    // MARK: - Private vars
     private var sessionManager = SessionManager.shared
     private var cancellables = Set<AnyCancellable>()
     
+    // MARK: - Use Cases
+    private let deleteAccountUseCase: DeleteAccountUseCase
+    private let signOutUseCase: SignOutUseCase
+    private let fetchUserUseCase: FetchUserUseCase
+    
+    // MARK: - Lifecycle functions
     init(signOutUseCase: SignOutUseCase,
          fetchUserUseCase: FetchUserUseCase,
-         deleteAccountUseCase: DeleteAccountUseCase,
-//         stopObservingChatsUseCase: StopObservingChatsUseCase,
-//         stopObservingUpdatedChatsUseCase: StopObservingUpdatedChatsUseCase
+         deleteAccountUseCase: DeleteAccountUseCase
     ) {
         self.signOutUseCase = signOutUseCase
         self.fetchUserUseCase = fetchUserUseCase
         self.deleteAccountUseCase = deleteAccountUseCase
-//        self.stopObservingChatsUseCase = stopObservingChatsUseCase
-//        self.stopObservingUpdatedChatsUseCase = stopObservingUpdatedChatsUseCase
         
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
@@ -45,18 +45,14 @@ class SettingsViewModel: ObservableObject {
                 }
             }
             .store(in: &cancellables)
-        
-        
     }
     
+    // MARK: - Functions
     func signOut() {
         Task {
             let result = signOutUseCase.execute(with: ())
             switch result {
             case .success:
-//                _ = await stopObservingChatsUseCase.execute(with: ())
-//                _ = await stopObservingUpdatedChatsUseCase.execute(with: ())
-                
                 DispatchQueue.main.async {
                     SessionManager.shared.userSession = nil
                     SessionManager.shared.currentUser = nil
@@ -73,7 +69,6 @@ class SettingsViewModel: ObservableObject {
             print("DEBUG: No hay sesión activa, no se puede cargar el usuario")
             return
         }
-
         
         let result = await fetchUserUseCase.execute(with: ())
             
@@ -91,16 +86,15 @@ class SettingsViewModel: ObservableObject {
     }
     
     func deleteAccount() async {
-            let result = await deleteAccountUseCase.execute(with: ())
-            switch result {
-            case .success:
-                DispatchQueue.main.async {
-                    SessionManager.shared.userSession = nil
-                    SessionManager.shared.currentUser = nil
-                }
-            case .failure(let error):
-                print("DEBUG: Error deleting account \(error.localizedDescription)")
+        let result = await deleteAccountUseCase.execute(with: ())
+        switch result {
+        case .success:
+            DispatchQueue.main.async {
+                SessionManager.shared.userSession = nil
+                SessionManager.shared.currentUser = nil
             }
+        case .failure(let error):
+            print("DEBUG: Error deleting account \(error.localizedDescription)")
         }
-
+    }
 }

@@ -9,17 +9,22 @@ import Foundation
 
 @MainActor
 class ChatLogViewModel: ObservableObject {
+    
+    // MARK: - Publisheds
     @Published var state: ViewState = .success
     @Published var chatText = ""
     @Published var messages: [Message] = []
 
+    // MARK: - Private vars
+    private var chatId: String?
+    
+    // MARK: - Use Cases
     private let sendMessageUseCase: SendMessageUseCase
     private let fetchMessagesUseCase: FetchMessagesUseCase
     private let observeMessagesUseCase: ObserveMessagesUseCase
     private let deleteMessageUseCase: DeleteMessageUseCase
-    
-    private var chatId: String?
 
+    // MARK: - Lifecycle functions
     init(
         sendMessageUseCase: SendMessageUseCase,
         fetchMessagesUseCase: FetchMessagesUseCase,
@@ -32,6 +37,7 @@ class ChatLogViewModel: ObservableObject {
         self.deleteMessageUseCase = deleteMessageUseCase
     }
 
+    // MARK: - Functions
     func setupChat(currentUser: User, otherUser: User) {
         chatId = generateChatId(for: currentUser.id, and: otherUser.id)
 
@@ -49,10 +55,6 @@ class ChatLogViewModel: ObservableObject {
                 }
             }
         }
-    }
-
-    private func generateChatId(for user1: String, and user2: String) -> String {
-        return [user1, user2].sorted().joined(separator: "_")
     }
 
     func sendMessage(currentUser: User?) {
@@ -124,5 +126,10 @@ class ChatLogViewModel: ObservableObject {
             print("Error eliminando mensaje: \(error.localizedDescription)")
             state = .error("No se pudo eliminar el mensaje.")
         }
+    }
+    
+    // MARK: - Private functions
+    private func generateChatId(for user1: String, and user2: String) -> String {
+        return [user1, user2].sorted().joined(separator: "_")
     }
 }

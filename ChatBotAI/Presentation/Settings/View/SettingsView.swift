@@ -2,6 +2,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct SettingsView: View {
+    
     @StateObject var settingsViewModel = Resolver.shared.resolve(SettingsViewModel.self)
     
     @State private var showDeleteAlert = false
@@ -151,43 +152,43 @@ struct SettingsView: View {
     
     private func listButton() -> some View {
         SettingsRowView(imageName: "person.crop.rectangle.stack", title: "Chats", tintColor: .black)
-        }
+    }
         
-        private func broadcastButton() -> some View {
-                SettingsRowView(imageName: "megaphone", title: "Broadcast Lists", tintColor: .black)
-        }
+    private func broadcastButton() -> some View {
+        SettingsRowView(imageName: "megaphone", title: "Broadcast Lists", tintColor: .black)
+    }
         
-        private func starredButton() -> some View {
-                SettingsRowView(imageName: "star", title: "Starred Messages", tintColor: .black)
-        }
+    private func starredButton() -> some View {
+        SettingsRowView(imageName: "star", title: "Starred Messages", tintColor: .black)
+    }
         
-        private func linkedDevicesButton() -> some View {
-            SettingsRowView(imageName: "laptopcomputer", title: "Linked Devices", tintColor: .black).symbolRenderingMode(.monochrome)
-        }
+    private func linkedDevicesButton() -> some View {
+        SettingsRowView(imageName: "laptopcomputer", title: "Linked Devices", tintColor: .black).symbolRenderingMode(.monochrome)
+    }
         
-        private func accountButton() -> some View {
-                SettingsRowView(imageName: "key", title: "Account", tintColor: .black)
-        }
+    private func accountButton() -> some View {
+            SettingsRowView(imageName: "key", title: "Account", tintColor: .black)
+    }
         
-        private func privacyButton() -> some View {
-                SettingsRowView(imageName: "lock", title: "Privacy", tintColor: .black)
-        }
+    private func privacyButton() -> some View {
+            SettingsRowView(imageName: "lock", title: "Privacy", tintColor: .black)
+    }
         
-        private func chatsButton() -> some View {
-                SettingsRowView(imageName: "message", title: "Chats", tintColor: .black)
-        }
+    private func chatsButton() -> some View {
+            SettingsRowView(imageName: "message", title: "Chats", tintColor: .black)
+    }
         
-        private func notificationsButton() -> some View {
-                SettingsRowView(imageName: "bell", title: "Notifications", tintColor: .black)
-        }
+    private func notificationsButton() -> some View {
+            SettingsRowView(imageName: "bell", title: "Notifications", tintColor: .black)
+    }
         
-        private func storageButton() -> some View {
-                SettingsRowView(imageName: "arrow.up.arrow.down", title: "Storage and Data", tintColor: .black)
-        }
+    private func storageButton() -> some View {
+            SettingsRowView(imageName: "arrow.up.arrow.down", title: "Storage and Data", tintColor: .black)
+    }
         
-        private func helpButton() -> some View {
-            SettingsRowView(imageName: "info.circle", title: "Help", tintColor: .black)
-        }
+    private func helpButton() -> some View {
+        SettingsRowView(imageName: "info.circle", title: "Help", tintColor: .black)
+    }
     
     private func loadingView() -> some View {
         ProgressView()
