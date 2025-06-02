@@ -71,8 +71,7 @@ struct FloatingTabView<Content: View, Value: CaseIterable & Hashable & FLoatingT
                 }
             }
             FloatingTabBar(config: config, activeTab: $selection)
-                .padding(.horizontal, config.hPadding)
-                .padding(.vertical, config.vPadding)
+                .frame(maxWidth: .infinity)
                 .onGeometryChange(for: CGSize.self) {
                     $0.size
                 } action: { newValue in
@@ -80,13 +79,14 @@ struct FloatingTabView<Content: View, Value: CaseIterable & Hashable & FLoatingT
                 }
                 .offset(y: helper.hideTabBar ? (tabBarSize.height + 100) : 0)
                 .animation(config.tabAnimation, value: helper.hideTabBar)
+
         }
         .environmentObject(helper)
     }
 }
 
 struct FloatingTabConfig {
-    var activeTint: Color = .white
+    var activeTint: Color = .blue
     var activeBackgroundTint: Color = .blue
     var inactiveTint: Color = .gray
     var tabAnimation: Animation = .smooth(duration: 0.35, extraBounce: 0)
@@ -97,58 +97,49 @@ struct FloatingTabConfig {
     var vPadding: CGFloat = 5
 }
 
-fileprivate struct FloatingTabBar<Value: CaseIterable & Hashable & FLoatingTabProtocol>: View where Value.AllCases:  RandomAccessCollection {
+fileprivate struct FloatingTabBar<Value: CaseIterable & Hashable & FLoatingTabProtocol>: View where Value.AllCases: RandomAccessCollection {
     var config: FloatingTabConfig
     @Binding var activeTab: Value
-    /// For Tab Sliding ffect
     @Namespace private var animation
-    /// For Symbol Effect
     @State private var toggleSymbolEffect: [Bool] = Array(repeating: false, count: Value.allCases.count)
+    
     var body: some View {
-        HStack(spacing: 0) {
-            ForEach(Value.allCases, id: \.hashValue) { tab in
-                let isActive = activeTab == tab
-                let index = (Value.allCases.firstIndex(of: tab) as? Int) ?? 0
-                
-                VStack(spacing: 0) {
-                    Image(systemName: tab.symbolImage)
-                        .font(.title3)
-                        .foregroundStyle(isActive ? config.activeTint : config.inactiveTint)
-                        .symbolEffect(.bounce.byLayer.down, value: toggleSymbolEffect[index])
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .contentShape(.rect)
-                        .background {
-                            if isActive {
-                                Capsule(style: .continuous)
-                                    .fill(config.activeBackgroundTint.gradient)
-                                    .matchedGeometryEffect(id: "ACTIVETAB", in: animation)
-                            }
-                        }
-                        .onTapGesture {
-                            activeTab = tab
-                            toggleSymbolEffect[index].toggle()
-                        }
-                        .padding(.vertical, config.insetAmount)
-                    //Text(tab.tabTitle)
+        VStack(spacing: 0) {
+            // Línea separadora
+            Rectangle()
+                .fill(Color.gray.opacity(0.3))
+                .frame(height: 0.5)
+            
+            HStack(spacing: 0) {
+                ForEach(Value.allCases, id: \.hashValue) { tab in
+                    let isActive = activeTab == tab
+                    let index = (Value.allCases.firstIndex(of: tab) as? Int) ?? 0
+                    
+                    VStack(spacing: 4) {
+                        Image(systemName: tab.symbolImage)
+                            .font(.title3)
+                            .foregroundStyle(isActive ? config.activeTint : config.inactiveTint)
+                            .symbolEffect(.bounce.byLayer.down, value: toggleSymbolEffect[index])
+                        Text(tab.tabTitle)
+                            .font(.caption2)
+                            .foregroundColor(isActive ? config.activeTint : config.inactiveTint)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        activeTab = tab
+                        toggleSymbolEffect[index].toggle()
+                    }
                 }
             }
+            .padding(.vertical, config.insetAmount)
+            .frame(height: 60)
+            .background(
+                config.isTranslucent
+                ? Color(.systemBackground).opacity(0.95)
+                : config.backgroundColor
+            )
         }
-        .padding(.horizontal, config.insetAmount)
-        .frame(height: 50)
-        .background {
-            ZStack {
-                if config.isTranslucent {
-                    Rectangle()
-                        .fill(.ultraThinMaterial)
-                } else {
-                    Rectangle()
-                        .fill(.background)
-                }
-                Rectangle()
-                    .fill(config.backgroundColor)
-            }
-        }
-        .clipShape(.capsule(style: .continuous))
-        .animation(config.tabAnimation, value: activeTab)
     }
 }
+
