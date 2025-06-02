@@ -65,6 +65,7 @@ struct SettingsView: View {
                 }
             }
         }
+        .padding(.bottom, 50)
     }
     
     private func userProfile(user: User) -> some View {

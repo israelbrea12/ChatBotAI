@@ -18,6 +18,8 @@ struct InfoView: View {
                 .fontWeight(.bold)
             Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity) // 👉 Este es el cambio importante
+        .background(Color(.systemGray6))
     }
 }
 

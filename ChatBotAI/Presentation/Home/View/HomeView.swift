@@ -240,7 +240,7 @@ struct ChatRowLabelView: View {
                         .font(.system(size: 15))
                         .foregroundStyle(Color(.systemGray))
                         .multilineTextAlignment(.leading)
-                        .lineLimit(1)
+                        .lineLimit(2)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             } else {
@@ -261,7 +261,7 @@ struct ChatRowLabelView: View {
                         .font(.system(size: 15))
                         .foregroundStyle(Color(.systemGray))
                         .multilineTextAlignment(.leading)
-                        .lineLimit(1)
+                        .lineLimit(2)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
