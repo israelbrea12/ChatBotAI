@@ -25,36 +25,27 @@ struct ImageBubbleContentView: View {
             image // La Image de SwiftUI
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(maxHeight: imageMaxHeight)
-                // Recortar la imagen con un radio de esquina ligeramente menor
-                // para que encaje bien dentro del borde redondeado.
-                // Si el radio de la burbuja es 16 y el borde es 2, el radio interior de la imagen sería 14.
+                .frame(maxHeight: imageMaxHeight) // Image itself is capped by maxHeight
                 .clipShape(RoundedRectangle(cornerRadius: max(0, bubbleCornerRadius - borderThickness)))
 
             if !message.text.isEmpty {
                 Text(message.text)
-                    .font(.body) // Mismo estilo que los mensajes de texto normales
-                    .foregroundColor(isCurrentUser ? .white : .primary) // Color de texto según el usuario
-                    .padding(.horizontal, 10) // Padding horizontal para el texto (adicional al borde)
-                    .padding(.top, 6)        // Espacio entre la imagen y el texto
-                    .padding(.bottom, 8)     // Padding inferior para el texto
-                    // Asegura que el texto se alinee correctamente dentro de su espacio
+                    .font(.body)
+                    .foregroundColor(isCurrentUser ? .white : .primary)
+                    .padding(.horizontal, 10)
+                    .padding(.top, 6)
+                    .padding(.bottom, 8)
             }
         }
-        // 1. Aplicar padding para crear el espacio del borde.
-        // Este padding se llenará con el color de fondo.
-        .padding(borderThickness)
-        .frame(maxWidth: imageMaxWidth) // Ancho máximo de la burbuja de imagen (incluyendo el borde)
-        // 2. Aplicar el color de fondo a la burbuja (incluyendo el área del padding/borde).
-        .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5)) // Color de fondo de la burbuja
-        // 3. Recortar la forma final de la burbuja con sus esquinas redondeadas.
-        .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius)) // Bordes redondeados para la burbuja completa
+        .padding(borderThickness) // Padding for the "border" effect
+        .frame(maxWidth: imageMaxWidth)
+        .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
+        .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
     }
 }
 
 // El resto de tu código (MessageBubbleView, etc.) permanece igual que en la versión anterior.
 // Solo necesitas reemplazar la struct ImageBubbleContentView con esta versión.
-
 struct MessageBubbleView: View {
     let message: Message
     let isCurrentUser: Bool
@@ -63,6 +54,10 @@ struct MessageBubbleView: View {
     
     private let imageMaxWidth: CGFloat = UIScreen.main.bounds.width * 0.65
     private let imageMaxHeight: CGFloat = 300
+
+    // Re-define or pass these constants for use in messageContent
+    private let bubbleCornerRadius: CGFloat = 16
+    private let borderThickness: CGFloat = 3
 
     var body: some View {
         HStack {
@@ -98,61 +93,102 @@ struct MessageBubbleView: View {
     }
 
     @ViewBuilder
-    private func messageContent() -> some View {
-        if message.messageType == .text {
-            Text(message.text.isEmpty ? " " : message.text)
-                .padding(10)
-                .foregroundColor(isCurrentUser ? .white : .primary)
-                .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .fixedSize(horizontal: false, vertical: true)
-        } else if message.messageType == .image, let imageURLString = message.imageURL, let url = URL(string: imageURLString) {
-            WebImage(
-                url: url
-            ) { phase in
-                switch phase {
-                case .empty:
-                    VStack {
-                        ProgressView()
-                    }
-                    .frame(width: imageMaxWidth * 0.5, height: imageMaxHeight * 0.3)
+        private func messageContent() -> some View {
+            if message.messageType == .text {
+                Text(message.text.isEmpty ? " " : message.text) // Ensure non-empty content for layout
                     .padding(10)
+                    .foregroundColor(isCurrentUser ? .white : .primary)
                     .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                case .success(let image):
-                    ImageBubbleContentView(
-                        image: image,
-                        message: message,
-                        isCurrentUser: isCurrentUser,
-                        imageMaxWidth: imageMaxWidth,
-                        imageMaxHeight: imageMaxHeight
-                    )
-                case .failure:
-                    VStack(spacing: 4) {
-                        Image(systemName: "photo.fill")
-                            .font(.title)
-                            .foregroundColor(isCurrentUser ? .white.opacity(0.8) : .gray)
-                        Text("Error al cargar")
-                            .font(.caption)
-                            .foregroundColor(isCurrentUser ? .white.opacity(0.8) : .gray)
+                    .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
+                    .fixedSize(horizontal: false, vertical: true)
+            } else if message.messageType == .image, let imageURLString = message.imageURL, let url = URL(string: imageURLString) {
+                WebImage(
+                    url: url
+                    // Optionally, you can set progressive loading or thumbnails if supported and desired
+                    // .progressive()
+                    // .thumbnail()
+                ) { phase in
+                    switch phase {
+                    case .empty:
+                        // --- MODIFIED PLACEHOLDER ---
+                        VStack(alignment: .leading, spacing: 0) { // Mimic ImageBubbleContentView structure
+                            ZStack { // Area for the image + progress indicator
+                                Color.clear // Placeholder, ensures the ZStack takes up space
+                                    .frame(height: imageMaxHeight) // CRITICAL: Reserve full imageMaxHeight
+                                    .frame(maxWidth: .infinity) // Take available width from parent
+                                ProgressView()
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: max(0, bubbleCornerRadius - borderThickness))) // Clip placeholder image area
+
+                            // Display caption during loading if available
+                            if !message.text.isEmpty {
+                                Text(message.text)
+                                    .font(.body)
+                                    .foregroundColor(isCurrentUser ? .white.opacity(0.85) : .primary.opacity(0.85))
+                                    .padding(.horizontal, 10)
+                                    .padding(.top, 6)
+                                    .padding(.bottom, 8)
+                            }
+                        }
+                        .padding(borderThickness) // For the border effect
+                        .frame(maxWidth: imageMaxWidth) // Overall max width
+                        .background(.clear) // Dimmed background for loading
+                        .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
+
+                    case .success(let image):
+                        ImageBubbleContentView(
+                            image: image,
+                            message: message,
+                            isCurrentUser: isCurrentUser,
+                            imageMaxWidth: imageMaxWidth,
+                            imageMaxHeight: imageMaxHeight
+                        )
+
+                    case .failure:
+                        // --- MODIFIED FAILURE VIEW ---
+                        VStack(alignment: .leading, spacing: 0) { // Mimic ImageBubbleContentView structure
+                            ZStack { // Area for the error icon + text
+                                Color.clear // Placeholder
+                                    .frame(height: imageMaxHeight * 0.6) // Make failure view reasonably tall, e.g., 60% of imageMaxHeight
+                                    .frame(maxWidth: .infinity)
+                                VStack(spacing: 5) {
+                                    Image(systemName: "exclamationmark.triangle.fill")
+                                        .font(.title2)
+                                        .foregroundColor(isCurrentUser ? .white.opacity(0.7) : .red.opacity(0.7))
+                                    Text("Error al cargar")
+                                        .font(.caption)
+                                        .foregroundColor(isCurrentUser ? .white.opacity(0.7) : .gray)
+                                }
+                            }
+                            .clipShape(RoundedRectangle(cornerRadius: max(0, bubbleCornerRadius - borderThickness)))
+
+                            // Display caption on failure if available
+                            if !message.text.isEmpty {
+                                Text(message.text)
+                                    .font(.body)
+                                    .foregroundColor(isCurrentUser ? .white.opacity(0.85) : .primary.opacity(0.85))
+                                    .padding(.horizontal, 10)
+                                    .padding(.top, 6)
+                                    .padding(.bottom, 8)
+                            }
+                        }
+                        .padding(borderThickness)
+                        .frame(maxWidth: imageMaxWidth)
+                        .background((isCurrentUser ? Color.blue : Color(UIColor.systemGray5)).opacity(0.5))
+                        .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
+                    @unknown default:
+                        EmptyView() // Should not happen ideally
                     }
-                    .padding(10)
-                    .frame(maxWidth: imageMaxWidth * 0.7, minHeight: imageMaxHeight * 0.3)
-                    .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                @unknown default:
-                    EmptyView()
                 }
+            } else {
+                Text("Tipo de mensaje no soportado")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding(10)
+                    .background(Color(UIColor.systemGray5))
+                    .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
             }
-        } else {
-            Text("Tipo de mensaje no soportado")
-                .font(.caption)
-                .foregroundColor(.gray)
-                .padding(10)
-                .background(Color(UIColor.systemGray5))
-                .clipShape(RoundedRectangle(cornerRadius: 16))
         }
-    }
 }
 
 struct BubbleFramePreferenceKey: PreferenceKey {
