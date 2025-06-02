@@ -68,6 +68,7 @@
 		408CA9662DECD5A9000C0FAD /* ImagePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9652DECD5A9000C0FAD /* ImagePreviewView.swift */; };
 		408CA96A2DEDB042000C0FAD /* NavigationBarAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9692DEDB042000C0FAD /* NavigationBarAppearance.swift */; };
 		408CA96D2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA96C2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift */; };
+		408CA9702DEDEAA4000C0FAD /* FloatingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA96F2DEDEAA4000C0FAD /* FloatingTabView.swift */; };
 		40D384F22D843A7700406AC1 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384CD2D843A7700406AC1 /* User.swift */; };
 		40D384F32D843A7700406AC1 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D32D843A7700406AC1 /* LoginView.swift */; };
 		40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D384D42D843A7700406AC1 /* RegistrationView.swift */; };
@@ -212,6 +213,7 @@
 		408CA9652DECD5A9000C0FAD /* ImagePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewView.swift; sourceTree = "<group>"; };
 		408CA9692DEDB042000C0FAD /* NavigationBarAppearance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarAppearance.swift; sourceTree = "<group>"; };
 		408CA96C2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationChatBotIARoute.swift; sourceTree = "<group>"; };
+		408CA96F2DEDEAA4000C0FAD /* FloatingTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingTabView.swift; sourceTree = "<group>"; };
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -479,15 +481,16 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		408685432DD6306500D5832D /* Animations */ = {
+		408685432DD6306500D5832D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				408CA96E2DEDEA85000C0FAD /* CustomFloatingTabView */,
 				408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */,
 				401581FF2DE84A8C001789E9 /* CustomMenu */,
 				401581FE2DE8497D001789E9 /* CustomAlert */,
 				401581FD2DE84969001789E9 /* CustomSwipeAction */,
 			);
-			path = Animations;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */ = {
@@ -561,6 +564,14 @@
 				408CA96C2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift */,
 			);
 			path = Navigation;
+			sourceTree = "<group>";
+		};
+		408CA96E2DEDEA85000C0FAD /* CustomFloatingTabView */ = {
+			isa = PBXGroup;
+			children = (
+				408CA96F2DEDEAA4000C0FAD /* FloatingTabView.swift */,
+			);
+			path = CustomFloatingTabView;
 			sourceTree = "<group>";
 		};
 		40956E112D805F8C00307A53 = {
@@ -750,7 +761,7 @@
 				408CA9632DECD591000C0FAD /* ImagePreview */,
 				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
 				40D384E82D843A7700406AC1 /* Utils */,
-				408685432DD6306500D5832D /* Animations */,
+				408685432DD6306500D5832D /* Helpers */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -1191,6 +1202,7 @@
 				408CA95A2DECC938000C0FAD /* StorageRepository.swift in Sources */,
 				40F3603F2D9F08590078BE23 /* ChatRepositoryImpl.swift in Sources */,
 				40F360392D9F04380078BE23 /* CreateChatUseCase.swift in Sources */,
+				408CA9702DEDEAA4000C0FAD /* FloatingTabView.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
 				402CB8032D94B591008EAEF0 /* ChatLogBottomBar.swift in Sources */,
 				408685492DD8098F00D5832D /* CustomAlert.swift in Sources */,

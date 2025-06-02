@@ -12,6 +12,8 @@ struct HomeView: View {
     
     @StateObject var homeViewModel = Resolver.shared.resolve(HomeViewModel.self)
     
+    @State private var internalHideTabBarState: Bool = false
+    
     @State private var showAlert = false
     @State private var chatToDelete: Chat? = nil
 
@@ -66,32 +68,36 @@ struct HomeView: View {
             }
         }
         .onAppear {
-            print(
-                "HomeView: .onAppear - llamando a homeViewModel.setupViewModel()"
-            )
-            homeViewModel.setupViewModel()
-        }
-        .onDisappear {
-            print(
-                "HomeView: .onDisappear - llamando a homeViewModel.stopAllListeners()"
-            )
-            homeViewModel.stopAllListeners()
-        }
+                    print("HomeView: .onAppear - llamando a homeViewModel.setupViewModel()")
+                    homeViewModel.setupViewModel()
+                    // When HomeView appears, set tab bar based on current navigation state
+                    internalHideTabBarState = homeViewModel.shouldNavigateToChatLogView
+                }
+                .onDisappear {
+                    print("HomeView: .onDisappear - llamando a homeViewModel.stopAllListeners()")
+                    homeViewModel.stopAllListeners()
+                    // No need to manipulate internalHideTabBarState here directly,
+                    // as it's driven by navigation or the active tab's preference.
+                }
+                .onChange(of: homeViewModel.shouldNavigateToChatLogView) { _, isNavigating in
+                    print("HomeView: shouldNavigateToChatLogView changed to \(isNavigating)")
+                    self.internalHideTabBarState = isNavigating
+                }
+                .hideFloatingTabBar(internalHideTabBarState)
     }
     
     private func successView() -> some View {
         ForEach(homeViewModel.chats, id: \.id) { chat in
-            NavigationLink {
-                ChatLogView(user: getChatPartner(for: chat))
-            } label: {
+            Button(action: {
+                // Set the user for the chat
+                homeViewModel.chatUser = getChatPartner(for: chat)
+                // Trigger navigation
+                homeViewModel.shouldNavigateToChatLogView = true
+            }) {
                 ChatRowLabelView(chat: chat, homeViewModel: homeViewModel)
             }
-            .frame(
-                maxWidth: .infinity
-                )
-            .background(
-                Color(.systemBackground)
-            )
+            .frame(maxWidth: .infinity)
+            .background(Color(.systemBackground))
             .cornerRadius(12)
             .foregroundColor(.primary)
             .alert(isPresented: $showAlert) {
