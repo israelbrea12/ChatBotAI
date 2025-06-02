@@ -108,4 +108,37 @@ enum ChatMode: Hashable, Equatable {
                 """
         }
     }
+    
+    var titleForChatView: String {
+        switch self {
+        case .classicConversation:
+            return "Modo Clásico"
+        case .textImprovement:
+            return "Modo Corrección y Mejoras"
+        case .rolePlay(let userRole, _, let scenario):
+            if userRole.isEmpty && scenario.isEmpty {
+                            return "Modo Role Play"
+                        } else if scenario.isEmpty {
+                            return "Role Play: \(userRole)"
+                        }
+                        // Podrías incluso acortar el escenario si es muy largo para el título
+                        let shortScenario = scenario.count > 20 ? String(scenario.prefix(20)) + "..." : scenario
+                        return shortScenario // O "Role Play: \(shortScenario)"
+        case .grammarHelp:
+            return "Modo Gramática"
+        }
+    }
+
+    var subtitleForChatView: String {
+        switch self {
+        case .classicConversation:
+            return "Prueba a iniciar una conversación sobre cualquier tema que te interese."
+        case .textImprovement:
+            return "Envía un texto en cualquier idioma y mira cómo se puede mejorar."
+        case .rolePlay(_, _, let scenario):
+            return "Estás en el escenario: \"\(scenario)\". ¡Empieza la actuación!"
+        case .grammarHelp:
+            return "Escribe tu duda sobre gramática inglesa y te ayudaré a entenderla."
+        }
+    }
 }

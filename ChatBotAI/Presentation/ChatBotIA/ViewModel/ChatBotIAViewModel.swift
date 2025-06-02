@@ -25,6 +25,15 @@ final class ChatBotIAViewModel: ObservableObject {
     private(set) var chatMode: ChatMode
     private var currentStreamingTask: Task<Void, Never>?
     
+    // MARK: - Computed Properties for UI
+    var currentNavigationTitle: String {
+        chatMode.titleForChatView
+    }
+
+    var currentPlaceholderSubtitle: String {
+        chatMode.subtitleForChatView
+    }
+    
     // MARK: - Use Cases
     private let sendMessageToChatBotUseCase: SendMessageToChatBotUseCase
 

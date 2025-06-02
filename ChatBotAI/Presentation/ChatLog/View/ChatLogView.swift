@@ -53,6 +53,14 @@ struct ChatLogView: View {
                     .onTapGesture {
                         UIApplication.shared.endEditing()
                     }
+                    .toolbarBackground(
+                        .visible,
+                        for: .navigationBar
+                    )
+                    .toolbarBackground(
+                        .ultraThinMaterial,
+                        for: .navigationBar
+                    )
                         
                     // MODIFICADO: Indicador de carga translúcido
                     if chatLogViewModel.isUploadingImage {
