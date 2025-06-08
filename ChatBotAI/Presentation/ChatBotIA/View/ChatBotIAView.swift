@@ -88,6 +88,14 @@ struct ChatBotIAView: View {
                 )
             }
         }
+        .toolbarBackground(
+            .visible,
+            for: .navigationBar
+        )
+        .toolbarBackground(
+            .ultraThinMaterial,
+            for: .navigationBar
+        )
         .onDisappear {
             // Opcional: Cancelar el stream si la vista desaparece
             // chatBotIAViewModel.cancelStreaming()

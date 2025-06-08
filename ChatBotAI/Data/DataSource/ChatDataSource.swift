@@ -178,22 +178,22 @@ class ChatDataSourceImpl: ChatDataSource {
 
         func stopObservingAllChatActivity(userId: String) async {
             print("FirebaseDataSource: Deteniendo observeAllChatActivity para usuario \(userId)")
-            if let handle = userChatsListenerHandle, let ref = userChatsRefForActivity {
-                ref.removeAllObservers() // Detiene .childAdded, .childRemoved, etc. en userChatsRefForActivity
-                userChatsListenerHandle = nil
-                userChatsRefForActivity = nil
-                print("FirebaseDataSource: Observadores en user_chats/\(userId)/chats detenidos.")
-            }
-
-            for (chatId, handle) in individualChatListeners {
-                if let ref = individualChatRefsForActivity[chatId] {
-                    ref.removeObserver(withHandle: handle)
-                    print("FirebaseDataSource: Observador para chat \(chatId) detenido.")
-                }
-            }
-            individualChatListeners.removeAll()
-            individualChatRefsForActivity.removeAll()
-            print("FirebaseDataSource: Todos los observadores individuales de chats detenidos.")
+//            if let handle = userChatsListenerHandle, let ref = userChatsRefForActivity {
+//                ref.removeAllObservers() // Detiene .childAdded, .childRemoved, etc. en userChatsRefForActivity
+//                userChatsListenerHandle = nil
+//                userChatsRefForActivity = nil
+//                print("FirebaseDataSource: Observadores en user_chats/\(userId)/chats detenidos.")
+//            }
+//
+//            for (chatId, handle) in individualChatListeners {
+//                if let ref = individualChatRefsForActivity[chatId] {
+//                    ref.removeObserver(withHandle: handle)
+//                    print("FirebaseDataSource: Observador para chat \(chatId) detenido.")
+//                }
+//            }
+//            individualChatListeners.removeAll()
+//            individualChatRefsForActivity.removeAll()
+//            print("FirebaseDataSource: Todos los observadores individuales de chats detenidos.")
         }
     
     func deleteUserChat(userId: String, chatId: String) async throws {

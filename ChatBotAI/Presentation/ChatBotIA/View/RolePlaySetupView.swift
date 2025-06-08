@@ -12,6 +12,8 @@ struct RolePlaySetupView: View {
     @State private var userRole = ""
     @State private var botRole = ""
     @State private var scenario = ""
+    
+    @State private var internalHideTabBarState: Bool = false
 
     var body: some View {
         Form {
@@ -27,5 +29,6 @@ struct RolePlaySetupView: View {
             .disabled(userRole.isEmpty || botRole.isEmpty || scenario.isEmpty)
         }
         .navigationTitle("Configura el Roleplay")
+        .hideFloatingTabBar(internalHideTabBarState)
     }
 }
