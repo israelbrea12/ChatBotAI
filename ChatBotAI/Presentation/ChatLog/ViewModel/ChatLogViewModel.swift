@@ -52,10 +52,14 @@ class ChatLogViewModel: ObservableObject {
                 observeMessagesUseCase.execute(chatId: chatId) { [weak self] newMessage in
                     guard let self = self else { return }
 
-                    // Añade el nuevo mensaje si aún no está en la lista
                     if !self.messages.contains(where: { $0.id == newMessage.id }) {
                         self.messages.append(newMessage)
                     }
+                } onDeletedMessage: { [weak self] deletedMessageId in
+                    guard let self = self else { return }
+
+                    // Elimina el mensaje en la UI
+                    self.messages.removeAll { $0.id == deletedMessageId }
                 }
             }
         }

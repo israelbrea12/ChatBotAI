@@ -22,7 +22,7 @@ class DeleteMessageUseCase {
         self.messageRepository = messageRepository
     }
 
-    func execute(chatId: String, messageId: String) async -> Result<Bool, AppError> {
+    func execute(chatId: String, messageId: String) async -> Result<Void, AppError> {
         await messageRepository.deleteMessage(chatId: chatId, messageId: messageId)
     }
 }

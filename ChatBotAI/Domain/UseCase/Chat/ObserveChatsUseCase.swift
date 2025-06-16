@@ -17,7 +17,7 @@ class ObserveUserChatsUseCase {
             chatRepository.observeAllChatEvents(userId: userId, onChatEvent: onChatEvent)
         }
 
-        func stop(userId: String) {
-            chatRepository.stopObservingAllChatEvents(userId: userId)
-        }
+    func stop(userId: String) {
+        chatRepository.stopObservingAllChatEvents(userId: userId)
+    }
 }

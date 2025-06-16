@@ -18,7 +18,6 @@ protocol ChatDataSource {
 
 class ChatDataSourceImpl: ChatDataSource {
     
-    
     private let databaseRef = Database.database().reference()
     
     private var userChatsListenerHandle: DatabaseHandle?

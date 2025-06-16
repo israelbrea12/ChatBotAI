@@ -11,7 +11,7 @@ import FirebaseDatabase
 protocol MessageDataSource {
     func sendMessage(chatId: String, message: Message) async throws
     func fetchMessages(chatId: String) async throws -> [MessageModel]
-    func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void)
+    func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void, onDeletedMessage: @escaping (String) -> Void)
     func stopObservingMessages(for chatId: String)
     func deleteMessage(chatId: String, messageId: String) async throws
 }
@@ -137,10 +137,11 @@ class MessageDataSourceImpl: MessageDataSource {
             }
         }
         
-        func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void) {
-            let messagesRef = databaseRef.child("chats").child(chatId).child("messages")
-                               .queryOrdered(byChild: "sentAt") // Observar ordenado
-                               .queryStarting(atValue: Date().timeIntervalSince1970) // Para no traer todos los antiguos con .childAdded
+        func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void, onDeletedMessage: @escaping (String) -> Void) {
+            let baseRef = databaseRef.child("chats").child(chatId).child("messages")
+            let messagesQuery = baseRef
+                                .queryOrdered(byChild: "sentAt")
+                                .queryStarting(atValue: Date().timeIntervalSince1970)
 
             // Nota: .childAdded con queryStarting puede ser complejo si quieres cargar historial y luego observar.
             // Una estrategia común es cargar el historial con observeSingleEvent y luego observar nuevos con .childAdded y queryStarting.
@@ -148,7 +149,7 @@ class MessageDataSourceImpl: MessageDataSource {
             // necesite una lógica para no duplicar los mensajes iniciales.
             // O, si `fetchMessages` no se llama antes de `observeMessages`, este traerá todos uno por uno.
 
-            let handle = messagesRef.observe(.childAdded) { snapshot in
+            let addedHandle = messagesQuery.observe(.childAdded) { snapshot in
                 guard let messageData = snapshot.value as? [String: Any] else {
                     print("Could not cast snapshot value to [String: Any]")
                     return
@@ -179,14 +180,28 @@ class MessageDataSourceImpl: MessageDataSource {
                 onNewMessage(message)
             }
             
-            messageObservers[chatId] = handle
+            let removedHandle = messagesQuery.observe(.childRemoved) { snapshot in
+                    guard let messageData = snapshot.value as? [String: Any],
+                          let id = messageData["id"] as? String else {
+                        print("Could not get removed message data")
+                        return
+                    }
+
+                    onDeletedMessage(id) // 👈 Aquí se notifica al ViewModel
+                }
+
+                messageObservers[chatId] = addedHandle
+                messageObservers[chatId + "_removed"] = removedHandle
         }
 
         func stopObservingMessages(for chatId: String) {
-            if let handle = messageObservers[chatId] {
-                databaseRef.child("chats").child(chatId).child("messages").removeObserver(withHandle: handle)
+            if let addedHandle = messageObservers[chatId] {
+                databaseRef.child("chats").child(chatId).child("messages").removeObserver(withHandle: addedHandle)
                 messageObservers.removeValue(forKey: chatId)
-                print("Firebase observer stopped for chatId: \(chatId)")
+            }
+            if let removedHandle = messageObservers[chatId + "_removed"] {
+                databaseRef.child("chats").child(chatId).child("messages").removeObserver(withHandle: removedHandle)
+                messageObservers.removeValue(forKey: chatId + "_removed")
             } else {
                 print("No observer found to stop for chatId: \(chatId)")
             }

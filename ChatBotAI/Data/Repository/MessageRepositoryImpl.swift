@@ -37,23 +37,28 @@ class MessageRepositoryImpl: MessageRepository {
         }
     }
     
-    func observeMessages(
-        chatId: String,
-        onNewMessage: @escaping (Message) -> Void
-    ) {
-        messageDataSource.observeMessages(for: chatId) { model in
-            onNewMessage(model.toDomain())
-        }
+    func observeMessages(chatId: String,
+                         onNewMessage: @escaping (Message) -> Void,
+                         onDeletedMessage: @escaping (String) -> Void) {
+        messageDataSource.observeMessages(
+            for: chatId,
+            onNewMessage: { messageModel in
+                onNewMessage(messageModel.toDomain())
+            },
+            onDeletedMessage: { messageId in
+                onDeletedMessage(messageId)
+            }
+        )
     }
 
     func stopObservingMessages(chatId: String) {
         messageDataSource.stopObservingMessages(for: chatId)
     }
-    
-    func deleteMessage(chatId: String, messageId: String) async -> Result<Bool, AppError> {
+
+    func deleteMessage(chatId: String, messageId: String) async -> Result<Void, AppError> {
         do {
             try await messageDataSource.deleteMessage(chatId: chatId, messageId: messageId)
-            return .success(true)
+            return .success(())
         } catch {
             return .failure(error.toAppError())
         }
