@@ -15,13 +15,11 @@ struct ChatLogView: View {
     )
 
     @State private var config: MenuConfig = .init(symbolImage: "plus")
-    // NUEVOS ESTADOS PARA EL IMAGE PICKER
     @State private var showingImagePicker = false
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var imageDataToPreview: Data? = nil // Para la imagen seleccionada
     @State private var showImagePreviewScreen: Bool = false // Para mostrar la pantalla de preview
     @State private var imagePreviewCaption: String = "" // Para el pie de foto en la preview
-    
     
     let user: User?
     
@@ -29,23 +27,17 @@ struct ChatLogView: View {
         CustomMenuView(config: $config) {
             NavigationStack {
                 ZStack {
-                    // Contenido principal del chat
-                    VStack { // Añadido VStack para que el ZStack principal pueda superponer el ProgressView correctamente
-                        switch chatLogViewModel.state {
-                        case .initial, .loading:
-                                if !chatLogViewModel.isUploadingImage { // No mostrar si ya se está subiendo una imagen
-                                loadingView()
-                            } else {
-                                successView() // Mostrar chat mientras se sube imagen en segundo plano
-                            }
-                        case .success:
-                            successView()
-                        case .error(let errorMessage):
-                            errorView(errorMsg: errorMessage)
-                        case .empty:
-                            emptyView()
-                        }
-                    }
+                    VStack {
+                                    switch chatLogViewModel.state {
+                                    // --- MODIFICADO: La lógica de loading/success se simplifica ---
+                                    case .initial, .loading:
+                                        loadingView()
+                                    case .success, .empty: // Unimos success y empty
+                                        successView()
+                                    case .error(let errorMessage):
+                                        errorView(errorMsg: errorMessage)
+                                    }
+                                }
                     .navigationTitle("\(user?.fullName ?? "")")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar(.hidden, for: .tabBar)
@@ -61,25 +53,6 @@ struct ChatLogView: View {
                         .ultraThinMaterial,
                         for: .navigationBar
                     )
-                        
-                    // MODIFICADO: Indicador de carga translúcido
-                    if chatLogViewModel.isUploadingImage {
-                        VStack { // Contenedor para centrar el ProgressView
-                            Spacer()
-                            HStack {
-                                Spacer()
-                                ProgressView("Enviando imagen...")
-                                    .padding()
-                                    .background(.ultraThinMaterial) // Fondo translúcido
-                                    .cornerRadius(10)
-                                    .shadow(radius: 5) // Sombra sutil para destacar
-                                Spacer()
-                            }
-                            Spacer()
-                        }
-                        .background(Color.black.opacity(0.05)) // Fondo muy sutil para todo el ZStack
-                        .edgesIgnoringSafeArea(.all)
-                    }
                 }
             }
             .safeAreaInset(edge: .bottom) {
@@ -97,7 +70,7 @@ struct ChatLogView: View {
             .onDisappear {
                 chatLogViewModel.stopObservingMessages()
             }
-            .photosPicker( // Se mantiene aquí para la selección inicial
+            .photosPicker(
                 isPresented: $showingImagePicker,
                 selection: $selectedPhotoItem,
                 matching: .images
@@ -107,10 +80,9 @@ struct ChatLogView: View {
                     if let item = newItem {
                         do {
                             if let data = try await item.loadTransferable(type: Data.self) {
-                                self.imageDataToPreview = data // Guardar datos para la preview
-                                self.showImagePreviewScreen = true // Mostrar pantalla de preview
-                                self.selectedPhotoItem = nil // Resetear picker para la próxima
-                                // El config.showMenu = false se maneja en la acción del menú
+                                self.imageDataToPreview = data
+                                self.showImagePreviewScreen = true
+                                self.selectedPhotoItem = nil
                             } else {
                                 print("No se pudieron cargar los datos de la imagen seleccionada.")
                             }
@@ -120,39 +92,35 @@ struct ChatLogView: View {
                     }
                 }
             }
-            // NUEVO: Pantalla de previsualización como fullScreenCover
             .fullScreenCover(isPresented: $showImagePreviewScreen) {
                 if let dataForPreview = imageDataToPreview {
                     ImagePreviewView(
                         imageData: dataForPreview,
-                        caption: $imagePreviewCaption, // Pasa el binding para el pie de foto
+                        caption: $imagePreviewCaption,
                         onCancel: {
                             self.imageDataToPreview = nil
-                            self.imagePreviewCaption = "" // Limpia el pie de foto
+                            self.imagePreviewCaption = ""
                             self.showImagePreviewScreen = false
                         },
                         onSend: { confirmedCaption in
                             chatLogViewModel.sendImageMessage(
                                 imageData: dataForPreview,
                                 currentUser: SessionManager.shared.currentUser,
-                                caption: confirmedCaption // Envía el pie de foto confirmado
+                                caption: confirmedCaption
                             )
                             self.imageDataToPreview = nil
-                            self.imagePreviewCaption = "" // Limpia el pie de foto
+                            self.imagePreviewCaption = ""
                             self.showImagePreviewScreen = false
                         }
                     )
                 } else {
-                    // Fallback en caso de que imageDataToPreview sea nil, aunque no debería ocurrir
-                    // si showImagePreviewScreen es true.
                     Text("Error al cargar previsualización.")
                         .onAppear {
-                            self.showImagePreviewScreen = false // Cierra si no hay datos
+                            self.showImagePreviewScreen = false
                         }
                 }
             }
         } actions: {
-            /// Sample Action's
             MenuAction(symbolImage: "camera", text: "Camera")
             MenuAction(symbolImage: "photo.on.rectangle.angled", text: "Photos") {
                 self.showingImagePicker = true
@@ -187,15 +155,13 @@ struct ChatLogView: View {
         InfoView(message: "No user data found")
     }
     
-    /// Custom Bottom Bar
         @ViewBuilder
         func BottomBar(
-            chatText: Binding<String>, // Binding para el texto del chat
-            viewModel: ChatLogViewModel, // ViewModel para llamar a las acciones
-            currentUser: User? // El usuario que envía el mensaje
+            chatText: Binding<String>,
+            viewModel: ChatLogViewModel,
+            currentUser: User?
         ) -> some View {
             HStack(spacing: 12) {
-                /// Custom Menu Source Button
                 MenuSourceButton(config: $config) {
                     Image(systemName: "plus")
                         .font(.title3)
@@ -206,38 +172,35 @@ struct ChatLogView: View {
                                 .background(.background, in: .circle)
                         }
                 } onTap: {
-                    /// Ejemplos:
-                    /// Puede cerrar el teclado si está abierto, etc.
                     print("Plus Tapped")
-                    UIApplication.shared.endEditing() // Buena práctica cerrar el teclado
+                    UIApplication.shared.endEditing()
                 }
 
-                TextField("Text Message", text: chatText) // Vinculamos al chatText del ViewModel
+                TextField("Text Message", text: chatText)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 15)
                     .background {
                         Capsule()
                             .stroke(.gray.opacity(0.3), lineWidth: 1.5)
                     }
-                    .onSubmit { // Permite enviar con la tecla "Intro"
+                    .onSubmit {
                         viewModel.sendTextMessage(currentUser: currentUser)
                     }
 
-                // Botón de enviar
                 Button(action: {
                     viewModel.sendTextMessage(currentUser: currentUser)
                 }) {
                     Image(systemName: "paperplane.fill")
-                        .font(.system(size: 18)) // Ajusta el tamaño según sea necesario
-                        .foregroundColor(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .gray : .blue) // Color dinámico
-                        .padding(8) // Ajusta el padding
+                        .font(.system(size: 18))
+                        .foregroundColor(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .gray : .blue)
+                        .padding(8)
                 }
-                .disabled(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) // Deshabilita si el texto está vacío
+                .disabled(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
 
             }
             .padding(.horizontal, 15)
-            .padding(.vertical, 8) // Padding vertical para la HStack completa
-            .background(.thinMaterial) // Un fondo sutil, puedes cambiarlo a Color.white o lo que prefieras
+            .padding(.vertical, 8)
+            .background(.thinMaterial)
         }
 }
 

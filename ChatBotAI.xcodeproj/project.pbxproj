@@ -31,6 +31,7 @@
 		4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */; };
 		4057DC032D8CCE9D00D2E2B0 /* NewMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */; };
 		407F36A12DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36A02DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift */; };
+		4084BFA32E006802001CB621 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4084BFA22E006802001CB621 /* Utils.swift */; };
 		408685112DD284D900D5832D /* ObserveChatsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685102DD284D900D5832D /* ObserveChatsUseCase.swift */; };
 		408685142DD2A64A00D5832D /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 408685132DD2A64A00D5832D /* GoogleGenerativeAI */; };
 		408685162DD2A79500D5832D /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685152DD2A78D00D5832D /* APIKey.swift */; };
@@ -177,6 +178,7 @@
 		4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageView.swift; sourceTree = "<group>"; };
 		4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewModel.swift; sourceTree = "<group>"; };
 		407F36A02DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveMessagesUseCase.swift; sourceTree = "<group>"; };
+		4084BFA22E006802001CB621 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		408685102DD284D900D5832D /* ObserveChatsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveChatsUseCase.swift; sourceTree = "<group>"; };
 		408685152DD2A78D00D5832D /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
 		4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GenerativeAI-Info.plist"; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				40F360442D9F12490078BE23 /* Extensions.swift */,
 				408685152DD2A78D00D5832D /* APIKey.swift */,
 				408CA9692DEDB042000C0FAD /* NavigationBarAppearance.swift */,
+				4084BFA22E006802001CB621 /* Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1287,6 +1290,7 @@
 				408685162DD2A79500D5832D /* APIKey.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
 				408685402DD62C6200D5832D /* MessageInputView.swift in Sources */,
+				4084BFA32E006802001CB621 /* Utils.swift in Sources */,
 				40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */,
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
 				40F360C82DA47EE60078BE23 /* MessageMapper.swift in Sources */,

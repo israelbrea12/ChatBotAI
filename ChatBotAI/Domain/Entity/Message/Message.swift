@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct Message: Identifiable, Codable, Equatable {
     var id: String
@@ -15,15 +16,19 @@ struct Message: Identifiable, Codable, Equatable {
     var sentAt: TimeInterval?
     var messageType: MessageType = .text
     var imageURL: String? = nil
+    
+    var localImageData: Data? = nil
+    var isUploading: Bool = false
+    var uploadFailed: Bool = false
 
+    enum CodingKeys: String, CodingKey {
+        case id, text, senderId, senderName, sentAt, messageType, imageURL
+    }
 
     static func == (lhs: Message, rhs: Message) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.text == rhs.text &&
-        lhs.senderId == rhs.senderId &&
-        lhs.senderName == rhs.senderName &&
-        lhs.sentAt == rhs.sentAt &&
-        lhs.messageType == rhs.messageType &&
-        lhs.imageURL == rhs.imageURL
-    }
+            return lhs.id == rhs.id &&
+                   lhs.imageURL == rhs.imageURL &&
+                   lhs.isUploading == rhs.isUploading &&
+                   lhs.uploadFailed == rhs.uploadFailed
+        }
 }

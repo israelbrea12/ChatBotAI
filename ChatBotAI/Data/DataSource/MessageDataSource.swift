@@ -141,13 +141,6 @@ class MessageDataSourceImpl: MessageDataSource {
             let baseRef = databaseRef.child("chats").child(chatId).child("messages")
             let messagesQuery = baseRef
                                 .queryOrdered(byChild: "sentAt")
-                                .queryStarting(atValue: Date().timeIntervalSince1970)
-
-            // Nota: .childAdded con queryStarting puede ser complejo si quieres cargar historial y luego observar.
-            // Una estrategia común es cargar el historial con observeSingleEvent y luego observar nuevos con .childAdded y queryStarting.
-            // Para simplificar, si ya cargas todos los mensajes en `fetchMessages`, este observer puede que
-            // necesite una lógica para no duplicar los mensajes iniciales.
-            // O, si `fetchMessages` no se llama antes de `observeMessages`, este traerá todos uno por uno.
 
             let addedHandle = messagesQuery.observe(.childAdded) { snapshot in
                 guard let messageData = snapshot.value as? [String: Any] else {
@@ -177,6 +170,7 @@ class MessageDataSourceImpl: MessageDataSource {
                     messageType: messageTypeString,
                     imageURL: imageURL
                 )
+                print("📩 Observado mensaje con ID: \(message.id)")
                 onNewMessage(message)
             }
             
