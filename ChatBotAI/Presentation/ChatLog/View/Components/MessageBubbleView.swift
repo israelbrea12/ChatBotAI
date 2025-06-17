@@ -116,24 +116,18 @@ private extension MessageBubbleView {
             .onTapGesture {
                             onImageTap?(message)
                         }
-                        // --- CAMBIO CLAVE (1/2) ---
-                        // Define el ancla de ORIGEN para la animación.
                         .anchorPreference(key: HeroKey.self, value: .bounds) { anchor in
                             return [message.id + "SOURCE": anchor]
                         }
-                        // --- CAMBIO CLAVE (2/2) ---
-                        // Oculta la imagen original en la burbuja mientras la animación está en curso.
                         .opacity(coordinator.selectedMessage?.id == message.id ? 0 : 1)
         }
     }
-    // --- Vistas base y de superposición reutilizables ---
     @ViewBuilder
     func imageBubbleBase<Overlay: View>(image: Image?, @ViewBuilder overlay: () -> Overlay) -> some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack {
-                // Placeholder para mantener el tamaño y mostrar un fondo mientras carga
                 Color(UIColor.systemGray5)
-                    .aspectRatio(1, contentMode: .fill) // Un aspect ratio por defecto
+                    .aspectRatio(1, contentMode: .fill)
                     .frame(maxWidth: imageMaxWidth, maxHeight: imageMaxHeight)
                 if let image = image {
                     image

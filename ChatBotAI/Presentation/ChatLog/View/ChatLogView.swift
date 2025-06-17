@@ -58,8 +58,6 @@ struct ChatLogView: View {
                 }
             }
             .onChange(of: chatLogViewModel.messages) { _, newMessages in
-                        // --- CAMBIO CLAVE ---
-                        // Cada vez que los mensajes cambien, actualiza el coordinador.
                         coordinator.setup(messages: newMessages)
                     }
             .allowsHitTesting(coordinator.selectedMessage == nil)
@@ -71,16 +69,21 @@ struct ChatLogView: View {
                 )
             }
             .onAppear {
-                if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
-                    chatLogViewModel.setupChat(currentUser: currentUser, otherUser: otherUser)
-                }
-            }
+                            if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
+                                chatLogViewModel.setupChat(currentUser: currentUser, otherUser: otherUser)
+                            }
+                            
+                            // --- SOLUCIÓN ---
+                            // Aseguramos que el coordinador se configure cada vez que la vista aparece.
+                            // Esto soluciona el problema al reingresar al chat.
+                            coordinator.setup(messages: chatLogViewModel.messages)
+                        }
             .onDisappear {
                 chatLogViewModel.stopObservingMessages()
             }
             .overlay {
                             Rectangle()
-                                .fill(.black)
+                                .fill(.white)
                                 .ignoresSafeArea()
                                 .opacity(coordinator.animateView ? 1 : 0)
                         }
@@ -106,7 +109,6 @@ struct ChatLogView: View {
                                 )
                             }
                         }
-                        // Proporciona el coordinador al entorno para que las vistas hijas lo usen.
                         .environment(coordinator)
             .photosPicker(
                 isPresented: $showingImagePicker,

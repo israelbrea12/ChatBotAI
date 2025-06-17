@@ -103,9 +103,9 @@ struct ImageDetailView: View {
             Button(action: { coordinator.toggleView(show: false) }) {
                 Image(systemName: "xmark")
                     .font(.title2)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .padding(10)
-                    .background(Color.white.opacity(0.2))
+                    .background(Color.black.opacity(0.1))
                     .clipShape(Circle())
             }
             Spacer()
