@@ -89,11 +89,8 @@ struct ImagePreviewView: View {
     }
 }
 
-// Preview para ImagePreviewView (opcional)
 struct ImagePreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        // Necesitarías datos de imagen de ejemplo para la preview
-        // Por ejemplo, cargando una imagen desde el bundle:
         let placeholderImageData = UIImage(systemName: "photo")?.pngData() ?? Data()
         
         ImagePreviewView(

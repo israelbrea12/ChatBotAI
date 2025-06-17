@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
+import MarkdownUI
 
-// Subvista para la burbuja del mensaje
 struct MessageBubble: View {
     
     let text: String
@@ -19,15 +19,17 @@ struct MessageBubble: View {
         HStack(alignment: .top, spacing: 8) {
             if let iconName = leadingIconName {
                 Image(systemName: iconName)
-                    .font(.title3) // Ajusta según sea necesario
+                    .font(.title3)
                     .foregroundColor(textColor.opacity(0.8))
-                    .padding(.top, 2) // Alineación fina con el texto
+                    .padding(.top, 2)
             }
-            Text(text)
+
+            // ✅ Renderizar el Markdown
+            Markdown(text)
                 .padding(12)
-                .foregroundColor(textColor)
                 .background(backgroundColor)
                 .cornerRadius(16)
         }
     }
 }
+

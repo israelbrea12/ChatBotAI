@@ -1,29 +1,29 @@
 //
-//  MessageBubbleView.swift
-//  ChatBotAI
+//  MessageBubbleView.swift
+//  ChatBotAI
 //
-//  Created by Israel Brea Piñero on 8/4/25.
+//  Created by Israel Brea Piñero on 8/4/25.
 //
 
 import SwiftUI
+
 import SDWebImageSwiftUI
+
+
 
 struct MessageBubbleView: View {
     let message: Message
     let isCurrentUser: Bool
     var onLongPress: ((_ message: Message, _ frame: CGRect) -> Void)? = nil
-    
+    var onImageTap: ((URL) -> Void)? = nil
     @State private var bubbleFrame: CGRect = .zero
-    
     private let imageMaxWidth: CGFloat = UIScreen.main.bounds.width * 0.65
     private let imageMaxHeight: CGFloat = 300
     private let bubbleCornerRadius: CGFloat = 16
     private let borderThickness: CGFloat = 3
-
     var body: some View {
         HStack {
             if isCurrentUser { Spacer(minLength: UIScreen.main.bounds.width * 0.15) }
-
             VStack(alignment: isCurrentUser ? .trailing : .leading, spacing: 2) {
                 messageContent() // El contenido principal
                     .background(
@@ -36,7 +36,6 @@ struct MessageBubbleView: View {
                     .gesture(LongPressGesture(minimumDuration: 0.45).onEnded { _ in
                         onLongPress?(message, bubbleFrame)
                     })
-                
                 // Muestra la hora del mensaje
                 Text(Date(timeIntervalSince1970: message.sentAt ?? Date().timeIntervalSince1970).BublesFormattedTime())
                     .font(.caption2)
@@ -45,13 +44,11 @@ struct MessageBubbleView: View {
                     .padding(.top, 1)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: isCurrentUser ? .trailing : .leading)
-
             if !isCurrentUser { Spacer(minLength: UIScreen.main.bounds.width * 0.15) }
         }
         .padding(.horizontal)
         .padding(.vertical, message.messageType == .image ? 6 : 2)
     }
-    
     @ViewBuilder
     private func messageContent() -> some View {
         switch message.messageType {
@@ -65,9 +62,7 @@ struct MessageBubbleView: View {
     }
 }
 
-
 private extension MessageBubbleView {
-    
     @ViewBuilder
     func textMessageView() -> some View {
         Text(message.text.isEmpty ? " " : message.text)
@@ -77,7 +72,6 @@ private extension MessageBubbleView {
             .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
             .fixedSize(horizontal: false, vertical: true)
     }
-    
     @ViewBuilder
     func unsupportedMessageView() -> some View {
         Text("Tipo de mensaje no soportado")
@@ -87,7 +81,6 @@ private extension MessageBubbleView {
             .background(Color(UIColor.systemGray5))
             .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
     }
-    
     @ViewBuilder
     func imageMessageView() -> some View {
         if message.isUploading {
@@ -114,11 +107,16 @@ private extension MessageBubbleView {
                     EmptyView()
                 }
             }
+            .onTapGesture {
+                if message.messageType == .image, let urlString = message.imageURL, let url = URL(string: urlString) {
+                    // Aquí no podemos modificar directamente el estado de MessagesView.
+                    // Por lo tanto, necesitamos pasar un closure desde MessagesView a MessageBubbleView.
+                    onImageTap?(url)
+                }
+            }
         }
     }
-    
     // --- Vistas base y de superposición reutilizables ---
-    
     @ViewBuilder
     func imageBubbleBase<Overlay: View>(image: Image?, @ViewBuilder overlay: () -> Overlay) -> some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -127,7 +125,6 @@ private extension MessageBubbleView {
                 Color(UIColor.systemGray5)
                     .aspectRatio(1, contentMode: .fill) // Un aspect ratio por defecto
                     .frame(maxWidth: imageMaxWidth, maxHeight: imageMaxHeight)
-
                 if let image = image {
                     image
                         .resizable()
@@ -135,11 +132,9 @@ private extension MessageBubbleView {
                         .frame(maxWidth: imageMaxWidth, maxHeight: imageMaxHeight)
                         .transition(.opacity.animation(.easeInOut))
                 }
-                
                 overlay()
             }
             .clipShape(RoundedRectangle(cornerRadius: max(0, bubbleCornerRadius - borderThickness)))
-            
             if !message.text.isEmpty {
                 Text(message.text)
                     .font(.body)
@@ -153,7 +148,6 @@ private extension MessageBubbleView {
         .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
         .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
     }
-
     @ViewBuilder
     var uploadOverlay: some View {
         ZStack {
@@ -166,7 +160,6 @@ private extension MessageBubbleView {
     var loadingOverlay: some View {
         ProgressView()
     }
-
     @ViewBuilder
     var failureOverlay: some View {
         ZStack {
