@@ -115,56 +115,73 @@ struct MessagesView: View {
         }
         
         // --- 3. VISTA DEL MENÚ CONTEXTUAL (EXTRAÍDA) ---
-        @ViewBuilder
-        private func contextMenuOverlay(screenGeometry: GeometryProxy) -> some View {
-            Color.black.opacity(0.001)
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                        self.showContextMenu = false
-                        self.contextMenuMessage = nil
-                    }
+    @ViewBuilder
+    private func contextMenuOverlay(screenGeometry: GeometryProxy) -> some View {
+        Color.black.opacity(0.001)
+            .edgesIgnoringSafeArea(.all)
+            .onTapGesture {
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                    self.showContextMenu = false
+                    self.contextMenuMessage = nil
                 }
+            }
+        
+        if let message = contextMenuMessage, contextMenuAnchorFrame != .zero {
+            // --- INICIO DE LA SOLUCIÓN ---
             
-            if let message = contextMenuMessage, contextMenuAnchorFrame != .zero {
-                let (menuOrigin, anchorPoint) = calculateMenuPlacement(
-                    bubbleFrame: contextMenuAnchorFrame,
-                    menuSize: menuEstimatedSize,
-                    containerBounds: screenGeometry.frame(in: .global),
-                    isBubbleCurrentUser: message.senderId == currentUserId
-                )
-                
-                MessageActionMenuView(
-                    items: [
-                        MessageActionItem(label: "Editar", systemImage: "pencil.circle.fill") {
-                            // Lógica de edición
+            // 1. Obtenemos el marco de la vista contenedora (MessagesView) en coordenadas globales.
+            let containerFrame = screenGeometry.frame(in: .global)
+            
+            // 2. Calculamos el marco de la burbuja RELATIVO al contenedor.
+            //    Restamos el origen del contenedor al origen global de la burbuja.
+            let bubbleFrameInContainer = CGRect(
+                x: contextMenuAnchorFrame.origin.x - containerFrame.origin.x,
+                y: contextMenuAnchorFrame.origin.y - containerFrame.origin.y,
+                width: contextMenuAnchorFrame.width,
+                height: contextMenuAnchorFrame.height
+            )
+            
+            // 3. Pasamos este nuevo marco relativo y el TAMAÑO del contenedor a nuestra función de cálculo.
+            let (menuOrigin, anchorPoint) = calculateMenuPlacement(
+                bubbleFrame: bubbleFrameInContainer,
+                menuSize: menuEstimatedSize,
+                containerSize: containerFrame.size, // Usamos el tamaño, no el marco completo
+                isBubbleCurrentUser: message.senderId == currentUserId
+            )
+            
+            // --- FIN DE LA SOLUCIÓN ---
+            
+            MessageActionMenuView(
+                items: [
+                    MessageActionItem(label: "Editar", systemImage: "pencil.circle.fill") {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                            self.showContextMenu = false
+                        }
+                    },
+                    MessageActionItem(label: "Eliminar", systemImage: "trash.circle.fill") {
+                        Task {
+                            if let msg = self.contextMenuMessage {
+                                await chatLogViewModel.deleteMessage(messageId: msg.id)
+                            }
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                                 self.showContextMenu = false
                             }
-                        },
-                        MessageActionItem(label: "Eliminar", systemImage: "trash.circle.fill") {
-                            Task {
-                                if let msg = self.contextMenuMessage {
-                                    await chatLogViewModel.deleteMessage(messageId: msg.id)
-                                }
-                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                    self.showContextMenu = false
-                                }
-                            }
                         }
-                    ],
-                    showMenu: $showContextMenu
-                )
-                .frame(width: menuEstimatedSize.width, height: menuEstimatedSize.height)
-                // Usamos .position para colocar el CENTRO de la vista del menú.
-                .position(x: menuOrigin.x + menuEstimatedSize.width / 2, y: menuOrigin.y + menuEstimatedSize.height / 2)
-                .transition(.scale(scale: 0.9, anchor: anchorPoint).combined(with: .opacity))
-                .onAppear {
-                    // Actualiza el punto de ancla para la animación de transición.
-                    self.menuAnchorPointForTransition = anchorPoint
-                }
+                    }
+                ],
+                showMenu: $showContextMenu
+            )
+            .frame(width: menuEstimatedSize.width, height: menuEstimatedSize.height)
+            .position(
+                x: menuOrigin.x + menuEstimatedSize.width / 2,
+                y: menuOrigin.y + menuEstimatedSize.height / 2
+            )
+            .transition(.scale(scale: 0.9, anchor: anchorPoint).combined(with: .opacity))
+            .onAppear {
+                self.menuAnchorPointForTransition = anchorPoint
             }
         }
+    }
     
     private func scrollToBottom(proxy: ScrollViewProxy, animated: Bool = true) {
         guard !messages.isEmpty, let lastId = messages.last?.id else {
