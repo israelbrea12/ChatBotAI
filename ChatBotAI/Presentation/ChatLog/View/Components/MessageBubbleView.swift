@@ -12,15 +12,21 @@ import SDWebImageSwiftUI
 
 
 struct MessageBubbleView: View {
+    @Environment(UICoordinator.self) private var coordinator
+    
     let message: Message
     let isCurrentUser: Bool
+    
     var onLongPress: ((_ message: Message, _ frame: CGRect) -> Void)? = nil
-    var onImageTap: ((URL) -> Void)? = nil
+    var onImageTap: ((Message) -> Void)? = nil
+    
     @State private var bubbleFrame: CGRect = .zero
+    
     private let imageMaxWidth: CGFloat = UIScreen.main.bounds.width * 0.65
     private let imageMaxHeight: CGFloat = 300
     private let bubbleCornerRadius: CGFloat = 16
     private let borderThickness: CGFloat = 3
+    
     var body: some View {
         HStack {
             if isCurrentUser { Spacer(minLength: UIScreen.main.bounds.width * 0.15) }
@@ -108,12 +114,16 @@ private extension MessageBubbleView {
                 }
             }
             .onTapGesture {
-                if message.messageType == .image, let urlString = message.imageURL, let url = URL(string: urlString) {
-                    // Aquí no podemos modificar directamente el estado de MessagesView.
-                    // Por lo tanto, necesitamos pasar un closure desde MessagesView a MessageBubbleView.
-                    onImageTap?(url)
-                }
-            }
+                            onImageTap?(message)
+                        }
+                        // --- CAMBIO CLAVE (1/2) ---
+                        // Define el ancla de ORIGEN para la animación.
+                        .anchorPreference(key: HeroKey.self, value: .bounds) { anchor in
+                            return [message.id + "SOURCE": anchor]
+                        }
+                        // --- CAMBIO CLAVE (2/2) ---
+                        // Oculta la imagen original en la burbuja mientras la animación está en curso.
+                        .opacity(coordinator.selectedMessage?.id == message.id ? 0 : 1)
         }
     }
     // --- Vistas base y de superposición reutilizables ---

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		400B9D282E017ABB007DFF50 /* UICoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D272E017ABB007DFF50 /* UICoordinator.swift */; };
+		400B9D2A2E017DE5007DFF50 /* HeroKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D292E017DE5007DFF50 /* HeroKey.swift */; };
+		400B9D322E017F7A007DFF50 /* HeroLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D312E017F7A007DFF50 /* HeroLayer.swift */; };
+		400B9D352E017FAA007DFF50 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D342E017FAA007DFF50 /* ImageDetailView.swift */; };
 		401581DF2DDFA353001789E9 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 401581DE2DDFA353001789E9 /* FirebaseAI */; };
 		401581E12DDFA353001789E9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 401581E02DDFA353001789E9 /* FirebaseAuth */; };
 		401581E32DDFA353001789E9 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 401581E22DDFA353001789E9 /* FirebaseDatabase */; };
@@ -164,6 +168,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		400B9D272E017ABB007DFF50 /* UICoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICoordinator.swift; sourceTree = "<group>"; };
+		400B9D292E017DE5007DFF50 /* HeroKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroKey.swift; sourceTree = "<group>"; };
+		400B9D312E017F7A007DFF50 /* HeroLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroLayer.swift; sourceTree = "<group>"; };
+		400B9D342E017FAA007DFF50 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		401581E92DDFB145001789E9 /* ChatMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMode.swift; sourceTree = "<group>"; };
 		401581EC2DDFB1DC001789E9 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
 		401581EE2DDFB1E8001789E9 /* RolePlaySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlaySetupView.swift; sourceTree = "<group>"; };
@@ -346,6 +354,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		400B9D262E017AA5007DFF50 /* CustomOpenPhotoTransition */ = {
+			isa = PBXGroup;
+			children = (
+				400B9D312E017F7A007DFF50 /* HeroLayer.swift */,
+				400B9D292E017DE5007DFF50 /* HeroKey.swift */,
+				400B9D272E017ABB007DFF50 /* UICoordinator.swift */,
+			);
+			path = CustomOpenPhotoTransition;
+			sourceTree = "<group>";
+		};
+		400B9D332E017F9E007DFF50 /* ImageDetail */ = {
+			isa = PBXGroup;
+			children = (
+				400B9D342E017FAA007DFF50 /* ImageDetailView.swift */,
+			);
+			path = ImageDetail;
+			sourceTree = "<group>";
+		};
 		401581E82DDFB101001789E9 /* ChatMode */ = {
 			isa = PBXGroup;
 			children = (
@@ -491,6 +517,7 @@
 		408685432DD6306500D5832D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				400B9D262E017AA5007DFF50 /* CustomOpenPhotoTransition */,
 				4084BFA92E009DA5001CB621 /* FullScreenImageView.swift */,
 				408CA96E2DEDEA85000C0FAD /* CustomFloatingTabView */,
 				408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */,
@@ -762,10 +789,11 @@
 				40D384EA2D843A7700406AC1 /* ViewState.swift */,
 				40D384E92D843A7700406AC1 /* MainView.swift */,
 				40D384D82D843A7700406AC1 /* Authentication */,
-				40D384E02D843A7700406AC1 /* Home */,
-				40D384E42D843A7700406AC1 /* Settings */,
 				40D384DC2D843A7700406AC1 /* ChatBotIA */,
 				402CB7F82D949490008EAEF0 /* ChatLog */,
+				40D384E02D843A7700406AC1 /* Home */,
+				40D384E42D843A7700406AC1 /* Settings */,
+				400B9D332E017F9E007DFF50 /* ImageDetail */,
 				408CA9632DECD591000C0FAD /* ImagePreview */,
 				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
 				40D384E82D843A7700406AC1 /* Utils */,
@@ -1206,6 +1234,7 @@
 				40F360472D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift in Sources */,
 				40D385322D84ED3800406AC1 /* SignUpParam.swift in Sources */,
 				408685452DD6309500D5832D /* CustomSwipeAction.swift in Sources */,
+				400B9D352E017FAA007DFF50 /* ImageDetailView.swift in Sources */,
 				40F360342D9F01E00078BE23 /* ChatModel.swift in Sources */,
 				4053F7C72D8736F20082785E /* SessionManager.swift in Sources */,
 				40D384F32D843A7700406AC1 /* LoginView.swift in Sources */,
@@ -1235,6 +1264,7 @@
 				40F35FFA2D9DB5840078BE23 /* RegistrationViewModel.swift in Sources */,
 				40D385152D84E02000406AC1 /* SignInParam.swift in Sources */,
 				40D385272D84E76200406AC1 /* AuthRepositoryImpl.swift in Sources */,
+				400B9D2A2E017DE5007DFF50 /* HeroKey.swift in Sources */,
 				408685352DD6265700D5832D /* ChatBotRepository.swift in Sources */,
 				4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */,
 				408685372DD6267D00D5832D /* ChatBotRepositoryImpl.swift in Sources */,
@@ -1258,6 +1288,7 @@
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,
 				40F3603B2D9F065D0078BE23 /* CreateChatParams.swift in Sources */,
 				408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */,
+				400B9D322E017F7A007DFF50 /* HeroLayer.swift in Sources */,
 				40D384F92D843A7700406AC1 /* HomeView.swift in Sources */,
 				408CA96A2DEDB042000C0FAD /* NavigationBarAppearance.swift in Sources */,
 				40F3603D2D9F07B00078BE23 /* ChatRepository.swift in Sources */,
@@ -1320,6 +1351,7 @@
 				40F35FD42D99E4E60078BE23 /* SignInWithGoogleUseCase.swift in Sources */,
 				4057DC032D8CCE9D00D2E2B0 /* NewMessageViewModel.swift in Sources */,
 				40D385022D843A7700406AC1 /* ChatBotAIApp.swift in Sources */,
+				400B9D282E017ABB007DFF50 /* UICoordinator.swift in Sources */,
 				408CA96D2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift in Sources */,
 				40D385032D843A7700406AC1 /* ContentView.swift in Sources */,
 				4086854B2DD8188900D5832D /* CustomDialog.swift in Sources */,

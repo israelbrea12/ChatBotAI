@@ -13,6 +13,8 @@ struct ChatLogView: View {
     @StateObject var chatLogViewModel = Resolver.shared.resolve(
         ChatLogViewModel.self
     )
+    
+    @State private var coordinator: UICoordinator = .init()
 
     @State private var config: MenuConfig = .init(symbolImage: "plus")
     @State private var showingImagePicker = false
@@ -55,6 +57,12 @@ struct ChatLogView: View {
                     )
                 }
             }
+            .onChange(of: chatLogViewModel.messages) { _, newMessages in
+                        // --- CAMBIO CLAVE ---
+                        // Cada vez que los mensajes cambien, actualiza el coordinador.
+                        coordinator.setup(messages: newMessages)
+                    }
+            .allowsHitTesting(coordinator.selectedMessage == nil)
             .safeAreaInset(edge: .bottom) {
                 BottomBar(
                     chatText: $chatLogViewModel.chatText,
@@ -70,6 +78,36 @@ struct ChatLogView: View {
             .onDisappear {
                 chatLogViewModel.stopObservingMessages()
             }
+            .overlay {
+                            Rectangle()
+                                .fill(.black)
+                                .ignoresSafeArea()
+                                .opacity(coordinator.animateView ? 1 : 0)
+                        }
+                        
+                        // 2. La vista de detalle, que se añade a la jerarquía cuando se selecciona una imagen.
+                        .overlay {
+                            if coordinator.selectedMessage != nil {
+                                ImageDetailView()
+                                    .allowsHitTesting(coordinator.showDetailView)
+                            }
+                        }
+                        
+                        // 3. La capa de animación (HeroLayer) que se activa cuando se encuentran las anclas.
+                        .overlayPreferenceValue(HeroKey.self) { value in
+                            if let selectedMessage = coordinator.selectedMessage,
+                               let sAnchor = value[selectedMessage.id + "SOURCE"],
+                               let dAnchor = value[selectedMessage.id + "DEST"] {
+                                
+                                HeroLayer(
+                                    message: selectedMessage,
+                                    sAnchor: sAnchor,
+                                    dAnchor: dAnchor
+                                )
+                            }
+                        }
+                        // Proporciona el coordinador al entorno para que las vistas hijas lo usen.
+                        .environment(coordinator)
             .photosPicker(
                 isPresented: $showingImagePicker,
                 selection: $selectedPhotoItem,
@@ -139,7 +177,8 @@ struct ChatLogView: View {
     private func successView() -> some View {
         VStack {
             MessagesView(messages: chatLogViewModel.messages,
-                         currentUserId: SessionManager.shared.currentUser?.id)
+                         currentUserId: SessionManager.shared.currentUser?.id,
+                         chatLogViewModel: chatLogViewModel)
         }
     }
     
