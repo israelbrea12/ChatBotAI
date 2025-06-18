@@ -11,11 +11,6 @@ struct RegistrationView: View {
     
     @StateObject var registrationViewModel = Resolver.shared.resolve(RegistrationViewModel.self)
     
-    @State private var email = ""
-    @State private var fullName = ""
-    @State private var password = ""
-    @State private var confirmPassword = ""
-    
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -26,35 +21,34 @@ struct RegistrationView: View {
                     VStack(spacing: 24) {
                         ImagePickerView(image: $registrationViewModel.image)
                             .padding(.top)
-
-                        InputView(text: $email,
+                        
+                        InputView(text: $registrationViewModel.email, // Bind to ViewModel
                                   title: "Email Address",
                                   placeholder: "name@example.com")
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
                         .keyboardType(.emailAddress)
                         
-                        InputView(text: $fullName,
+                        InputView(text: $registrationViewModel.fullName, // Bind to ViewModel
                                   title: "Full Name",
                                   placeholder: "Enter your name")
                         .disableAutocorrection(true)
-                                                
                         
-                        InputView(text: $password,
+                        InputView(text: $registrationViewModel.password, // Bind to ViewModel
                                   title: "Password",
                                   placeholder: "Enter your password",
                                   isSecureField: true)
                         .textInputAutocapitalization(.never)
                         
                         ZStack(alignment: .trailing) {
-                            InputView(text: $confirmPassword,
+                            InputView(text: $registrationViewModel.confirmPassword, // Bind to ViewModel
                                       title: "Confirm Password",
                                       placeholder: "Confirm your password",
                                       isSecureField: true)
                             .textInputAutocapitalization(.never)
                             
-                            if !password.isEmpty && !confirmPassword.isEmpty {
-                                if password == confirmPassword {
+                            if !registrationViewModel.password.isEmpty && !registrationViewModel.confirmPassword.isEmpty {
+                                if registrationViewModel.password == registrationViewModel.confirmPassword {
                                     Image(systemName: "checkmark.circle.fill")
                                         .imageScale(.large)
                                         .fontWeight(.bold)
@@ -73,12 +67,7 @@ struct RegistrationView: View {
                     
                     Button {
                         Task {
-                            await registrationViewModel
-                                .createUser(
-                                    withEmail: email,
-                                    password: password,
-                                    fullName: fullName
-                                )
+                            await registrationViewModel.createUser() // ViewModel usa sus propias propiedades
                         }
                     } label: {
                         HStack {
@@ -90,8 +79,8 @@ struct RegistrationView: View {
                         .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                     }
                     .background(Color(.systemBlue))
-                    .disabled(!formIsValid)
-                    .opacity(formIsValid ? 1.0 : 0.5)
+                    .disabled(!registrationViewModel.formIsValid) // Ahora el ViewModel lo expone
+                    .opacity(registrationViewModel.formIsValid ? 1.0 : 0.5)
                     .cornerRadius(10)
                     .padding(.top, 40)
                     
@@ -109,46 +98,21 @@ struct RegistrationView: View {
                     }
                 }
                 .onAppear {
+                    // Si el ViewModel maneja los estados de los campos de texto, no necesitas resetear aquí
                     registrationViewModel.image = nil
                     registrationViewModel.isLoading = false
                 }
+                // Aquí el fullScreenCover está bien si ImagePickerView es un componente común
                 .fullScreenCover(isPresented: $registrationViewModel.shouldShowImagePicker, onDismiss: nil) {
                     ImagePickerView(image: $registrationViewModel.image)
                 }
             }
             
-            // Pantalla de carga en el centro de la vista
+            // Pantalla de carga, puedes hacerla un componente reutilizable si la usas en otros sitios
             if registrationViewModel.isLoading {
-                ZStack {
-                    Color.black.opacity(0.3)
-                        .edgesIgnoringSafeArea(.all)
-                    
-                    VStack {
-                        ProgressView("Creating Account...")
-                            .progressViewStyle(CircularProgressViewStyle())
-                            .padding()
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color.white))
-                            .shadow(radius: 5)
-                    }
-                    .frame(maxWidth: 200)
-                    .padding()
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                LoadingView(message: "Creating Account...") // Ejemplo de componente reutilizable
             }
         }
-    }
-}
-
-// MARK: - AuthenticationForm Protocol
-
-extension RegistrationView: AuthenticationFormProtocol {
-    var formIsValid: Bool {
-        return !email.isEmpty
-        && email.contains("@")
-        && !password.isEmpty
-        && password.count > 5
-        && confirmPassword == password
-        && !fullName.isEmpty
     }
 }
 

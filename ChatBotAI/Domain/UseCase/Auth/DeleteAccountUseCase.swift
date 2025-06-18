@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DeleteAccountUseCase: UseCaseProtocol {
+struct DeleteAccountUseCase: UseCaseProtocol {
     
     private let repository: AuthRepository
     

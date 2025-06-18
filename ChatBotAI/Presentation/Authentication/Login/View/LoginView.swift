@@ -13,9 +13,6 @@ struct LoginView: View {
     
     @StateObject var loginViewModel = Resolver.shared.resolve(LoginViewModel.self)
     
-    @State private var email = ""
-    @State private var password = ""
-    
     var body: some View {
         NavigationStack {
             VStack {
@@ -27,14 +24,14 @@ struct LoginView: View {
                 
                 // form fields
                 VStack(spacing: 24) {
-                    InputView(text: $email,
+                    InputView(text: $loginViewModel.email,
                               title: "Email Address",
                               placeholder: "name@example.com")
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
                     
-                    InputView(text: $password,
+                    InputView(text: $loginViewModel.password,
                               title: "Password", placeholder: "Enter your password",
                               isSecureField: true)
                     .textInputAutocapitalization(.never)
@@ -47,7 +44,7 @@ struct LoginView: View {
                 // sign in button
                 Button {
                     Task {
-                        await loginViewModel.signIn(withEmail: email, password: password)
+                        await loginViewModel.signIn(withEmail: loginViewModel.email, password: loginViewModel.password)
                     }
                 } label: {
                     HStack {
@@ -59,8 +56,8 @@ struct LoginView: View {
                     .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                 }
                 .background(Color(.systemBlue))
-                .disabled(!formIsValid)
-                .opacity(formIsValid ? 1.0 : 0.5)
+                .disabled(!loginViewModel.formIsValid)
+                .opacity(loginViewModel.formIsValid ? 1.0 : 0.5)
                 .cornerRadius(10)
                 .padding(.top, 24)
                 
@@ -132,17 +129,6 @@ struct LoginView: View {
             }
         }
         
-    }
-}
-
-// MARK: - AuthenticationForm Protocol
-
-extension LoginView: AuthenticationFormProtocol {
-    var formIsValid: Bool {
-        return !email.isEmpty
-        && email.contains("@")
-        && !password.isEmpty
-        && password.count > 5
     }
 }
 

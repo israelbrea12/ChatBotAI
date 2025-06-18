@@ -10,9 +10,20 @@ class LoginViewModel: ObservableObject {
     // MARK: - Publisheds
     @Published var currentUser: User?
     @Published var state: ViewState = .success
-    @Published var isLoading = false // Estado de carga
+    @Published var isLoading = false
     @Published var image: UIImage?
     @Published var shouldShowImagePicker = false
+    @Published var email = ""
+    @Published var password = ""
+    @Published var authenticationError: AppError? // Para manejar y mostrar errores
+
+    // MARK: - Validation
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count > 5
+    }
     
     // MARK: - Use Cases
     private let signInUseCase: SignInUseCase

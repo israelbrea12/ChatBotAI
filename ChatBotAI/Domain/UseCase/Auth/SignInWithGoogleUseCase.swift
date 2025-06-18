@@ -6,11 +6,8 @@
 //
 
 import Foundation
-import FirebaseAuth
-import GoogleSignIn
-import GoogleSignInSwift
 
-class SignInWithGoogleUseCase {
+struct SignInWithGoogleUseCase {
     private let repository: AuthRepository
 
     init(repository: AuthRepository) {

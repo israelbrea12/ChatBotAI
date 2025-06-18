@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SignInWithAppleUseCase {
+struct SignInWithAppleUseCase {
     private let repository: AuthRepository
 
     init(repository: AuthRepository) {

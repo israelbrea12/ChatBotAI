@@ -12,4 +12,5 @@ enum AppError: Error {
     case authenticationError(String)  // Errores de autenticación en Firebase
     case databaseError(String)  // Errores en Firestore o Realtime Database
     case unknownError(String)  // Para errores no identificados
+    case validationError(String)
 }

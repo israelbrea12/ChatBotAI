@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SignInUseCase: UseCaseProtocol {
+struct SignInUseCase: UseCaseProtocol {
     private let repository: AuthRepository
     
     init(repository: AuthRepository) {
