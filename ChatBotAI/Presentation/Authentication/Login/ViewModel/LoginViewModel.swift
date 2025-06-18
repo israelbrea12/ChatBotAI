@@ -53,6 +53,8 @@ class LoginViewModel: ObservableObject {
                 self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
                 self.currentUser = user
+                self.email = ""
+                self.password = ""
             }
         case .failure(let error):
             print("DEBUG: Sign-in error \(error.localizedDescription)")

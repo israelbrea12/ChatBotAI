@@ -13,7 +13,6 @@ import FirebaseAuth // Solo para User, pero idealmente se mapea a un UserEntity/
 class RegistrationViewModel: ObservableObject {
 
     // MARK: - Publisheds
-    @Published var currentUser: User?
     @Published var email = ""
     @Published var fullName = ""
     @Published var password = ""
@@ -21,7 +20,7 @@ class RegistrationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var image: UIImage?
     @Published var shouldShowImagePicker = false
-    @Published var authenticationError: AppError? // Para manejar y mostrar errores al usuario
+    @Published var authenticationError: AppError?
 
     // MARK: - Validation
     // Computed property para la validación del formulario
@@ -64,8 +63,7 @@ class RegistrationViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
-                self.currentUser = user
-                SessionManager.shared.currentUser = user
+                self.resetForm()
             }
             authenticationError = nil
 
@@ -74,5 +72,16 @@ class RegistrationViewModel: ObservableObject {
             authenticationError = AppError.unknownError(error.localizedDescription)
             isLoading = false // @MainActor
         }
+    }
+    
+    private func resetForm() {
+        email = ""
+        fullName = ""
+        password = ""
+        confirmPassword = ""
+        image = nil
+        authenticationError = nil
+        isLoading = false
+        shouldShowImagePicker = false
     }
 }

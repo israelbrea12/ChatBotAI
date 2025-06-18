@@ -5,117 +5,94 @@
 //  Created by Israel Brea Piñero on 13/3/25.
 //
 
+// MARK: SignUpView.swift
+
 import SwiftUI
 
-struct RegistrationView: View {
-    
+struct SignUpView: View {
     @StateObject var registrationViewModel = Resolver.shared.resolve(RegistrationViewModel.self)
-    
-    @Environment(\.dismiss) var dismiss
+    @Binding var showSignup: Bool
     
     var body: some View {
         ZStack {
-            NavigationStack {
-                VStack {
-                    // form fields
-                    VStack(spacing: 24) {
-                        ImagePickerView(image: $registrationViewModel.image)
-                            .padding(.top)
-                        
-                        InputView(text: $registrationViewModel.email, // Bind to ViewModel
-                                  title: "Email Address",
-                                  placeholder: "name@example.com")
-                        .textInputAutocapitalization(.never)
-                        .disableAutocorrection(true)
-                        .keyboardType(.emailAddress)
-                        
-                        InputView(text: $registrationViewModel.fullName, // Bind to ViewModel
-                                  title: "Full Name",
-                                  placeholder: "Enter your name")
-                        .disableAutocorrection(true)
-                        
-                        InputView(text: $registrationViewModel.password, // Bind to ViewModel
-                                  title: "Password",
-                                  placeholder: "Enter your password",
-                                  isSecureField: true)
-                        .textInputAutocapitalization(.never)
-                        
-                        ZStack(alignment: .trailing) {
-                            InputView(text: $registrationViewModel.confirmPassword, // Bind to ViewModel
-                                      title: "Confirm Password",
-                                      placeholder: "Confirm your password",
-                                      isSecureField: true)
-                            .textInputAutocapitalization(.never)
+            GeometryReader { geometry in
+                ZStack {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        VStack(alignment: .leading, spacing: 15) {
+                            Button(action: {
+                                showSignup = false
+                            }, label: {
+                                Image(systemName: "arrow.left")
+                                    .font(.title2)
+                                    .foregroundStyle(.gray)
+                            })
+                            .padding(.top, 10)
                             
-                            if !registrationViewModel.password.isEmpty && !registrationViewModel.confirmPassword.isEmpty {
-                                if registrationViewModel.password == registrationViewModel.confirmPassword {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .imageScale(.large)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color(.systemGreen))
-                                } else {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .imageScale(.large)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color(.systemRed))
-                                }
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 24)
-                    .padding(.top, 12)
-                    
-                    Button {
-                        Task {
-                            await registrationViewModel.createUser() // ViewModel usa sus propias propiedades
-                        }
-                    } label: {
-                        HStack {
-                            Text("Sign up")
+                            Text("Sign Up")
+                                .font(.largeTitle)
+                                .fontWeight(.heavy)
+                                .padding(.top, 10)
+                            
+                            Text("Please sign up to continue")
+                                .font(.callout)
                                 .fontWeight(.semibold)
-                            Image(systemName: "arrow.right")
-                        }
-                        .foregroundStyle(.white)
-                        .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                    }
-                    .background(Color(.systemBlue))
-                    .disabled(!registrationViewModel.formIsValid) // Ahora el ViewModel lo expone
-                    .opacity(registrationViewModel.formIsValid ? 1.0 : 0.5)
-                    .cornerRadius(10)
-                    .padding(.top, 40)
-                    
-                    Spacer()
-                    
-                    Button {
-                        dismiss()
-                    } label: {
-                        HStack(spacing: 3) {
-                            Text("Already have an account?")
-                            Text("Sign in")
+                                .foregroundStyle(.gray)
+                                .padding(.top, -5)
+                            
+                            VStack(spacing: 25) {
+                                ImagePickerView(image: $registrationViewModel.image)
+                                    .padding(.top)
+                                
+                                CustomTF(sfIcon: "at", hint: "Email Address", value: $registrationViewModel.email)
+                                    .keyboardType(.emailAddress)
+                                    .textInputAutocapitalization(.never)
+                                
+                                CustomTF(sfIcon: "person", hint: "Full Name", value: $registrationViewModel.fullName)
+                                
+                                CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $registrationViewModel.password)
+                                
+                                CustomTF(sfIcon: "lock.fill", hint: "Confirm Password", isPassword: true, value: $registrationViewModel.confirmPassword)
+                                
+                                GradientButton(title: "Sign Up", icon: "arrow.right") {
+                                    Task {
+                                        await registrationViewModel.createUser()
+                                    }
+                                }
+                                .hSpacing(.trailing)
+                                .disableWithOpacity(!registrationViewModel.formIsValid)
+                            }
+                            .padding(.top, 20)
+                            
+                            Spacer(minLength: 0)
+                            
+                            HStack(spacing: 6) {
+                                Text("Already have an account?")
+                                    .foregroundStyle(.gray)
+                                
+                                Button("Login") {
+                                    showSignup = false
+                                }
                                 .fontWeight(.bold)
+                                .tint(.appBlue)
+                            }
+                            .font(.callout)
+                            .hSpacing()
                         }
-                        .font(.system(size: 14))
+                        .frame(minHeight: geometry.size.height)
                     }
                 }
-                .onAppear {
-                    // Si el ViewModel maneja los estados de los campos de texto, no necesitas resetear aquí
-                    registrationViewModel.image = nil
-                    registrationViewModel.isLoading = false
-                }
-                // Aquí el fullScreenCover está bien si ImagePickerView es un componente común
-                .fullScreenCover(isPresented: $registrationViewModel.shouldShowImagePicker, onDismiss: nil) {
-                    ImagePickerView(image: $registrationViewModel.image)
-                }
+                .padding(.vertical, 15)
+                .padding(.horizontal, 25)
+            }
+            .toolbar(.hidden, for: .navigationBar)
+            .fullScreenCover(isPresented: $registrationViewModel.shouldShowImagePicker) {
+                ImagePickerView(image: $registrationViewModel.image)
             }
             
-            // Pantalla de carga, puedes hacerla un componente reutilizable si la usas en otros sitios
             if registrationViewModel.isLoading {
-                LoadingView(message: "Creating Account...") // Ejemplo de componente reutilizable
+                LoadingView(message: "Creating Account...")
+                    .ignoresSafeArea()
             }
         }
     }
-}
-
-#Preview {
-    RegistrationView()
 }

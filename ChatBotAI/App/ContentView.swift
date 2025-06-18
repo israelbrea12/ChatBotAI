@@ -15,7 +15,7 @@ struct ContentView: View {
             if sessionManager.userSession != nil {
                 MainView()
             } else {
-                LoginView()
+                AuthView()
             }
         }
     }

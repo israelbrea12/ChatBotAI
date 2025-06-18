@@ -5,133 +5,143 @@
 //  Created by Israel Brea Piñero on 13/3/25.
 //
 
+// MARK: LoginView.swift
+
 import SwiftUI
 import GoogleSignIn
 import GoogleSignInSwift
 
 struct LoginView: View {
-    
     @StateObject var loginViewModel = Resolver.shared.resolve(LoginViewModel.self)
+    @Binding var showSignup: Bool
+    
+    @State private var showForgotPasswordView: Bool = false
     
     var body: some View {
-        NavigationStack {
-            VStack {
-                // image
-                Image("logo_firebase")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(32)
-                
-                // form fields
-                VStack(spacing: 24) {
-                    InputView(text: $loginViewModel.email,
-                              title: "Email Address",
-                              placeholder: "name@example.com")
-                    .keyboardType(.emailAddress)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
+        GeometryReader { geometry in
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 15) {
+                    // El contenido es el mismo
+                    Spacer(minLength: 0)
                     
-                    InputView(text: $loginViewModel.password,
-                              title: "Password", placeholder: "Enter your password",
-                              isSecureField: true)
-                    .textInputAutocapitalization(.never)
-                    .disableAutocorrection(true)
-
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 40)
-                
-                // sign in button
-                Button {
-                    Task {
-                        await loginViewModel.signIn(withEmail: loginViewModel.email, password: loginViewModel.password)
-                    }
-                } label: {
-                    HStack {
-                        Text("Sign in")
-                            .fontWeight(.semibold)
-                        Image(systemName: "arrow.right")
-                    }
-                    .foregroundStyle(.white)
-                    .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                }
-                .background(Color(.systemBlue))
-                .disabled(!loginViewModel.formIsValid)
-                .opacity(loginViewModel.formIsValid ? 1.0 : 0.5)
-                .cornerRadius(10)
-                .padding(.top, 24)
-                
-                HStack {
-                    Divider()
-                        .frame(maxWidth: .infinity, maxHeight: 1)
-                        .background(Color(.systemGray5))
-                    Text("or")
-                        .foregroundColor(.gray)
-                        .padding(.horizontal, 8)
-                    Divider()
-                        .frame(maxWidth: .infinity, maxHeight: 1)
-                        .background(Color(.systemGray5))
-                }
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
-
-                Button {
-                    Task {
-                        await loginViewModel.signInWithGoogle()
-                    }
-                } label: {
-                    HStack {
-                        Image("google_icon") // Asegúrate de agregar un icono de Google
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text("Sign in with Google")
-                            .fontWeight(.semibold)
-                    }
-                    .foregroundColor(.black)
-                    .frame(width: UIScreen.main.bounds.width - 32, height: 38)
-                }
-                .background(Color(.systemGray6))
-                .cornerRadius(10)
-                .padding(.top, 12)
-
-                Button {
-                    Task {
-                            await loginViewModel.signInWithApple()
+                    Text("Login")
+                        .font(.largeTitle)
+                        .fontWeight(.heavy)
+                    
+                    Text("Please sign in to continue")
+                        .font(.callout)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.gray)
+                        .padding(.top, -5)
+                    
+                    VStack(spacing: 25) {
+                        CustomTF(sfIcon: "at", hint: "Email Address", value: $loginViewModel.email)
+                            .keyboardType(.emailAddress)
+                            .textInputAutocapitalization(.never)
+                        
+                        CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $loginViewModel.password)
+                            .padding(.top, 5)
+                        
+                        Button("Forgot Password?") {
+                            showForgotPasswordView.toggle()
                         }
-                                } label: {
-                                    HStack {
-                                        Image(systemName: "applelogo")
-                                        Text("Sign in with Apple")
-                                            .fontWeight(.semibold)
-                                    }
-                                    .foregroundColor(.white)
-                                    .frame(width: UIScreen.main.bounds.width - 32, height: 38)
-                                }
-                                .background(Color.black)
-                                .cornerRadius(10)
-                                .padding(.top, 12)
-                
-                Spacer()
-                
-                // sign up button
-                NavigationLink {
-                    RegistrationView()
-                        .navigationBarBackButtonHidden(true)
-                } label: {
-                    HStack(spacing: 3) {
-                        Text("Don't have an account?")
-                        Text("Sign up")
-                            .fontWeight(.bold)
+                        .font(.callout)
+                        .tint(.appBlue)
+                        .hSpacing(.trailing)
+                        
+                        GradientButton(title: "Login", icon: "arrow.right") {
+                            Task {
+                                await loginViewModel.signIn(withEmail: loginViewModel.email, password: loginViewModel.password)
+                            }
+                        }
+                        .hSpacing(.trailing)
+                        .disableWithOpacity(!loginViewModel.formIsValid)
                     }
-                    .font(.system(size: 14))
+                    .padding(.top, 20)
+                    
+                    orDivider()
+                    
+                    socialLoginButtons()
+
+                    Spacer(minLength: 0)
+                    
+                    HStack(spacing: 6) {
+                        Text("Don't have an account?")
+                            .foregroundStyle(.gray)
+                        
+                        Button("SignUp") {
+                            showSignup.toggle()
+                        }
+                        .fontWeight(.bold)
+                        .tint(.appBlue)
+                    }
+                    .font(.callout)
+                    .hSpacing()
                 }
-                
+                .frame(minHeight: geometry.size.height)
             }
         }
-        
+        .padding(.vertical, 15)
+        .padding(.horizontal, 25)
+        .toolbar(.hidden, for: .navigationBar)
+        .sheet(isPresented: $showForgotPasswordView) {
+            ForgotPasswordView()
+                .presentationDetents([.height(300)])
+                .presentationCornerRadius(30)
+        }
     }
-}
-
-#Preview {
-    LoginView()
+    
+    @ViewBuilder
+    private func orDivider() -> some View {
+        HStack {
+            VStack { Divider() }
+            Text("or")
+                .foregroundStyle(.gray)
+            VStack { Divider() }
+        }
+        .padding(.top, 20)
+    }
+    
+    @ViewBuilder
+    private func socialLoginButtons() -> some View {
+        VStack(spacing: 12) {
+            Button {
+                Task {
+                    await loginViewModel.signInWithGoogle()
+                }
+            } label: {
+                HStack {
+                    Image("google_icon")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                    Text("Sign in with Google")
+                        .fontWeight(.semibold)
+                }
+                .foregroundStyle(.black)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(Color(.systemGray6))
+                .cornerRadius(10)
+            }
+            
+            // Botón de Apple
+            Button {
+                Task {
+                    await loginViewModel.signInWithApple()
+                }
+            } label: {
+                HStack {
+                    Image(systemName: "applelogo")
+                    Text("Sign in with Apple")
+                        .fontWeight(.semibold)
+                }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(Color.black)
+                .cornerRadius(10)
+            }
+        }
+        .padding(.top, 15)
+    }
 }

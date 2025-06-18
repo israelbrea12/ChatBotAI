@@ -13,6 +13,10 @@
 		400B9D352E017FAA007DFF50 /* ImageDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D342E017FAA007DFF50 /* ImageDetailView.swift */; };
 		400B9D422E03226E007DFF50 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D412E03226E007DFF50 /* Constants.swift */; };
 		400B9D442E032554007DFF50 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D432E032554007DFF50 /* LoadingView.swift */; };
+		400B9D482E034339007DFF50 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D472E034339007DFF50 /* GradientButton.swift */; };
+		400B9D4A2E03434F007DFF50 /* CustomTF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D492E03434F007DFF50 /* CustomTF.swift */; };
+		400B9D4D2E0344BD007DFF50 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D4C2E0344BD007DFF50 /* AuthView.swift */; };
+		400B9D502E034528007DFF50 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400B9D4F2E034528007DFF50 /* ForgotPasswordView.swift */; };
 		401581DF2DDFA353001789E9 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = 401581DE2DDFA353001789E9 /* FirebaseAI */; };
 		401581E12DDFA353001789E9 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 401581E02DDFA353001789E9 /* FirebaseAuth */; };
 		401581E32DDFA353001789E9 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 401581E22DDFA353001789E9 /* FirebaseDatabase */; };
@@ -173,6 +177,10 @@
 		400B9D342E017FAA007DFF50 /* ImageDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDetailView.swift; sourceTree = "<group>"; };
 		400B9D412E03226E007DFF50 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		400B9D432E032554007DFF50 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		400B9D472E034339007DFF50 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		400B9D492E03434F007DFF50 /* CustomTF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTF.swift; sourceTree = "<group>"; };
+		400B9D4C2E0344BD007DFF50 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		400B9D4F2E034528007DFF50 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		401581E92DDFB145001789E9 /* ChatMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMode.swift; sourceTree = "<group>"; };
 		401581EC2DDFB1DC001789E9 /* ModeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSelectionView.swift; sourceTree = "<group>"; };
 		401581EE2DDFB1E8001789E9 /* RolePlaySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlaySetupView.swift; sourceTree = "<group>"; };
@@ -405,6 +413,14 @@
 				400B9D412E03226E007DFF50 /* Constants.swift */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		400B9D4E2E034507007DFF50 /* ForgotPassword */ = {
+			isa = PBXGroup;
+			children = (
+				400B9D4F2E034528007DFF50 /* ForgotPasswordView.swift */,
+			);
+			path = ForgotPassword;
 			sourceTree = "<group>";
 		};
 		401581E82DDFB101001789E9 /* ChatMode */ = {
@@ -726,9 +742,11 @@
 		40D384D82D843A7700406AC1 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				40F35FFB2D9DB7110078BE23 /* Utils */,
-				40F35FF62D9DB5370078BE23 /* Registration */,
+				400B9D4C2E0344BD007DFF50 /* AuthView.swift */,
 				40F35FF52D9DB5300078BE23 /* Login */,
+				40F35FF62D9DB5370078BE23 /* Registration */,
+				400B9D4E2E034507007DFF50 /* ForgotPassword */,
+				40F35FFB2D9DB7110078BE23 /* Utils */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -797,6 +815,8 @@
 				408CA94F2DECC033000C0FAD /* PhotoPicker.swift */,
 				408CA9692DEDB042000C0FAD /* NavigationBarAppearance.swift */,
 				4086854A2DD8188900D5832D /* CustomDialog.swift */,
+				400B9D472E034339007DFF50 /* GradientButton.swift */,
+				400B9D492E03434F007DFF50 /* CustomTF.swift */,
 				400B9D262E017AA5007DFF50 /* CustomOpenPhotoTransition */,
 				408CA96E2DEDEA85000C0FAD /* CustomFloatingTabView */,
 				408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */,
@@ -1300,6 +1320,7 @@
 				401581F12DDFB3AF001789E9 /* NavigationTarget.swift in Sources */,
 				40D384F72D843A7700406AC1 /* ChatBotIAView.swift in Sources */,
 				402CB8062D94B748008EAEF0 /* MessagesView.swift in Sources */,
+				400B9D482E034339007DFF50 /* GradientButton.swift in Sources */,
 				408685472DD75C4300D5832D /* PanGesture.swift in Sources */,
 				40F360CB2DA47F590078BE23 /* MessageModel.swift in Sources */,
 				408CA9622DECC98F000C0FAD /* UploadImageUseCase.swift in Sources */,
@@ -1328,9 +1349,11 @@
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				408685422DD62CA500D5832D /* DataConstants.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
+				400B9D4A2E03434F007DFF50 /* CustomTF.swift in Sources */,
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
 				40F360D72DA52E7E0078BE23 /* MessageBubbleView.swift in Sources */,
 				408685592DDA4D2E00D5832D /* DeleteUserChatParams.swift in Sources */,
+				400B9D502E034528007DFF50 /* ForgotPasswordView.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
 				4086853C2DD62BD200D5832D /* MessageRow.swift in Sources */,
@@ -1347,6 +1370,7 @@
 				40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */,
 				40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */,
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
+				400B9D4D2E0344BD007DFF50 /* AuthView.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
 				408685402DD62C6200D5832D /* MessageInputView.swift in Sources */,
 				4084BFA32E006802001CB621 /* Utils.swift in Sources */,
