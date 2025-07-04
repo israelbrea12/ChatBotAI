@@ -5,7 +5,6 @@
 //  Created by Israel Brea Piñero on 12/3/25.
 //
 
-// Presentation/ChatBotIA/View/ChatBotIAView.swift
 import SwiftUI
 
 struct ChatBotIAView: View {
@@ -14,7 +13,7 @@ struct ChatBotIAView: View {
     
     var body: some View {
         ZStack {
-            Color.clear // Tu fondo actual
+            Color.clear
                 .contentShape(Rectangle())
                 .onTapGesture {
                     UIApplication.shared.endEditing()
@@ -24,19 +23,19 @@ struct ChatBotIAView: View {
                 // ... (tu lógica de "En qué puedo ayudarte?")
                 if !chatBotIAViewModel.hasStartedChatting && chatBotIAViewModel.messages.isEmpty {
                                         VStack(spacing: 8) {
-                                            Text(chatBotIAViewModel.currentNavigationTitle) // Título del modo
+                                            Text(chatBotIAViewModel.currentNavigationTitle)
                                                 .font(.title2)
                                                 .fontWeight(.semibold)
                                                 .multilineTextAlignment(.center)
                                             
-                                            Text(chatBotIAViewModel.currentPlaceholderSubtitle) // Subtítulo del modo
+                                            Text(chatBotIAViewModel.currentPlaceholderSubtitle)
                                                 .font(.subheadline)
                                                 .foregroundColor(.secondary)
                                                 .multilineTextAlignment(.center)
                                                 .padding(.horizontal)
                                         }
                                         .padding(.top)
-                                        .padding(.bottom) // Añade un poco de espacio antes de la lista de mensajes si esta apareciera justo después
+                                        .padding(.bottom)
                                     }
                 
                 
@@ -44,14 +43,14 @@ struct ChatBotIAView: View {
                     ScrollViewReader { scrollViewProxy in
                         VStack(spacing: 8) {
                             ForEach(chatBotIAViewModel.messages) { message in
-                                MessageRow(message: message) // MessageRow se actualizará si message.text cambia
+                                MessageRow(message: message)
                                     .id(message.id)
-                                    .padding(.bottom, message.id == chatBotIAViewModel.messages.last?.id && chatBotIAViewModel.isGenerating ? 2 : 0) // Pequeño padding extra si es el último y está generando
+                                    .padding(.bottom, message.id == chatBotIAViewModel.messages.last?.id && chatBotIAViewModel.isGenerating ? 2 : 0)
                             }
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
-                        .onChange(of: chatBotIAViewModel.messages.last?.text) { _, _ in // Observar cambios en el texto del último mensaje
+                        .onChange(of: chatBotIAViewModel.messages.last?.text) { _, _ in
                             if let lastMessageId = chatBotIAViewModel.messages.last?.id {
                                 withAnimation {
                                     scrollViewProxy.scrollTo(lastMessageId, anchor: .bottom)
@@ -69,8 +68,7 @@ struct ChatBotIAView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 
-                // ... (tu lógica de error)
-                if case .error(let errorMessage) = chatBotIAViewModel.viewState, !chatBotIAViewModel.isGenerating { // Mostrar error solo si no está generando activamente
+                if case .error(let errorMessage) = chatBotIAViewModel.viewState, !chatBotIAViewModel.isGenerating {
                     Text(errorMessage)
                         .foregroundColor(.red)
                         .padding(.horizontal)
@@ -83,7 +81,7 @@ struct ChatBotIAView: View {
                 
                 MessageInputView(
                     prompt: $chatBotIAViewModel.prompt,
-                    isGenerating: chatBotIAViewModel.isGenerating, // Esto mostrará el progress en la flecha
+                    isGenerating: chatBotIAViewModel.isGenerating,
                     sendMessageAction: chatBotIAViewModel.sendMessage
                 )
             }
@@ -97,7 +95,6 @@ struct ChatBotIAView: View {
             for: .navigationBar
         )
         .onDisappear {
-            // Opcional: Cancelar el stream si la vista desaparece
             // chatBotIAViewModel.cancelStreaming()
         }
     }

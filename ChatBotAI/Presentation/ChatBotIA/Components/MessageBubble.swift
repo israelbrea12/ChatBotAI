@@ -24,7 +24,6 @@ struct MessageBubble: View {
                     .padding(.top, 2)
             }
 
-            // ✅ Renderizar el Markdown
             Markdown(text)
                 .padding(12)
                 .background(backgroundColor)

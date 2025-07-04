@@ -24,7 +24,7 @@ struct RolePlaySetupView: View {
             NavigationLink(value: NavigationChatBotIARoute.chatView(
                 mode: .rolePlay(userRole: userRole, botRole: botRole, scenario: scenario))
             ) {
-                Text("Iniciar roleplay") // El Text es ahora la etiqueta directa
+                Text("Iniciar roleplay")
             }
             .disabled(userRole.isEmpty || botRole.isEmpty || scenario.isEmpty)
         }

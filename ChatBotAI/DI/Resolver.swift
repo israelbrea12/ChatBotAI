@@ -239,6 +239,12 @@ extension Resolver {
                 storageRepository: resolver.resolve(StorageRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(SendPasswordResetUseCase.self) { resolver in
+            SendPasswordResetUseCase(
+                authRepository: resolver.resolve(AuthRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -309,6 +315,13 @@ extension Resolver {
                 chatMode: chatMode
             )
         }.inObjectScope(.transient)
+        
+        container.register(ForgotPasswordViewModel.self) { resolver in
+            ForgotPasswordViewModel(
+                sendPasswordResetUseCase: resolver
+                    .resolve(SendPasswordResetUseCase.self)!
+            )
+        }.inObjectScope(.container)
     
     }
 }

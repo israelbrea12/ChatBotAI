@@ -54,20 +54,29 @@ class AuthRepositoryImpl: AuthRepository {
     }
     
     func signInWithApple() async -> Result<User, AppError> {
-            do {
-                let userModel = try await dataSource.signInWithApple()
-                return .success(userModel.toDomain())
-            } catch {
-                return .failure(error.toAppError())
-            }
+        do {
+            let userModel = try await dataSource.signInWithApple()
+            return .success(userModel.toDomain())
+        } catch {
+            return .failure(error.toAppError())
         }
+    }
     
     func deleteAccount() async -> Result<Void, AppError> {
-            do {
-                try await dataSource.deleteAccount()
-                return .success(())
-            } catch {
-                return .failure(error.toAppError())
-            }
+        do {
+            try await dataSource.deleteAccount()
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
         }
+    }
+    
+    func sendPasswordReset(email: String) async -> Result<Void, AppError> {
+        do {
+            try await dataSource.sendPasswordReset(email: email)
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

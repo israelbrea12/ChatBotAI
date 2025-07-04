@@ -63,6 +63,8 @@
 		4086854B2DD8188900D5832D /* CustomDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086854A2DD8188900D5832D /* CustomDialog.swift */; };
 		408685572DDA4D1800D5832D /* DeleteUserChatUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */; };
 		408685592DDA4D2E00D5832D /* DeleteUserChatParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */; };
+		408A39372E17D732009AA8DC /* SendPasswordResetUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408A39362E17D732009AA8DC /* SendPasswordResetUseCase.swift */; };
+		408A393B2E17D781009AA8DC /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408A393A2E17D781009AA8DC /* ForgotPasswordViewModel.swift */; };
 		408CA9342DE8C9AD000C0FAD /* MessageActionMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9332DE8C9AD000C0FAD /* MessageActionMenuView.swift */; };
 		408CA9362DE8E3BA000C0FAD /* DeleteMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9352DE8E3BA000C0FAD /* DeleteMessageParams.swift */; };
 		408CA9382DE8E3D4000C0FAD /* DeleteMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */; };
@@ -217,6 +219,8 @@
 		4086854A2DD8188900D5832D /* CustomDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDialog.swift; sourceTree = "<group>"; };
 		408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatUseCase.swift; sourceTree = "<group>"; };
 		408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserChatParams.swift; sourceTree = "<group>"; };
+		408A39362E17D732009AA8DC /* SendPasswordResetUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendPasswordResetUseCase.swift; sourceTree = "<group>"; };
+		408A393A2E17D781009AA8DC /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
 		408CA9332DE8C9AD000C0FAD /* MessageActionMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionMenuView.swift; sourceTree = "<group>"; };
 		408CA9352DE8E3BA000C0FAD /* DeleteMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageParams.swift; sourceTree = "<group>"; };
 		408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageUseCase.swift; sourceTree = "<group>"; };
@@ -418,7 +422,8 @@
 		400B9D4E2E034507007DFF50 /* ForgotPassword */ = {
 			isa = PBXGroup;
 			children = (
-				400B9D4F2E034528007DFF50 /* ForgotPasswordView.swift */,
+				408A39382E17D762009AA8DC /* View */,
+				408A39392E17D770009AA8DC /* ViewModel */,
 			);
 			path = ForgotPassword;
 			sourceTree = "<group>";
@@ -556,6 +561,22 @@
 				4086853B2DD62BD200D5832D /* MessageRow.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		408A39382E17D762009AA8DC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				400B9D4F2E034528007DFF50 /* ForgotPasswordView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		408A39392E17D770009AA8DC /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				408A393A2E17D781009AA8DC /* ForgotPasswordViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */ = {
@@ -1041,6 +1062,7 @@
 				40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */,
 				40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */,
 				40F3600C2D9DCC870078BE23 /* SignInWithAppleUseCase.swift */,
+				408A39362E17D732009AA8DC /* SendPasswordResetUseCase.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1277,6 +1299,7 @@
 				408685452DD6309500D5832D /* CustomSwipeAction.swift in Sources */,
 				400B9D352E017FAA007DFF50 /* ImageDetailView.swift in Sources */,
 				40F360342D9F01E00078BE23 /* ChatModel.swift in Sources */,
+				408A393B2E17D781009AA8DC /* ForgotPasswordViewModel.swift in Sources */,
 				4053F7C72D8736F20082785E /* SessionManager.swift in Sources */,
 				40D384F32D843A7700406AC1 /* LoginView.swift in Sources */,
 				408CA95A2DECC938000C0FAD /* StorageRepository.swift in Sources */,
@@ -1311,6 +1334,7 @@
 				4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */,
 				408685372DD6267D00D5832D /* ChatBotRepositoryImpl.swift in Sources */,
 				40D384F62D843A7700406AC1 /* ChatBotIAViewModel.swift in Sources */,
+				408A39372E17D732009AA8DC /* SendPasswordResetUseCase.swift in Sources */,
 				4086853E2DD62C5400D5832D /* MessageBubble.swift in Sources */,
 				402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */,
 				40F360C22DA47C660078BE23 /* SendMessageUseCase.swift in Sources */,

@@ -5,18 +5,14 @@
 //  Created by Israel Brea Piñero on 18/6/25.
 //
 
-
-// MARK: ForgotPasswordView.swift
-
 import SwiftUI
 
 struct ForgotPasswordView: View {
-    @State private var emailID: String = ""
-    // Deberías tener un ViewModel para esta lógica también
-    // @StateObject var forgotPasswordVM = ...
+    
+    @StateObject var forgotPasswordViewModel = Resolver.shared.resolve(ForgotPasswordViewModel.self)
     
     @Environment(\.dismiss) private var dismiss
-    
+        
     var body: some View {
         VStack(alignment: .leading, spacing: 15) {
             Button(action: {
@@ -40,20 +36,19 @@ struct ForgotPasswordView: View {
                 .padding(.top, -5)
             
             VStack(spacing: 25) {
-                CustomTF(sfIcon: "at", hint: "Email ID", value: $emailID)
+                // Vincula el CustomTF con el email del ViewModel
+                CustomTF(sfIcon: "at", hint: "Email ID", value: $forgotPasswordViewModel.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                 
+                // Llama a la función del ViewModel
                 GradientButton(title: "Send Link", icon: "arrow.right") {
-                    // Aquí va tu lógica para enviar el email de recuperación
-                    // Task {
-                    //     await viewModel.sendPasswordResetLink(to: emailID)
-                    // }
-                    // Una vez enviado, cerramos la vista
-                    dismiss()
+                    Task {
+                        await forgotPasswordViewModel.sendPasswordResetLink()
+                    }
                 }
                 .hSpacing(.trailing)
-                .disableWithOpacity(emailID.isEmpty)
+                .disableWithOpacity(forgotPasswordViewModel.email.isEmpty || forgotPasswordViewModel.isLoading)
             }
             .padding(.top, 20)
             
@@ -62,5 +57,15 @@ struct ForgotPasswordView: View {
         .padding(.vertical, 15)
         .padding(.horizontal, 25)
         .interactiveDismissDisabled()
+        // Alerta para mostrar el resultado al usuario
+        .alert(forgotPasswordViewModel.alertTitle, isPresented: $forgotPasswordViewModel.showAlert) {
+            Button("OK") {
+                if forgotPasswordViewModel.alertTitle == "Enlace Enviado" {
+                    dismiss()
+                }
+            }
+        } message: {
+            Text(forgotPasswordViewModel.alertMessage)
+        }
     }
 }

@@ -22,6 +22,7 @@ protocol AuthDataSource {
     func signInWithGoogle() async throws -> UserModel
     func signInWithApple() async throws -> UserModel
     func deleteAccount() async throws
+    func sendPasswordReset(email: String) async throws
 }
 
 
@@ -157,5 +158,9 @@ class AuthDataSourceImpl: AuthDataSource {
         if !snapshot.exists() {
             try await userRef.setValue(userModel.toDictionary())
         }
+    }
+    
+    func sendPasswordReset(email: String) async throws {
+        try await Auth.auth().sendPasswordReset(withEmail: email)
     }
 }

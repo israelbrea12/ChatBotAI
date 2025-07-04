@@ -21,7 +21,6 @@ struct LoginView: View {
         GeometryReader { geometry in
             ScrollView(.vertical, showsIndicators: false) {
                 VStack(alignment: .leading, spacing: 15) {
-                    // El contenido es el mismo
                     Spacer(minLength: 0)
                     
                     Text("Login")
@@ -105,6 +104,8 @@ struct LoginView: View {
     @ViewBuilder
     private func socialLoginButtons() -> some View {
         VStack(spacing: 12) {
+            
+            // Boton de Google
             Button {
                 Task {
                     await loginViewModel.signInWithGoogle()

@@ -198,23 +198,16 @@ final class HomeViewModel: ObservableObject {
 
             var listChanged = false
             if let index = self.chats.firstIndex(where: { $0.id == chat.id }) {
-                // Comprueba si este es el evento "chat eliminado" enviado por ChatDataSourceImpl
-                // El indicador es un array de participantes vacío y, opcionalmente, otros campos reseteados.
                 if chat.participants.isEmpty && chat.createdAt == 0 && chat.lastMessageText == nil {
                     self.chats.remove(at: index)
                     listChanged = true
-                    print("HomeViewModel: Chat \(chat.id) REMOVIDO de la lista.")
-                    // Opcionalmente, podrías querer limpiar `chatUsers` si ese usuario ya no participa en ningún otro chat,
-                    // pero esto puede ser más complejo de gestionar y podría no ser necesario.
+                    print("HomeViewModel: Chat \(chat.id) ELIMINADO de la lista.")
                 } else {
-                    // Es una actualización de un chat existente (nuevo mensaje, etc.)
                     self.chats[index] = chat
                     listChanged = true
                     print("HomeViewModel: Chat \(chat.id) actualizado en la lista.")
                 }
             } else if !chat.participants.isEmpty {
-                // Es un chat completamente nuevo (no un marcador de eliminación para un chat que ya no debería estar)
-                // Solo añade si tiene participantes, indicando que es un chat válido.
                 self.chats.append(chat)
                 listChanged = true
                 print("HomeViewModel: Nuevo chat \(chat.id) añadido a la lista.")
@@ -223,12 +216,7 @@ final class HomeViewModel: ObservableObject {
             if listChanged {
                 self.chats.sort(by: self.sortChats)
                 
-                // Asegúrate de que el estado se actualice correctamente.
-                // Si el estado es un error, quizás no quieras cambiarlo a .success o .empty
-                // hasta que el error se resuelva.
                 if case .error = self.state {
-                     // Mantener el estado de error si ya está en error,
-                     // o decidir una lógica específica
                      print("HomeViewModel: processChatEvent - Estado actual es error, no se cambiará automáticamente.")
                 } else {
                      self.state = self.chats.isEmpty ? .empty : .success

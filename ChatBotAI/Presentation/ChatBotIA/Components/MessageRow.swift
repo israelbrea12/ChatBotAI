@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-// Subvista para la fila del mensaje
 struct MessageRow: View {
     
     let message: ChatbotMessage

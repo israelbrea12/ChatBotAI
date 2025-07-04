@@ -5,26 +5,20 @@
 //  Created by Israel Brea Piñero on 18/6/25.
 //
 
-
-// MARK: ContentView.swift
-
 import SwiftUI
 
 struct AuthView: View {
-    /// View Properties
+    
     @State private var showSignup: Bool = false
-    /// Keyboard Status
     @State private var isKeyboardShowing: Bool = false
     
     var body: some View {
         NavigationStack {
-            // Pasamos el binding a LoginView
             LoginView(showSignup: $showSignup)
                 .navigationDestination(isPresented: $showSignup) {
                     // La navegación nos lleva a SignUpView
                     SignUpView(showSignup: $showSignup)
                 }
-                /// Checking if any Keyboard is Visible
                 .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification), perform: { _ in
                     /// Disabling it for signup view
                     if !showSignup {
@@ -42,7 +36,6 @@ struct AuthView: View {
         }
     }
     
-    /// Moving Blurred background
     @ViewBuilder
     func CircleView() -> some View {
         Circle()
