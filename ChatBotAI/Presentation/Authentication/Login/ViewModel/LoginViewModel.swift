@@ -2,7 +2,6 @@ import Foundation
 import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
-import FirebaseFirestore
 
 @MainActor
 class LoginViewModel: ObservableObject {
@@ -52,6 +51,7 @@ class LoginViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
+                PresenceManager.shared.setupPresence()
                 self.currentUser = user
                 self.email = ""
                 self.password = ""
@@ -70,6 +70,7 @@ class LoginViewModel: ObservableObject {
             switch result {
             case .success(let user):
                 DispatchQueue.main.async {
+                    PresenceManager.shared.setupPresence()
                     self.currentUser = user
                 }
             case .failure(let error):
@@ -83,6 +84,7 @@ class LoginViewModel: ObservableObject {
         switch result {
         case .success(let user):
             DispatchQueue.main.async {
+                PresenceManager.shared.setupPresence()
                 self.currentUser = user
             }
         case .failure(let error):

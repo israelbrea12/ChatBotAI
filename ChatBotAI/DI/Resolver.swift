@@ -72,6 +72,10 @@ extension Resolver {
         container.register(StorageDataSource.self) { resolver in
             StorageDataSourceImpl()
         }.inObjectScope(.container)
+        
+        container.register(PresenceDataSource.self) { resolver in
+            PresenceDataSourceImpl()
+        }.inObjectScope(.container)
     }
 }
 
@@ -125,6 +129,11 @@ extension Resolver {
         container.register(StorageRepository.self){resolver in
             StorageRepositoryImpl(
                 storageDataSource: resolver.resolve(StorageDataSource.self)!)
+        }.inObjectScope(.container)
+        
+        container.register(PresenceRepository.self){resolver in
+            PresenceRepositoryImpl(
+                presenceDataSource: resolver.resolve(PresenceDataSource.self)!)
         }.inObjectScope(.container)
     }
 }
@@ -245,6 +254,12 @@ extension Resolver {
                 authRepository: resolver.resolve(AuthRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(ObservePresenceUseCase.self) { resolver in
+            ObservePresenceUseCase(
+                presenceRepository: resolver.resolve(PresenceRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -305,7 +320,8 @@ extension Resolver {
                 fetchMessagesUseCase: resolver.resolve(FetchMessagesUseCase.self)!,
                 observeMessagesUseCase: resolver.resolve(ObserveMessagesUseCase.self)!,
                 deleteMessageUseCase: resolver.resolve(DeleteMessageUseCase.self)!,
-                uploadImageUseCase: resolver.resolve(UploadImageUseCase.self)!
+                uploadImageUseCase: resolver.resolve(UploadImageUseCase.self)!,
+                observePresenceUseCase: resolver.resolve(ObservePresenceUseCase.self)!
             )
         }.inObjectScope(.container)
         

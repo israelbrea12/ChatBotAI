@@ -63,6 +63,7 @@ class RegistrationViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self.isLoading = false
                 SessionManager.shared.userSession = Auth.auth().currentUser
+                PresenceManager.shared.setupPresence()
                 self.resetForm()
             }
             authenticationError = nil

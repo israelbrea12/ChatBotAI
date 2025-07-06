@@ -118,7 +118,7 @@ struct HomeView: View {
                              button2: .init(content: "cancel", tint: .blue, foreground: .white, action: { _ in showAlert = false
                              }),
                              addsTextField: false,
-                             textFieldHint: "Personal Documents",
+                             textFieldHint: "Personal Documents"
                 )
                 /// Since it's using "if" condition to add view you can  use SwiftUI Transition here!
                 .transition(.blurReplace.combined(with: .push(from: .bottom)))

@@ -49,6 +49,9 @@ class SettingsViewModel: ObservableObject {
     
     // MARK: - Functions
     func signOut() {
+        
+        PresenceManager.shared.goOffline()
+        
         Task {
             let result = signOutUseCase.execute(with: ())
             switch result {

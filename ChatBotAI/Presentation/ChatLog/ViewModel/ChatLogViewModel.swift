@@ -14,9 +14,11 @@ class ChatLogViewModel: ObservableObject {
     @Published var state: ViewState = .success
     @Published var chatText = ""
     @Published var messages: [Message] = []
+    @Published var userPresenceStatus: String = ""
 
     // MARK: - Private vars
     private var chatId: String?
+    private var otherUser: User?
     
     // MARK: - Use Cases
     private let sendMessageUseCase: SendMessageUseCase
@@ -24,6 +26,7 @@ class ChatLogViewModel: ObservableObject {
     private let observeMessagesUseCase: ObserveMessagesUseCase
     private let deleteMessageUseCase: DeleteMessageUseCase
     private let uploadImageUseCase: UploadImageUseCase
+    private let observePresenceUseCase: ObservePresenceUseCase
 
     // MARK: - Lifecycle functions
     init(
@@ -31,17 +34,20 @@ class ChatLogViewModel: ObservableObject {
         fetchMessagesUseCase: FetchMessagesUseCase,
         observeMessagesUseCase: ObserveMessagesUseCase,
         deleteMessageUseCase: DeleteMessageUseCase,
-        uploadImageUseCase: UploadImageUseCase
+        uploadImageUseCase: UploadImageUseCase,
+        observePresenceUseCase: ObservePresenceUseCase
     ) {
         self.sendMessageUseCase = sendMessageUseCase
         self.fetchMessagesUseCase = fetchMessagesUseCase
         self.observeMessagesUseCase = observeMessagesUseCase
         self.deleteMessageUseCase = deleteMessageUseCase
         self.uploadImageUseCase = uploadImageUseCase
+        self.observePresenceUseCase = observePresenceUseCase
     }
 
     // MARK: - Functions
     func setupChat(currentUser: User, otherUser: User) {
+        self.otherUser = otherUser
         chatId = generateChatId(for: currentUser.id, and: otherUser.id)
         
         Task {
@@ -59,6 +65,52 @@ class ChatLogViewModel: ObservableObject {
                 } onDeletedMessage: { [weak self] deletedMessageId in
                     self?.messages.removeAll { $0.id == deletedMessageId }
                 }
+            }
+            
+            // Iniciar la observación de presencia
+            observeUserPresence()
+        }
+    }
+    
+    // NUEVA FUNCIÓN para observar la presencia
+    private func observeUserPresence() {
+        guard let otherUserId = otherUser?.id else { return }
+        
+        observePresenceUseCase.execute(for: otherUserId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let presence):
+                    self?.updatePresenceStatus(presence: presence)
+                case .failure(let error):
+                    print("Error observing presence: \(error.localizedDescription)")
+                    self?.userPresenceStatus = "" // O "Estado no disponible"
+                }
+            }
+        }
+    }
+        
+        // NUEVA FUNCIÓN para formatear el estado
+    private func updatePresenceStatus(presence: Presence) {
+        if presence.isOnline {
+            self.userPresenceStatus = "En línea"
+        } else {
+            let date = Date(timeIntervalSince1970: presence.lastSeen)
+            // Formateador para mostrar "hoy a las 14:30" o "ayer a las 20:15" etc.
+            let formatter = DateFormatter()
+            formatter.doesRelativeDateFormatting = true
+            
+            if Calendar.current.isDateInToday(date) {
+                formatter.timeStyle = .short
+                formatter.dateStyle = .none
+                self.userPresenceStatus = "Últ. vez hoy a las \(formatter.string(from: date))"
+            } else if Calendar.current.isDateInYesterday(date) {
+                formatter.timeStyle = .short
+                formatter.dateStyle = .none
+                self.userPresenceStatus = "Últ. vez ayer a las \(formatter.string(from: date))"
+            } else {
+                formatter.timeStyle = .short
+                formatter.dateStyle = .short
+                self.userPresenceStatus = "Últ. vez el \(formatter.string(from: date))"
             }
         }
     }
@@ -136,7 +188,7 @@ class ChatLogViewModel: ObservableObject {
                     senderName: user.fullName ?? "",
                     sentAt: tempMessage.sentAt,
                     messageType: .image,
-                    imageURL: imageURL.absoluteString,
+                    imageURL: imageURL.absoluteString
                 )
                 print("🟢 Enviando mensaje final con ID: \(finalMessage.id)")
                 
@@ -178,11 +230,14 @@ class ChatLogViewModel: ObservableObject {
         }
     }
     
-    func stopObservingMessages() {
+    func stopObserving() { // <-- RENOMBRADO para más claridad
         if let chatId = chatId {
             observeMessagesUseCase.stop(chatId: chatId)
         }
-        print("Dejando de observar mensajes")
+        if let otherUserId = otherUser?.id { // <-- NUEVO
+            observePresenceUseCase.stop(for: otherUserId)
+        }
+        print("Dejando de observar todo")
     }
     
     func deleteMessage(messageId: String) async {

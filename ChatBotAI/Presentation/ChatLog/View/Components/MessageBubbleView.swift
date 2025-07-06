@@ -62,8 +62,6 @@ struct MessageBubbleView: View {
             textMessageView()
         case .image:
             imageMessageView()
-        default:
-            unsupportedMessageView()
         }
     }
 }

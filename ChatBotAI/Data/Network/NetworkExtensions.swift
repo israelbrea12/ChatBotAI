@@ -1,5 +1,4 @@
 import FirebaseAuth
-import FirebaseFirestore
 
 extension Error {
     func toAppError() -> AppError {
@@ -25,10 +24,6 @@ extension Error {
 
                 }
             }
-        }
-
-        if nsError.domain == FirestoreErrorDomain {
-            return .databaseError("Error en la base de datos: \(nsError.localizedDescription)")
         }
 
         return .unknownError(nsError.localizedDescription)

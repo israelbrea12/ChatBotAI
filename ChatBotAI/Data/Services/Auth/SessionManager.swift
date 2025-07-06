@@ -2,7 +2,6 @@ import FirebaseAuth
 import Combine
 import Firebase
 import FirebaseStorage
-import FirebaseFirestore
 import FirebaseDatabase
 
 @MainActor
@@ -13,7 +12,6 @@ class SessionManager: NSObject, ObservableObject {
     
     let auth: Auth
     let storage: Storage
-    let firestore: Firestore
     
     static let shared = SessionManager()
     
@@ -22,7 +20,6 @@ class SessionManager: NSObject, ObservableObject {
         
         self.auth = Auth.auth()
         self.storage = Storage.storage()
-        self.firestore = Firestore.firestore()
         
         self.userSession = auth.currentUser
         super.init()

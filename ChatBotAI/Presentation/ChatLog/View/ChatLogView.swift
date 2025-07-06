@@ -19,9 +19,9 @@ struct ChatLogView: View {
     @State private var config: MenuConfig = .init(symbolImage: "plus")
     @State private var showingImagePicker = false
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
-    @State private var imageDataToPreview: Data? = nil // Para la imagen seleccionada
-    @State private var showImagePreviewScreen: Bool = false // Para mostrar la pantalla de preview
-    @State private var imagePreviewCaption: String = "" // Para el pie de foto en la preview
+    @State private var imageDataToPreview: Data? = nil
+    @State private var showImagePreviewScreen: Bool = false
+    @State private var imagePreviewCaption: String = ""
     
     let user: User?
     
@@ -31,7 +31,6 @@ struct ChatLogView: View {
                 ZStack {
                     VStack {
                                     switch chatLogViewModel.state {
-                                    // --- MODIFICADO: La lógica de loading/success se simplifica ---
                                     case .initial, .loading:
                                         loadingView()
                                     case .success, .empty: // Unimos success y empty
@@ -42,6 +41,19 @@ struct ChatLogView: View {
                                 }
                     .navigationTitle("\(user?.fullName ?? "")")
                     .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            VStack {
+                                Text(user?.fullName ?? "")
+                                    .font(.headline)
+                                if !chatLogViewModel.userPresenceStatus.isEmpty {
+                                    Text(chatLogViewModel.userPresenceStatus)
+                                        .font(.caption2)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                    }
                     .toolbar(.hidden, for: .tabBar)
                     .contentShape(Rectangle())
                     .onTapGesture {
@@ -52,7 +64,7 @@ struct ChatLogView: View {
                         for: .navigationBar
                     )
                     .toolbarBackground(
-                        .ultraThinMaterial,
+                        .visible,
                         for: .navigationBar
                     )
                 }
@@ -69,47 +81,47 @@ struct ChatLogView: View {
                 )
             }
             .onAppear {
-                            if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
-                                chatLogViewModel.setupChat(currentUser: currentUser, otherUser: otherUser)
-                            }
-                            
-                            // --- SOLUCIÓN ---
-                            // Aseguramos que el coordinador se configure cada vez que la vista aparece.
-                            // Esto soluciona el problema al reingresar al chat.
-                            coordinator.setup(messages: chatLogViewModel.messages)
-                        }
+                if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
+                    chatLogViewModel.setupChat(currentUser: currentUser, otherUser: otherUser)
+                }
+                
+            // --- SOLUCIÓN ---
+            // Aseguramos que el coordinador se configure cada vez que la vista aparece.
+            // Esto soluciona el problema al reingresar al chat.
+            coordinator.setup(messages: chatLogViewModel.messages)
+            }
             .onDisappear {
-                chatLogViewModel.stopObservingMessages()
+                chatLogViewModel.stopObserving()
             }
             .overlay {
-                            Rectangle()
-                                .fill(.white)
-                                .ignoresSafeArea()
-                                .opacity(coordinator.animateView ? 1 : 0)
-                        }
+                Rectangle()
+                    .fill(.white)
+                    .ignoresSafeArea()
+                    .opacity(coordinator.animateView ? 1 : 0)
+            }
                         
-                        // 2. La vista de detalle, que se añade a la jerarquía cuando se selecciona una imagen.
-                        .overlay {
-                            if coordinator.selectedMessage != nil {
-                                ImageDetailView()
-                                    .allowsHitTesting(coordinator.showDetailView)
-                            }
-                        }
+            // 2. La vista de detalle, que se añade a la jerarquía cuando se selecciona una imagen.
+            .overlay {
+                if coordinator.selectedMessage != nil {
+                    ImageDetailView()
+                        .allowsHitTesting(coordinator.showDetailView)
+                }
+            }
                         
-                        // 3. La capa de animación (HeroLayer) que se activa cuando se encuentran las anclas.
-                        .overlayPreferenceValue(HeroKey.self) { value in
-                            if let selectedMessage = coordinator.selectedMessage,
-                               let sAnchor = value[selectedMessage.id + "SOURCE"],
-                               let dAnchor = value[selectedMessage.id + "DEST"] {
-                                
-                                HeroLayer(
-                                    message: selectedMessage,
-                                    sAnchor: sAnchor,
-                                    dAnchor: dAnchor
-                                )
-                            }
-                        }
-                        .environment(coordinator)
+            // 3. La capa de animación (HeroLayer) que se activa cuando se encuentran las anclas.
+            .overlayPreferenceValue(HeroKey.self) { value in
+                if let selectedMessage = coordinator.selectedMessage,
+                   let sAnchor = value[selectedMessage.id + "SOURCE"],
+                   let dAnchor = value[selectedMessage.id + "DEST"] {
+                    
+                    HeroLayer(
+                        message: selectedMessage,
+                        sAnchor: sAnchor,
+                        dAnchor: dAnchor
+                    )
+                }
+            }
+            .environment(coordinator)
             .photosPicker(
                 isPresented: $showingImagePicker,
                 selection: $selectedPhotoItem,
