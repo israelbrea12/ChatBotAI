@@ -22,6 +22,8 @@ class UICoordinator {
         }
     }
     
+    var currentUserID: String?
+    var otherUserName: String?
     var animateView: Bool = false
     var showDetailView: Bool = false
     var imageMessages: [Message] = []

@@ -67,6 +67,8 @@ struct ChatLogView: View {
                         .visible,
                         for: .navigationBar
                     )
+                    
+                    .toolbar(coordinator.animateView ? .hidden : .visible, for: .navigationBar)
                 }
             }
             .onChange(of: chatLogViewModel.messages) { _, newMessages in
@@ -83,11 +85,11 @@ struct ChatLogView: View {
             .onAppear {
                 if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
                     chatLogViewModel.setupChat(currentUser: currentUser, otherUser: otherUser)
+                    
+                    coordinator.currentUserID = currentUser.id
+                    coordinator.otherUserName = otherUser.fullName
                 }
                 
-            // --- SOLUCIÓN ---
-            // Aseguramos que el coordinador se configure cada vez que la vista aparece.
-            // Esto soluciona el problema al reingresar al chat.
             coordinator.setup(messages: chatLogViewModel.messages)
             }
             .onDisappear {
