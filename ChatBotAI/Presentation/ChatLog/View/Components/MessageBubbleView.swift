@@ -112,12 +112,12 @@ private extension MessageBubbleView {
                 }
             }
             .onTapGesture {
-                            onImageTap?(message)
-                        }
-                        .anchorPreference(key: HeroKey.self, value: .bounds) { anchor in
-                            return [message.id + "SOURCE": anchor]
-                        }
-                        .opacity(coordinator.selectedMessage?.id == message.id ? 0 : 1)
+                onImageTap?(message)
+            }
+            .anchorPreference(key: HeroKey.self, value: .bounds) { anchor in
+                return [message.id + "SOURCE": anchor]
+            }
+            .opacity(coordinator.selectedMessage?.id == message.id ? 0 : 1)
         }
     }
     @ViewBuilder

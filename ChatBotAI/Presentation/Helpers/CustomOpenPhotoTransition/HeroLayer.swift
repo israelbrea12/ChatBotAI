@@ -21,36 +21,36 @@ struct HeroLayer: View {
             let dAnchorRect = proxy[dAnchor]
             let animateView = coordinator.animateView
             
-            // Durante el arrastre para cerrar, el tamaño de destino debe escalar hacia abajo.
-            let scale = animateView ? (1 - coordinator.dragProgress) : 1
-            let dRect = CGRect(
-                x: dAnchorRect.origin.x,
-                y: dAnchorRect.origin.y,
-                width: dAnchorRect.width * scale,
-                height: dAnchorRect.height * scale
-            )
-
+            // Ya no necesitamos `scale` ni `dRect` porque el gesto de arrastre se eliminó.
+            // Simplemente usamos los rectángulos de origen y destino.
+            
             let viewSize: CGSize = .init(
-                width: animateView ? dRect.width : sRect.width,
-                height: animateView ? dRect.height : sRect.height
+                width: animateView ? dAnchorRect.width : sRect.width,
+                height: animateView ? dAnchorRect.height : sRect.height
             )
             
             let viewPosition: CGSize = .init(
-                width: animateView ? dRect.minX : sRect.minX,
-                height: animateView ? dRect.minY : sRect.minY
+                width: animateView ? dAnchorRect.minX : sRect.minX,
+                height: animateView ? dAnchorRect.minY : sRect.minY
             )
+            
+            // --- INICIO DE LA MEJORA ---
+            // Calculamos el radio de las esquinas. La burbuja tiene esquinas redondeadas,
+            // la vista de detalle no. Animaremos este cambio.
+            let cornerRadius = animateView ? 0 : 16.0 // 16.0 es el radio de tu MessageBubbleView
             
             if let urlString = message.imageURL, let url = URL(string: urlString), !coordinator.showDetailView {
                 WebImage(url: url)
                     .resizable()
-                    // --- LA SOLUCIÓN ESTÁ AQUÍ ---
-                    // Anima el modo de contenido de .fill a .fit
                     .aspectRatio(contentMode: animateView ? .fit : .fill)
                     .frame(width: viewSize.width, height: viewSize.height)
-                    .clipped()
+                    // Aplicamos el cornerRadius animable
+                    .clipShape(RoundedRectangle(cornerRadius: cornerRadius, style: .continuous))
                     .offset(viewPosition)
                     .transition(.identity)
+                    
             }
+            // --- FIN DE LA MEJORA ---
         }
     }
 }

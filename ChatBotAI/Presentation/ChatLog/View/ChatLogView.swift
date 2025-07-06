@@ -30,15 +30,15 @@ struct ChatLogView: View {
             NavigationStack {
                 ZStack {
                     VStack {
-                                    switch chatLogViewModel.state {
-                                    case .initial, .loading:
-                                        loadingView()
-                                    case .success, .empty: // Unimos success y empty
-                                        successView()
-                                    case .error(let errorMessage):
-                                        errorView(errorMsg: errorMessage)
-                                    }
-                                }
+                        switch chatLogViewModel.state {
+                        case .initial, .loading:
+                            loadingView()
+                        case .success, .empty: // Unimos success y empty
+                            successView()
+                        case .error(let errorMessage):
+                            errorView(errorMsg: errorMessage)
+                        }
+                    }
                     .navigationTitle("\(user?.fullName ?? "")")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -98,6 +98,7 @@ struct ChatLogView: View {
                     .fill(.white)
                     .ignoresSafeArea()
                     .opacity(coordinator.animateView ? 1 : 0)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.85), value: coordinator.animateView)
             }
                         
             // 2. La vista de detalle, que se añade a la jerarquía cuando se selecciona una imagen.

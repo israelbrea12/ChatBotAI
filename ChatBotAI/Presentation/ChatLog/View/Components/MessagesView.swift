@@ -80,7 +80,6 @@ struct MessagesView: View {
                                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                 },
                                 onImageTap: { tappedMessage in
-                                    // Lógica para la animación de la imagen
                                     coordinator.selectedMessage = tappedMessage
                                 }
                             )

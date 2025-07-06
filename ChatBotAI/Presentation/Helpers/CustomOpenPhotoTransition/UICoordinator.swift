@@ -1,70 +1,75 @@
+//
+//  UICoordinator.swift
+//  ChatBotAI
+//
+//  Created by Israel Brea Piñero on 17/6/25.
+//
+
 import SwiftUI
 
 @Observable
 class UICoordinator {
-    // --- Propiedades existentes ---
-    var selectedMessage: Message?
+    var selectedMessage: Message? {
+        didSet {
+            // Se ha eliminado la llamada a toggleView desde aquí
+            // para tener un control más explícito. La lógica se iniciará
+            // desde la vista cuando sea necesario.
+            // PERO en tu código original sí se llama, así que aplicaremos la corrección.
+            if selectedMessage != nil {
+                // Se inicia el proceso de mostrar la vista.
+                toggleView(show: true)
+            }
+        }
+    }
+    
     var animateView: Bool = false
     var showDetailView: Bool = false
-    
-    // --- Nuevas Propiedades para Gestos y Paginación ---
-    
-    /// Almacena todos los mensajes que son de tipo imagen.
     var imageMessages: [Message] = []
-    
-    /// Posición del ScrollView principal en la vista de detalle.
     var detailScrollPosition: String?
-    /// Posición del ScrollView del indicador inferior.
     var detailIndicatorPosition: String?
-    
-    /// El desplazamiento actual de la vista debido al gesto de arrastre.
     var offset: CGSize = .zero
-    /// El progreso del arrastre (de 0 a 1) para controlar animaciones como el fundido del fondo.
     var dragProgress: CGFloat = 0
     
-    /// Filtra los mensajes para obtener solo los que tienen imágenes y los asigna.
-    /// Debes llamar a esta función cuando cargas los mensajes en tu `ChatLogViewModel`.
     func setup(messages: [Message]) {
         self.imageMessages = messages.filter { $0.messageType == .image && $0.imageURL != nil }
     }
     
-    /// Se llama cuando el usuario desliza la imagen principal.
     func didDetailPageChanged() {
         if let updatedItem = imageMessages.first(where: { $0.id == detailScrollPosition }) {
             selectedMessage = updatedItem
-            // Sincroniza el indicador inferior con la imagen principal.
-            withAnimation(.easeInOut(duration: 0.1)) {
+            withAnimation(.easeInOut(duration: 0.2)) {
                 detailIndicatorPosition = updatedItem.id
             }
         }
     }
     
-    /// Se llama cuando el usuario toca una miniatura en el indicador inferior.
     func didDetailIndicatorPageChanged() {
         if let updatedItem = imageMessages.first(where: { $0.id == detailIndicatorPosition }) {
             selectedMessage = updatedItem
-            // Sincroniza la imagen principal con el indicador.
             detailScrollPosition = updatedItem.id
         }
     }
 
+    // --- FUNCIÓN CORREGIDA ---
     func toggleView(show: Bool) {
+        let animation: Animation = .spring(response: 0.4, dampingFraction: 0.85)
+
         if show {
-            // Asegúrate de que las posiciones de los scrolls se establecen al mensaje seleccionado.
             detailScrollPosition = selectedMessage?.id
             detailIndicatorPosition = selectedMessage?.id
             
-            withAnimation(.easeInOut(duration: 0.35), completionCriteria: .removed) {
-                animateView = true
-            } completion: {
-                self.showDetailView = true
+            // 🔥 SOLUCIÓN: Aplazamos la animación para dar tiempo a SwiftUI a calcular el ancla de destino.
+            DispatchQueue.main.async {
+                withAnimation(animation) {
+                    self.animateView = true
+                } completion: {
+                    self.showDetailView = true
+                }
             }
         } else {
             showDetailView = false
-            withAnimation(.easeInOut(duration: 0.35), completionCriteria: .removed) {
+            withAnimation(animation) {
                 animateView = false
-                offset = .zero // Resetea el offset en la animación de cierre.
-                dragProgress = 0 // Resetea el progreso.
             } completion: {
                 self.resetAnimationProperties()
             }
@@ -74,9 +79,8 @@ class UICoordinator {
     func resetAnimationProperties() {
         selectedMessage = nil
         detailScrollPosition = nil
+        detailIndicatorPosition = nil
         offset = .zero
         dragProgress = 0
-        detailIndicatorPosition = nil
-        // No reseteamos 'imageMessages' para no tener que recargarlo.
     }
 }
