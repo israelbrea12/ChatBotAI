@@ -14,7 +14,7 @@ class LoginViewModel: ObservableObject {
     @Published var shouldShowImagePicker = false
     @Published var email = ""
     @Published var password = ""
-    @Published var authenticationError: AppError? // Para manejar y mostrar errores
+    @Published var authenticationError: AppError?
 
     // MARK: - Validation
     var formIsValid: Bool {

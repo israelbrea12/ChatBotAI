@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol UploadImageUseCase { // Definido como protocolo para consistencia
+protocol UploadImageUseCase {
     func execute(with params: UploadImageParams) async -> Result<URL, AppError>
 }
 

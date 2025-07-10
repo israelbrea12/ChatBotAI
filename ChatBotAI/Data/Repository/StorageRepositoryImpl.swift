@@ -9,7 +9,7 @@
 import Foundation
 
 class StorageRepositoryImpl: StorageRepository {
-    private let storageDataSource: StorageDataSource // Usas el StorageDataSource que ya tienes
+    private let storageDataSource: StorageDataSource
 
     init(storageDataSource: StorageDataSource) {
         self.storageDataSource = storageDataSource
@@ -20,7 +20,6 @@ class StorageRepositoryImpl: StorageRepository {
             let url = try await storageDataSource.uploadImage(imageData: imageData, chatId: chatId, messageId: messageId)
             return .success(url)
         } catch {
-            // Asumiendo que tienes una extensión `toAppError()` para convertir errores genéricos
             return .failure(error.toAppError())
         }
     }

@@ -24,17 +24,14 @@ struct ChatBotAIApp: App {
                 ) { oldPhase, newPhase in
                     switch newPhase {
                     case .active:
-                                       
                         if SessionManager.shared.userSession != nil {
-                            print("App activa, configurando presencia...")
                             PresenceManager.shared.setupPresence()
                         }
                     case .background:
                         print(
-                            "App en segundo plano, onDisconnect se encargará."
+                            "App en segundo plano."
                         )
                     default:
-                        // Otros estados como .inactive
                         break
                     }
                 }

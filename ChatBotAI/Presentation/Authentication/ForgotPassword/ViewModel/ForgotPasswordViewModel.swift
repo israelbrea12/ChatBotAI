@@ -20,15 +20,13 @@ class ForgotPasswordViewModel: ObservableObject {
     @Published var alertMessage: String = ""
     
     // MARK: - Use Case
-    // Asumo que tienes un mecanismo para inyectar esto, similar al LoginViewModel.
-    // Si no, puedes instanciarlo directamente.
     private let sendPasswordResetUseCase: SendPasswordResetUseCase
     
     init(sendPasswordResetUseCase: SendPasswordResetUseCase) {
         self.sendPasswordResetUseCase = sendPasswordResetUseCase
     }
     
-    // MARK: - Functions
+    // MARK: - Public Functions
     func sendPasswordResetLink() async {
         isLoading = true
         let result = await sendPasswordResetUseCase.execute(with: email)

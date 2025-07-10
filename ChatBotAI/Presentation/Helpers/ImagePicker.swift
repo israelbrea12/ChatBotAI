@@ -2,55 +2,51 @@
 //  ImagePicker.swift
 //  ChatBotAI
 //
-//  Created by Israel Brea Piñero on 19/3/25.
+//  Created by Israel Brea Piñero on 10/7/25.
 //
 
-// MARK: ImagePicker.swift
-
 import SwiftUI
-import PhotosUI
+import UIKit
 
-struct ImagePickerView: View {
-    @Binding var image: UIImage?
-    @State private var selectedItem: PhotosPickerItem?
+struct ImagePicker: UIViewControllerRepresentable {
     
-    var body: some View {
-        PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
-            
-            // Usamos un ZStack para superponer el contenido (imagen o placeholder)
-            // dentro de un marco consistente.
-            ZStack {
-                if let image = image {
-                    // La imagen seleccionada
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFill() // scaledToFill se asegura de que la imagen llene el marco,
-                                        // y el .clipShape(Circle()) la recortará perfectamente.
-                } else {
-                    // El estado placeholder
-                    // Añadimos un fondo de color para que el círculo tenga cuerpo
-                    // y un tamaño visible antes de seleccionar una imagen.
-                    Circle()
-                        .fill(Color(.white))
-                    
-                    Image(systemName: "person.fill")
-                        .font(.system(size: 64))
-                        .foregroundColor(.gray)
-                }
-            }
-            // <<--- ESTOS MODIFICADORES SE APLICAN AHORA AL ZSTACK --- >>
-            // Se aplican siempre, sin importar si hay imagen o no.
-            .frame(width: 96, height: 96)      // 1. Definimos un tamaño fijo y constante.
-            .clipShape(Circle())                 // 2. Aseguramos que la forma sea siempre un círculo.
-            .overlay(Circle().stroke(Color.gray, lineWidth: 1)) // 3. Añadimos un borde circular perfecto.
-            
+    @Binding var selectedImage: UIImage?
+    @Environment(\.presentationMode) private var presentationMode
+
+    // El Coordinator actuará como el "delegado" que recibe los eventos del UIImagePickerController
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        var parent: ImagePicker
+
+        init(_ parent: ImagePicker) {
+            self.parent = parent
         }
-        .onChange(of: selectedItem) { _, newItem in
-            Task {
-                if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                    image = UIImage(data: data)
-                }
+
+        // Se llama cuando el usuario ha tomado una foto.
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let uiImage = info[.originalImage] as? UIImage {
+                parent.selectedImage = uiImage
             }
+            parent.presentationMode.wrappedValue.dismiss()
         }
+
+        // Se llama si el usuario cancela la selección.
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.presentationMode.wrappedValue.dismiss()
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        picker.sourceType = .camera // ¡Aquí especificamos que queremos usar la cámara!
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+        // No necesitamos actualizar la vista del controlador, así que lo dejamos vacío.
     }
 }

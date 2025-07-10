@@ -67,12 +67,10 @@ class ChatLogViewModel: ObservableObject {
                 }
             }
             
-            // Iniciar la observación de presencia
             observeUserPresence()
         }
     }
     
-    // NUEVA FUNCIÓN para observar la presencia
     private func observeUserPresence() {
         guard let otherUserId = otherUser?.id else { return }
         
@@ -83,19 +81,17 @@ class ChatLogViewModel: ObservableObject {
                     self?.updatePresenceStatus(presence: presence)
                 case .failure(let error):
                     print("Error observing presence: \(error.localizedDescription)")
-                    self?.userPresenceStatus = "" // O "Estado no disponible"
+                    self?.userPresenceStatus = ""
                 }
             }
         }
     }
-        
-        // NUEVA FUNCIÓN para formatear el estado
+    
     private func updatePresenceStatus(presence: Presence) {
         if presence.isOnline {
             self.userPresenceStatus = "En línea"
         } else {
             let date = Date(timeIntervalSince1970: presence.lastSeen)
-            // Formateador para mostrar "hoy a las 14:30" o "ayer a las 20:15" etc.
             let formatter = DateFormatter()
             formatter.doesRelativeDateFormatting = true
             
@@ -142,7 +138,7 @@ class ChatLogViewModel: ObservableObject {
             
             switch result {
             case .success:
-                chatText = "" // Limpia el campo de texto
+                chatText = "" 
             case .failure(let error):
                 print("Error enviando mensaje de texto: \(error.localizedDescription)")
                 state = .error("Error al enviar el mensaje")

@@ -22,6 +22,9 @@ struct ChatLogView: View {
     @State private var imageDataToPreview: Data? = nil
     @State private var showImagePreviewScreen: Bool = false
     @State private var imagePreviewCaption: String = ""
+    /// Para la selección de imagen desde camara
+    @State private var showingCameraPicker = false
+    @State private var capturedImage: UIImage? = nil
     
     let user: User?
     
@@ -33,7 +36,7 @@ struct ChatLogView: View {
                         switch chatLogViewModel.state {
                         case .initial, .loading:
                             loadingView()
-                        case .success, .empty: // Unimos success y empty
+                        case .success, .empty:
                             successView()
                         case .error(let errorMessage):
                             errorView(errorMsg: errorMessage)
@@ -130,6 +133,20 @@ struct ChatLogView: View {
                 selection: $selectedPhotoItem,
                 matching: .images
             )
+            .sheet(isPresented: $showingCameraPicker) {
+                ImagePicker(selectedImage: $capturedImage)
+                    .ignoresSafeArea()
+            }
+            .onChange(of: capturedImage) { newImage in
+                guard let uiImage = newImage else { return }
+                
+                // Convertimos la UIImage a Data y la pasamos a la vista de previsualización
+                if let data = uiImage.jpegData(compressionQuality: 0.8) {
+                    self.imageDataToPreview = data
+                    self.showImagePreviewScreen = true
+                    self.capturedImage = nil // Reseteamos para poder tomar otra foto
+                }
+            }
             .onChange(of: selectedPhotoItem) { newItem in
                 Task {
                     if let item = newItem {
@@ -176,7 +193,10 @@ struct ChatLogView: View {
                 }
             }
         } actions: {
-            MenuAction(symbolImage: "camera", text: "Camera")
+            MenuAction(symbolImage: "camera", text: "Camera") {
+                self.showingCameraPicker = true
+                self.config.showMenu = false
+            }
             MenuAction(symbolImage: "photo.on.rectangle.angled", text: "Photos") {
                 self.showingImagePicker = true
                 self.config.showMenu = false

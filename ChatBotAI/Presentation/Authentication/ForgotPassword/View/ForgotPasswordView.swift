@@ -36,12 +36,10 @@ struct ForgotPasswordView: View {
                 .padding(.top, -5)
             
             VStack(spacing: 25) {
-                // Vincula el CustomTF con el email del ViewModel
                 CustomTF(sfIcon: "at", hint: "Email ID", value: $forgotPasswordViewModel.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                 
-                // Llama a la función del ViewModel
                 GradientButton(title: "Send Link", icon: "arrow.right") {
                     Task {
                         await forgotPasswordViewModel.sendPasswordResetLink()
@@ -57,7 +55,6 @@ struct ForgotPasswordView: View {
         .padding(.vertical, 15)
         .padding(.horizontal, 25)
         .interactiveDismissDisabled()
-        // Alerta para mostrar el resultado al usuario
         .alert(forgotPasswordViewModel.alertTitle, isPresented: $forgotPasswordViewModel.showAlert) {
             Button("OK") {
                 if forgotPasswordViewModel.alertTitle == "Enlace Enviado" {

@@ -23,6 +23,7 @@
 		401581F12DDFB3AF001789E9 /* NavigationTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401581F02DDFB3AF001789E9 /* NavigationTarget.swift */; };
 		401581FA2DE4FB46001789E9 /* RichTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 401581F92DE4FB46001789E9 /* RichTextKit */; };
 		401582012DE84AA0001789E9 /* CustomMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 401582002DE84AA0001789E9 /* CustomMenuView.swift */; };
+		4021841E2E1FDC2700F3CD59 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4021841D2E1FDC2700F3CD59 /* ImagePicker.swift */; };
 		402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB7FC2D9494C6008EAEF0 /* ChatLogView.swift */; };
 		402CB7FF2D949C7E008EAEF0 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */; };
 		402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB8002D94A369008EAEF0 /* ChatLogViewModel.swift */; };
@@ -31,7 +32,7 @@
 		4053F7C32D85CFB50082785E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 4053F7C22D85CFB50082785E /* Swinject */; };
 		4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */; };
 		4053F7C72D8736F20082785E /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C62D8736F20082785E /* SessionManager.swift */; };
-		4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB842D8B492A00D2E2B0 /* ImagePicker.swift */; };
+		4057DB852D8B492A00D2E2B0 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DB842D8B492A00D2E2B0 /* ImagePickerView.swift */; };
 		4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */; };
 		4057DC032D8CCE9D00D2E2B0 /* NewMessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */; };
 		407F36A12DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 407F36A02DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift */; };
@@ -64,7 +65,6 @@
 		408CA9382DE8E3D4000C0FAD /* DeleteMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */; };
 		408CA9412DEC9FFD000C0FAD /* MessageActionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9402DEC9FFD000C0FAD /* MessageActionItem.swift */; };
 		408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9432DECA366000C0FAD /* ModeOption.swift */; };
-		408CA9502DECC033000C0FAD /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA94F2DECC033000C0FAD /* PhotoPicker.swift */; };
 		408CA9522DECC104000C0FAD /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9512DECC104000C0FAD /* MessageType.swift */; };
 		408CA9562DECC7AE000C0FAD /* StorageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9552DECC7AE000C0FAD /* StorageDataSource.swift */; };
 		408CA95A2DECC938000C0FAD /* StorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9592DECC938000C0FAD /* StorageRepository.swift */; };
@@ -194,6 +194,7 @@
 		401581EE2DDFB1E8001789E9 /* RolePlaySetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RolePlaySetupView.swift; sourceTree = "<group>"; };
 		401581F02DDFB3AF001789E9 /* NavigationTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTarget.swift; sourceTree = "<group>"; };
 		401582002DE84AA0001789E9 /* CustomMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMenuView.swift; sourceTree = "<group>"; };
+		4021841D2E1FDC2700F3CD59 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		402CB7FC2D9494C6008EAEF0 /* ChatLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogView.swift; sourceTree = "<group>"; };
 		402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		402CB8002D94A369008EAEF0 /* ChatLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewModel.swift; sourceTree = "<group>"; };
@@ -201,7 +202,7 @@
 		402CB8052D94B748008EAEF0 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
 		4053F7C62D8736F20082785E /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
-		4057DB842D8B492A00D2E2B0 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		4057DB842D8B492A00D2E2B0 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		4057DC002D8CCE8700D2E2B0 /* NewMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageView.swift; sourceTree = "<group>"; };
 		4057DC022D8CCE9D00D2E2B0 /* NewMessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageViewModel.swift; sourceTree = "<group>"; };
 		407F36A02DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveMessagesUseCase.swift; sourceTree = "<group>"; };
@@ -232,7 +233,6 @@
 		408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteMessageUseCase.swift; sourceTree = "<group>"; };
 		408CA9402DEC9FFD000C0FAD /* MessageActionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageActionItem.swift; sourceTree = "<group>"; };
 		408CA9432DECA366000C0FAD /* ModeOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeOption.swift; sourceTree = "<group>"; };
-		408CA94F2DECC033000C0FAD /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		408CA9512DECC104000C0FAD /* MessageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageType.swift; sourceTree = "<group>"; };
 		408CA9552DECC7AE000C0FAD /* StorageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageDataSource.swift; sourceTree = "<group>"; };
 		408CA9592DECC938000C0FAD /* StorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageRepository.swift; sourceTree = "<group>"; };
@@ -848,13 +848,13 @@
 		40D384E82D843A7700406AC1 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				4021841D2E1FDC2700F3CD59 /* ImagePicker.swift */,
 				40D384E52D843A7700406AC1 /* InfoView.swift */,
 				400B9D432E032554007DFF50 /* LoadingView.swift */,
 				40D384E62D843A7700406AC1 /* InputView.swift */,
 				40D384E72D843A7700406AC1 /* SettingsRowView.swift */,
-				4057DB842D8B492A00D2E2B0 /* ImagePicker.swift */,
+				4057DB842D8B492A00D2E2B0 /* ImagePickerView.swift */,
 				402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */,
-				408CA94F2DECC033000C0FAD /* PhotoPicker.swift */,
 				408CA9692DEDB042000C0FAD /* NavigationBarAppearance.swift */,
 				4086854A2DD8188900D5832D /* CustomDialog.swift */,
 				400B9D472E034339007DFF50 /* GradientButton.swift */,
@@ -1346,9 +1346,8 @@
 				40F360362D9F02180078BE23 /* ChatMapper.swift in Sources */,
 				408685392DD6269C00D5832D /* ChatBotDataSource.swift in Sources */,
 				408685312DD6257A00D5832D /* SendMessageToChatbotUseCase.swift in Sources */,
-				408CA9502DECC033000C0FAD /* PhotoPicker.swift in Sources */,
 				40F360092D9DC3A80078BE23 /* UserDataSource.swift in Sources */,
-				4057DB852D8B492A00D2E2B0 /* ImagePicker.swift in Sources */,
+				4057DB852D8B492A00D2E2B0 /* ImagePickerView.swift in Sources */,
 				40D384F52D843A7700406AC1 /* LoginViewModel.swift in Sources */,
 				4086852E2DD6215200D5832D /* ChatbotMessage.swift in Sources */,
 				408CA95F2DECC96C000C0FAD /* UploadImageParams.swift in Sources */,
@@ -1357,6 +1356,7 @@
 				40F3600D2D9DCC870078BE23 /* SignInWithAppleUseCase.swift in Sources */,
 				40F35FFA2D9DB5840078BE23 /* RegistrationViewModel.swift in Sources */,
 				40D385152D84E02000406AC1 /* SignInParam.swift in Sources */,
+				4021841E2E1FDC2700F3CD59 /* ImagePicker.swift in Sources */,
 				40D385272D84E76200406AC1 /* AuthRepositoryImpl.swift in Sources */,
 				400B9D2A2E017DE5007DFF50 /* HeroKey.swift in Sources */,
 				408685352DD6265700D5832D /* ChatBotRepository.swift in Sources */,
@@ -1620,6 +1620,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatBotAI/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceso a tu cámara para que puedas tomar y enviar fotos en el chat.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1652,6 +1653,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatBotAI/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Necesitamos acceso a tu cámara para que puedas tomar y enviar fotos en el chat.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
