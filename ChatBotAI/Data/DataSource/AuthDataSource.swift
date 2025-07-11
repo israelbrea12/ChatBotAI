@@ -21,7 +21,7 @@ protocol AuthDataSource {
     func signOut() throws
     func signInWithGoogle() async throws -> UserModel
     func signInWithApple() async throws -> UserModel
-    func deleteAccount() async throws
+    func deleteFirebaseAuthUser() async throws
     func sendPasswordReset(email: String) async throws
 }
 
@@ -52,7 +52,7 @@ class AuthDataSourceImpl: AuthDataSource {
     
     func signUp(email: String, password: String, fullName: String, profileImage: UIImage?) async throws -> UserModel {
             let authResult = try await SessionManager.shared.auth.createUser(withEmail: email, password: password)
-            let uid = authResult.user.uid // Usa una constante para mayor claridad y brevedad
+            let uid = authResult.user.uid
 
             var profileImageUrl: String? = nil
             if let image = profileImage {
@@ -137,19 +137,14 @@ class AuthDataSourceImpl: AuthDataSource {
     
     // MARK: - Delete Account
     
-    func deleteAccount() async throws {
+    func deleteFirebaseAuthUser() async throws {
         guard let user = Auth.auth().currentUser else {
             throw AppError.authenticationError("No user logged in")
         }
         
-        let userRef = Database.database().reference().child("users").child(user.uid)
-        
-        do {
-            try await userRef.removeValue()
-            try await user.delete()
-        } catch {
-            throw AppError.unknownError("Error deleting account: \(error.localizedDescription)")
-        }
+        // Borrar la cuenta de Firebase Auth
+        try await user.delete()
+        print("✅ Cuenta de Firebase Auth eliminada permanentemente.")
     }
     
     private func saveUserIfNeeded(_ userModel: UserModel) async throws {

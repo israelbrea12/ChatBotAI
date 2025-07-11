@@ -37,24 +37,34 @@ class ChatRepositoryImpl: ChatRepository {
     }
     
     func observeAllChatEvents(userId: String, onChatEvent: @escaping (Chat) -> Void) {
-            chatDataSource.observeAllChatActivity(userId: userId) { chatModel in
-                onChatEvent(chatModel.toDomain())
-            }
+        chatDataSource.observeAllChatActivity(userId: userId) { chatModel in
+            onChatEvent(chatModel.toDomain())
         }
+    }
         
-        func stopObservingAllChatEvents(userId: String) {
-            // El dataSource debe ser async si sus operaciones de stop lo son
-            Task { // Si chatDataSource.stopObservingAllChatActivity es async
-                 await chatDataSource.stopObservingAllChatActivity(userId: userId)
-            }
+    func stopObservingAllChatEvents(userId: String) {
+        // El dataSource debe ser async si sus operaciones de stop lo son
+        Task { // Si chatDataSource.stopObservingAllChatActivity es async
+            await chatDataSource.stopObservingAllChatActivity(userId: userId)
         }
+    }
     
     func deleteUserChat(userId: String, chatId: String) async -> Result<Void, AppError> {
-            do {
-                try await chatDataSource.deleteUserChat(userId: userId, chatId: chatId)
-                return .success(())
-            } catch {
-                return .failure(error.toAppError())
-            }
+        do {
+            try await chatDataSource.deleteUserChat(userId: userId, chatId: chatId)
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
         }
+    }
+    
+    func deleteAllUserChatsIds(userId: String) async -> Result<Void, AppError> {
+        do {
+            // Usamos la función que ya tenías en el DataSource
+            try await chatDataSource.deleteAllUserChatsIds(userId: userId)
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

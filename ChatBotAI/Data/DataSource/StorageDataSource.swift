@@ -11,6 +11,7 @@ import SwiftUI
 
 protocol StorageDataSource {
     func uploadImage(imageData: Data, chatId: String, messageId: String) async throws -> URL
+    func deleteProfileImage(userId: String) async throws
 }
 
 // Implementación para Firebase Storage
@@ -31,6 +32,25 @@ class StorageDataSourceImpl: StorageDataSource {
         let downloadURL = try await imageRef.downloadURL()
         return downloadURL
     }
+    
+    func deleteProfileImage(userId: String) async throws {
+            let imagePath = "profile_images/\(userId).jpg"
+            let imageRef = storageRef.child(imagePath)
+            
+            do {
+                try await imageRef.delete()
+                print("StorageDataSource: Imagen de perfil eliminada con éxito para el usuario \(userId).")
+            } catch let error as NSError {
+                // Firebase Storage devuelve un error 'objectNotFound' si el archivo no existe.
+                // Para nuestro caso de uso, si no existe, es un éxito, así que lo ignoramos.
+                if error.domain == StorageErrorDomain && error.code == StorageErrorCode.objectNotFound.rawValue {
+                    print("StorageDataSource: No se encontró imagen de perfil para el usuario \(userId), se considera borrado exitoso.")
+                    return // No hay nada que borrar, así que no es un error.
+                }
+                // Si es otro tipo de error, lo lanzamos.
+                throw error
+            }
+        }
 }
 
 // Extensión para DatabaseReference.putData (si no usas las más recientes de Firebase que incluyen async/await)

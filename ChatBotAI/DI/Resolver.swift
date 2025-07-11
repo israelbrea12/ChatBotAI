@@ -179,7 +179,10 @@ extension Resolver {
         
         container.register(DeleteAccountUseCase.self) { resolver in
             DeleteAccountUseCase(
-                repository: resolver.resolve(AuthRepository.self)!
+                authRepository: resolver.resolve(AuthRepository.self)!,
+                chatRepository: resolver.resolve(ChatRepository.self)!,
+                storageRepository: resolver.resolve(StorageRepository.self)!,
+                userRepository: resolver.resolve(UserRepository.self)!
             )
         }.inObjectScope(.container)
         
@@ -275,8 +278,7 @@ extension Resolver {
             SettingsViewModel(
                 signOutUseCase: resolver.resolve(SignOutUseCase.self)!,
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
-                deleteAccountUseCase: resolver
-                    .resolve(DeleteAccountUseCase.self)!
+                deleteAccountUseCase: resolver.resolve(DeleteAccountUseCase.self)!
             )
         }.inObjectScope(.container)
         

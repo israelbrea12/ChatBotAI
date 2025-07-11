@@ -23,4 +23,13 @@ class StorageRepositoryImpl: StorageRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func deleteProfileImage(userId: String) async -> Result<Void, AppError> {
+        do {
+            try await storageDataSource.deleteProfileImage(userId: userId)
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

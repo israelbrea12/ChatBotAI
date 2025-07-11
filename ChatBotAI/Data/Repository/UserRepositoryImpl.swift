@@ -27,20 +27,29 @@ class UserRepositoryImpl: UserRepository {
     }
     
     func fetchAllUsersExceptCurrent() async -> Result<[User?], AppError> {
-            do {
-                let users = try await userDataSource.fetchAllUsersExceptCurrent()
-                return .success(users.map { $0.toDomain() })
-            } catch {
-                return .failure(error.toAppError())
-            }
+        do {
+            let users = try await userDataSource.fetchAllUsersExceptCurrent()
+            return .success(users.map { $0.toDomain() })
+        } catch {
+            return .failure(error.toAppError())
         }
+    }
     
     func fetchUserById(userId: String) async -> Result<User?, AppError> {
-            do {
-                let userModel = try await userDataSource.fetchUserById(userId: userId)
-                return .success(userModel.toDomain())
-            } catch {
-                return .failure(error.toAppError())
-            }
+        do {
+            let userModel = try await userDataSource.fetchUserById(userId: userId)
+            return .success(userModel.toDomain())
+        } catch {
+            return .failure(error.toAppError())
         }
+    }
+    
+    func deleteUserData(userId: String) async -> Result<Void, AppError> {
+        do {
+            try await userDataSource.deleteUserData(userId: userId)
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

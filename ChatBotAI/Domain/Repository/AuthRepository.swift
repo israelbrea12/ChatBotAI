@@ -14,6 +14,6 @@ protocol AuthRepository {
     func signOut() -> Result<Bool, AppError>
     func signInWithGoogle() async -> Result<User, AppError>
     func signInWithApple() async -> Result<User, AppError>
-    func deleteAccount() async -> Result<Void, AppError>
+    func deleteFirebaseAuthUser() async -> Result<Void, AppError>
     func sendPasswordReset(email: String) async -> Result<Void, AppError>
 }

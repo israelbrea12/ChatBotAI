@@ -62,9 +62,9 @@ class AuthRepositoryImpl: AuthRepository {
         }
     }
     
-    func deleteAccount() async -> Result<Void, AppError> {
+    func deleteFirebaseAuthUser() async -> Result<Void, AppError> {
         do {
-            try await dataSource.deleteAccount()
+            try await dataSource.deleteFirebaseAuthUser()
             return .success(())
         } catch {
             return .failure(error.toAppError())

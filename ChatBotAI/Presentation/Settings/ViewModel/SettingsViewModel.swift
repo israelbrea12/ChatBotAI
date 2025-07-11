@@ -89,15 +89,21 @@ class SettingsViewModel: ObservableObject {
     }
     
     func deleteAccount() async {
+        
+        PresenceManager.shared.goOffline()
+        
         let result = await deleteAccountUseCase.execute(with: ())
+        
         switch result {
         case .success:
+            // 3. Limpiar la sesión local
             DispatchQueue.main.async {
                 SessionManager.shared.userSession = nil
                 SessionManager.shared.currentUser = nil
             }
         case .failure(let error):
-            print("DEBUG: Error deleting account \(error.localizedDescription)")
+            // 4. Manejar errores en la UI
+            print("DEBUG: Error deleting account from ViewModel: \(error.localizedDescription)")
         }
     }
 }
