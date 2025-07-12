@@ -22,6 +22,8 @@ struct MessagesView: View {
     @State private var contextMenuAnchorFrame: CGRect = .zero
     @State private var menuAnchorPointForTransition: UnitPoint = .center
     
+    @State private var showDeleteMessageConfirmationAlert = false
+    
     private let menuEstimatedSize = CGSize(width: 200, height: 110)
     
     var groupedMessages: [(date: String, messages: [Message])] {
@@ -49,6 +51,20 @@ struct MessagesView: View {
                 if showContextMenu {
                     contextMenuOverlay(screenGeometry: screenGeometry)
                 }
+            }
+            .alert("¿Eliminar Mensaje?", isPresented: $showDeleteMessageConfirmationAlert) {
+                            Button("Cancelar", role: .cancel) { }
+                Button("Eliminar", role: .destructive) {
+                    // La acción de borrado se ejecuta aquí ahora
+                    Task {
+                        guard let messageToDelete = contextMenuMessage else { return }
+                        await chatLogViewModel.deleteMessage(messageId: messageToDelete.id)
+                        // Limpiamos el mensaje seleccionado después de borrar
+                        contextMenuMessage = nil
+                    }
+                }
+            } message: {
+                Text("Este mensaje se eliminará para ti y para la otra persona. Esta acción no se puede deshacer.")
             }
         }
     }
@@ -159,12 +175,10 @@ struct MessagesView: View {
                     },
                     MessageActionItem(label: "Eliminar", systemImage: "trash.circle.fill") {
                         Task {
-                            if let msg = self.contextMenuMessage {
-                                await chatLogViewModel.deleteMessage(messageId: msg.id)
-                            }
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                                 self.showContextMenu = false
                             }
+                            self.showDeleteMessageConfirmationAlert = true
                         }
                     }
                 ],
