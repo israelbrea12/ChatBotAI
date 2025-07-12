@@ -43,23 +43,27 @@ struct SignUpView: View {
                                 ImagePickerView(image: $registrationViewModel.image)
                                     .padding(.top)
                                 
-                                CustomTF(sfIcon: "at", hint: "Email Address", value: $registrationViewModel.email)
-                                    .keyboardType(.emailAddress)
-                                    .textInputAutocapitalization(.never)
+                                CustomTF(sfIcon: "at", hint: "Email Address", value: $registrationViewModel.email, error: registrationViewModel.emailError)
+                                                    
+                                CustomTF(sfIcon: "person", hint: "Full Name", value: $registrationViewModel.fullName, error: registrationViewModel.fullNameError)
+                                                
+                                CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $registrationViewModel.password, error: registrationViewModel.passwordError)
+                                                
+                                CustomTF(sfIcon: "lock.fill", hint: "Confirm Password", isPassword: true, value: $registrationViewModel.confirmPassword, error: registrationViewModel.confirmPasswordError)
                                 
-                                CustomTF(sfIcon: "person", hint: "Full Name", value: $registrationViewModel.fullName)
-                                
-                                CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $registrationViewModel.password)
-                                
-                                CustomTF(sfIcon: "lock.fill", hint: "Confirm Password", isPassword: true, value: $registrationViewModel.confirmPassword)
+                                if let error = registrationViewModel.authenticationError {
+                                    Text(error.localizedDescription)
+                                        .font(.caption)
+                                        .foregroundStyle(.red)
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                }
                                 
                                 GradientButton(title: "Sign Up", icon: "arrow.right") {
-                                    Task {
-                                        await registrationViewModel.createUser()
-                                    }
+                                    Task { await registrationViewModel.createUser() }
                                 }
                                 .hSpacing(.trailing)
-                                .disableWithOpacity(!registrationViewModel.formIsValid)
+                                .disabled(!registrationViewModel.isFormValid)
+                                .opacity(registrationViewModel.isFormValid ? 1 : 0.6)
                             }
                             .padding(.top, 20)
                             

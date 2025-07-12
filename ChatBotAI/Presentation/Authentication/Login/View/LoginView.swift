@@ -34,11 +34,9 @@ struct LoginView: View {
                         .padding(.top, -5)
                     
                     VStack(spacing: 25) {
-                        CustomTF(sfIcon: "at", hint: "Email Address", value: $loginViewModel.email)
-                            .keyboardType(.emailAddress)
-                            .textInputAutocapitalization(.never)
+                        CustomTF(sfIcon: "at", hint: "Email Address", value: $loginViewModel.email, error: loginViewModel.emailError)
                         
-                        CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $loginViewModel.password)
+                        CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $loginViewModel.password, error: loginViewModel.passwordError)
                             .padding(.top, 5)
                         
                         Button("Forgot Password?") {
@@ -48,13 +46,19 @@ struct LoginView: View {
                         .tint(.appBlue)
                         .hSpacing(.trailing)
                         
+                        if let error = loginViewModel.authenticationError {
+                            Text(error.localizedDescription)
+                                .font(.caption)
+                                .foregroundStyle(.red)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+
                         GradientButton(title: "Login", icon: "arrow.right") {
-                            Task {
-                                await loginViewModel.signIn(withEmail: loginViewModel.email, password: loginViewModel.password)
-                            }
+                            Task { await loginViewModel.signIn() }
                         }
                         .hSpacing(.trailing)
-                        .disableWithOpacity(!loginViewModel.formIsValid)
+                        .disabled(!loginViewModel.isFormValid)
+                        .opacity(loginViewModel.isFormValid ? 1 : 0.6)
                     }
                     .padding(.top, 20)
                     

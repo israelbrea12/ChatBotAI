@@ -7,7 +7,8 @@
 
 import Foundation
 import UIKit
-import FirebaseAuth // Solo para User, pero idealmente se mapea a un UserEntity/UserModel
+import FirebaseAuth
+import Combine
 
 @MainActor
 class RegistrationViewModel: ObservableObject {
@@ -20,17 +21,19 @@ class RegistrationViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var image: UIImage?
     @Published var shouldShowImagePicker = false
+    
+    @Published var emailError: String?
+    @Published var fullNameError: String?
+    @Published var passwordError: String?
+    @Published var confirmPasswordError: String?
     @Published var authenticationError: AppError?
+    
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: - Validation
-    // Computed property para la validación del formulario
-    var formIsValid: Bool {
-        return !email.isEmpty
-        && email.contains("@")
-        && !password.isEmpty
-        && password.count > 5
-        && confirmPassword == password
-        && !fullName.isEmpty
+    var isFormValid: Bool {
+        return emailError == nil && fullNameError == nil && passwordError == nil && confirmPasswordError == nil &&
+        !email.isEmpty && !fullName.isEmpty && !password.isEmpty && !confirmPassword.isEmpty
     }
 
     // MARK: - Use Cases
@@ -41,39 +44,84 @@ class RegistrationViewModel: ObservableObject {
         signUpUseCase: SignUpUseCase
     ) {
         self.signUpUseCase = signUpUseCase
+        clearErrorsOnEdit()
     }
 
     // MARK: - Functions
     func createUser() async {
-        guard formIsValid else {
-            authenticationError = AppError.validationError("Formulario inválido. Por favor, revisa tus datos.")
-            return
-        }
+            guard validateForm() else { return }
 
-        isLoading = true
-        
-        let result = await signUpUseCase.execute(
-            with: SignUpParam(email: email, fullName: fullName, password: password),
-            profileImage: self.image
-        )
+            isLoading = true
+            let result = await signUpUseCase.execute(
+                with: SignUpParam(email: email, fullName: fullName, password: password),
+                profileImage: self.image
+            )
+            isLoading = false
 
-        switch result {
-        case .success(let user):
-            print("DEBUG: Usuario registrado exitosamente: \(user.email ?? "")")
-            DispatchQueue.main.async {
-                self.isLoading = false
+            switch result {
+            case .success(let user):
+                print("DEBUG: Usuario registrado exitosamente: \(user.email ?? "")")
                 SessionManager.shared.userSession = Auth.auth().currentUser
                 PresenceManager.shared.setupPresence()
                 self.resetForm()
+            case .failure(let error):
+                self.authenticationError = error
+                print("DEBUG: Error al registrar usuario: \(error.localizedDescription)")
             }
+        }
+    
+    private func validateForm() -> Bool {
+            var isValid = true
             authenticationError = nil
 
-        case .failure(let error):
-            print("DEBUG: Error al registrar usuario: \(error.localizedDescription)")
-            authenticationError = AppError.unknownError(error.localizedDescription)
-            isLoading = false // @MainActor
+            // Validaciones
+            if !email.contains("@") {
+                emailError = "El formato del email no es válido."
+                isValid = false
+            }
+            
+            if fullName.count <= 2 {
+                fullNameError = "El nombre debe tener al menos 3 caracteres."
+                isValid = false
+            }
+            
+            if password.count <= 5 {
+                passwordError = "La contraseña debe tener al menos 6 caracteres."
+                isValid = false
+            }
+            
+            if password != confirmPassword {
+                confirmPasswordError = "Las contraseñas no coinciden."
+                isValid = false
+            }
+            
+            return isValid
         }
-    }
+    
+    private func clearErrorsOnEdit() {
+            $email
+                .dropFirst()
+                .sink { [weak self] _ in self?.emailError = nil }
+                .store(in: &cancellables)
+            
+            $fullName
+                .dropFirst()
+                .sink { [weak self] _ in self?.fullNameError = nil }
+                .store(in: &cancellables)
+                
+            $password
+                .dropFirst()
+                .sink { [weak self] _ in
+                    self?.passwordError = nil
+                    self?.confirmPasswordError = nil // También limpia la confirmación
+                }
+                .store(in: &cancellables)
+            
+            $confirmPassword
+                .dropFirst()
+                .sink { [weak self] _ in self?.confirmPasswordError = nil }
+                .store(in: &cancellables)
+        }
     
     private func resetForm() {
         email = ""
@@ -81,8 +129,5 @@ class RegistrationViewModel: ObservableObject {
         password = ""
         confirmPassword = ""
         image = nil
-        authenticationError = nil
-        isLoading = false
-        shouldShowImagePicker = false
     }
 }
