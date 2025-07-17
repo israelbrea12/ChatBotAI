@@ -128,6 +128,10 @@
 		40DEB21A2E2941B10039134C /* EditMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB2192E2941B10039134C /* EditMessageUseCase.swift */; };
 		40DEB21C2E2941CC0039134C /* EditMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB21B2E2941CC0039134C /* EditMessageParams.swift */; };
 		40DEB21E2E294A8E0039134C /* EditingMessageBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB21D2E294A8E0039134C /* EditingMessageBar.swift */; };
+		40DEB2202E2956B50039134C /* UpdateChatLastMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB21F2E2956B50039134C /* UpdateChatLastMessageUseCase.swift */; };
+		40DEB2222E2956C10039134C /* UpdateChatLastMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB2212E2956C10039134C /* UpdateChatLastMessageParams.swift */; };
+		40DEB2242E295A370039134C /* GetLastMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB2232E295A370039134C /* GetLastMessageUseCase.swift */; };
+		40DEB2262E295A580039134C /* GetLastMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB2252E295A580039134C /* GetLastMessageParams.swift */; };
 		40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */; };
 		40F35FCD2D99DFBF0078BE23 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCC2D99DFBF0078BE23 /* GoogleSignIn */; };
 		40F35FCF2D99DFBF0078BE23 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCE2D99DFBF0078BE23 /* GoogleSignInSwift */; };
@@ -296,6 +300,10 @@
 		40DEB2192E2941B10039134C /* EditMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMessageUseCase.swift; sourceTree = "<group>"; };
 		40DEB21B2E2941CC0039134C /* EditMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMessageParams.swift; sourceTree = "<group>"; };
 		40DEB21D2E294A8E0039134C /* EditingMessageBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingMessageBar.swift; sourceTree = "<group>"; };
+		40DEB21F2E2956B50039134C /* UpdateChatLastMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChatLastMessageUseCase.swift; sourceTree = "<group>"; };
+		40DEB2212E2956C10039134C /* UpdateChatLastMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChatLastMessageParams.swift; sourceTree = "<group>"; };
+		40DEB2232E295A370039134C /* GetLastMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLastMessageUseCase.swift; sourceTree = "<group>"; };
+		40DEB2252E295A580039134C /* GetLastMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLastMessageParams.swift; sourceTree = "<group>"; };
 		40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllUsersExceptCurrentUseCase.swift; sourceTree = "<group>"; };
 		40F35FD22D99E1C80078BE23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleUseCase.swift; sourceTree = "<group>"; };
@@ -1110,6 +1118,7 @@
 				40F360302D9F014D0078BE23 /* Chat.swift */,
 				40F3603A2D9F065D0078BE23 /* CreateChatParams.swift */,
 				408685582DDA4D2E00D5832D /* DeleteUserChatParams.swift */,
+				40DEB2212E2956C10039134C /* UpdateChatLastMessageParams.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -1130,6 +1139,7 @@
 				40F360462D9FCB4E0078BE23 /* FetchUserChatsUseCase.swift */,
 				408685102DD284D900D5832D /* ObserveChatsUseCase.swift */,
 				408685562DDA4D1800D5832D /* DeleteUserChatUseCase.swift */,
+				40DEB21F2E2956B50039134C /* UpdateChatLastMessageUseCase.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1142,6 +1152,7 @@
 				40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */,
 				408CA9352DE8E3BA000C0FAD /* DeleteMessageParams.swift */,
 				40DEB21B2E2941CC0039134C /* EditMessageParams.swift */,
+				40DEB2252E295A580039134C /* GetLastMessageParams.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1154,6 +1165,7 @@
 				40F360D42DA52D200078BE23 /* fetchMessagesUseCase.swift */,
 				407F36A02DC3E32F00BE8F53 /* ObserveMessagesUseCase.swift */,
 				408CA9372DE8E3D4000C0FAD /* DeleteMessageUseCase.swift */,
+				40DEB2232E295A370039134C /* GetLastMessageUseCase.swift */,
 			);
 			path = Message;
 			sourceTree = "<group>";
@@ -1366,8 +1378,10 @@
 				4057DB852D8B492A00D2E2B0 /* ImagePickerView.swift in Sources */,
 				40D384F52D843A7700406AC1 /* LoginViewModel.swift in Sources */,
 				4086852E2DD6215200D5832D /* ChatbotMessage.swift in Sources */,
+				40DEB2202E2956B50039134C /* UpdateChatLastMessageUseCase.swift in Sources */,
 				408CA95F2DECC96C000C0FAD /* UploadImageParams.swift in Sources */,
 				400B9D442E032554007DFF50 /* LoadingView.swift in Sources */,
+				40DEB2262E295A580039134C /* GetLastMessageParams.swift in Sources */,
 				408CA9362DE8E3BA000C0FAD /* DeleteMessageParams.swift in Sources */,
 				40F3600D2D9DCC870078BE23 /* SignInWithAppleUseCase.swift in Sources */,
 				40F35FFA2D9DB5840078BE23 /* RegistrationViewModel.swift in Sources */,
@@ -1434,6 +1448,7 @@
 				40F360C62DA47DFC0078BE23 /* MessageRepositoryImpl.swift in Sources */,
 				40D3851C2D84E23800406AC1 /* UserMapper.swift in Sources */,
 				40F360C42DA47D590078BE23 /* MessageRepository.swift in Sources */,
+				40DEB2222E2956C10039134C /* UpdateChatLastMessageParams.swift in Sources */,
 				40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */,
 				402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */,
 				40D384FD2D843A7700406AC1 /* InputView.swift in Sources */,
@@ -1444,6 +1459,7 @@
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
 				400B9D4D2E0344BD007DFF50 /* AuthView.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
+				40DEB2242E295A370039134C /* GetLastMessageUseCase.swift in Sources */,
 				408685402DD62C6200D5832D /* MessageInputView.swift in Sources */,
 				4084BFA32E006802001CB621 /* Utils.swift in Sources */,
 				40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */,

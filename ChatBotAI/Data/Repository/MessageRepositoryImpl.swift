@@ -76,4 +76,16 @@ class MessageRepositoryImpl: MessageRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func getLastMessage(chatId: String) async -> Result<Message?, AppError> {
+        do {
+            if let messageModel = try await messageDataSource.getLastMessage(chatId: chatId) {
+                return .success(messageModel.toDomain())
+            } else {
+                return .success(nil) // No hay mensajes
+            }
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

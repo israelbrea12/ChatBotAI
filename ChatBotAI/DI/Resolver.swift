@@ -269,6 +269,18 @@ extension Resolver {
                 messageRepository: resolver.resolve(MessageRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(GetLastMessageUseCase.self) { resolver in
+            GetLastMessageUseCase(
+                messageRepository: resolver.resolve(MessageRepository.self)!
+            )
+        }.inObjectScope(.container)
+        
+        container.register(UpdateChatLastMessageUseCase.self) { resolver in
+            UpdateChatLastMessageUseCase(
+                chatRepository: resolver.resolve(ChatRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -330,7 +342,9 @@ extension Resolver {
                 deleteMessageUseCase: resolver.resolve(DeleteMessageUseCase.self)!,
                 uploadImageUseCase: resolver.resolve(UploadImageUseCase.self)!,
                 observePresenceUseCase: resolver.resolve(ObservePresenceUseCase.self)!,
-                editMessageUseCase: resolver.resolve(EditMessageUseCase.self)!
+                editMessageUseCase: resolver.resolve(EditMessageUseCase.self)!,
+                getLastMessageUseCase: resolver.resolve(GetLastMessageUseCase.self)!,
+                updateChatLastMessageUseCase: resolver.resolve(UpdateChatLastMessageUseCase.self)!
             )
         }.inObjectScope(.container)
         

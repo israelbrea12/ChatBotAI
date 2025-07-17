@@ -15,6 +15,7 @@ protocol MessageDataSource {
     func stopObservingMessages(for chatId: String)
     func deleteMessage(chatId: String, messageId: String) async throws
     func editMessage(chatId: String, messageId: String, newText: String) async throws
+    func getLastMessage(chatId: String) async throws -> MessageModel?
 }
 
 class MessageDataSourceImpl: MessageDataSource {
@@ -274,4 +275,57 @@ class MessageDataSourceImpl: MessageDataSource {
             }
         }
     }
+    
+    func getLastMessage(chatId: String) async throws -> MessageModel? {
+        return try await withCheckedThrowingContinuation { continuation in
+            let messagesRef = databaseRef
+                .child("chats")
+                .child(chatId)
+                .child("messages")
+                .queryOrdered(byChild: "sentAt") // Ordena por el timestamp de envío
+                .queryLimited(toLast: 1)         // Limita a un solo resultado (el último)
+            
+            messagesRef.observeSingleEvent(of: .value) { snapshot in
+                guard let lastChild = snapshot.children.allObjects.last as? DataSnapshot,
+                      let value = lastChild.value as? [String: Any] else {
+                    continuation.resume(returning: nil) // No hay mensajes o no se pudieron parsear
+                    return
+                }
+                
+                if let messageModel = self.mapMessageModel(from: value, key: lastChild.key) {
+                    continuation.resume(returning: messageModel)
+                } else {
+                    continuation.resume(throwing: NSError(domain: "MessageDataSource", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to map last message"]))
+                }
+            } withCancel: { error in
+                continuation.resume(throwing: error)
+            }
+        }
+    }
+    
+    private func mapMessageModel(from value: [String: Any], key: String) -> MessageModel? {
+            guard let id = value["id"] as? String,
+                  let text = value["text"] as? String,
+                  let senderId = value["senderId"] as? String,
+                  let senderName = value["senderName"] as? String,
+                  let sentAt = value["sentAt"] as? TimeInterval,
+                  let messageTypeString = value["messageType"] as? String else {
+                print("Skipping message \(key) due to missing essential fields: \(value)")
+                return nil
+            }
+            
+            let imageURL = value["imageURL"] as? String
+            let isEdited = value["isEdited"] as? Bool ?? false
+            
+            return MessageModel(
+                id: id,
+                text: text,
+                senderId: senderId,
+                senderName: senderName,
+                sentAt: sentAt,
+                messageType: messageTypeString,
+                imageURL: imageURL,
+                isEdited: isEdited
+            )
+        }
 }

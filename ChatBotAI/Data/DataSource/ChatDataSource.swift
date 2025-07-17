@@ -15,6 +15,7 @@ protocol ChatDataSource {
     func stopObservingAllChatActivity(userId: String) async
     func deleteUserChat(userId: String, chatId: String) async throws
     func deleteAllUserChatsIds(userId: String) async throws
+    func updateChatLastMessage(chatId: String, lastMessageData: [String: Any]?) async throws
 }
 
 class ChatDataSourceImpl: ChatDataSource {
@@ -209,5 +210,37 @@ class ChatDataSourceImpl: ChatDataSource {
         let ref = databaseRef.child("user_chats").child(userId)
         try await ref.removeValue()
         print("ChatDataSource: Nodo user_chats eliminado para el usuario \(userId).")
+    }
+    
+    func updateChatLastMessage(chatId: String, lastMessageData: [String: Any]?) async throws {
+        let chatLastMessageRef = databaseRef
+            .child("chats")
+            .child(chatId)
+            .child("lastMessage")
+        
+        if let data = lastMessageData {
+            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+                chatLastMessageRef.setValue(data) { error, _ in
+                    if let error = error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume()
+                    }
+                }
+            }
+            print("ChatDataSource: lastMessage de chat \(chatId) actualizado a: \(data["text"] as? String ?? "N/A")")
+        } else {
+            // Eliminar el nodo lastMessage si no hay datos
+            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+                chatLastMessageRef.removeValue { error, _ in
+                    if let error = error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume()
+                    }
+                }
+            }
+            print("ChatDataSource: lastMessage de chat \(chatId) eliminado (no quedan mensajes).")
+        }
     }
 }

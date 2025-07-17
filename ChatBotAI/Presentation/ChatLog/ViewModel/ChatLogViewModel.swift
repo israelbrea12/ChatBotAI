@@ -29,6 +29,8 @@ class ChatLogViewModel: ObservableObject {
     private let uploadImageUseCase: UploadImageUseCase
     private let observePresenceUseCase: ObservePresenceUseCase
     private let editMessageUseCase: EditMessageUseCase
+    private let getLastMessageUseCase: GetLastMessageUseCase
+    private let updateChatLastMessageUseCase: UpdateChatLastMessageUseCase
 
     // MARK: - Lifecycle functions
     init(
@@ -38,7 +40,10 @@ class ChatLogViewModel: ObservableObject {
         deleteMessageUseCase: DeleteMessageUseCase,
         uploadImageUseCase: UploadImageUseCase,
         observePresenceUseCase: ObservePresenceUseCase,
-        editMessageUseCase: EditMessageUseCase
+        editMessageUseCase: EditMessageUseCase,
+        getLastMessageUseCase: GetLastMessageUseCase,
+        updateChatLastMessageUseCase: UpdateChatLastMessageUseCase
+        
     ) {
         self.sendMessageUseCase = sendMessageUseCase
         self.fetchMessagesUseCase = fetchMessagesUseCase
@@ -47,6 +52,8 @@ class ChatLogViewModel: ObservableObject {
         self.uploadImageUseCase = uploadImageUseCase
         self.observePresenceUseCase = observePresenceUseCase
         self.editMessageUseCase = editMessageUseCase
+        self.getLastMessageUseCase = getLastMessageUseCase
+        self.updateChatLastMessageUseCase = updateChatLastMessageUseCase
     }
 
     // MARK: - Functions
@@ -58,21 +65,25 @@ class ChatLogViewModel: ObservableObject {
             await loadMessages()
             
             if let chatId = chatId {
+                // Los observadores de mensajes ahora solo actualizan la lista local de mensajes.
+                // La lógica de `lastMessage` del chat principal se manejará explícitamente.
                 observeMessagesUseCase.execute(chatId: chatId) { [weak self] newMessage in
                     guard let self = self else { return }
-                    
                     if let index = self.messages.firstIndex(where: { $0.id == newMessage.id }) {
                         self.messages[index] = newMessage
                     } else {
                         self.messages.append(newMessage)
                     }
+                    // No es necesario actualizar lastMessage del chat aquí, ya se hace al enviar/editar
                 } onUpdatedMessage: { [weak self] updatedMessage in
                     guard let self = self else { return }
                     if let index = self.messages.firstIndex(where: { $0.id == updatedMessage.id }) {
                         self.messages[index] = updatedMessage
                     }
+                    // No es necesario actualizar lastMessage del chat aquí, ya se hace al editar
                 } onDeletedMessage: { [weak self] deletedMessageId in
                     self?.messages.removeAll { $0.id == deletedMessageId }
+                    // No es necesario actualizar lastMessage del chat aquí, ya se hace al eliminar
                 }
             }
             
@@ -157,7 +168,8 @@ class ChatLogViewModel: ObservableObject {
             
             switch result {
             case .success:
-                chatText = "" 
+                chatText = ""
+                await updateChatLastMessage(with: message)
             case .failure(let error):
                 print("Error enviando mensaje de texto: \(error.localizedDescription)")
                 state = .error("Error al enviar el mensaje")
@@ -214,6 +226,9 @@ class ChatLogViewModel: ObservableObject {
                 if case .failure(let error) = sendResult {
                     print("Error enviando mensaje de imagen a RTDB: \(error.localizedDescription)")
                     updateMessageStatus(id: messageId, isUploading: false, hasFailed: true)
+                } else {
+                    // Actualiza el lastMessage del chat padre al enviar la imagen final
+                    await updateChatLastMessage(with: finalMessage)
                 }
                 
             case .failure(let error):
@@ -262,6 +277,7 @@ class ChatLogViewModel: ObservableObject {
         switch result {
         case .success:
             messages.removeAll { $0.id == messageId }
+            await updateLastMessageAfterDeletion()
         case .failure(let error):
             print("Error eliminando mensaje: \(error.localizedDescription)")
             state = .error("No se pudo eliminar el mensaje.")
@@ -296,10 +312,43 @@ class ChatLogViewModel: ObservableObject {
                 print("Mensaje editado con éxito: \(message.id)")
                 self.chatText = ""
                 self.editingMessage = nil
+                // IMPORTANTE: Después de editar, actualiza el lastMessage del chat si era el editado
+                // Puedes buscar el mensaje actualizado en `messages` o recrearlo
+                if var editedMessageInList = messages.first(where: { $0.id == message.id }) {
+                    editedMessageInList.text = newText
+                    editedMessageInList.isEdited = true
+                    await updateChatLastMessage(with: editedMessageInList)
+                }
             case .failure(let error):
                 print("Error editando mensaje: \(error.localizedDescription)")
                 state = .error("Error al editar el mensaje.")
             }
+        }
+    }
+    
+    // NUEVO: Función auxiliar para actualizar el lastMessage del chat
+    private func updateChatLastMessage(with message: Message?) async {
+        guard let currentChatId = chatId else { return }
+        let params = UpdateChatLastMessageParams(chatId: currentChatId, message: message)
+        let result = await updateChatLastMessageUseCase.execute(with: params)
+        switch result {
+        case .success:
+            print("ChatLogViewModel: lastMessage actualizado para chat \(currentChatId)")
+        case .failure(let error):
+            print("ChatLogViewModel: Error al actualizar lastMessage para chat \(currentChatId): \(error.localizedDescription)")
+        }
+    }
+    
+    // NUEVO: Función auxiliar para actualizar el lastMessage después de una eliminación
+    private func updateLastMessageAfterDeletion() async {
+        guard let currentChatId = chatId else { return }
+        let result = await getLastMessageUseCase.execute(with: GetLastMessageParams(chatId: currentChatId))
+        switch result {
+        case .success(let lastMessage):
+            await updateChatLastMessage(with: lastMessage)
+        case .failure(let error):
+            print("ChatLogViewModel: Error al obtener el último mensaje después de eliminar: \(error.localizedDescription)")
+            await updateChatLastMessage(with: nil) // Tratar como si no hubiera mensajes si hay error
         }
     }
     

@@ -67,4 +67,25 @@ class ChatRepositoryImpl: ChatRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func updateLastMessageForChat(chatId: String, message: Message?) async -> Result<Void, AppError> {
+        do {
+            if let message = message {
+                let lastMessageData: [String: Any] = [
+                    "text": message.text,
+                    "senderId": message.senderId,
+                    "sentAt": message.sentAt ?? Date().timeIntervalSince1970, // Asegura un valor
+                    "messageType": message.messageType.rawValue,
+                    "isEdited": message.isEdited
+                ]
+                try await chatDataSource.updateChatLastMessage(chatId: chatId, lastMessageData: lastMessageData)
+            } else {
+                // Si el mensaje es nil, borra el lastMessage
+                try await chatDataSource.updateChatLastMessage(chatId: chatId, lastMessageData: nil)
+            }
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

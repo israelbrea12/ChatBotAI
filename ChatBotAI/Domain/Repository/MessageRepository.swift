@@ -17,5 +17,6 @@ protocol MessageRepository {
     func stopObservingMessages(chatId: String)
     func deleteMessage(chatId: String, messageId: String) async -> Result<Void, AppError>
     func editMessage(chatId: String, messageId: String, newText: String) async -> Result<Bool, AppError>
+    func getLastMessage(chatId: String) async -> Result<Message?, AppError>
 }
 

@@ -14,4 +14,5 @@ protocol ChatRepository {
     func stopObservingAllChatEvents(userId: String)
     func deleteUserChat(userId: String, chatId: String) async -> Result<Void, AppError>
     func deleteAllUserChatsIds(userId: String) async -> Result<Void, AppError>
+    func updateLastMessageForChat(chatId: String, message: Message?) async -> Result<Void, AppError>
 }
