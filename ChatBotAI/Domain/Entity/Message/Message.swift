@@ -20,15 +20,18 @@ struct Message: Identifiable, Codable, Equatable {
     var localImageData: Data? = nil
     var isUploading: Bool = false
     var uploadFailed: Bool = false
+    var isEdited: Bool = false
 
     enum CodingKeys: String, CodingKey {
-        case id, text, senderId, senderName, sentAt, messageType, imageURL
+        case id, text, senderId, senderName, sentAt, messageType, imageURL, isEdited
     }
 
     static func == (lhs: Message, rhs: Message) -> Bool {
-            return lhs.id == rhs.id &&
-                   lhs.imageURL == rhs.imageURL &&
-                   lhs.isUploading == rhs.isUploading &&
-                   lhs.uploadFailed == rhs.uploadFailed
-        }
+        return lhs.id == rhs.id &&
+        lhs.text == rhs.text &&
+        lhs.imageURL == rhs.imageURL &&
+        lhs.isUploading == rhs.isUploading &&
+        lhs.uploadFailed == rhs.uploadFailed &&
+        lhs.isEdited == rhs.isEdited
+    }
 }

@@ -39,11 +39,15 @@ class MessageRepositoryImpl: MessageRepository {
     
     func observeMessages(chatId: String,
                          onNewMessage: @escaping (Message) -> Void,
+                         onUpdatedMessage: @escaping (Message) -> Void,
                          onDeletedMessage: @escaping (String) -> Void) {
         messageDataSource.observeMessages(
             for: chatId,
             onNewMessage: { messageModel in
                 onNewMessage(messageModel.toDomain())
+            },
+            onUpdatedMessage: { messageModel in // <-- NUEVO
+                onUpdatedMessage(messageModel.toDomain())
             },
             onDeletedMessage: { messageId in
                 onDeletedMessage(messageId)
@@ -59,6 +63,15 @@ class MessageRepositoryImpl: MessageRepository {
         do {
             try await messageDataSource.deleteMessage(chatId: chatId, messageId: messageId)
             return .success(())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
+    
+    func editMessage(chatId: String, messageId: String, newText: String) async -> Result<Bool, AppError> {
+        do {
+            try await messageDataSource.editMessage(chatId: chatId, messageId: messageId, newText: newText)
+            return .success(true)
         } catch {
             return .failure(error.toAppError())
         }

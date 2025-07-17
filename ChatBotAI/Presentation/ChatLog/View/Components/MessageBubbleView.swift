@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 import SDWebImageSwiftUI
 
 
@@ -36,18 +35,27 @@ struct MessageBubbleView: View {
                         GeometryReader { proxy in
                             Color.clear
                                 .onAppear { bubbleFrame = proxy.frame(in: .global) }
-                                .onChange(of: proxy.frame(in: .global)) { oldFrame, newFrame in bubbleFrame = newFrame }
+                                .onChange(of: proxy.frame(in: .global)) { _, newFrame in bubbleFrame = newFrame }
                         }
                     )
                     .gesture(LongPressGesture(minimumDuration: 0.45).onEnded { _ in
                         onLongPress?(message, bubbleFrame)
                     })
-                // Muestra la hora del mensaje
-                Text(Date(timeIntervalSince1970: message.sentAt ?? Date().timeIntervalSince1970).BublesFormattedTime())
-                    .font(.caption2)
-                    .foregroundColor(.gray)
-                    .padding(.horizontal, message.messageType == .text ? 6 : 0)
-                    .padding(.top, 1)
+                
+                HStack(spacing: 4) {
+                    Text(Date(timeIntervalSince1970: message.sentAt ?? Date().timeIntervalSince1970).BublesFormattedTime())
+                        .font(.caption2)
+                        .foregroundColor(.gray)
+                    
+                    if message.isEdited {
+                        Text("Editado")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                            .italic()
+                    }
+                }
+                .padding(.horizontal, message.messageType == .text ? 6 : 0)
+                .padding(.top, 1)
             }
             .frame(maxWidth: UIScreen.main.bounds.width * 0.75, alignment: isCurrentUser ? .trailing : .leading)
             if !isCurrentUser { Spacer(minLength: UIScreen.main.bounds.width * 0.15) }

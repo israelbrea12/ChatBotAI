@@ -263,6 +263,12 @@ extension Resolver {
                 presenceRepository: resolver.resolve(PresenceRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(EditMessageUseCase.self) { resolver in
+            EditMessageUseCase(
+                messageRepository: resolver.resolve(MessageRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -323,7 +329,8 @@ extension Resolver {
                 observeMessagesUseCase: resolver.resolve(ObserveMessagesUseCase.self)!,
                 deleteMessageUseCase: resolver.resolve(DeleteMessageUseCase.self)!,
                 uploadImageUseCase: resolver.resolve(UploadImageUseCase.self)!,
-                observePresenceUseCase: resolver.resolve(ObservePresenceUseCase.self)!
+                observePresenceUseCase: resolver.resolve(ObservePresenceUseCase.self)!,
+                editMessageUseCase: resolver.resolve(EditMessageUseCase.self)!
             )
         }.inObjectScope(.container)
         

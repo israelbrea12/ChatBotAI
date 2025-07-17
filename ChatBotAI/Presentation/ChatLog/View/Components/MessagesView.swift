@@ -15,7 +15,7 @@ struct MessagesView: View {
     
     let messages: [Message]
     let currentUserId: String?
-    let chatLogViewModel: ChatLogViewModel
+    @ObservedObject var chatLogViewModel: ChatLogViewModel
     
     @State private var showContextMenu: Bool = false
     @State private var contextMenuMessage: Message? = nil
@@ -42,12 +42,10 @@ struct MessagesView: View {
     var body: some View {
         GeometryReader { screenGeometry in
             ZStack {
-                // El ScrollViewReader y el ScrollView principal
                 ScrollViewReader { scrollViewProxy in
                     messageScrollView(proxy: scrollViewProxy)
                 }
                 
-                // La superposición del menú contextual
                 if showContextMenu {
                     contextMenuOverlay(screenGeometry: screenGeometry)
                 }
@@ -55,11 +53,9 @@ struct MessagesView: View {
             .alert("¿Eliminar Mensaje?", isPresented: $showDeleteMessageConfirmationAlert) {
                             Button("Cancelar", role: .cancel) { }
                 Button("Eliminar", role: .destructive) {
-                    // La acción de borrado se ejecuta aquí ahora
                     Task {
                         guard let messageToDelete = contextMenuMessage else { return }
                         await chatLogViewModel.deleteMessage(messageId: messageToDelete.id)
-                        // Limpiamos el mensaje seleccionado después de borrar
                         contextMenuMessage = nil
                     }
                 }
@@ -83,6 +79,9 @@ struct MessagesView: View {
                             .padding(.vertical, 10)
                         
                         ForEach(group.messages) { message in
+                            
+                            let shouldBlurMessage = (showContextMenu && message.id != contextMenuMessage?.id) || (chatLogViewModel.editingMessage != nil && message.id != chatLogViewModel.editingMessage?.id)
+                            
                             MessageBubbleView(
                                 message: message,
                                 isCurrentUser: message.senderId == currentUserId,
@@ -101,7 +100,7 @@ struct MessagesView: View {
                             )
                             .id(message.id)
                             .padding(.bottom, group.messages.last?.id == message.id ? 5 : 0)
-                            .blur(radius: showContextMenu && message.id != contextMenuMessage?.id ? 5 : 0)
+                            .blur(radius: shouldBlurMessage ? 5 : 0)
                         }
                     }
                     Color.clear
@@ -129,7 +128,6 @@ struct MessagesView: View {
             }
         }
         
-        // --- 3. VISTA DEL MENÚ CONTEXTUAL (EXTRAÍDA) ---
     @ViewBuilder
     private func contextMenuOverlay(screenGeometry: GeometryProxy) -> some View {
         Color.black.opacity(0.001)
@@ -142,13 +140,9 @@ struct MessagesView: View {
             }
         
         if let message = contextMenuMessage, contextMenuAnchorFrame != .zero {
-            // --- INICIO DE LA SOLUCIÓN ---
-            
-            // 1. Obtenemos el marco de la vista contenedora (MessagesView) en coordenadas globales.
+
             let containerFrame = screenGeometry.frame(in: .global)
             
-            // 2. Calculamos el marco de la burbuja RELATIVO al contenedor.
-            //    Restamos el origen del contenedor al origen global de la burbuja.
             let bubbleFrameInContainer = CGRect(
                 x: contextMenuAnchorFrame.origin.x - containerFrame.origin.x,
                 y: contextMenuAnchorFrame.origin.y - containerFrame.origin.y,
@@ -160,7 +154,7 @@ struct MessagesView: View {
             let (menuOrigin, anchorPoint) = calculateMenuPlacement(
                 bubbleFrame: bubbleFrameInContainer,
                 menuSize: menuEstimatedSize,
-                containerSize: containerFrame.size, // Usamos el tamaño, no el marco completo
+                containerSize: containerFrame.size,
                 isBubbleCurrentUser: message.senderId == currentUserId
             )
             
@@ -169,6 +163,9 @@ struct MessagesView: View {
             MessageActionMenuView(
                 items: [
                     MessageActionItem(label: "Editar", systemImage: "pencil.circle.fill") {
+                        if message.messageType == .text {
+                            chatLogViewModel.startEditingMessage(message)
+                        }
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                             self.showContextMenu = false
                         }

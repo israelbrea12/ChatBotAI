@@ -15,6 +15,7 @@ class ChatLogViewModel: ObservableObject {
     @Published var chatText = ""
     @Published var messages: [Message] = []
     @Published var userPresenceStatus: String = ""
+    @Published var editingMessage: Message? = nil
 
     // MARK: - Private vars
     private var chatId: String?
@@ -27,6 +28,7 @@ class ChatLogViewModel: ObservableObject {
     private let deleteMessageUseCase: DeleteMessageUseCase
     private let uploadImageUseCase: UploadImageUseCase
     private let observePresenceUseCase: ObservePresenceUseCase
+    private let editMessageUseCase: EditMessageUseCase
 
     // MARK: - Lifecycle functions
     init(
@@ -35,7 +37,8 @@ class ChatLogViewModel: ObservableObject {
         observeMessagesUseCase: ObserveMessagesUseCase,
         deleteMessageUseCase: DeleteMessageUseCase,
         uploadImageUseCase: UploadImageUseCase,
-        observePresenceUseCase: ObservePresenceUseCase
+        observePresenceUseCase: ObservePresenceUseCase,
+        editMessageUseCase: EditMessageUseCase
     ) {
         self.sendMessageUseCase = sendMessageUseCase
         self.fetchMessagesUseCase = fetchMessagesUseCase
@@ -43,6 +46,7 @@ class ChatLogViewModel: ObservableObject {
         self.deleteMessageUseCase = deleteMessageUseCase
         self.uploadImageUseCase = uploadImageUseCase
         self.observePresenceUseCase = observePresenceUseCase
+        self.editMessageUseCase = editMessageUseCase
     }
 
     // MARK: - Functions
@@ -61,6 +65,11 @@ class ChatLogViewModel: ObservableObject {
                         self.messages[index] = newMessage
                     } else {
                         self.messages.append(newMessage)
+                    }
+                } onUpdatedMessage: { [weak self] updatedMessage in
+                    guard let self = self else { return }
+                    if let index = self.messages.firstIndex(where: { $0.id == updatedMessage.id }) {
+                        self.messages[index] = updatedMessage
                     }
                 } onDeletedMessage: { [weak self] deletedMessageId in
                     self?.messages.removeAll { $0.id == deletedMessageId }
@@ -110,8 +119,18 @@ class ChatLogViewModel: ObservableObject {
             }
         }
     }
+    
+    func sendOrEditMessage(currentUser: User?) {
+        if let editingMessage = editingMessage {
+            // Modo edición
+            editMessage(editingMessage, newText: chatText, currentUser: currentUser)
+        } else {
+            // Modo envío normal
+            sendTextMessage(currentUser: currentUser)
+        }
+    }
 
-    func sendTextMessage(currentUser: User?) {
+    private func sendTextMessage(currentUser: User?) {
         guard let user = currentUser,
               let chatId = chatId else {
             return
@@ -226,11 +245,11 @@ class ChatLogViewModel: ObservableObject {
         }
     }
     
-    func stopObserving() { // <-- RENOMBRADO para más claridad
+    func stopObserving() {
         if let chatId = chatId {
             observeMessagesUseCase.stop(chatId: chatId)
         }
-        if let otherUserId = otherUser?.id { // <-- NUEVO
+        if let otherUserId = otherUser?.id {
             observePresenceUseCase.stop(for: otherUserId)
         }
         print("Dejando de observar todo")
@@ -246,6 +265,41 @@ class ChatLogViewModel: ObservableObject {
         case .failure(let error):
             print("Error eliminando mensaje: \(error.localizedDescription)")
             state = .error("No se pudo eliminar el mensaje.")
+        }
+    }
+    
+    func startEditingMessage(_ message: Message) {
+        if message.messageType == .text {
+            self.editingMessage = message
+            self.chatText = message.text
+        }
+    }
+    
+    func cancelEditingMessage() {
+        self.editingMessage = nil
+        self.chatText = ""
+    }
+    
+    private func editMessage(_ message: Message, newText: String, currentUser: User?) {
+        guard let user = currentUser,
+              let chatId = chatId,
+              !newText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return
+        }
+        
+        Task {
+            let params = EditMessageParams(chatId: chatId, messageId: message.id, newText: newText)
+            let result = await editMessageUseCase.execute(with: params)
+            
+            switch result {
+            case .success:
+                print("Mensaje editado con éxito: \(message.id)")
+                self.chatText = ""
+                self.editingMessage = nil
+            case .failure(let error):
+                print("Error editando mensaje: \(error.localizedDescription)")
+                state = .error("Error al editar el mensaje.")
+            }
         }
     }
     

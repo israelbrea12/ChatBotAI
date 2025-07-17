@@ -49,7 +49,7 @@ struct UserProfileView: View {
                 HStack {
                     Circle()
                         .foregroundColor(.green)
-                        .frame(width: 14, height: 14)
+                        .frame(width: 10, height: 10)
                     Text("online")
                         .font(.system(size: 12))
                         .foregroundColor(Color(.lightGray))

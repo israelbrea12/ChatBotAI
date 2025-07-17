@@ -61,6 +61,7 @@ struct ChatLogView: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         UIApplication.shared.endEditing()
+                        chatLogViewModel.cancelEditingMessage()
                     }
                     .toolbarBackground(
                         .visible,
@@ -79,6 +80,11 @@ struct ChatLogView: View {
                     }
             .allowsHitTesting(coordinator.selectedMessage == nil)
             .safeAreaInset(edge: .bottom) {
+                if let editingMessage = chatLogViewModel.editingMessage {
+                    EditingMessageBar(message: editingMessage) {
+                        chatLogViewModel.cancelEditingMessage()
+                    }
+                }
                 BottomBar(
                     chatText: $chatLogViewModel.chatText,
                     viewModel: chatLogViewModel,
@@ -106,7 +112,6 @@ struct ChatLogView: View {
                     .animation(.spring(response: 0.4, dampingFraction: 0.85), value: coordinator.animateView)
             }
                         
-            // 2. La vista de detalle, que se añade a la jerarquía cuando se selecciona una imagen.
             .overlay {
                 if coordinator.selectedMessage != nil {
                     ImageDetailView()
@@ -114,7 +119,6 @@ struct ChatLogView: View {
                 }
             }
                         
-            // 3. La capa de animación (HeroLayer) que se activa cuando se encuentran las anclas.
             .overlayPreferenceValue(HeroKey.self) { value in
                 if let selectedMessage = coordinator.selectedMessage,
                    let sAnchor = value[selectedMessage.id + "SOURCE"],
@@ -251,7 +255,7 @@ struct ChatLogView: View {
                     print("Plus Tapped")
                     UIApplication.shared.endEditing()
                 }
-
+                
                 TextField("Text Message", text: chatText)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 15)
@@ -260,11 +264,11 @@ struct ChatLogView: View {
                             .stroke(.gray.opacity(0.3), lineWidth: 1.5)
                     }
                     .onSubmit {
-                        viewModel.sendTextMessage(currentUser: currentUser)
+                        viewModel.sendOrEditMessage(currentUser: currentUser)
                     }
-
+                
                 Button(action: {
-                    viewModel.sendTextMessage(currentUser: currentUser)
+                    viewModel.sendOrEditMessage(currentUser: currentUser)
                 }) {
                     Image(systemName: "paperplane.fill")
                         .font(.system(size: 18))
@@ -272,7 +276,7 @@ struct ChatLogView: View {
                         .padding(8)
                 }
                 .disabled(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-
+                
             }
             .padding(.horizontal, 15)
             .padding(.vertical, 8)

@@ -16,7 +16,8 @@ extension MessageModel {
             senderName: self.senderName,
             sentAt: self.sentAt,
             messageType: MessageType(rawValue: self.messageType) ?? .text,
-            imageURL: self.imageURL
+            imageURL: self.imageURL,
+            isEdited: self.isEdited ?? false
         )
     }
 }
@@ -33,6 +34,9 @@ extension Message {
         ]
         if let imageURL = self.imageURL {
             data["imageURL"] = imageURL
+        }
+        if self.isEdited {
+            data["isEdited"] = true
         }
         return data
     }

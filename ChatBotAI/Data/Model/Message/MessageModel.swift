@@ -15,6 +15,7 @@ struct MessageModel: Codable {
     var sentAt: TimeInterval
     var messageType: String
     var imageURL: String?
+    var isEdited: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -24,9 +25,10 @@ struct MessageModel: Codable {
         case sentAt
         case messageType
         case imageURL
+        case isEdited
     }
 
-    init(id: String, text: String, senderId: String, senderName: String, sentAt: TimeInterval, messageType: String, imageURL: String? = nil) {
+    init(id: String, text: String, senderId: String, senderName: String, sentAt: TimeInterval, messageType: String, imageURL: String? = nil, isEdited: Bool = false) {
         self.id = id
         self.text = text
         self.senderId = senderId
@@ -34,6 +36,7 @@ struct MessageModel: Codable {
         self.sentAt = sentAt
         self.messageType = messageType
         self.imageURL = imageURL
+        self.isEdited = isEdited
     }
 }
 

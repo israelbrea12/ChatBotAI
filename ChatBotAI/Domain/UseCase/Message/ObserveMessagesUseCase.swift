@@ -17,8 +17,9 @@ class ObserveMessagesUseCase {
     }
 
     func execute(chatId: String, onNewMessage: @escaping (Message) -> Void,
+                 onUpdatedMessage: @escaping (Message) -> Void,
                  onDeletedMessage: @escaping (String) -> Void) {
-        messageRepository.observeMessages(chatId: chatId, onNewMessage: onNewMessage, onDeletedMessage: onDeletedMessage)
+        messageRepository.observeMessages(chatId: chatId, onNewMessage: onNewMessage, onUpdatedMessage: onUpdatedMessage, onDeletedMessage: onDeletedMessage)
     }
 
     func stop(chatId: String) {
