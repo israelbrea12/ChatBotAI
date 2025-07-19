@@ -134,19 +134,6 @@ class AuthDataSourceImpl: AuthDataSource {
         }
     }
 
-    
-    // MARK: - Delete Account
-    
-    func deleteFirebaseAuthUser() async throws {
-        guard let user = Auth.auth().currentUser else {
-            throw AppError.authenticationError("No user logged in")
-        }
-        
-        // Borrar la cuenta de Firebase Auth
-        try await user.delete()
-        print("✅ Cuenta de Firebase Auth eliminada permanentemente.")
-    }
-    
     private func saveUserIfNeeded(_ userModel: UserModel) async throws {
         let userRef = Database.database().reference().child("users").child(userModel.uid)
         let snapshot = try await userRef.getData()
@@ -157,5 +144,16 @@ class AuthDataSourceImpl: AuthDataSource {
     
     func sendPasswordReset(email: String) async throws {
         try await Auth.auth().sendPasswordReset(withEmail: email)
+    }
+    
+    // MARK: - Delete Account
+    
+    func deleteFirebaseAuthUser() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw AppError.authenticationError("No user logged in")
+        }
+        
+        try await user.delete()
+        print("✅ Cuenta de Firebase Auth eliminada permanentemente.")
     }
 }

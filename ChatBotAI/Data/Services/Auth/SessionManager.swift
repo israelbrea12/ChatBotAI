@@ -8,7 +8,7 @@ import FirebaseDatabase
 class SessionManager: NSObject, ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
-    var currentUser: User?
+    @Published var currentUser: User?
     
     let auth: Auth
     let storage: Storage

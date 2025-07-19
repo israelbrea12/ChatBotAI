@@ -281,6 +281,12 @@ extension Resolver {
                 chatRepository: resolver.resolve(ChatRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(UpdateUserUseCase.self) { resolver in
+            UpdateUserUseCase(
+                userRepository: resolver.resolve(UserRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -362,5 +368,11 @@ extension Resolver {
             )
         }.inObjectScope(.container)
     
+        container.register(EditProfileViewModel.self) { (resolver, user: User) in
+            EditProfileViewModel(
+                user: user,
+                updateUserUseCase: resolver.resolve(UpdateUserUseCase.self)!
+            )
+        }.inObjectScope(.container)
     }
 }

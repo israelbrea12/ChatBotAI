@@ -6,8 +6,6 @@
 //
 
 
-// MARK: CustomTF.swift
-
 import SwiftUI
 
 struct CustomTF: View {
@@ -33,11 +31,7 @@ struct CustomTF: View {
                 .offset(y: 2)
             
             VStack(alignment: .leading, spacing: 4) {
-                // MARK: - SOLUCIÓN
-                // Agrupamos el campo de texto y el botón en un ZStack.
-                // Esto asegura que se mantengan alineados verticalmente.
                 ZStack(alignment: .trailing) {
-                    // Grupo de TextFields
                     Group {
                         if isPassword {
                             if showPassword {
@@ -51,8 +45,6 @@ struct CustomTF: View {
                             TextField(hint, text: $value)
                         }
                     }
-                    
-                    // Botón del ojo, ahora dentro del ZStack
                     if isPassword {
                         Button(action: {
                             withAnimation { showPassword.toggle() }
@@ -64,11 +56,10 @@ struct CustomTF: View {
                                 .contentShape(.rect)
                         }
                     }
-                } // Fin del ZStack
+                }
                 
                 Divider()
                 
-                // El mensaje de error ahora no afecta al alineamiento del botón
                 if let error, !error.isEmpty {
                     Text(error)
                         .font(.caption)

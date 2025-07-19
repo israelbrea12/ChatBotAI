@@ -74,7 +74,6 @@ class RegistrationViewModel: ObservableObject {
             var isValid = true
             authenticationError = nil
 
-            // Validaciones
             if !email.contains("@") {
                 emailError = "El formato del email no es válido."
                 isValid = false
@@ -99,29 +98,29 @@ class RegistrationViewModel: ObservableObject {
         }
     
     private func clearErrorsOnEdit() {
-            $email
-                .dropFirst()
-                .sink { [weak self] _ in self?.emailError = nil }
-                .store(in: &cancellables)
-            
-            $fullName
-                .dropFirst()
-                .sink { [weak self] _ in self?.fullNameError = nil }
-                .store(in: &cancellables)
-                
-            $password
-                .dropFirst()
-                .sink { [weak self] _ in
-                    self?.passwordError = nil
-                    self?.confirmPasswordError = nil // También limpia la confirmación
-                }
-                .store(in: &cancellables)
-            
-            $confirmPassword
-                .dropFirst()
-                .sink { [weak self] _ in self?.confirmPasswordError = nil }
-                .store(in: &cancellables)
-        }
+        $email
+            .dropFirst()
+            .sink { [weak self] _ in self?.emailError = nil }
+            .store(in: &cancellables)
+        
+        $fullName
+            .dropFirst()
+            .sink { [weak self] _ in self?.fullNameError = nil }
+            .store(in: &cancellables)
+        
+        $password
+            .dropFirst()
+            .sink { [weak self] _ in
+                self?.passwordError = nil
+                self?.confirmPasswordError = nil // También limpia la confirmación
+            }
+            .store(in: &cancellables)
+        
+        $confirmPassword
+            .dropFirst()
+            .sink { [weak self] _ in self?.confirmPasswordError = nil }
+            .store(in: &cancellables)
+    }
     
     private func resetForm() {
         email = ""

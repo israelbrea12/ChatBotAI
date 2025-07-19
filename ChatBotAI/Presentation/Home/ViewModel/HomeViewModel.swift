@@ -47,6 +47,11 @@ final class HomeViewModel: ObservableObject {
         self.observeUserChatsUseCase = observeUserChatsUseCase
         self.deleteUserChatUseCase = deleteUserChatUseCase
         
+        sessionManager.$currentUser
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.currentUser, on: self)
+            .store(in: &cancellables)
+        
     }
     
     // MARK: - Functions
@@ -137,6 +142,7 @@ final class HomeViewModel: ObservableObject {
         switch result {
         case .success(let user):
             self.currentUser = user
+            self.sessionManager.currentUser = user
             SessionManager.shared.currentUser = user
             print("HomeViewModel: Usuario actual cargado: \(user?.id ?? "")")
             

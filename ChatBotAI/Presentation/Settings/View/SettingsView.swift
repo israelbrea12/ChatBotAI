@@ -7,6 +7,7 @@ struct SettingsView: View {
     
     @State private var showDeleteAlert = false
     @State private var showSignOutAlert = false
+    @State private var showEditProfileSheet = false
     
     var body: some View {
         NavigationStack {
@@ -30,6 +31,11 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
         }
+        .fullScreenCover(isPresented: $showEditProfileSheet) {
+            if let user = settingsViewModel.currentUser {
+                EditProfileView(user: user)
+            }
+        }
     }
     
     private func successView() -> some View {
@@ -41,18 +47,7 @@ struct SettingsView: View {
                 }
                 
                 Section("General") {
-                    listButton()
-                    broadcastButton()
-                    starredButton()
-                    linkedDevicesButton()
-                }
-                
-                Section("Settings") {
-                    accountButton()
-                    privacyButton()
-                    chatsButton()
-                    notificationsButton()
-                    storageButton()
+                    myProfileButton()
                 }
                 
                 Section("Account") {
@@ -66,6 +61,18 @@ struct SettingsView: View {
             }
         }
         .padding(.bottom, 50)
+    }
+    
+    private func loadingView() -> some View {
+        ProgressView()
+    }
+    
+    private func errorView(errorMsg: String) -> some View {
+        InfoView(message: errorMsg)
+    }
+    
+    private func emptyView() -> some View {
+        InfoView(message: "No user data found")
     }
     
     private func userProfile(user: User) -> some View {
@@ -109,13 +116,11 @@ struct SettingsView: View {
         }
     }
     
-    private func versionInfo() -> some View {
-        HStack {
-            SettingsRowView(imageName: "gear", title: "Version", tintColor: Color(.systemGray))
-            Spacer()
-            Text("1.0.0")
-                .font(.subheadline)
-                .foregroundColor(.gray)
+    private func myProfileButton() -> some View {
+        Button(action: {
+            showEditProfileSheet = true
+        }) {
+            SettingsRowView(imageName: "pencil.and.scribble", title: "Edit profile", tintColor: .black)
         }
     }
     
@@ -150,56 +155,8 @@ struct SettingsView: View {
             }
         }
     }
-    
-    private func listButton() -> some View {
-        SettingsRowView(imageName: "person.crop.rectangle.stack", title: "Chats", tintColor: .black)
-    }
-        
-    private func broadcastButton() -> some View {
-        SettingsRowView(imageName: "megaphone", title: "Broadcast Lists", tintColor: .black)
-    }
-        
-    private func starredButton() -> some View {
-        SettingsRowView(imageName: "star", title: "Starred Messages", tintColor: .black)
-    }
-        
-    private func linkedDevicesButton() -> some View {
-        SettingsRowView(imageName: "laptopcomputer", title: "Linked Devices", tintColor: .black).symbolRenderingMode(.monochrome)
-    }
-        
-    private func accountButton() -> some View {
-            SettingsRowView(imageName: "key", title: "Account", tintColor: .black)
-    }
-        
-    private func privacyButton() -> some View {
-            SettingsRowView(imageName: "lock", title: "Privacy", tintColor: .black)
-    }
-        
-    private func chatsButton() -> some View {
-            SettingsRowView(imageName: "message", title: "Chats", tintColor: .black)
-    }
-        
-    private func notificationsButton() -> some View {
-            SettingsRowView(imageName: "bell", title: "Notifications", tintColor: .black)
-    }
-        
-    private func storageButton() -> some View {
-            SettingsRowView(imageName: "arrow.up.arrow.down", title: "Storage and Data", tintColor: .black)
-    }
         
     private func helpButton() -> some View {
         SettingsRowView(imageName: "info.circle", title: "Help", tintColor: .black)
-    }
-    
-    private func loadingView() -> some View {
-        ProgressView()
-    }
-    
-    private func errorView(errorMsg: String) -> some View {
-        InfoView(message: errorMsg)
-    }
-    
-    private func emptyView() -> some View {
-        InfoView(message: "No user data found")
     }
 }

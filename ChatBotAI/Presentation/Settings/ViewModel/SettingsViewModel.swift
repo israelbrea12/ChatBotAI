@@ -35,6 +35,11 @@ class SettingsViewModel: ObservableObject {
         self.fetchUserUseCase = fetchUserUseCase
         self.deleteAccountUseCase = deleteAccountUseCase
         
+        sessionManager.$currentUser
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.currentUser, on: self)
+            .store(in: &cancellables)
+        
         sessionManager.$userSession
             .receive(on: DispatchQueue.main)
             .sink { [weak self] user in
@@ -78,7 +83,7 @@ class SettingsViewModel: ObservableObject {
         switch result {
         case .success(let user):
             DispatchQueue.main.async {
-                self.currentUser = user
+                self.sessionManager.currentUser = user
                 self.state = .success
             }
         case .failure(let error):
@@ -96,13 +101,11 @@ class SettingsViewModel: ObservableObject {
         
         switch result {
         case .success:
-            // 3. Limpiar la sesión local
             DispatchQueue.main.async {
                 SessionManager.shared.userSession = nil
                 SessionManager.shared.currentUser = nil
             }
         case .failure(let error):
-            // 4. Manejar errores en la UI
             print("DEBUG: Error deleting account from ViewModel: \(error.localizedDescription)")
         }
     }

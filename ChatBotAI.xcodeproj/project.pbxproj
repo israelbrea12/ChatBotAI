@@ -132,6 +132,10 @@
 		40DEB2222E2956C10039134C /* UpdateChatLastMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB2212E2956C10039134C /* UpdateChatLastMessageParams.swift */; };
 		40DEB2242E295A370039134C /* GetLastMessageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB2232E295A370039134C /* GetLastMessageUseCase.swift */; };
 		40DEB2262E295A580039134C /* GetLastMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DEB2252E295A580039134C /* GetLastMessageParams.swift */; };
+		40E2352A2E2BFC1B00452CA2 /* UpdateUserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E235292E2BFC1B00452CA2 /* UpdateUserUseCase.swift */; };
+		40E2352C2E2BFC2F00452CA2 /* UpdateUserParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2352B2E2BFC2F00452CA2 /* UpdateUserParams.swift */; };
+		40E235312E2BFCC800452CA2 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E235302E2BFCC800452CA2 /* EditProfileViewModel.swift */; };
+		40E235332E2BFCD800452CA2 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E235322E2BFCD800452CA2 /* EditProfileView.swift */; };
 		40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */; };
 		40F35FCD2D99DFBF0078BE23 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCC2D99DFBF0078BE23 /* GoogleSignIn */; };
 		40F35FCF2D99DFBF0078BE23 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCE2D99DFBF0078BE23 /* GoogleSignInSwift */; };
@@ -304,6 +308,10 @@
 		40DEB2212E2956C10039134C /* UpdateChatLastMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChatLastMessageParams.swift; sourceTree = "<group>"; };
 		40DEB2232E295A370039134C /* GetLastMessageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLastMessageUseCase.swift; sourceTree = "<group>"; };
 		40DEB2252E295A580039134C /* GetLastMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetLastMessageParams.swift; sourceTree = "<group>"; };
+		40E235292E2BFC1B00452CA2 /* UpdateUserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserUseCase.swift; sourceTree = "<group>"; };
+		40E2352B2E2BFC2F00452CA2 /* UpdateUserParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserParams.swift; sourceTree = "<group>"; };
+		40E235302E2BFCC800452CA2 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		40E235322E2BFCD800452CA2 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllUsersExceptCurrentUseCase.swift; sourceTree = "<group>"; };
 		40F35FD22D99E1C80078BE23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleUseCase.swift; sourceTree = "<group>"; };
@@ -746,6 +754,7 @@
 			children = (
 				40D384CD2D843A7700406AC1 /* User.swift */,
 				40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */,
+				40E2352B2E2BFC2F00452CA2 /* UpdateUserParams.swift */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -898,6 +907,7 @@
 				402CB7F82D949490008EAEF0 /* ChatLog */,
 				40D384E02D843A7700406AC1 /* Home */,
 				40D384E42D843A7700406AC1 /* Settings */,
+				40E2352D2E2BFC9D00452CA2 /* EditProfile */,
 				400B9D332E017F9E007DFF50 /* ImageDetail */,
 				408CA9632DECD591000C0FAD /* ImagePreview */,
 				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
@@ -1046,6 +1056,31 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		40E2352D2E2BFC9D00452CA2 /* EditProfile */ = {
+			isa = PBXGroup;
+			children = (
+				40E2352E2E2BFCBB00452CA2 /* View */,
+				40E2352F2E2BFCC100452CA2 /* ViewModel */,
+			);
+			path = EditProfile;
+			sourceTree = "<group>";
+		};
+		40E2352E2E2BFCBB00452CA2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				40E235322E2BFCD800452CA2 /* EditProfileView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		40E2352F2E2BFCC100452CA2 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				40E235302E2BFCC800452CA2 /* EditProfileViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		40F35FF52D9DB5300078BE23 /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -1094,6 +1129,7 @@
 				40D3852F2D84ECC000406AC1 /* FetchUserUseCase.swift */,
 				40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */,
 				40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */,
+				40E235292E2BFC1B00452CA2 /* UpdateUserUseCase.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1391,8 +1427,10 @@
 				400B9D2A2E017DE5007DFF50 /* HeroKey.swift in Sources */,
 				408685352DD6265700D5832D /* ChatBotRepository.swift in Sources */,
 				4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */,
+				40E2352A2E2BFC1B00452CA2 /* UpdateUserUseCase.swift in Sources */,
 				408685372DD6267D00D5832D /* ChatBotRepositoryImpl.swift in Sources */,
 				40D384F62D843A7700406AC1 /* ChatBotIAViewModel.swift in Sources */,
+				40E235312E2BFCC800452CA2 /* EditProfileViewModel.swift in Sources */,
 				408A39372E17D732009AA8DC /* SendPasswordResetUseCase.swift in Sources */,
 				4086853E2DD62C5400D5832D /* MessageBubble.swift in Sources */,
 				402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */,
@@ -1456,6 +1494,7 @@
 				401581EF2DDFB1E8001789E9 /* RolePlaySetupView.swift in Sources */,
 				40D3852A2D84E9C300406AC1 /* NetworkExtensions.swift in Sources */,
 				40D3852C2D84EC7700406AC1 /* SignUpUseCase.swift in Sources */,
+				40E2352C2E2BFC2F00452CA2 /* UpdateUserParams.swift in Sources */,
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
 				400B9D4D2E0344BD007DFF50 /* AuthView.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
@@ -1469,6 +1508,7 @@
 				408CA9662DECD5A9000C0FAD /* ImagePreviewView.swift in Sources */,
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
+				40E235332E2BFCD800452CA2 /* EditProfileView.swift in Sources */,
 				408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
 				40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */,
