@@ -16,7 +16,6 @@ struct EditProfileView: View {
     @StateObject var editProfileViewModel: EditProfileViewModel
     @Environment(\.dismiss) var dismiss
         
-        // --- MODIFICA EL INIT PARA QUE QUEDE ASÍ ---
     init(user: User) {
         _editProfileViewModel = StateObject(wrappedValue: Resolver.shared.resolve(EditProfileViewModel.self, arguments: user))
     }
@@ -29,7 +28,6 @@ struct EditProfileView: View {
                         HStack {
                             Spacer()
                             VStack {
-                                // ImagePickerView es la misma que usas en el registro
                                 ImagePickerSettingsView(
                                     image: $editProfileViewModel.selectedImage,
                                     currentImageUrl: editProfileViewModel.profileImageUrl
@@ -100,17 +98,14 @@ struct ImagePickerSettingsView: View {
     @Binding var image: UIImage?
     var currentImageUrl: String?
     
-    // 1. Añade un estado para el item seleccionado por PhotosPicker
     @State private var selectedPhotoItem: PhotosPickerItem?
     
     var body: some View {
-        // 2. Envuelve la vista de la imagen en PhotosPicker
         PhotosPicker(
             selection: $selectedPhotoItem,
-            matching: .images, // Filtramos para que solo se puedan seleccionar imágenes
+            matching: .images,
             photoLibrary: .shared()
         ) {
-            // El "label" del picker es tu vista de imagen actual, no necesita cambios
             if let selectedImage = image {
                 Image(uiImage: selectedImage)
                     .resizable()
@@ -129,13 +124,9 @@ struct ImagePickerSettingsView: View {
                     .clipShape(Circle())
             }
         }
-        // 3. Añade el modificador .onChange para procesar la selección
         .onChange(of: selectedPhotoItem) { newItem in
             Task {
-                // Intentamos cargar los datos de la imagen desde el item seleccionado
                 if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                    // Si tenemos datos, creamos la UIImage y la asignamos
-                    // a nuestro binding, asegurándonos de hacerlo en el hilo principal.
                     await MainActor.run {
                         image = UIImage(data: data)
                     }

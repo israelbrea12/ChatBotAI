@@ -49,53 +49,53 @@ class RegistrationViewModel: ObservableObject {
 
     // MARK: - Functions
     func createUser() async {
-            guard validateForm() else { return }
-
-            isLoading = true
-            let result = await signUpUseCase.execute(
-                with: SignUpParam(email: email, fullName: fullName, password: password),
-                profileImage: self.image
-            )
-            isLoading = false
-
-            switch result {
-            case .success(let user):
-                print("DEBUG: Usuario registrado exitosamente: \(user.email ?? "")")
-                SessionManager.shared.userSession = Auth.auth().currentUser
-                PresenceManager.shared.setupPresence()
-                self.resetForm()
-            case .failure(let error):
-                self.authenticationError = error
-                print("DEBUG: Error al registrar usuario: \(error.localizedDescription)")
-            }
+        guard validateForm() else { return }
+        
+        isLoading = true
+        let result = await signUpUseCase.execute(
+            with: SignUpParam(email: email, fullName: fullName, password: password),
+            profileImage: self.image
+        )
+        isLoading = false
+        
+        switch result {
+        case .success(let user):
+            print("DEBUG: Usuario registrado exitosamente: \(user.email ?? "")")
+            SessionManager.shared.userSession = Auth.auth().currentUser
+            PresenceManager.shared.setupPresence()
+            self.resetForm()
+        case .failure(let error):
+            self.authenticationError = error
+            print("DEBUG: Error al registrar usuario: \(error.localizedDescription)")
         }
+    }
     
     private func validateForm() -> Bool {
-            var isValid = true
-            authenticationError = nil
-
-            if !email.contains("@") {
-                emailError = "El formato del email no es válido."
-                isValid = false
-            }
-            
-            if fullName.count <= 2 {
-                fullNameError = "El nombre debe tener al menos 3 caracteres."
-                isValid = false
-            }
-            
-            if password.count <= 5 {
-                passwordError = "La contraseña debe tener al menos 6 caracteres."
-                isValid = false
-            }
-            
-            if password != confirmPassword {
-                confirmPasswordError = "Las contraseñas no coinciden."
-                isValid = false
-            }
-            
-            return isValid
+        var isValid = true
+        authenticationError = nil
+        
+        if !email.contains("@") {
+            emailError = "El formato del email no es válido."
+            isValid = false
         }
+        
+        if fullName.count <= 2 {
+            fullNameError = "El nombre debe tener al menos 3 caracteres."
+            isValid = false
+        }
+        
+        if password.count <= 5 {
+            passwordError = "La contraseña debe tener al menos 6 caracteres."
+            isValid = false
+        }
+        
+        if password != confirmPassword {
+            confirmPasswordError = "Las contraseñas no coinciden."
+            isValid = false
+        }
+        
+        return isValid
+    }
     
     private func clearErrorsOnEdit() {
         $email
@@ -112,8 +112,7 @@ class RegistrationViewModel: ObservableObject {
             .dropFirst()
             .sink { [weak self] _ in
                 self?.passwordError = nil
-                self?.confirmPasswordError = nil // También limpia la confirmación
-            }
+                self?.confirmPasswordError = nil }
             .store(in: &cancellables)
         
         $confirmPassword

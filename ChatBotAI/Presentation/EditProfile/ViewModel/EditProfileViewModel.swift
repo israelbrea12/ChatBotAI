@@ -5,9 +5,6 @@
 //  Created by Israel Brea Piñero on 19/7/25.
 //
 
-
-// Create a new file: EditProfileViewModel.swift
-
 import Foundation
 import UIKit
 import Combine
