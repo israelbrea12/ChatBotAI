@@ -5,6 +5,7 @@
 //  Created by Israel Brea Piñero on 22/5/25.
 //
 
+import SwiftUI
 
 enum ChatMode: Hashable, Equatable {
     case classicConversation
@@ -125,33 +126,34 @@ enum ChatMode: Hashable, Equatable {
     var titleForChatView: String {
         switch self {
         case .classicConversation:
-            return "Modo Clásico"
+            return NSLocalizedString("title_classic_mode", comment: "")
         case .textImprovement:
-            return "Modo Corrección y Mejoras"
+            return NSLocalizedString("title_correction_mode", comment: "")
         case .rolePlay(let userRole, _, let scenario):
             if userRole.isEmpty && scenario.isEmpty {
-                            return "Modo Role Play"
-                        } else if scenario.isEmpty {
-                            return "Role Play: \(userRole)"
-                        }
-                        // Podrías incluso acortar el escenario si es muy largo para el título
-                        let shortScenario = scenario.count > 20 ? String(scenario.prefix(20)) + "..." : scenario
-                        return shortScenario // O "Role Play: \(shortScenario)"
+                return NSLocalizedString("title_role_play_mode", comment: "")
+            } else if scenario.isEmpty {
+                let format = NSLocalizedString("title_role_play_user", comment: "")
+                return String(format: format, userRole)
+            }
+            let shortScenario = scenario.count > 20 ? String(scenario.prefix(20)) + "..." : scenario
+            return shortScenario
         case .grammarHelp:
-            return "Modo Gramática"
+            return NSLocalizedString("title_grammar_mode", comment: "")
         }
     }
 
     var subtitleForChatView: String {
         switch self {
         case .classicConversation:
-            return "Prueba a iniciar una conversación sobre cualquier tema que te interese."
+            return NSLocalizedString("subtitle_classic_mode", comment: "")
         case .textImprovement:
-            return "Envía un texto en cualquier idioma y mira cómo se puede mejorar."
+            return NSLocalizedString("subtitle_correction_mode", comment: "")
         case .rolePlay(_, _, let scenario):
-            return "Estás en el escenario: \"\(scenario)\". ¡Empieza la actuación!"
+            let format = NSLocalizedString("subtitle_role_play_mode", comment: "")
+            return String(format: format, scenario)
         case .grammarHelp:
-            return "Escribe tu duda sobre gramática inglesa y te ayudaré a entenderla."
+            return NSLocalizedString("subtitle_grammar_mode", comment: "")
         }
     }
 }

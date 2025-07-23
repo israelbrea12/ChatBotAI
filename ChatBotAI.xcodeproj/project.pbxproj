@@ -27,8 +27,8 @@
 		402CB7FD2D9494C6008EAEF0 /* ChatLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB7FC2D9494C6008EAEF0 /* ChatLogView.swift */; };
 		402CB7FF2D949C7E008EAEF0 /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */; };
 		402CB8012D94A369008EAEF0 /* ChatLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB8002D94A369008EAEF0 /* ChatLogViewModel.swift */; };
-		402CB8032D94B591008EAEF0 /* ChatLogBottomBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB8022D94B591008EAEF0 /* ChatLogBottomBar.swift */; };
 		402CB8062D94B748008EAEF0 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 402CB8052D94B748008EAEF0 /* MessagesView.swift */; };
+		404C14C62E2FA1B4001ECD7D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 404C14C52E2FA1B4001ECD7D /* Localizable.xcstrings */; };
 		4053F7C32D85CFB50082785E /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 4053F7C22D85CFB50082785E /* Swinject */; };
 		4053F7C52D8730990082785E /* AuthenticationFormProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */; };
 		4053F7C72D8736F20082785E /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4053F7C62D8736F20082785E /* SessionManager.swift */; };
@@ -211,8 +211,8 @@
 		402CB7FC2D9494C6008EAEF0 /* ChatLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogView.swift; sourceTree = "<group>"; };
 		402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		402CB8002D94A369008EAEF0 /* ChatLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogViewModel.swift; sourceTree = "<group>"; };
-		402CB8022D94B591008EAEF0 /* ChatLogBottomBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogBottomBar.swift; sourceTree = "<group>"; };
 		402CB8052D94B748008EAEF0 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		404C14C52E2FA1B4001ECD7D /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		4053F7C42D87308D0082785E /* AuthenticationFormProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationFormProtocol.swift; sourceTree = "<group>"; };
 		4053F7C62D8736F20082785E /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		4057DB842D8B492A00D2E2B0 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
@@ -540,7 +540,6 @@
 		402CB8042D94B721008EAEF0 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				402CB8022D94B591008EAEF0 /* ChatLogBottomBar.swift */,
 				40F360D62DA52E7E0078BE23 /* MessageBubbleView.swift */,
 				402CB8052D94B748008EAEF0 /* MessagesView.swift */,
 			);
@@ -932,6 +931,7 @@
 				4086851F2DD2B9B900D5832D /* GenerativeAI-Info.plist */,
 				408685202DD2B9B900D5832D /* GoogleService-Info.plist */,
 				40F35FD22D99E1C80078BE23 /* Info.plist */,
+				404C14C52E2FA1B4001ECD7D /* Localizable.xcstrings */,
 			);
 			path = ChatBotAI;
 			sourceTree = "<group>";
@@ -1325,6 +1325,8 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
+				fr,
 			);
 			mainGroup = 40956E112D805F8C00307A53;
 			minimizedProjectReferenceProxies = 1;
@@ -1355,6 +1357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				40D385042D843A7700406AC1 /* Preview Assets.xcassets in Resources */,
+				404C14C62E2FA1B4001ECD7D /* Localizable.xcstrings in Resources */,
 				40D385052D843A7700406AC1 /* Assets.xcassets in Resources */,
 				408685212DD2B9B900D5832D /* GoogleService-Info.plist in Resources */,
 				408685222DD2B9B900D5832D /* GenerativeAI-Info.plist in Resources */,
@@ -1400,7 +1403,6 @@
 				40DEB21E2E294A8E0039134C /* EditingMessageBar.swift in Sources */,
 				408CA9702DEDEAA4000C0FAD /* FloatingTabView.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
-				402CB8032D94B591008EAEF0 /* ChatLogBottomBar.swift in Sources */,
 				408685492DD8098F00D5832D /* CustomAlert.swift in Sources */,
 				40D385302D84ECC000406AC1 /* FetchUserUseCase.swift in Sources */,
 				40D3850A2D84DD8000406AC1 /* AuthRepository.swift in Sources */,
@@ -1621,6 +1623,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1677,6 +1680,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

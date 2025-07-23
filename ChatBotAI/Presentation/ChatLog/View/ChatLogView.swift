@@ -42,6 +42,7 @@ struct ChatLogView: View {
                             errorView(errorMsg: errorMessage)
                         }
                     }
+                    .ignoresSafeArea(.keyboard, edges: .bottom)
                     .navigationTitle("\(user?.fullName ?? "")")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
@@ -76,8 +77,8 @@ struct ChatLogView: View {
                 }
             }
             .onChange(of: chatLogViewModel.messages) { _, newMessages in
-                        coordinator.setup(messages: newMessages)
-                    }
+                coordinator.setup(messages: newMessages)
+            }
             .allowsHitTesting(coordinator.selectedMessage == nil)
             .safeAreaInset(edge: .bottom) {
                 if let editingMessage = chatLogViewModel.editingMessage {

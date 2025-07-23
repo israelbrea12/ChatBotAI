@@ -22,21 +22,21 @@ struct ChatBotIAView: View {
             VStack(spacing: 0) {
                 // ... (tu lógica de "En qué puedo ayudarte?")
                 if !chatBotIAViewModel.hasStartedChatting && chatBotIAViewModel.messages.isEmpty {
-                                        VStack(spacing: 8) {
-                                            Text(chatBotIAViewModel.currentNavigationTitle)
-                                                .font(.title2)
-                                                .fontWeight(.semibold)
-                                                .multilineTextAlignment(.center)
-                                            
-                                            Text(chatBotIAViewModel.currentPlaceholderSubtitle)
-                                                .font(.subheadline)
-                                                .foregroundColor(.secondary)
-                                                .multilineTextAlignment(.center)
-                                                .padding(.horizontal)
-                                        }
-                                        .padding(.top)
-                                        .padding(.bottom)
-                                    }
+                    VStack(spacing: 8) {
+                        Text(chatBotIAViewModel.currentNavigationTitle)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.center)
+                        
+                        Text(chatBotIAViewModel.currentPlaceholderSubtitle)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal)
+                    }
+                    .padding(.top)
+                    .padding(.bottom)
+                }
                 
                 
                 ScrollView {

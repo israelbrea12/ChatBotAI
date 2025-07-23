@@ -20,7 +20,7 @@ enum AppTab: String, CaseIterable, FLoatingTabProtocol {
         }
     }
     
-    var tabTitle: String {
+    var tabTitle: LocalizedStringKey {
         switch self {
         case .home: "Chats"
         case .chatbot: "ChatBotIA"

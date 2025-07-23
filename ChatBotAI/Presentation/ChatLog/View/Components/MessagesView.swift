@@ -120,6 +120,9 @@ struct MessagesView: View {
                     scrollToBottom(proxy: proxy, animated: false)
                 }
             }
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification)) { _ in
+                scrollToBottom(proxy: proxy, animated: true)
+            }
             .onChange(of: messages.count) {
                 scrollToBottom(proxy: proxy)
             }

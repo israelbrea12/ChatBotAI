@@ -11,7 +11,7 @@ import SwiftUI
 struct CustomTF: View {
     var sfIcon: String
     var iconTint: Color = .gray
-    var hint: String
+    var hint: LocalizedStringKey
     var isPassword: Bool = false
     @Binding var value: String
     var error: String?

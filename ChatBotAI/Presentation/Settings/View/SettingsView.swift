@@ -131,8 +131,8 @@ struct SettingsView: View {
             SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out", tintColor: .red)
         }
         .alert("¿Seguro que quieres cerrar sesión?", isPresented: $showSignOutAlert) {
-            Button("Cancelar", role: .cancel) { }
-            Button("Cerrar sesión", role: .destructive) {
+            Button("Cancel", role: .cancel) { }
+            Button("Sign out", role: .destructive) {
                 Task {
                     settingsViewModel.signOut()
                 }
@@ -147,8 +147,8 @@ struct SettingsView: View {
             SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
         }
         .alert("¿Seguro que quieres eliminar tu cuenta?", isPresented: $showDeleteAlert) {
-            Button("Cancelar", role: .cancel) { }
-            Button("Eliminar", role: .destructive) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
                 Task {
                     await settingsViewModel.deleteAccount()
                 }

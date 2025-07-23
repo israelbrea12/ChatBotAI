@@ -10,8 +10,16 @@ import SwiftUI
 
 struct ModeOption: Identifiable, Hashable {
     let id = UUID()
-    let title: String
-    let description: String
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey
     let imageName: String
     let navigationRoute: NavigationChatBotIARoute
+    
+    static func == (lhs: ModeOption, rhs: ModeOption) -> Bool {
+        lhs.id == rhs.id
+    }
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }

@@ -11,7 +11,7 @@
 import SwiftUI
 
 struct GradientButton: View {
-    var title: String
+    var title: LocalizedStringKey
     var icon: String
     var onClick: () -> ()
     var body: some View {
