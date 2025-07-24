@@ -172,6 +172,9 @@
 		40F360CF2DA481AF0078BE23 /* SendMessageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */; };
 		40F360D52DA52D200078BE23 /* fetchMessagesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D42DA52D200078BE23 /* fetchMessagesUseCase.swift */; };
 		40F360D72DA52E7E0078BE23 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F360D62DA52E7E0078BE23 /* MessageBubbleView.swift */; };
+		40FC6D0C2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D0B2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift */; };
+		40FC6D3C2E3227690057F614 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3B2E3227690057F614 /* Language.swift */; };
+		40FC6D3E2E3227800057F614 /* LanguageOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,6 +351,9 @@
 		40F360CE2DA481AF0078BE23 /* SendMessageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendMessageParams.swift; sourceTree = "<group>"; };
 		40F360D42DA52D200078BE23 /* fetchMessagesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchMessagesUseCase.swift; sourceTree = "<group>"; };
 		40F360D62DA52E7E0078BE23 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
+		40FC6D0B2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserLearningLanguageUseCase.swift; sourceTree = "<group>"; };
+		40FC6D3B2E3227690057F614 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageOnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -761,6 +767,7 @@
 		40D384CF2D843A7700406AC1 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				40FC6D3B2E3227690057F614 /* Language.swift */,
 				40D385132D84E00700406AC1 /* Auth */,
 				40D384CE2D843A7700406AC1 /* Users */,
 				40F3602F2D9F01380078BE23 /* Chats */,
@@ -901,6 +908,7 @@
 			children = (
 				40D384EA2D843A7700406AC1 /* ViewState.swift */,
 				40D384E92D843A7700406AC1 /* MainView.swift */,
+				40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */,
 				40D384D82D843A7700406AC1 /* Authentication */,
 				40D384DC2D843A7700406AC1 /* ChatBotIA */,
 				402CB7F82D949490008EAEF0 /* ChatLog */,
@@ -1130,6 +1138,7 @@
 				40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */,
 				40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */,
 				40E235292E2BFC1B00452CA2 /* UpdateUserUseCase.swift */,
+				40FC6D0B2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1410,6 +1419,7 @@
 				4057DC012D8CCE8700D2E2B0 /* NewMessageView.swift in Sources */,
 				40D384F42D843A7700406AC1 /* RegistrationView.swift in Sources */,
 				40F360362D9F02180078BE23 /* ChatMapper.swift in Sources */,
+				40FC6D3C2E3227690057F614 /* Language.swift in Sources */,
 				408685392DD6269C00D5832D /* ChatBotDataSource.swift in Sources */,
 				408685312DD6257A00D5832D /* SendMessageToChatbotUseCase.swift in Sources */,
 				40F360092D9DC3A80078BE23 /* UserDataSource.swift in Sources */,
@@ -1479,6 +1489,7 @@
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,
 				40F360D72DA52E7E0078BE23 /* MessageBubbleView.swift in Sources */,
 				408685592DDA4D2E00D5832D /* DeleteUserChatParams.swift in Sources */,
+				40FC6D0C2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift in Sources */,
 				400B9D502E034528007DFF50 /* ForgotPasswordView.swift in Sources */,
 				40F3600F2D9DCD0E0078BE23 /* AppleSignInDelegate.swift in Sources */,
 				40F360312D9F014D0078BE23 /* Chat.swift in Sources */,
@@ -1500,6 +1511,7 @@
 				40F35FD62D99F19A0078BE23 /* DeleteAccountUseCase.swift in Sources */,
 				400B9D4D2E0344BD007DFF50 /* AuthView.swift in Sources */,
 				40D384FE2D843A7700406AC1 /* SettingsRowView.swift in Sources */,
+				40FC6D3E2E3227800057F614 /* LanguageOnboardingView.swift in Sources */,
 				40DEB2242E295A370039134C /* GetLastMessageUseCase.swift in Sources */,
 				408685402DD62C6200D5832D /* MessageInputView.swift in Sources */,
 				4084BFA32E006802001CB621 /* Utils.swift in Sources */,

@@ -68,22 +68,29 @@ struct HomeView: View {
             }
         }
         .onAppear {
-                    print("HomeView: .onAppear - llamando a homeViewModel.setupViewModel()")
-                    homeViewModel.setupViewModel()
-                    // When HomeView appears, set tab bar based on current navigation state
-                    internalHideTabBarState = homeViewModel.shouldNavigateToChatLogView
+            print("HomeView: .onAppear - llamando a homeViewModel.setupViewModel()")
+            homeViewModel.setupViewModel()
+            // When HomeView appears, set tab bar based on current navigation state
+            internalHideTabBarState = homeViewModel.shouldNavigateToChatLogView
+        }
+        .onDisappear {
+            print("HomeView: .onDisappear - llamando a homeViewModel.stopAllListeners()")
+            homeViewModel.stopAllListeners()
+            // No need to manipulate internalHideTabBarState here directly,
+            // as it's driven by navigation or the active tab's preference.
+        }
+        .sheet(isPresented: $homeViewModel.showLanguageOnboarding) {
+            LanguageOnboardingView { selectedLanguage in
+                Task {
+                    await homeViewModel.saveLearningLanguage(selectedLanguage)
                 }
-                .onDisappear {
-                    print("HomeView: .onDisappear - llamando a homeViewModel.stopAllListeners()")
-                    homeViewModel.stopAllListeners()
-                    // No need to manipulate internalHideTabBarState here directly,
-                    // as it's driven by navigation or the active tab's preference.
-                }
-                .onChange(of: homeViewModel.shouldNavigateToChatLogView) { _, isNavigating in
-                    print("HomeView: shouldNavigateToChatLogView changed to \(isNavigating)")
-                    self.internalHideTabBarState = isNavigating
-                }
-                .hideFloatingTabBar(internalHideTabBarState)
+            }
+        }
+        .onChange(of: homeViewModel.shouldNavigateToChatLogView) { _, isNavigating in
+            print("HomeView: shouldNavigateToChatLogView changed to \(isNavigating)")
+            self.internalHideTabBarState = isNavigating
+        }
+        .hideFloatingTabBar(internalHideTabBarState)
     }
     
     private func successView() -> some View {

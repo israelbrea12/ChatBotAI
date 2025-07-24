@@ -12,18 +12,21 @@ struct UserModel: Codable {
     let email: String?
     let fullName: String?
     let profileImageUrl: String?
+    let learningLanguage: String?
     
     enum CodingKeys: String, CodingKey {
         case uid
         case email
         case fullName
         case profileImageUrl
+        case learningLanguage
     }
     
-    init(uid: String, email: String?, fullName: String?, profileImageUrl: String?) {
+    init(uid: String, email: String?, fullName: String?, profileImageUrl: String?, learningLanguage: String? = nil) {
         self.uid = uid
         self.email = email
         self.fullName = fullName
         self.profileImageUrl = profileImageUrl
+        self.learningLanguage = learningLanguage
     }
 }

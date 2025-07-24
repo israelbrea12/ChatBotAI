@@ -19,6 +19,7 @@ final class HomeViewModel: ObservableObject {
     @Published var chatUsers: [String: User] = [:]
     @Published var isPresentingNewMessageView = false
     @Published var shouldNavigateToChatLogView = false
+    @Published var showLanguageOnboarding = false
     
     // MARK: - Private vars
     private var sessionManager = SessionManager.shared
@@ -31,6 +32,7 @@ final class HomeViewModel: ObservableObject {
     private let fetchUserByIdUseCase: FetchUserByIdUseCase
     private let observeUserChatsUseCase: ObserveUserChatsUseCase
     private let deleteUserChatUseCase: DeleteUserChatUseCase
+    private let updateUserLearningLanguageUseCase: UpdateUserLearningLanguageUseCase
     
     // MARK: - Lifecycle functions
     init(fetchUserUseCase: FetchUserUseCase,
@@ -38,7 +40,8 @@ final class HomeViewModel: ObservableObject {
          fetchUserChatsUseCase: FetchUserChatsUseCase,
          fetchUserByIdUseCase: FetchUserByIdUseCase,
          observeUserChatsUseCase: ObserveUserChatsUseCase,
-         deleteUserChatUseCase: DeleteUserChatUseCase
+         deleteUserChatUseCase: DeleteUserChatUseCase,
+         updateUserLearningLanguageUseCase: UpdateUserLearningLanguageUseCase
     ) {
         self.fetchUserUseCase = fetchUserUseCase
         self.createChatUseCase = createChatUseCase
@@ -46,6 +49,7 @@ final class HomeViewModel: ObservableObject {
         self.fetchUserByIdUseCase = fetchUserByIdUseCase
         self.observeUserChatsUseCase = observeUserChatsUseCase
         self.deleteUserChatUseCase = deleteUserChatUseCase
+        self.updateUserLearningLanguageUseCase = updateUserLearningLanguageUseCase
         
         sessionManager.$currentUser
             .receive(on: DispatchQueue.main)
@@ -144,10 +148,14 @@ final class HomeViewModel: ObservableObject {
             self.currentUser = user
             self.sessionManager.currentUser = user
             SessionManager.shared.currentUser = user
-            print("HomeViewModel: Usuario actual cargado: \(user?.id ?? "")")
+            
+            if let fetchedUser = user {
+                self.showLanguageOnboarding = fetchedUser.learningLanguage == nil
+            }
+            
+            print("HomeViewModel: Usuario actual cargado. ¿Mostrar Onboarding?: \(self.showLanguageOnboarding)")
             
             await self.loadInitialChats()
-            
             self.startObservingUserChats()
             
         case .failure(let error):
@@ -315,5 +323,20 @@ final class HomeViewModel: ObservableObject {
         
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
+    }
+    
+    func saveLearningLanguage(_ language: Language) async {
+        guard self.currentUser != nil else { return }
+        
+        let result = await updateUserLearningLanguageUseCase.execute(language: language.rawValue)
+        
+        switch result {
+        case .success:
+            self.currentUser?.learningLanguage = language.rawValue
+            self.showLanguageOnboarding = false
+            print("✅ Idioma guardado y onboarding ocultado.")
+        case .failure(let error):
+            print("❌ Error al guardar el idioma: \(error.localizedDescription)")
+        }
     }
 }

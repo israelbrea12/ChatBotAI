@@ -376,6 +376,9 @@
         }
       }
     },
+    "Choose your language" : {
+
+    },
     "Clásico" : {
       "localizations" : {
         "en" : {
@@ -441,6 +444,9 @@
           }
         }
       }
+    },
+    "Continue" : {
+
     },
     "Corrección y mejoras" : {
       "localizations" : {
@@ -2205,6 +2211,9 @@
           }
         }
       }
+    },
+    "You can change this at any time in the settings." : {
+
     }
   },
   "version" : "1.0"

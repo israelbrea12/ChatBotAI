@@ -61,4 +61,13 @@ class UserRepositoryImpl: UserRepository {
             return .failure(error.toAppError())
         }
     }
+    
+    func updateUserLearningLanguage(language: String) async -> Result<Void, AppError> {
+        do {
+            try await userDataSource.updateUserLearningLanguage(language: language)
+            return .success(())
+        } catch {
+            return .failure(error.toAppError())
+        }
+    }
 }

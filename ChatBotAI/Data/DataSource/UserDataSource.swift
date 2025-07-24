@@ -17,6 +17,7 @@ protocol UserDataSource {
     func fetchUserById(userId: String) async throws -> UserModel
     func updateUserData(fullName: String?, profileImage: UIImage?) async throws -> UserModel
     func deleteUserData(userId: String) async throws
+    func updateUserLearningLanguage(language: String) async throws
 }
 
 class UserDataSourceImpl: UserDataSource {
@@ -119,5 +120,14 @@ class UserDataSourceImpl: UserDataSource {
         return try await storageRef.downloadURL().absoluteString
     }
 
+    func updateUserLearningLanguage(language: String) async throws {
+        guard let userId = await SessionManager.shared.userSession?.uid else {
+            throw AppError.authenticationError("Unauthorized")
+        }
+        
+        let ref = Database.database().reference().child("users").child(userId)
+        try await ref.updateChildValues(["learningLanguage": language])
+        print("✅ Idioma de aprendizaje actualizado en Firebase para el usuario: \(userId)")
+    }
 }
 

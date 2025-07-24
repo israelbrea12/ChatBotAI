@@ -9,11 +9,12 @@
 
 import Foundation
 
-struct User: Identifiable, Codable {
+struct User: Identifiable, Codable, Hashable {
     let id: String
     let fullName: String?
     let email: String?
     let profileImageUrl: String?
+    var learningLanguage: String?
 
     var initials: String {
         let formatter = PersonNameComponentsFormatter()

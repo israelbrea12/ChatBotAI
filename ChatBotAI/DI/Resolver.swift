@@ -287,6 +287,12 @@ extension Resolver {
                 userRepository: resolver.resolve(UserRepository.self)!
             )
         }.inObjectScope(.container)
+        
+        container.register(UpdateUserLearningLanguageUseCase.self) { resolver in
+            UpdateUserLearningLanguageUseCase(
+                userRepository: resolver.resolve(UserRepository.self)!
+            )
+        }.inObjectScope(.container)
     }
 
 }
@@ -328,7 +334,8 @@ extension Resolver {
                 fetchUserChatsUseCase: resolver.resolve(FetchUserChatsUseCase.self)!,
                 fetchUserByIdUseCase: resolver.resolve(FetchUserByIdUseCase.self)!,
                 observeUserChatsUseCase: resolver.resolve(ObserveUserChatsUseCase.self)!,
-                deleteUserChatUseCase: resolver.resolve(DeleteUserChatUseCase.self)!
+                deleteUserChatUseCase: resolver.resolve(DeleteUserChatUseCase.self)!,
+                updateUserLearningLanguageUseCase: resolver.resolve(UpdateUserLearningLanguageUseCase.self)!
                 
             )
         }.inObjectScope(.container)
