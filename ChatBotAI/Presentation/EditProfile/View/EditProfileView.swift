@@ -54,6 +54,14 @@ struct EditProfileView: View {
                         }
                     }
                     
+                    Section(header: Text("Preferences")) {
+                        Picker("Learning Language", selection: $editProfileViewModel.learningLanguage) {
+                            ForEach(Language.allCases) { lang in
+                                Text("\(lang.flag) \(lang.fullName)").tag(lang)
+                            }
+                        }
+                    }
+                    
                     if let errorMessage = editProfileViewModel.errorMessage {
                         Section {
                             Text(errorMessage)

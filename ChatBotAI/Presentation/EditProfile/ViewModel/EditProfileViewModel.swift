@@ -17,6 +17,7 @@ class EditProfileViewModel: ObservableObject {
     @Published var email: String
     @Published var profileImageUrl: String?
     @Published var selectedImage: UIImage?
+    @Published var learningLanguage: Language
     
     @Published var isLoading = false
     @Published var errorMessage: String?
@@ -31,13 +32,19 @@ class EditProfileViewModel: ObservableObject {
         self.email = user.email ?? "No email"
         self.profileImageUrl = user.profileImageUrl
         self.updateUserUseCase = updateUserUseCase
+        self.learningLanguage = Language(rawValue: user.learningLanguage ?? "en") ?? .english
     }
     
     func saveChanges() async {
         isLoading = true
         errorMessage = nil
         
-        let params = UpdateUserParams(fullName: fullName, profileImage: selectedImage)
+        let params = UpdateUserParams(
+            fullName: fullName,
+            profileImage: selectedImage,
+            learningLanguage: learningLanguage.rawValue
+        )
+        
         let result = await updateUserUseCase.execute(with: params)
         
         isLoading = false

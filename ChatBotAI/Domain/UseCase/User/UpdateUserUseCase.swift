@@ -15,6 +15,6 @@ struct UpdateUserUseCase {
     }
     
     func execute(with params: UpdateUserParams) async -> Result<User, AppError> {
-        return await userRepository.updateUserData(fullName: params.fullName, profileImage: params.profileImage)
+        return await userRepository.updateUserData(fullName: params.fullName, profileImage: params.profileImage, learningLanguage: params.learningLanguage)
     }
 }

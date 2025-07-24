@@ -15,7 +15,7 @@ protocol UserDataSource {
     func fetchUser() async throws -> UserModel
     func fetchAllUsersExceptCurrent() async throws -> [UserModel]
     func fetchUserById(userId: String) async throws -> UserModel
-    func updateUserData(fullName: String?, profileImage: UIImage?) async throws -> UserModel
+    func updateUserData(fullName: String?, profileImage: UIImage?, learningLanguage: String?) async throws -> UserModel
     func deleteUserData(userId: String) async throws
     func updateUserLearningLanguage(language: String) async throws
 }
@@ -37,7 +37,8 @@ class UserDataSourceImpl: UserDataSource {
             uid: uid,
             email: data["email"] as? String,
             fullName: data["fullName"] as? String,
-            profileImageUrl: data["profileImageUrl"] as? String
+            profileImageUrl: data["profileImageUrl"] as? String,
+            learningLanguage: data["learningLanguage"] as? String
         )
     }
     
@@ -59,7 +60,8 @@ class UserDataSourceImpl: UserDataSource {
                 uid: key,
                 email: value["email"] as? String,
                 fullName: value["fullName"] as? String,
-                profileImageUrl: value["profileImageUrl"] as? String
+                profileImageUrl: value["profileImageUrl"] as? String,
+                learningLanguage: value["learningLanguage"] as? String
             )
         }
     }
@@ -76,11 +78,12 @@ class UserDataSourceImpl: UserDataSource {
             uid: userId,
             email: data["email"] as? String,
             fullName: data["fullName"] as? String,
-            profileImageUrl: data["profileImageUrl"] as? String
+            profileImageUrl: data["profileImageUrl"] as? String,
+            learningLanguage: data["learningLanguage"] as? String
         )
     }
     
-    func updateUserData(fullName: String?, profileImage: UIImage?) async throws -> UserModel {
+    func updateUserData(fullName: String?, profileImage: UIImage?, learningLanguage: String?) async throws -> UserModel {
         guard let uid = await SessionManager.shared.auth.currentUser?.uid else {
             throw AppError.authenticationError("Unauthorized")
         }
@@ -95,6 +98,10 @@ class UserDataSourceImpl: UserDataSource {
         if let image = profileImage {
             let newImageUrl = try await uploadProfileImage(image: image, userId: uid)
             valuesToUpdate["profileImageUrl"] = newImageUrl
+        }
+        
+        if let lang = learningLanguage {
+            valuesToUpdate["learningLanguage"] = lang
         }
         
         if !valuesToUpdate.isEmpty {

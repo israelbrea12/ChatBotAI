@@ -111,6 +111,16 @@
         }
       }
     },
+    "%@ %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        }
+      }
+    },
     "Account" : {
       "localizations" : {
         "en" : {
@@ -1218,6 +1228,9 @@
         }
       }
     },
+    "Learning Language" : {
+
+    },
     "Location" : {
       "localizations" : {
         "en" : {
@@ -1548,6 +1561,9 @@
           }
         }
       }
+    },
+    "Preferences" : {
+
     },
     "Previsualización de imagen" : {
       "localizations" : {
