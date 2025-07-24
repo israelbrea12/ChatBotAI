@@ -54,11 +54,11 @@ extension Date {
             }
             
             if calendar.isDateInYesterday(self) {
-                return "Yesterday"
+                return NSLocalizedString("Yesterday", comment: "Date label for yesterday")
             }
             
             if let days = components.day, days < 7 {
-                formatter.dateFormat = "EEEE" // Ejemplo: Monday, Tuesday...
+                formatter.dateFormat = "EEEE"
                 return formatter.string(from: self)
             }
 
@@ -74,27 +74,26 @@ extension Date {
     }
     
     func whatsappFormattedTimeAgoWithoutAMOrPM() -> String {
+        let formatter = DateFormatter()
+        formatter.locale = .current
+        
+        if Calendar.current.isDateInToday(self) {
+            return NSLocalizedString("Today", comment: "Date label for today")
+        }
+        
+        if Calendar.current.isDateInYesterday(self) {
+            return NSLocalizedString("Yesterday", comment: "Date label for yesterday")
+        }
+        
         let now = Date()
         let calendar = Calendar.current
-        let formatter = DateFormatter()
-
-        let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .year], from: self, to: now)
-        
-        formatter.dateFormat = "HH:mm"
-        if calendar.isDateInToday(self) {
-            return "Hoy"
-        }
-        
-        if calendar.isDateInYesterday(self) {
-            return "Ayer"
-        }
-        
-        if let days = components.day, days < 7 {
+        if let days = calendar.dateComponents([.day], from: self, to: now).day, days < 7 {
             formatter.dateFormat = "EEEE"
             return formatter.string(from: self)
         }
-
-        formatter.dateFormat = "dd/MM/yyyy"
+        
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
         return formatter.string(from: self)
     }
 }

@@ -197,7 +197,7 @@ struct MenuConfig {
 struct MenuAction: Identifiable {
     private(set) var id: String = UUID().uuidString
     var symbolImage: String
-    var text: String
+    var text: LocalizedStringKey
     var action: () -> () = {}
 }
 

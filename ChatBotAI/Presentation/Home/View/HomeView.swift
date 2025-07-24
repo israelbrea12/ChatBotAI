@@ -230,7 +230,6 @@ struct ChatRowLabelView: View {
                     }
                 }
 
-                // VStack for user name and last message
                 VStack(alignment: .leading, spacing: 4) {
                     Text(user.fullName ?? "Usuario desconocido")
                         .font(.system(size: 17, weight: .semibold))
@@ -244,8 +243,6 @@ struct ChatRowLabelView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             } else {
-                // Vista para cuando el usuario no se encuentra (pero el ID existe)
-                // o si otherParticipantId está vacío.
                 Image(systemName: "person.fill")
                     .resizable()
                     .scaledToFit()
@@ -266,9 +263,8 @@ struct ChatRowLabelView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             
-            Spacer() // Pushes content to the left and timestamp to the right
+            Spacer()
 
-            // Timestamp display
             if let timestamp = chat.lastMessageTimestamp ?? chat.createdAt {
                 Text(
                     Date(timeIntervalSince1970: timestamp)

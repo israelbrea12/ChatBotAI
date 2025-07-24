@@ -85,9 +85,9 @@ struct SignUpView: View {
                         .frame(minHeight: geometry.size.height)
                     }
                 }
-                .padding(.vertical, 15)
-                .padding(.horizontal, 25)
             }
+            .padding(.vertical, 15)
+            .padding(.horizontal, 25)
             .toolbar(.hidden, for: .navigationBar)
             .fullScreenCover(isPresented: $registrationViewModel.shouldShowImagePicker) {
                 ImagePickerView(image: $registrationViewModel.image)

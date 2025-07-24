@@ -109,7 +109,7 @@ class ChatLogViewModel: ObservableObject {
     
     private func updatePresenceStatus(presence: Presence) {
         if presence.isOnline {
-            self.userPresenceStatus = "En línea"
+            self.userPresenceStatus = NSLocalizedString("online_status", comment: "User is online")
         } else {
             let date = Date(timeIntervalSince1970: presence.lastSeen)
             let formatter = DateFormatter()
@@ -118,15 +118,18 @@ class ChatLogViewModel: ObservableObject {
             if Calendar.current.isDateInToday(date) {
                 formatter.timeStyle = .short
                 formatter.dateStyle = .none
-                self.userPresenceStatus = "Últ. vez hoy a las \(formatter.string(from: date))"
+                let format = NSLocalizedString("last_seen_today_at", comment: "")
+                self.userPresenceStatus = String(format: format, formatter.string(from: date))
             } else if Calendar.current.isDateInYesterday(date) {
                 formatter.timeStyle = .short
                 formatter.dateStyle = .none
-                self.userPresenceStatus = "Últ. vez ayer a las \(formatter.string(from: date))"
+                let format = NSLocalizedString("last_seen_yesterday_at", comment: "")
+                self.userPresenceStatus = String(format: format, formatter.string(from: date))
             } else {
                 formatter.timeStyle = .short
                 formatter.dateStyle = .short
-                self.userPresenceStatus = "Últ. vez el \(formatter.string(from: date))"
+                let format = NSLocalizedString("last_seen_on_date", comment: "")
+                self.userPresenceStatus = String(format: format, formatter.string(from: date))
             }
         }
     }

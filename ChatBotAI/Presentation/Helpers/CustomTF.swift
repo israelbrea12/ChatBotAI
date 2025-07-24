@@ -24,11 +24,10 @@ struct CustomTF: View {
     }
     
     var body: some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
             Image(systemName: sfIcon)
                 .foregroundStyle(iconTint)
                 .frame(width: 30)
-                .offset(y: 2)
             
             VStack(alignment: .leading, spacing: 4) {
                 ZStack(alignment: .trailing) {
