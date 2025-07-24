@@ -7,15 +7,14 @@
 
 import Foundation
 
-class FetchAllUsersExceptCurrentUseCase: UseCaseProtocol {
-    
+class FetchUsersByLanguageUseCase {
     private let repository: UserRepository
     
     init(repository: UserRepository) {
         self.repository = repository
     }
     
-    func execute(with params: Void) async -> Result<[User?], AppError> {
-        await repository.fetchAllUsersExceptCurrent()
+    func execute(with params: FetchUsersByLanguageParams) async -> Result<[User?], AppError> {
+        return await repository.fetchUsersByLanguage(language: params.language)
     }
 }

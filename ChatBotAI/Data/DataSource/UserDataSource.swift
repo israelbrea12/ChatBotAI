@@ -13,7 +13,7 @@ import UIKit
 
 protocol UserDataSource {
     func fetchUser() async throws -> UserModel
-    func fetchAllUsersExceptCurrent() async throws -> [UserModel]
+    func fetchUsersByLanguage(learningLanguage: String) async throws -> [UserModel]
     func fetchUserById(userId: String) async throws -> UserModel
     func updateUserData(fullName: String?, profileImage: UIImage?, learningLanguage: String?) async throws -> UserModel
     func deleteUserData(userId: String) async throws
@@ -42,20 +42,24 @@ class UserDataSourceImpl: UserDataSource {
         )
     }
     
-    func fetchAllUsersExceptCurrent() async throws -> [UserModel] {
+    func fetchUsersByLanguage(learningLanguage: String) async throws -> [UserModel] {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             throw AppError.authenticationError("Unauthorized")
         }
 
         let ref = Database.database().reference().child("users")
-        let snapshot = try await ref.getData()
-        
+                
+        let query = ref.queryOrdered(byChild: "learningLanguage").queryEqual(toValue: learningLanguage)
+                
+        let snapshot = try await query.getData()
+                
         guard let usersData = snapshot.value as? [String: [String: Any]] else {
-            throw AppError.unknownError("Failed to fetch users")
+            return []
         }
 
         return usersData.compactMap { (key, value) -> UserModel? in
             guard key != currentUserID else { return nil }
+            
             return UserModel(
                 uid: key,
                 email: value["email"] as? String,

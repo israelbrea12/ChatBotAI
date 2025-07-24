@@ -136,7 +136,7 @@
 		40E2352C2E2BFC2F00452CA2 /* UpdateUserParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E2352B2E2BFC2F00452CA2 /* UpdateUserParams.swift */; };
 		40E235312E2BFCC800452CA2 /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E235302E2BFCC800452CA2 /* EditProfileViewModel.swift */; };
 		40E235332E2BFCD800452CA2 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40E235322E2BFCD800452CA2 /* EditProfileView.swift */; };
-		40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */; };
+		40EAF4B22D8D909B00CDC99E /* FetchUsersByLanguageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EAF4B12D8D909B00CDC99E /* FetchUsersByLanguageUseCase.swift */; };
 		40F35FCD2D99DFBF0078BE23 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCC2D99DFBF0078BE23 /* GoogleSignIn */; };
 		40F35FCF2D99DFBF0078BE23 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 40F35FCE2D99DFBF0078BE23 /* GoogleSignInSwift */; };
 		40F35FD42D99E4E60078BE23 /* SignInWithGoogleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */; };
@@ -175,6 +175,7 @@
 		40FC6D0C2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D0B2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift */; };
 		40FC6D3C2E3227690057F614 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3B2E3227690057F614 /* Language.swift */; };
 		40FC6D3E2E3227800057F614 /* LanguageOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */; };
+		40FC6D402E323B380057F614 /* FetchUsersByLanguageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -315,7 +316,7 @@
 		40E2352B2E2BFC2F00452CA2 /* UpdateUserParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserParams.swift; sourceTree = "<group>"; };
 		40E235302E2BFCC800452CA2 /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		40E235322E2BFCD800452CA2 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
-		40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchAllUsersExceptCurrentUseCase.swift; sourceTree = "<group>"; };
+		40EAF4B12D8D909B00CDC99E /* FetchUsersByLanguageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUsersByLanguageUseCase.swift; sourceTree = "<group>"; };
 		40F35FD22D99E1C80078BE23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		40F35FD32D99E4E60078BE23 /* SignInWithGoogleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInWithGoogleUseCase.swift; sourceTree = "<group>"; };
 		40F35FD52D99F19A0078BE23 /* DeleteAccountUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteAccountUseCase.swift; sourceTree = "<group>"; };
@@ -354,6 +355,7 @@
 		40FC6D0B2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateUserLearningLanguageUseCase.swift; sourceTree = "<group>"; };
 		40FC6D3B2E3227690057F614 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageOnboardingView.swift; sourceTree = "<group>"; };
+		40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUsersByLanguageParams.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -760,6 +762,7 @@
 				40D384CD2D843A7700406AC1 /* User.swift */,
 				40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */,
 				40E2352B2E2BFC2F00452CA2 /* UpdateUserParams.swift */,
+				40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -1135,7 +1138,7 @@
 			isa = PBXGroup;
 			children = (
 				40D3852F2D84ECC000406AC1 /* FetchUserUseCase.swift */,
-				40EAF4B12D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift */,
+				40EAF4B12D8D909B00CDC99E /* FetchUsersByLanguageUseCase.swift */,
 				40F360482D9FD8FB0078BE23 /* FetchUserByIdUseCase.swift */,
 				40E235292E2BFC1B00452CA2 /* UpdateUserUseCase.swift */,
 				40FC6D0B2E3226C20057F614 /* UpdateUserLearningLanguageUseCase.swift */,
@@ -1410,6 +1413,7 @@
 				40F3603F2D9F08590078BE23 /* ChatRepositoryImpl.swift in Sources */,
 				40F360392D9F04380078BE23 /* CreateChatUseCase.swift in Sources */,
 				40DEB21E2E294A8E0039134C /* EditingMessageBar.swift in Sources */,
+				40FC6D402E323B380057F614 /* FetchUsersByLanguageParams.swift in Sources */,
 				408CA9702DEDEAA4000C0FAD /* FloatingTabView.swift in Sources */,
 				40D385102D84DF2200406AC1 /* SignInUseCase.swift in Sources */,
 				408685492DD8098F00D5832D /* CustomAlert.swift in Sources */,
@@ -1525,7 +1529,7 @@
 				40E235332E2BFCD800452CA2 /* EditProfileView.swift in Sources */,
 				408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
-				40EAF4B22D8D909B00CDC99E /* FetchAllUsersExceptCurrentUseCase.swift in Sources */,
+				40EAF4B22D8D909B00CDC99E /* FetchUsersByLanguageUseCase.swift in Sources */,
 				408CA9522DECC104000C0FAD /* MessageType.swift in Sources */,
 				40F360CD2DA47FF80078BE23 /* MessageDataSource.swift in Sources */,
 				40DEB21C2E2941CC0039134C /* EditMessageParams.swift in Sources */,

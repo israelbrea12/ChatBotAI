@@ -124,6 +124,12 @@
             "state" : "translated",
             "value" : "%1$@ %2$@"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@"
+          }
         }
       }
     },
@@ -2322,6 +2328,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Puede cambiar esto en cualquier momento en los ajustes."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous pouvez modifier cela à tout moment dans les paramètres."
           }
         }
       }

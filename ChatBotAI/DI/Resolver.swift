@@ -159,8 +159,8 @@ extension Resolver {
             FetchUserUseCase(repository: resolver.resolve(UserRepository.self)!)
         }.inObjectScope(.container)
         
-        container.register(FetchAllUsersExceptCurrentUseCase.self) { resolver in
-            FetchAllUsersExceptCurrentUseCase(
+        container.register(FetchUsersByLanguageUseCase.self) { resolver in
+            FetchUsersByLanguageUseCase(
                 repository: resolver.resolve(UserRepository.self)!
             )
         }.inObjectScope(.container)
@@ -342,8 +342,8 @@ extension Resolver {
         
         container.register(NewMessageViewModel.self) { resolver in
             NewMessageViewModel(
-                fetchAllUsersExceptCurrentUseCase: resolver
-                    .resolve(FetchAllUsersExceptCurrentUseCase.self)!
+                fetchUsersByLanguageUseCase: resolver
+                    .resolve(FetchUsersByLanguageUseCase.self)!
             )
         }.inObjectScope(.container)
         

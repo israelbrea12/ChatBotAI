@@ -19,30 +19,42 @@ class NewMessageViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Use Cases
-    private let fetchAllUserExceptCurrentUseCase: FetchAllUsersExceptCurrentUseCase
+    private let fetchUsersByLanguageUseCase: FetchUsersByLanguageUseCase
     
     // MARK: - Lifecycle functions
-    init(fetchAllUsersExceptCurrentUseCase: FetchAllUsersExceptCurrentUseCase) {
-        self.fetchAllUserExceptCurrentUseCase = fetchAllUsersExceptCurrentUseCase
-        Task {
-            await fetchAllUsersExceptCurrent()
-        }
+    init(fetchUsersByLanguageUseCase: FetchUsersByLanguageUseCase) {
+        self.fetchUsersByLanguageUseCase = fetchUsersByLanguageUseCase
     }
     
     // MARK: - Functions
-    func fetchAllUsersExceptCurrent() async {
+    func fetchMatchingUsers() async {
+        // 1. Obtener el idioma del usuario actual desde el SessionManager
+        guard let currentUserLanguage = SessionManager.shared.currentUser?.learningLanguage, !currentUserLanguage.isEmpty else {
+            print("⚠️ El usuario actual no tiene un idioma de aprendizaje configurado.")
+            self.state = .empty
+            self.users = []
+            return
+        }
+        
         state = .loading
-        Task {
-            let result = await fetchAllUserExceptCurrentUseCase.execute(with: ())
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let users):
-                    self.users = users.compactMap { $0 } // Elimina los nil
-                    self.state = self.users.isEmpty ? .empty : .success
-                case .failure(let error):
-                    print("Error fetching users: \(error.localizedDescription)")
-                    self.state = .error("Failed to load users")
+        
+        // 2. Llamar al caso de uso con el idioma del usuario
+        let params = FetchUsersByLanguageParams(language: currentUserLanguage)
+        let result = await fetchUsersByLanguageUseCase.execute(with: params)
+        
+        DispatchQueue.main.async {
+            switch result {
+            case .success(let users):
+                self.users = users.compactMap { $0 } // Elimina los nulos
+                self.state = self.users.isEmpty ? .empty : .success
+                
+                if self.users.isEmpty {
+                    print("ℹ️ No se encontraron otros usuarios aprendiendo '\(currentUserLanguage)'.")
                 }
+                
+            case .failure(let error):
+                print("❌ Error fetching users: \(error.localizedDescription)")
+                self.state = .error("Failed to load users")
             }
         }
     }

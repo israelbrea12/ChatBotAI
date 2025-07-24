@@ -26,9 +26,9 @@ class UserRepositoryImpl: UserRepository {
         }
     }
     
-    func fetchAllUsersExceptCurrent() async -> Result<[User?], AppError> {
+    func fetchUsersByLanguage(language: String) async -> Result<[User?], AppError> {
         do {
-            let users = try await userDataSource.fetchAllUsersExceptCurrent()
+            let users = try await userDataSource.fetchUsersByLanguage(learningLanguage: language)
             return .success(users.map { $0.toDomain() })
         } catch {
             return .failure(error.toAppError())
