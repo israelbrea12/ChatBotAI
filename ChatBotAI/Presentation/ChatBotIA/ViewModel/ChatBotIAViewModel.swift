@@ -24,6 +24,13 @@ final class ChatBotIAViewModel: ObservableObject {
     // MARK: - Private vars
     private(set) var chatMode: ChatMode
     private var currentStreamingTask: Task<Void, Never>?
+    private var userLearningLanguage: Language {
+        guard let langCode = SessionManager.shared.currentUser?.learningLanguage,
+              let language = Language(rawValue: langCode) else {
+            return .english
+        }
+        return language
+    }
     
     // MARK: - Computed Properties for UI
     var currentNavigationTitle: String {
@@ -52,20 +59,22 @@ final class ChatBotIAViewModel: ObservableObject {
         guard !userText.isEmpty else { return }
         
         addMessage(ChatbotMessage(text: userText, isUser: true))
-        let currentPrompt = self.prompt
         self.prompt = ""
         
         let promptToSend: String
+        
+        let language = self.userLearningLanguage
+        
         switch chatMode {
         case .rolePlay:
             if !hasStartedChatting || messages.filter({ $0.isUser }).count == 1 {
-                promptToSend = "\(chatMode.initialPrompt)\n\nUsuario: \(userText)"
+                promptToSend = "\(chatMode.initialPrompt(language: language))\n\nUsuario: \(userText)"
             } else {
                 promptToSend = userText
             }
             
         default:
-            promptToSend = "\(chatMode.initialPrompt)\n\nInput del Usuario: \(userText)"
+            promptToSend = "\(chatMode.initialPrompt(language: language))\n\nInput del Usuario: \(userText)"
         }
         currentStreamingTask?.cancel()
         sendMessageToModel(prompt: promptToSend)
@@ -79,10 +88,13 @@ final class ChatBotIAViewModel: ObservableObject {
     
     // MARK: - Private Functions
     private func startChatWithInitialPrompt() {
+        let language = self.userLearningLanguage
+        
         switch chatMode {
         case .rolePlay:
-            addMessage(ChatbotMessage(text: chatMode.initialPrompt, isUser: true))
-            sendMessageToModel(prompt: chatMode.initialPrompt)
+            let initialMessage = chatMode.initialPrompt(language: language)
+            addMessage(ChatbotMessage(text: initialMessage, isUser: true))
+            sendMessageToModel(prompt: initialMessage)
         case .classicConversation, .textImprovement, .grammarHelp:
             break
         }
