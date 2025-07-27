@@ -14,6 +14,14 @@ struct ChatLogView: View {
         ChatLogViewModel.self
     )
     
+    // 1. Define los posibles campos de foco
+    private enum Field: Hashable {
+        case chatInput
+    }
+        
+    // 2. Crea la variable de estado para el foco
+    @FocusState private var focusedField: Field?
+    
     @State private var coordinator: UICoordinator = .init()
 
     @State private var config: MenuConfig = .init(symbolImage: "plus")
@@ -79,18 +87,46 @@ struct ChatLogView: View {
             .onChange(of: chatLogViewModel.messages) { _, newMessages in
                 coordinator.setup(messages: newMessages)
             }
+            .onChange(of: chatLogViewModel.isTextFieldFocused) { _, isFocused in
+                if isFocused {
+                    focusedField = .chatInput
+                    chatLogViewModel.isTextFieldFocused = false
+                }
+            }
             .allowsHitTesting(coordinator.selectedMessage == nil)
             .safeAreaInset(edge: .bottom) {
-                if let editingMessage = chatLogViewModel.editingMessage {
-                    EditingMessageBar(message: editingMessage) {
-                        chatLogViewModel.cancelEditingMessage()
+                VStack(spacing: 0) {
+                        // Barras condicionales que aparecen arriba
+                        if let replyingMessage = chatLogViewModel.replyingToMessage {
+                            ReplyingToMessageBar(message: replyingMessage) {
+                                withAnimation {
+                                    chatLogViewModel.cancelReplyingToMessage()
+                                }
+                            }
+                        }
+                        
+                        if let editingMessage = chatLogViewModel.editingMessage {
+                            EditingMessageBar(message: editingMessage) {
+                                chatLogViewModel.cancelEditingMessage()
+                            }
+                        }
+                        
+                        // La barra de texto principal siempre está visible abajo
+                        BottomBar(
+                            chatText: $chatLogViewModel.chatText,
+                            viewModel: chatLogViewModel,
+                            currentUser: SessionManager.shared.currentUser,
+                            focusedField: $focusedField
+                        )
                     }
+                    .background(.thinMaterial)
+            }
+            .onTapGesture {
+                UIApplication.shared.endEditing()
+                chatLogViewModel.cancelEditingMessage()
+                withAnimation {
+                    chatLogViewModel.cancelReplyingToMessage()
                 }
-                BottomBar(
-                    chatText: $chatLogViewModel.chatText,
-                    viewModel: chatLogViewModel,
-                    currentUser: SessionManager.shared.currentUser
-                )
             }
             .onAppear {
                 if let currentUser = SessionManager.shared.currentUser, let otherUser = user {
@@ -237,10 +273,11 @@ struct ChatLogView: View {
     }
     
         @ViewBuilder
-        func BottomBar(
+        private func BottomBar(
             chatText: Binding<String>,
             viewModel: ChatLogViewModel,
-            currentUser: User?
+            currentUser: User?,
+            focusedField: FocusState<Field?>.Binding
         ) -> some View {
             HStack(spacing: 12) {
                 MenuSourceButton(config: $config) {
@@ -267,6 +304,7 @@ struct ChatLogView: View {
                     .onSubmit {
                         viewModel.sendOrEditMessage(currentUser: currentUser)
                     }
+                    .focused(focusedField, equals: .chatInput)
                 
                 Button(action: {
                     viewModel.sendOrEditMessage(currentUser: currentUser)

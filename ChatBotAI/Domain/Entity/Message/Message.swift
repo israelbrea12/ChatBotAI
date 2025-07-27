@@ -17,13 +17,15 @@ struct Message: Identifiable, Codable, Equatable {
     var messageType: MessageType = .text
     var imageURL: String? = nil
     
+    var replyTo: String? = nil
+    
     var localImageData: Data? = nil
     var isUploading: Bool = false
     var uploadFailed: Bool = false
     var isEdited: Bool = false
 
     enum CodingKeys: String, CodingKey {
-        case id, text, senderId, senderName, sentAt, messageType, imageURL, isEdited
+        case id, text, senderId, senderName, sentAt, messageType, imageURL, isEdited, replyTo
     }
 
     static func == (lhs: Message, rhs: Message) -> Bool {
@@ -32,6 +34,7 @@ struct Message: Identifiable, Codable, Equatable {
         lhs.imageURL == rhs.imageURL &&
         lhs.isUploading == rhs.isUploading &&
         lhs.uploadFailed == rhs.uploadFailed &&
-        lhs.isEdited == rhs.isEdited
+        lhs.isEdited == rhs.isEdited &&
+        lhs.replyTo == rhs.replyTo
     }
 }

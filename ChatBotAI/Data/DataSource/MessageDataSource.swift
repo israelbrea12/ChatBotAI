@@ -24,58 +24,37 @@ class MessageDataSourceImpl: MessageDataSource {
     private var messageUpdatedObservers: [String: DatabaseHandle] = [:]
         
     func sendMessage(chatId: String, message: Message) async throws {
-        let messageId = message.id
-        
-        let sentAtValue = message.sentAt ?? Date().timeIntervalSince1970
-        
-        var messageData: [String: Any] = [
-            "id": messageId,
-            "text": message.text,
-            "senderId": message.senderId,
-            "senderName": message.senderName,
-            "sentAt": sentAtValue,
-            "messageType": message.messageType.rawValue
-        ]
-        
-        if message.messageType == .image, let imageURL = message.imageURL {
-            messageData["imageURL"] = imageURL
-        }
-        
-        if message.isEdited { // <-- NUEVO
-            messageData["isEdited"] = true
-        }
-        
-        let messageRef = databaseRef
-            .child("chats")
-            .child(chatId)
-            .child("messages")
-            .child(messageId)
-        
-        try await setValueAsync(messageRef, value: messageData)
-        
-        var lastMessageText = message.text
-        if message.messageType == .image {
-            lastMessageText = "[Imagen]"
-            if !message.text.isEmpty {
+        let messageData = message.toFirebaseData()
+            
+            let messageRef = databaseRef
+                .child("chats")
+                .child(chatId)
+                .child("messages")
+                .child(message.id)
+            
+            try await setValueAsync(messageRef, value: messageData)
+            
+            // La lógica para `lastMessage` no cambia.
+            var lastMessageText: String
+            if message.messageType == .image {
+                lastMessageText = message.text.isEmpty ? "Imagen" : message.text
+            } else {
                 lastMessageText = message.text
             }
-        }
-        
-        let lastMessageData: [String: Any] = [
-            "text": lastMessageText,
-            "senderId": message.senderId,
-            "sentAt": sentAtValue,
-            "messageType": message.messageType.rawValue
-        ]
-        if message.messageType == .image, let imageURL = message.imageURL {
-        }
-        
-        let chatRef = databaseRef
-            .child("chats")
-            .child(chatId)
-            .child("lastMessage")
-        
-        try await setValueAsync(chatRef, value: lastMessageData)
+            
+            let lastMessageData: [String: Any] = [
+                "text": lastMessageText,
+                "senderId": message.senderId,
+                "sentAt": message.sentAt ?? Date().timeIntervalSince1970,
+                "messageType": message.messageType.rawValue
+            ]
+            
+            let chatRef = databaseRef
+                .child("chats")
+                .child(chatId)
+                .child("lastMessage")
+            
+            try await setValueAsync(chatRef, value: lastMessageData)
     }
         
     private func setValueAsync(_ ref: DatabaseReference, value: Any) async throws {
@@ -116,6 +95,7 @@ class MessageDataSourceImpl: MessageDataSource {
                         
                         let imageURL = value["imageURL"] as? String
                         let isEdited = value["isEdited"] as? Bool ?? false
+                        let replyTo = value["replyTo"] as? String
                         
                         let message = MessageModel(
                             id: id,
@@ -125,7 +105,8 @@ class MessageDataSourceImpl: MessageDataSource {
                             sentAt: sentAt,
                             messageType: messageTypeString,
                             imageURL: imageURL,
-                            isEdited: isEdited
+                            isEdited: isEdited,
+                            replyTo: replyTo
                         )
                         messages.append(message)
                     }
@@ -162,6 +143,7 @@ class MessageDataSourceImpl: MessageDataSource {
             
             let imageURL = messageData["imageURL"] as? String
             let isEdited = messageData["isEdited"] as? Bool ?? false
+            let replyTo = messageData["replyTo"] as? String
             
             let message = MessageModel(
                 id: id,
@@ -171,7 +153,8 @@ class MessageDataSourceImpl: MessageDataSource {
                 sentAt: sentAt,
                 messageType: messageTypeString,
                 imageURL: imageURL,
-                isEdited: isEdited
+                isEdited: isEdited,
+                replyTo: replyTo
             )
             print("📩 Observado mensaje con ID: \(message.id)")
             onNewMessage(message)
@@ -195,7 +178,8 @@ class MessageDataSourceImpl: MessageDataSource {
             }
             
             let imageURL = messageData["imageURL"] as? String
-            let isEdited = messageData["isEdited"] as? Bool ?? false // <-- NUEVO
+            let isEdited = messageData["isEdited"] as? Bool ?? false
+            let replyTo = messageData["replyTo"] as? String
             
             let updatedMessage = MessageModel(
                 id: id,
@@ -205,7 +189,8 @@ class MessageDataSourceImpl: MessageDataSource {
                 sentAt: sentAt,
                 messageType: messageTypeString,
                 imageURL: imageURL,
-                isEdited: isEdited // <-- NUEVO
+                isEdited: isEdited,
+                replyTo: replyTo
             )
             print("🔄 Observado mensaje actualizado con ID: \(updatedMessage.id)")
             onUpdatedMessage(updatedMessage) // Llama al nuevo callback
@@ -282,13 +267,13 @@ class MessageDataSourceImpl: MessageDataSource {
                 .child("chats")
                 .child(chatId)
                 .child("messages")
-                .queryOrdered(byChild: "sentAt") // Ordena por el timestamp de envío
-                .queryLimited(toLast: 1)         // Limita a un solo resultado (el último)
+                .queryOrdered(byChild: "sentAt")
+                .queryLimited(toLast: 1)
             
             messagesRef.observeSingleEvent(of: .value) { snapshot in
                 guard let lastChild = snapshot.children.allObjects.last as? DataSnapshot,
                       let value = lastChild.value as? [String: Any] else {
-                    continuation.resume(returning: nil) // No hay mensajes o no se pudieron parsear
+                    continuation.resume(returning: nil)
                     return
                 }
                 
@@ -304,28 +289,30 @@ class MessageDataSourceImpl: MessageDataSource {
     }
     
     private func mapMessageModel(from value: [String: Any], key: String) -> MessageModel? {
-            guard let id = value["id"] as? String,
-                  let text = value["text"] as? String,
-                  let senderId = value["senderId"] as? String,
-                  let senderName = value["senderName"] as? String,
-                  let sentAt = value["sentAt"] as? TimeInterval,
-                  let messageTypeString = value["messageType"] as? String else {
-                print("Skipping message \(key) due to missing essential fields: \(value)")
-                return nil
-            }
-            
-            let imageURL = value["imageURL"] as? String
-            let isEdited = value["isEdited"] as? Bool ?? false
-            
-            return MessageModel(
-                id: id,
-                text: text,
-                senderId: senderId,
-                senderName: senderName,
-                sentAt: sentAt,
-                messageType: messageTypeString,
-                imageURL: imageURL,
-                isEdited: isEdited
-            )
+        guard let id = value["id"] as? String,
+              let text = value["text"] as? String,
+              let senderId = value["senderId"] as? String,
+              let senderName = value["senderName"] as? String,
+              let sentAt = value["sentAt"] as? TimeInterval,
+              let messageTypeString = value["messageType"] as? String else {
+            print("Skipping message \(key) due to missing essential fields: \(value)")
+            return nil
         }
+        
+        let imageURL = value["imageURL"] as? String
+        let isEdited = value["isEdited"] as? Bool ?? false
+        let replyTo = value["replyTo"] as? String
+        
+        return MessageModel(
+            id: id,
+            text: text,
+            senderId: senderId,
+            senderName: senderName,
+            sentAt: sentAt,
+            messageType: messageTypeString,
+            imageURL: imageURL,
+            isEdited: isEdited,
+            replyTo: replyTo
+        )
+    }
 }

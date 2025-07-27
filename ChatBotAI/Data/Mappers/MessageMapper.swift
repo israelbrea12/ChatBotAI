@@ -17,6 +17,7 @@ extension MessageModel {
             sentAt: self.sentAt,
             messageType: MessageType(rawValue: self.messageType) ?? .text,
             imageURL: self.imageURL,
+            replyTo: self.replyTo,
             isEdited: self.isEdited ?? false
         )
     }
@@ -37,6 +38,9 @@ extension Message {
         }
         if self.isEdited {
             data["isEdited"] = true
+        }
+        if let replyTo = self.replyTo { // <-- NUEVO
+            data["replyTo"] = replyTo
         }
         return data
     }

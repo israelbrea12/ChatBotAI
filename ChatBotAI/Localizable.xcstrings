@@ -1697,6 +1697,12 @@
         }
       }
     },
+    "Responder" : {
+
+    },
+    "Respondiendo a %@" : {
+
+    },
     "Rol del chat" : {
       "localizations" : {
         "en" : {

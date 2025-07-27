@@ -15,6 +15,7 @@ struct MessageBubbleView: View {
     
     let message: Message
     let isCurrentUser: Bool
+    let repliedToMessage: Message?
     
     var onLongPress: ((_ message: Message, _ frame: CGRect) -> Void)? = nil
     var onImageTap: ((Message) -> Void)? = nil
@@ -30,17 +31,33 @@ struct MessageBubbleView: View {
         HStack {
             if isCurrentUser { Spacer(minLength: UIScreen.main.bounds.width * 0.15) }
             VStack(alignment: isCurrentUser ? .trailing : .leading, spacing: 2) {
-                messageContent() // El contenido principal
-                    .background(
-                        GeometryReader { proxy in
-                            Color.clear
-                                .onAppear { bubbleFrame = proxy.frame(in: .global) }
-                                .onChange(of: proxy.frame(in: .global)) { _, newFrame in bubbleFrame = newFrame }
-                        }
-                    )
-                    .gesture(LongPressGesture(minimumDuration: 0.45).onEnded { _ in
-                        onLongPress?(message, bubbleFrame)
-                    })
+                VStack(alignment: isCurrentUser ? .trailing : .leading, spacing: 0) {
+                                // 1. Muestra la previsualización si existe
+                                if let repliedMessage = repliedToMessage {
+                                    RepliedMessagePreview(
+                                            message: repliedMessage,
+                                            isReplyBubbleFromCurrentUser: self.isCurrentUser
+                                        )
+                                        .fixedSize(horizontal: false, vertical: true)
+                                }
+                                
+                                // 2. Muestra el contenido del mensaje actual (tu respuesta)
+                                messageContent()
+                            }
+                            .padding(isCurrentUser ? .init(top: 10, leading: 10, bottom: 10, trailing: 10) : .init(top: 10, leading: 10, bottom: 10, trailing: 10))
+                            .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
+                            .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .background(
+                                 GeometryReader { proxy in
+                                     Color.clear
+                                         .onAppear { bubbleFrame = proxy.frame(in: .global) }
+                                         .onChange(of: proxy.frame(in: .global)) { _, newFrame in bubbleFrame = newFrame }
+                                 }
+                            )
+                            .gesture(LongPressGesture(minimumDuration: 0.45).onEnded { _ in
+                                onLongPress?(message, bubbleFrame)
+                            })
                 
                 HStack(spacing: 4) {
                     Text(Date(timeIntervalSince1970: message.sentAt ?? Date().timeIntervalSince1970).BublesFormattedTime())
@@ -78,9 +95,7 @@ private extension MessageBubbleView {
     @ViewBuilder
     func textMessageView() -> some View {
         Text(message.text.isEmpty ? " " : message.text)
-            .padding(10)
             .foregroundColor(isCurrentUser ? .white : .primary)
-            .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
             .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
             .fixedSize(horizontal: false, vertical: true)
     }
@@ -183,5 +198,47 @@ private extension MessageBubbleView {
                     .foregroundColor(.white)
             }
         }
+    }
+}
+
+struct RepliedMessagePreview: View {
+    let message: Message
+    let isReplyBubbleFromCurrentUser: Bool
+
+    var body: some View {
+        HStack(spacing: 8) {
+            
+            Capsule()
+                .fill(Color.blue)
+                .frame(width: 3)
+
+            VStack(alignment: .leading, spacing: 2) {
+                // Nombre del autor original
+                Text(message.senderId == SessionManager.shared.currentUser?.id ? "Tú" : message.senderName)
+                    .font(.caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(.blue)
+
+                // Contenido del mensaje original (texto o placeholder para imagen)
+                HStack(spacing: 4) {
+                    if message.messageType == .image && !message.imageURL!.isEmpty {
+                        Image(systemName: "photo.fill")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    Text(message.messageType == .image && message.text.isEmpty ? "Imagen" : message.text)
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                }
+            }
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(
+            (isReplyBubbleFromCurrentUser ? Color(UIColor.systemGray5) : Color.blue.opacity(0.15))
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        )
+        .padding(.bottom, 4) // Espacio entre la preview y el mensaje de respuesta
     }
 }

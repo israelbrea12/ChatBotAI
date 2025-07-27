@@ -176,6 +176,7 @@
 		40FC6D3C2E3227690057F614 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3B2E3227690057F614 /* Language.swift */; };
 		40FC6D3E2E3227800057F614 /* LanguageOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */; };
 		40FC6D402E323B380057F614 /* FetchUsersByLanguageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */; };
+		40FC6D562E36923E0057F614 /* ReplyingToMessageBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D552E36923E0057F614 /* ReplyingToMessageBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +357,7 @@
 		40FC6D3B2E3227690057F614 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
 		40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageOnboardingView.swift; sourceTree = "<group>"; };
 		40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUsersByLanguageParams.swift; sourceTree = "<group>"; };
+		40FC6D552E36923E0057F614 /* ReplyingToMessageBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyingToMessageBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -896,6 +898,7 @@
 				400B9D472E034339007DFF50 /* GradientButton.swift */,
 				400B9D492E03434F007DFF50 /* CustomTF.swift */,
 				40DEB21D2E294A8E0039134C /* EditingMessageBar.swift */,
+				40FC6D552E36923E0057F614 /* ReplyingToMessageBar.swift */,
 				400B9D262E017AA5007DFF50 /* CustomOpenPhotoTransition */,
 				408CA96E2DEDEA85000C0FAD /* CustomFloatingTabView */,
 				408CA93F2DEC9FEA000C0FAD /* CustomMessageActionMenu */,
@@ -1527,6 +1530,7 @@
 				40D385002D843A7700406AC1 /* ViewState.swift in Sources */,
 				40D385012D843A7700406AC1 /* AppDelegate.swift in Sources */,
 				40E235332E2BFCD800452CA2 /* EditProfileView.swift in Sources */,
+				40FC6D562E36923E0057F614 /* ReplyingToMessageBar.swift in Sources */,
 				408CA9442DECA366000C0FAD /* ModeOption.swift in Sources */,
 				40D385252D84E56900406AC1 /* AuthDataSource.swift in Sources */,
 				40EAF4B22D8D909B00CDC99E /* FetchUsersByLanguageUseCase.swift in Sources */,

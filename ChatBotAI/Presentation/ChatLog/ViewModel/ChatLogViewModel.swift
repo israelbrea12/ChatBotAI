@@ -16,6 +16,8 @@ class ChatLogViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var userPresenceStatus: String = ""
     @Published var editingMessage: Message? = nil
+    @Published var replyingToMessage: Message? = nil
+    @Published var isTextFieldFocused: Bool = false
 
     // MARK: - Private vars
     private var chatId: String?
@@ -55,7 +57,7 @@ class ChatLogViewModel: ObservableObject {
         self.getLastMessageUseCase = getLastMessageUseCase
         self.updateChatLastMessageUseCase = updateChatLastMessageUseCase
     }
-
+    
     // MARK: - Functions
     func setupChat(currentUser: User, otherUser: User) {
         self.otherUser = otherUser
@@ -65,28 +67,19 @@ class ChatLogViewModel: ObservableObject {
             await loadMessages()
             
             if let chatId = chatId {
-                // Los observadores de mensajes ahora solo actualizan la lista local de mensajes.
-                // La lógica de `lastMessage` del chat principal se manejará explícitamente.
                 observeMessagesUseCase.execute(chatId: chatId) { [weak self] newMessage in
                     guard let self = self else { return }
-                    if let index = self.messages.firstIndex(where: { $0.id == newMessage.id }) {
-                        self.messages[index] = newMessage
-                    } else {
+                    if !self.messages.contains(where: { $0.id == newMessage.id }) {
                         self.messages.append(newMessage)
                     }
-                    // No es necesario actualizar lastMessage del chat aquí, ya se hace al enviar/editar
                 } onUpdatedMessage: { [weak self] updatedMessage in
-                    guard let self = self else { return }
-                    if let index = self.messages.firstIndex(where: { $0.id == updatedMessage.id }) {
-                        self.messages[index] = updatedMessage
-                    }
-                    // No es necesario actualizar lastMessage del chat aquí, ya se hace al editar
+                    guard let self = self, let index = self.messages.firstIndex(where: { $0.id == updatedMessage.id }) else { return }
+                    self.messages[index] = updatedMessage
+                    
                 } onDeletedMessage: { [weak self] deletedMessageId in
                     self?.messages.removeAll { $0.id == deletedMessageId }
-                    // No es necesario actualizar lastMessage del chat aquí, ya se hace al eliminar
                 }
             }
-            
             observeUserPresence()
         }
     }
@@ -135,7 +128,10 @@ class ChatLogViewModel: ObservableObject {
     }
     
     func sendOrEditMessage(currentUser: User?) {
-        if let editingMessage = editingMessage {
+        if let replyingMessage = replyingToMessage {
+            // Modo respuesta
+            sendReplyMessage(to: replyingMessage, currentUser: currentUser)
+        } else if let editingMessage = editingMessage {
             // Modo edición
             editMessage(editingMessage, newText: chatText, currentUser: currentUser)
         } else {
@@ -161,7 +157,8 @@ class ChatLogViewModel: ObservableObject {
             senderId: user.id,
             senderName: user.fullName ?? "",
             sentAt: Date().timeIntervalSince1970,
-            messageType: .text
+            messageType: .text,
+            replyTo: replyingToMessage?.id
         )
         
         Task {
@@ -172,6 +169,8 @@ class ChatLogViewModel: ObservableObject {
             switch result {
             case .success:
                 chatText = ""
+                cancelEditingMessage()
+                cancelReplyingToMessage()
                 await updateChatLastMessage(with: message)
             case .failure(let error):
                 print("Error enviando mensaje de texto: \(error.localizedDescription)")
@@ -242,6 +241,49 @@ class ChatLogViewModel: ObservableObject {
         }
     }
     
+    private func sendReplyMessage(to originalMessage: Message, currentUser: User?) {
+        guard let user = currentUser, let chatId = chatId else { return }
+        let trimmedText = chatText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedText.isEmpty else { return }
+        
+        let replyMessage = Message(
+            id: UUID().uuidString,
+            text: trimmedText,
+            senderId: user.id,
+            senderName: user.fullName ?? "",
+            sentAt: Date().timeIntervalSince1970,
+            messageType: .text,
+            replyTo: originalMessage.id // El ID del mensaje original
+        )
+        
+        Task {
+            let result = await sendMessageUseCase.execute(with: .init(chatId: chatId, message: replyMessage))
+            switch result {
+            case .success:
+                self.chatText = ""
+                self.replyingToMessage = nil // Limpiar estado de respuesta
+                await updateChatLastMessage(with: replyMessage)
+            case .failure(let error):
+                print("Error enviando respuesta: \(error.localizedDescription)")
+                self.state = .error("Error al enviar la respuesta")
+            }
+        }
+    }
+    
+    func startReplyingToMessage(_ message: Message) {
+        // No se puede responder y editar a la vez
+        if self.editingMessage != nil {
+            cancelEditingMessage()
+        }
+        self.replyingToMessage = message
+        self.isTextFieldFocused = true
+        print("✅ Iniciando respuesta al mensaje ID: \(message.id)")
+    }
+
+    func cancelReplyingToMessage() {
+        self.replyingToMessage = nil
+    }
+    
     private func updateMessageStatus(id: String, isUploading: Bool, hasFailed: Bool) {
         if let index = messages.firstIndex(where: { $0.id == id }) {
             messages[index].isUploading = isUploading
@@ -291,6 +333,7 @@ class ChatLogViewModel: ObservableObject {
         if message.messageType == .text {
             self.editingMessage = message
             self.chatText = message.text
+            self.isTextFieldFocused = true
         }
     }
     

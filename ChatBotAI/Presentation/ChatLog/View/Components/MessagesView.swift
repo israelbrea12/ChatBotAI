@@ -25,6 +25,9 @@ struct MessagesView: View {
     @State private var showDeleteMessageConfirmationAlert = false
     
     private let menuEstimatedSize = CGSize(width: 200, height: 110)
+    private var messageDictionary: [String: Message] {
+        Dictionary(uniqueKeysWithValues: messages.map { ($0.id, $0) })
+    }
     
     var groupedMessages: [(date: String, messages: [Message])] {
         Dictionary(grouping: messages) { message in
@@ -80,11 +83,16 @@ struct MessagesView: View {
                         
                         ForEach(group.messages) { message in
                             
-                            let shouldBlurMessage = (showContextMenu && message.id != contextMenuMessage?.id) || (chatLogViewModel.editingMessage != nil && message.id != chatLogViewModel.editingMessage?.id)
+                            let repliedMessage = message.replyTo.flatMap { messageDictionary[$0] }
+                            
+                            let shouldBlurMessage = (showContextMenu && message.id != contextMenuMessage?.id) ||
+                                                    (chatLogViewModel.editingMessage != nil && message.id != chatLogViewModel.editingMessage?.id) ||
+                                                    (chatLogViewModel.replyingToMessage != nil && message.id != chatLogViewModel.replyingToMessage?.id)
                             
                             MessageBubbleView(
                                 message: message,
                                 isCurrentUser: message.senderId == currentUserId,
+                                repliedToMessage: repliedMessage,
                                 onLongPress: { tappedMessage, bubbleFrameGlobal in
                                     // Lógica para mostrar el menú contextual
                                     self.contextMenuMessage = tappedMessage
@@ -165,6 +173,13 @@ struct MessagesView: View {
             
             MessageActionMenuView(
                 items: [
+                    MessageActionItem(label: "Responder", systemImage: "arrowshape.turn.up.left.fill") {
+                        chatLogViewModel.startReplyingToMessage(message)
+                        
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                            self.showContextMenu = false
+                        }
+                    },
                     MessageActionItem(label: "Editar", systemImage: "pencil.circle.fill") {
                         if message.messageType == .text {
                             chatLogViewModel.startEditingMessage(message)
