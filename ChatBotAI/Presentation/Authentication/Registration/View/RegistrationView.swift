@@ -94,7 +94,7 @@ struct SignUpView: View {
             }
             
             if registrationViewModel.isLoading {
-                LoadingView(message: LocalizedKeys.Misc.creatingAccount)
+                LoadingView(message: LocalizedKeys.LoadingState.creatingAccount)
                     .ignoresSafeArea()
             }
         }

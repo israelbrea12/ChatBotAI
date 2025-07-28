@@ -261,7 +261,7 @@ struct ChatLogView: View {
     }
     
     private func loadingView() -> some View {
-        ProgressView(LocalizedKeys.Common.loadingMessages)
+        ProgressView(LocalizedKeys.LoadingState.loadingMessages)
     }
     
     private func errorView(errorMsg: String) -> some View {

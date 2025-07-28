@@ -71,7 +71,7 @@ struct EditProfileView: View {
                 }
                 
                 if editProfileViewModel.isLoading {
-                    ProgressView(LocalizedKeys.Common.saving)
+                    ProgressView(LocalizedKeys.LoadingState.saving)
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
                         .background(Color.white.opacity(0.8))

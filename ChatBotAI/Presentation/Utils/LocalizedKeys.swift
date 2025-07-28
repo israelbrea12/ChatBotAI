@@ -37,8 +37,6 @@ enum LocalizedKeys {
         static var online: String { "common_online".localized() }
         static var fullName: String { "common_full_name".localized() }
         static var email: String { "common_email".localized() }
-        static var saving: String { "common_saving".localized() }
-        static var loadingMessages: String { "common_loading_messages".localized() }
         static var unknown: String { "common_unknown".localized() }
         static var noDataFound: String { "common_no_data_found".localized() }
         static var noMessagesYet: String { "common_no_messages_yet".localized() }
@@ -131,6 +129,22 @@ enum LocalizedKeys {
         }
     }
     
+    // MARK: - Settings Sections
+    enum Settings {
+        static var general: String { "settings_general".localized() }
+        static var preferences: String { "settings_preferences".localized() }
+        static var accountSection: String { "settings_account_section".localized() }
+        static var editProfile: String { "settings_edit_profile".localized() }
+        static var logOut: String { "settings_log_out".localized() }
+        static var help: String { "settings_help".localized() }
+        static var userInformationTitle: String { "settings_user_information_title".localized() }
+        static var deleteAccountButton: String { "settings_delete_account_button".localized() }
+        static var deleteAlertTitle: String { "settings_delete_alert_title".localized() }
+        static var logoutAlertTitle: String { "settings_logout_alert_title".localized() }
+        static var profilePictureTitle: String { "settings_profile_picture_title".localized() }
+        static var tapToChangePhoto: String { "settings_tap_to_change_photo".localized() }
+    }
+    
 
     // MARK: - App Features & Modes
     enum Features {
@@ -151,22 +165,6 @@ enum LocalizedKeys {
         static var appStore: String { "media_app_store".localized() }
         static var genmoji: String { "media_genmoji".localized() }
         static var textMessage: String { "media_text_message".localized() }
-    }
-    
-    // MARK: - Settings Sections
-    enum Settings {
-        static var general: String { "settings_general".localized() }
-        static var preferences: String { "settings_preferences".localized() }
-        static var accountSection: String { "settings_account_section".localized() }
-        static var editProfile: String { "settings_edit_profile".localized() }
-        static var logOut: String { "settings_log_out".localized() }
-        static var help: String { "settings_help".localized() }
-        static var userInformationTitle: String { "settings_user_information_title".localized() }
-        static var deleteAccountButton: String { "settings_delete_account_button".localized() }
-        static var deleteAlertTitle: String { "settings_delete_alert_title".localized() }
-        static var logoutAlertTitle: String { "settings_logout_alert_title".localized() }
-        static var profilePictureTitle: String { "settings_profile_picture_title".localized() }
-        static var tapToChangePhoto: String { "settings_tap_to_change_photo".localized() }
     }
     
     // MARK: - Validation Errors
@@ -190,13 +188,14 @@ enum LocalizedKeys {
         static var french: String { "language_french_full".localized() }
     }
 
-       // MARK: - App Tabs
+    // MARK: - App Tabs
     enum Tab {
         static var chats: String { "tab_chats".localized() }
         static var chatbot: String { "tab_chatbot".localized() }
         static var settings: String { "tab_settings".localized() }
     }
        
+    // MARK: - Placeholders
     enum Placeholder {
         static var emailPlaceholder: String { "placeholder_email".localized() }
         static var fullnamePlaceholder: String { "placeholder_fullname".localized() }
@@ -208,9 +207,9 @@ enum LocalizedKeys {
         static var botRole: String { "placeholder_bot_role".localized() }
         static var scenario: String { "placeholder_scenario".localized() }
         static var typeYourMessage: String { "placeholder_type_your_message".localized() }
-        static var unknown: String { "placeholder_unknown".localized() }
     }
     
+    // MARK: - Errors
     enum AppError {
         static var aiNoResponse: String { "error_ai_no_response".localized() }
         static var sendMessage: String { "error_send_message".localized() }
@@ -225,8 +224,10 @@ enum LocalizedKeys {
     }
     
     // MARK: - Miscellaneous
-    enum Misc {
+    enum LoadingState {
         static var creatingAccount: String { "loading_creating_account".localized() }
+        static var saving: String { "loading_saving".localized() }
+        static var loadingMessages: String { "loading_loading_messages".localized() }
     }
     
     // MARK: - Default Values
@@ -241,15 +242,12 @@ enum LocalizedKeys {
     // MARK: - Time Ago Formatting
         enum TimeAgo {
             static var justNow: String { "time_ago_just_now".localized() }
-            
             static func minutes(_ count: Int) -> String {
                 String(format: "time_ago_minutes".localized(), count)
             }
-            
             static func hours(_ count: Int) -> String {
                 String(format: "time_ago_hours".localized(), count)
             }
-            
             static func days(_ count: Int) -> String {
                 String(format: "time_ago_days".localized(), count)
             }
