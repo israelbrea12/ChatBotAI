@@ -54,7 +54,7 @@ class NewMessageViewModel: ObservableObject {
                 
             case .failure(let error):
                 print("❌ Error fetching users: \(error.localizedDescription)")
-                self.state = .error("Failed to load users")
+                self.state = .error(LocalizedKeys.AppError.usersLoadFailed)
             }
         }
     }

@@ -15,7 +15,7 @@ struct EditingMessageBar: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 VStack(alignment: .leading) {
-                    Text("Editando mensaje de \(message.senderName)")
+                    Text(LocalizedKeys.Chat.editingMessageFrom(message.senderName))
                         .font(.caption)
                         .foregroundColor(.gray)
                     Text(message.text)

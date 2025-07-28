@@ -24,16 +24,16 @@ extension Date {
             let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear], from: self, to: now)
 
             if let minutes = components.minute, minutes < 1 {
-                return "Justo ahora"
+                return LocalizedKeys.TimeAgo.justNow
             }
             if let minutes = components.minute, minutes < 60 {
-                return "\(minutes) min"
+                return LocalizedKeys.TimeAgo.minutes(minutes)
             }
             if let hours = components.hour, hours < 24 {
-                return "\(hours) h"
+                return LocalizedKeys.TimeAgo.hours(hours)
             }
             if let days = components.day, days < 7 {
-                return "\(days) días"
+                return LocalizedKeys.TimeAgo.days(days)
             }
 
             let formatter = DateFormatter()
@@ -54,7 +54,7 @@ extension Date {
             }
             
             if calendar.isDateInYesterday(self) {
-                return NSLocalizedString("Yesterday", comment: "Date label for yesterday")
+                return LocalizedKeys.Common.yesterday
             }
             
             if let days = components.day, days < 7 {
@@ -78,11 +78,11 @@ extension Date {
         formatter.locale = .current
         
         if Calendar.current.isDateInToday(self) {
-            return NSLocalizedString("Today", comment: "Date label for today")
+            return LocalizedKeys.Common.today
         }
         
         if Calendar.current.isDateInYesterday(self) {
-            return NSLocalizedString("Yesterday", comment: "Date label for yesterday")
+            return LocalizedKeys.Common.yesterday
         }
         
         let now = Date()

@@ -21,7 +21,7 @@ struct ReplyingToMessageBar: View {
                 .frame(width: 4)
             
             VStack(alignment: .leading, spacing: 2) {
-                Text("Respondiendo a \(message.senderName)")
+                Text(LocalizedKeys.Chat.replyingTo(message.senderName))
                     .font(.caption)
                     .fontWeight(.bold)
                     .foregroundColor(.blue)

@@ -24,7 +24,7 @@ struct EditProfileView: View {
         NavigationStack {
             ZStack {
                 Form {
-                    Section(header: Text("Profile Picture")) {
+                    Section(header: Text(LocalizedKeys.Settings.profilePictureTitle)) {
                         HStack {
                             Spacer()
                             VStack {
@@ -34,7 +34,7 @@ struct EditProfileView: View {
                                 )
                                 .frame(width: 120, height: 120)
                                 
-                                Text("Tap to change photo")
+                                Text(LocalizedKeys.Settings.tapToChangePhoto)
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
@@ -43,19 +43,19 @@ struct EditProfileView: View {
                         .padding(.vertical)
                     }
                     
-                    Section(header: Text("User Information")) {
-                        TextField("Full Name", text: $editProfileViewModel.fullName)
+                    Section(header: Text(LocalizedKeys.Settings.userInformationTitle)) {
+                        TextField(LocalizedKeys.Placeholder.fullnamePlaceholder, text: $editProfileViewModel.fullName)
                         
                         HStack {
-                            Text("Email")
+                            Text(LocalizedKeys.Placeholder.emailPlaceholder)
                             Spacer()
                             Text(editProfileViewModel.email)
                                 .foregroundColor(.gray)
                         }
                     }
                     
-                    Section(header: Text("Preferences")) {
-                        Picker("Learning Language", selection: $editProfileViewModel.learningLanguage) {
+                    Section(header: Text(LocalizedKeys.Settings.preferences)) {
+                        Picker(LocalizedKeys.Features.learningLanguage, selection: $editProfileViewModel.learningLanguage) {
                             ForEach(Language.allCases) { lang in
                                 Text("\(lang.flag) \(lang.fullName)").tag(lang)
                             }
@@ -71,7 +71,7 @@ struct EditProfileView: View {
                 }
                 
                 if editProfileViewModel.isLoading {
-                    ProgressView("Saving...")
+                    ProgressView(LocalizedKeys.Common.saving)
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
                         .background(Color.white.opacity(0.8))
@@ -82,12 +82,12 @@ struct EditProfileView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(LocalizedKeys.Common.cancel) {
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button(LocalizedKeys.Common.save) {
                         Task {
                             await editProfileViewModel.saveChanges()
                         }

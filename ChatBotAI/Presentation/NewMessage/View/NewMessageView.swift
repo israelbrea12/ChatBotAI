@@ -28,16 +28,16 @@ struct NewMessageView: View {
                 case .error(let errorMessage):
                     InfoView(message: errorMessage)
                 case .empty:
-                    InfoView(message: "No users available")
+                    InfoView(message: LocalizedKeys.AppError.noUsersAvailable)
                 }
             }
-            .navigationTitle("New Message")
+            .navigationTitle(LocalizedKeys.Chat.newMessage)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Text("Cancel")
+                        Text(LocalizedKeys.Common.cancel)
                     }
                 }
             }
@@ -85,10 +85,10 @@ struct NewMessageView: View {
             }
             
             VStack(alignment: .leading) {
-                Text(user.fullName ?? "Unknown")
+                Text(user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName)
                     .font(.subheadline)
                     .fontWeight(.semibold)
-                Text(user.email ?? "No email")
+                Text(user.email ?? LocalizedKeys.DefaultValues.defaultEmail)
                     .font(.footnote)
                     .foregroundColor(.gray)
             }

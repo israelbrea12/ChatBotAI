@@ -28,8 +28,8 @@ class EditProfileViewModel: ObservableObject {
     private let updateUserUseCase: UpdateUserUseCase
     
     init(user: User, updateUserUseCase: UpdateUserUseCase) {
-        self.fullName = user.fullName ?? ""
-        self.email = user.email ?? "No email"
+        self.fullName = user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName
+        self.email = user.email ?? LocalizedKeys.DefaultValues.defaultEmail
         self.profileImageUrl = user.profileImageUrl
         self.updateUserUseCase = updateUserUseCase
         self.learningLanguage = Language(rawValue: user.learningLanguage ?? "en") ?? .english
@@ -55,7 +55,7 @@ class EditProfileViewModel: ObservableObject {
             
             dismissAction.send()
         case .failure(let error):
-            self.errorMessage = "Error: \(error.localizedDescription)"
+            self.errorMessage = LocalizedKeys.AppError.editingAccount
         }
     }
 }

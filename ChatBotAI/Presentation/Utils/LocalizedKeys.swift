@@ -35,6 +35,8 @@ enum LocalizedKeys {
         static var today: String { "common_today".localized() }
         static var yesterday: String { "common_yesterday".localized() }
         static var online: String { "common_online".localized() }
+        static var fullName: String { "common_full_name".localized() }
+        static var email: String { "common_email".localized() }
         static var saving: String { "common_saving".localized() }
         static var loadingMessages: String { "common_loading_messages".localized() }
         static var unknown: String { "common_unknown".localized() }
@@ -216,7 +218,10 @@ enum LocalizedKeys {
         static var loadMessages: String { "error_load_messages".localized() }
         static var deleteMessage: String { "error_delete_message".localized() }
         static var editingMessage: String { "error_editing_message".localized() }
+        static var editingAccount: String { "error_editing_account".localized() }
         static var loadingSettings: String { "error_loading_settings".localized() }
+        static var noUsersAvailable: String { "error_no_users_available".localized() }
+        static var usersLoadFailed: String { "error_users_load_failed".localized() }
     }
     
     // MARK: - Miscellaneous
@@ -232,4 +237,26 @@ enum LocalizedKeys {
         static var defaultLastMessage: String { "default_last_message".localized() }
         static var defaultDate: String { "default_date".localized() }
     }
+    
+    // MARK: - Time Ago Formatting
+        enum TimeAgo {
+            static var justNow: String { "time_ago_just_now".localized() }
+            
+            static func minutes(_ count: Int) -> String {
+                String(format: "time_ago_minutes".localized(), count)
+            }
+            
+            static func hours(_ count: Int) -> String {
+                String(format: "time_ago_hours".localized(), count)
+            }
+            
+            static func days(_ count: Int) -> String {
+                String(format: "time_ago_days".localized(), count)
+            }
+        }
+        
+        // MARK: - Image Detail View
+        enum ImageDetail {
+            static var senderYou: String { "image_detail_sender_you".localized() }
+        }
 }

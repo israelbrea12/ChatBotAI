@@ -64,7 +64,7 @@ struct ImageDetailView: View {
             Button(action: { coordinator.toggleView(show: false) }) {
                 Image(systemName: "chevron.left")
                     .font(.title3)
-                Text("Chat")
+                Text(LocalizedKeys.Common.chat)
             }
             .foregroundStyle(Color.primary)
             
@@ -75,8 +75,8 @@ struct ImageDetailView: View {
                 VStack(spacing: 2) {
                     // Determina el nombre del remitente
                     let senderName = message.senderId == coordinator.currentUserID
-                    ? "You"
-                    : coordinator.otherUserName ?? "Unknown"
+                    ? LocalizedKeys.ImageDetail.senderYou
+                    : coordinator.otherUserName ?? LocalizedKeys.Common.unknown
                     
                     Text(senderName)
                         .font(.headline)
@@ -94,7 +94,7 @@ struct ImageDetailView: View {
             Spacer()
             
             Image(systemName: "chevron.left").opacity(0)
-            Text("Chat").opacity(0)
+            Text(LocalizedKeys.Common.chat).opacity(0)
             
         }
         .padding(.horizontal)

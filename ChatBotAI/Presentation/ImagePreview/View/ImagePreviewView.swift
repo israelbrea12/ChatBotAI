@@ -45,7 +45,7 @@ struct ImagePreviewView: View {
 
                     // Pie de foto y botón de enviar
                     HStack(spacing: 10) {
-                        TextField("Añadir un comentario...", text: $caption)
+                        TextField(LocalizedKeys.Placeholder.addCommentPlaceholder, text: $caption)
                             .focused($isCaptionFieldFocused)
                             .padding(12)
                             .background(.thinMaterial)
