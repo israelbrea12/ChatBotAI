@@ -75,22 +75,22 @@ class RegistrationViewModel: ObservableObject {
         authenticationError = nil
         
         if !email.contains("@") {
-            emailError = "El formato del email no es válido."
+            emailError = LocalizedKeys.Validation.emailInvalid
             isValid = false
         }
         
         if fullName.count <= 2 {
-            fullNameError = "El nombre debe tener al menos 3 caracteres."
+            fullNameError = LocalizedKeys.Validation.nameTooShort
             isValid = false
         }
         
         if password.count <= 5 {
-            passwordError = "La contraseña debe tener al menos 6 caracteres."
+            passwordError = LocalizedKeys.Validation.passwordTooShort
             isValid = false
         }
         
         if password != confirmPassword {
-            confirmPasswordError = "Las contraseñas no coinciden."
+            confirmPasswordError = LocalizedKeys.Validation.passwordsDoNotMatch
             isValid = false
         }
         

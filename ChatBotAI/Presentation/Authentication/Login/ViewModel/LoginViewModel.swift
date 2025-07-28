@@ -83,13 +83,13 @@ class LoginViewModel: ObservableObject {
 
             // Validar Email
             if !email.contains("@") {
-                emailError = "El formato del email no es válido."
+                emailError = LocalizedKeys.Validation.emailInvalid
                 isValid = false
             }
             
             // Validar Contraseña
             if password.count <= 5 {
-                passwordError = "La contraseña debe tener al menos 6 caracteres."
+                passwordError = LocalizedKeys.Validation.passwordTooShort
                 isValid = false
             }
             

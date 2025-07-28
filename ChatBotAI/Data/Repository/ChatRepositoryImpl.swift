@@ -60,7 +60,6 @@ class ChatRepositoryImpl: ChatRepository {
     
     func deleteAllUserChatsIds(userId: String) async -> Result<Void, AppError> {
         do {
-            // Usamos la función que ya tenías en el DataSource
             try await chatDataSource.deleteAllUserChatsIds(userId: userId)
             return .success(())
         } catch {
@@ -72,15 +71,14 @@ class ChatRepositoryImpl: ChatRepository {
         do {
             if let message = message {
                 let lastMessageData: [String: Any] = [
-                    "text": message.text,
-                    "senderId": message.senderId,
-                    "sentAt": message.sentAt ?? Date().timeIntervalSince1970, // Asegura un valor
-                    "messageType": message.messageType.rawValue,
-                    "isEdited": message.isEdited
+                    Constants.Database.Message.text: message.text,
+                    Constants.Database.Message.senderId: message.senderId,
+                    Constants.Database.Message.sentAt: message.sentAt ?? Date().timeIntervalSince1970, // Asegura un valor
+                    Constants.Database.Message.messageType: message.messageType.rawValue,
+                    Constants.Database.Message.isEdited: message.isEdited
                 ]
                 try await chatDataSource.updateChatLastMessage(chatId: chatId, lastMessageData: lastMessageData)
             } else {
-                // Si el mensaje es nil, borra el lastMessage
                 try await chatDataSource.updateChatLastMessage(chatId: chatId, lastMessageData: nil)
             }
             return .success(())

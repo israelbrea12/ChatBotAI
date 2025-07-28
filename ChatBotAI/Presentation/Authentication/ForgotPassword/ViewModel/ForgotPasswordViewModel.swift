@@ -34,8 +34,8 @@ class ForgotPasswordViewModel: ObservableObject {
         
         switch result {
         case .success:
-            self.alertTitle = "Enlace Enviado"
-            self.alertMessage = "Revisa tu correo electrónico para restablecer tu contraseña."
+            self.alertTitle = LocalizedKeys.Auth.linkSentTitle
+            self.alertMessage = LocalizedKeys.Auth.linkSentMessage
             self.showAlert = true
         case .failure(let error):
             self.alertTitle = "Error"

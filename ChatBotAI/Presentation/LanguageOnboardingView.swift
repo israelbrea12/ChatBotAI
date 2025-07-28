@@ -33,7 +33,7 @@ struct LanguageOnboardingView: View {
                         .blurSlide(animateIcon)
                     
                     // 2. Título
-                    Text("Choose your language")
+                    Text(LocalizedKeys.Onboarding.languageTitle)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.horizontal)
@@ -49,7 +49,7 @@ struct LanguageOnboardingView: View {
             
             // 4. Footer y Botón
             VStack(spacing: 15) {
-                Text("You can change this at any time in the settings.")
+                Text(LocalizedKeys.Onboarding.languageSubtitle)
                     .font(.caption)
                     .foregroundStyle(.gray)
                     .padding(.horizontal)
@@ -59,7 +59,7 @@ struct LanguageOnboardingView: View {
                         onContinue(selectedLanguage)
                     }
                 }) {
-                    Text("Continue")
+                    Text(LocalizedKeys.Common.continue)
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 4)

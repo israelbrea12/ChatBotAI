@@ -23,23 +23,23 @@ struct LoginView: View {
                 VStack(alignment: .leading, spacing: 15) {
                     Spacer(minLength: 0)
                     
-                    Text("Login")
+                    Text(LocalizedKeys.Auth.loginTitle)
                         .font(.largeTitle)
                         .fontWeight(.heavy)
                     
-                    Text("Please sign in to continue")
+                    Text(LocalizedKeys.Auth.signinToContinue)
                         .font(.callout)
                         .fontWeight(.semibold)
                         .foregroundStyle(.gray)
                         .padding(.top, -5)
                     
                     VStack(spacing: 25) {
-                        CustomTF(sfIcon: "at", hint: "Email Address", value: $loginViewModel.email, error: loginViewModel.emailError)
+                        CustomTF(sfIcon: "at", hint: LocalizedKeys.Placeholder.emailPlaceholder, value: $loginViewModel.email, error: loginViewModel.emailError)
                         
-                        CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $loginViewModel.password, error: loginViewModel.passwordError)
+                        CustomTF(sfIcon: "lock", hint: LocalizedKeys.Placeholder.passwordPlaceholder, isPassword: true, value: $loginViewModel.password, error: loginViewModel.passwordError)
                             .padding(.top, 5)
                         
-                        Button("Forgot Password?") {
+                        Button(LocalizedKeys.Auth.forgotPassword) {
                             showForgotPasswordView.toggle()
                         }
                         .font(.callout)
@@ -53,7 +53,7 @@ struct LoginView: View {
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         }
 
-                        GradientButton(title: "Login", icon: "arrow.right") {
+                        GradientButton(title: LocalizedKeys.Auth.loginTitle, icon: "arrow.right") {
                             Task { await loginViewModel.signIn() }
                         }
                         .hSpacing(.trailing)
@@ -69,10 +69,10 @@ struct LoginView: View {
                     Spacer(minLength: 0)
                     
                     HStack(spacing: 6) {
-                        Text("Don't have an account?")
+                        Text(LocalizedKeys.Auth.dontHaveAccount)
                             .foregroundStyle(.gray)
                         
-                        Button("SignUp") {
+                        Button(LocalizedKeys.Auth.signupTitle) {
                             showSignup.toggle()
                         }
                         .fontWeight(.bold)
@@ -98,7 +98,7 @@ struct LoginView: View {
     private func orDivider() -> some View {
         HStack {
             VStack { Divider() }
-            Text("or")
+            Text(LocalizedKeys.Common.or)
                 .foregroundStyle(.gray)
             VStack { Divider() }
         }
@@ -119,7 +119,7 @@ struct LoginView: View {
                     Image("google_icon")
                         .resizable()
                         .frame(width: 20, height: 20)
-                    Text("Sign in with Google")
+                    Text(LocalizedKeys.Auth.signinWithGoogle)
                         .fontWeight(.semibold)
                 }
                 .foregroundStyle(.black)
@@ -137,7 +137,7 @@ struct LoginView: View {
             } label: {
                 HStack {
                     Image(systemName: "applelogo")
-                    Text("Sign in with Apple")
+                    Text(LocalizedKeys.Auth.signinWithApple)
                         .fontWeight(.semibold)
                 }
                 .foregroundStyle(.white)

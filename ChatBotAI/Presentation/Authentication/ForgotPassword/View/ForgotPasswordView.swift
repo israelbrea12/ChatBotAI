@@ -24,23 +24,23 @@ struct ForgotPasswordView: View {
             })
             .padding(.top, 10)
             
-            Text("Forgot Password?")
+            Text(LocalizedKeys.Auth.forgotPassword)
                 .font(.largeTitle)
                 .fontWeight(.heavy)
                 .padding(.top, 5)
             
-            Text("Please enter your Email ID so that we can send the reset link.")
+            Text(LocalizedKeys.Auth.resetPasswordLink)
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundStyle(.gray)
                 .padding(.top, -5)
             
             VStack(spacing: 25) {
-                CustomTF(sfIcon: "at", hint: "Email ID", value: $forgotPasswordViewModel.email)
+                CustomTF(sfIcon: "at", hint: LocalizedKeys.Placeholder.emailPlaceholder, value: $forgotPasswordViewModel.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
                 
-                GradientButton(title: "Send Link", icon: "arrow.right") {
+                GradientButton(title: LocalizedKeys.Auth.linkSentTitle, icon: "arrow.right") {
                     Task {
                         await forgotPasswordViewModel.sendPasswordResetLink()
                     }
@@ -56,8 +56,8 @@ struct ForgotPasswordView: View {
         .padding(.horizontal, 25)
         .interactiveDismissDisabled()
         .alert(forgotPasswordViewModel.alertTitle, isPresented: $forgotPasswordViewModel.showAlert) {
-            Button("OK") {
-                if forgotPasswordViewModel.alertTitle == "Enlace Enviado" {
+            Button(LocalizedKeys.Common.ok) {
+                if forgotPasswordViewModel.alertTitle == LocalizedKeys.Auth.linkSentTitle {
                     dismiss()
                 }
             }

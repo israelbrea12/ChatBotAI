@@ -9,7 +9,7 @@ import SwiftUI
 
 protocol FLoatingTabProtocol {
     var symbolImage: String { get }
-    var tabTitle: LocalizedStringKey { get }
+    var tabTitle: String { get }
 }
 
 fileprivate class FloatingTabViewHelper: ObservableObject {

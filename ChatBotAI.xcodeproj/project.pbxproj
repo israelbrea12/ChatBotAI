@@ -176,6 +176,7 @@
 		40FC6D3E2E3227800057F614 /* LanguageOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */; };
 		40FC6D402E323B380057F614 /* FetchUsersByLanguageParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */; };
 		40FC6D562E36923E0057F614 /* ReplyingToMessageBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D552E36923E0057F614 /* ReplyingToMessageBar.swift */; };
+		40FC6D592E377EEA0057F614 /* LocalizedKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40FC6D582E377EEA0057F614 /* LocalizedKeys.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -356,6 +357,7 @@
 		40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageOnboardingView.swift; sourceTree = "<group>"; };
 		40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUsersByLanguageParams.swift; sourceTree = "<group>"; };
 		40FC6D552E36923E0057F614 /* ReplyingToMessageBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReplyingToMessageBar.swift; sourceTree = "<group>"; };
+		40FC6D582E377EEA0057F614 /* LocalizedKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedKeys.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -922,6 +924,7 @@
 				408CA9632DECD591000C0FAD /* ImagePreview */,
 				4057DBFE2D8CCE5300D2E2B0 /* NewMessage */,
 				40D384E82D843A7700406AC1 /* Helpers */,
+				40FC6D572E377ED10057F614 /* Utils */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -1226,6 +1229,14 @@
 			path = Message;
 			sourceTree = "<group>";
 		};
+		40FC6D572E377ED10057F614 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				40FC6D582E377EEA0057F614 /* LocalizedKeys.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1466,6 +1477,7 @@
 				408CA9562DECC7AE000C0FAD /* StorageDataSource.swift in Sources */,
 				40D385392D85C68200406AC1 /* Resolver.swift in Sources */,
 				40DEB21A2E2941B10039134C /* EditMessageUseCase.swift in Sources */,
+				40FC6D592E377EEA0057F614 /* LocalizedKeys.swift in Sources */,
 				408CA9382DE8E3D4000C0FAD /* DeleteMessageUseCase.swift in Sources */,
 				408CA9342DE8C9AD000C0FAD /* MessageActionMenuView.swift in Sources */,
 				40D384F82D843A7700406AC1 /* HomeViewModel.swift in Sources */,

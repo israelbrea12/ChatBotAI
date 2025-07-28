@@ -28,12 +28,12 @@ struct SignUpView: View {
                             })
                             .padding(.top, 10)
                             
-                            Text("Sign Up")
+                            Text(LocalizedKeys.Auth.signupTitle)
                                 .font(.largeTitle)
                                 .fontWeight(.heavy)
                                 .padding(.top, 10)
                             
-                            Text("Please sign up to continue")
+                            Text(LocalizedKeys.Auth.signupToContinue)
                                 .font(.callout)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.gray)
@@ -43,13 +43,13 @@ struct SignUpView: View {
                                 ImagePickerView(image: $registrationViewModel.image)
                                     .padding(.top)
                                 
-                                CustomTF(sfIcon: "at", hint: "Email Address", value: $registrationViewModel.email, error: registrationViewModel.emailError)
+                                CustomTF(sfIcon: "at", hint: LocalizedKeys.Placeholder.emailPlaceholder, value: $registrationViewModel.email, error: registrationViewModel.emailError)
                                                     
-                                CustomTF(sfIcon: "person", hint: "Full Name", value: $registrationViewModel.fullName, error: registrationViewModel.fullNameError)
+                                CustomTF(sfIcon: "person", hint: LocalizedKeys.Placeholder.fullnamePlaceholder, value: $registrationViewModel.fullName, error: registrationViewModel.fullNameError)
                                                 
-                                CustomTF(sfIcon: "lock", hint: "Password", isPassword: true, value: $registrationViewModel.password, error: registrationViewModel.passwordError)
+                                CustomTF(sfIcon: "lock", hint: LocalizedKeys.Placeholder.passwordPlaceholder, isPassword: true, value: $registrationViewModel.password, error: registrationViewModel.passwordError)
                                                 
-                                CustomTF(sfIcon: "lock.fill", hint: "Confirm Password", isPassword: true, value: $registrationViewModel.confirmPassword, error: registrationViewModel.confirmPasswordError)
+                                CustomTF(sfIcon: "lock.fill", hint: LocalizedKeys.Placeholder.confirmPasswordPlaceholder, isPassword: true, value: $registrationViewModel.confirmPassword, error: registrationViewModel.confirmPasswordError)
                                 
                                 if let error = registrationViewModel.authenticationError {
                                     Text(error.localizedDescription)
@@ -58,7 +58,7 @@ struct SignUpView: View {
                                         .frame(maxWidth: .infinity, alignment: .trailing)
                                 }
                                 
-                                GradientButton(title: "Sign Up", icon: "arrow.right") {
+                                GradientButton(title: LocalizedKeys.Auth.signupTitle, icon: "arrow.right") {
                                     Task { await registrationViewModel.createUser() }
                                 }
                                 .hSpacing(.trailing)
@@ -70,10 +70,10 @@ struct SignUpView: View {
                             Spacer(minLength: 0)
                             
                             HStack(spacing: 6) {
-                                Text("Already have an account?")
+                                Text(LocalizedKeys.Auth.alreadyHaveAccount)
                                     .foregroundStyle(.gray)
                                 
-                                Button("Login") {
+                                Button(LocalizedKeys.Auth.loginTitle) {
                                     showSignup = false
                                 }
                                 .fontWeight(.bold)
@@ -94,7 +94,7 @@ struct SignUpView: View {
             }
             
             if registrationViewModel.isLoading {
-                LoadingView(message: "Creating Account...")
+                LoadingView(message: LocalizedKeys.Misc.creatingAccount)
                     .ignoresSafeArea()
             }
         }
