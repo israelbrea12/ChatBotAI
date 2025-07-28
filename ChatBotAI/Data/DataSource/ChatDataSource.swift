@@ -31,14 +31,14 @@ class ChatDataSourceImpl: ChatDataSource {
     func createChat(otherUserId: String) async throws -> ChatModel {
         guard let currentUserId = await SessionManager.shared.currentUser?.id else {
             throw NSError(
-                domain: "ChatRepository",
+                domain: Constants.Errors.Domain.chatRepository,
                 code: 401,
                 userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]
             )
         }
 
         let chatId = generateChatId(for: currentUserId, and: otherUserId)
-        let chatRef = databaseRef.child("chats").child(chatId)
+        let chatRef = databaseRef.child(Constants.Database.chats).child(chatId)
 
         // Verifica si el chat ya existe
         let chatSnapshot = try await chatRef.getData()
@@ -48,7 +48,7 @@ class ChatDataSourceImpl: ChatDataSource {
             print("ChatDataSource: El chat ya existe. Solo restaurando referencia si es necesario.")
             
             // Restaurar solo la referencia del usuario actual
-            let userChatsRefCurrent = databaseRef.child("user_chats").child(currentUserId).child("chats").child(chatId)
+            let userChatsRefCurrent = databaseRef.child(Constants.Database.userChats).child(currentUserId).child(Constants.Database.chats).child(chatId)
             try await userChatsRefCurrent.setValue(true)
             
             let chatData = chatSnapshot.value as? [String: Any] ?? [:]
@@ -58,15 +58,15 @@ class ChatDataSourceImpl: ChatDataSource {
         // Si no existe, crear uno nuevo
         let createdAt = Date().timeIntervalSince1970
         let chatData: [String: Any] = [
-            "id": chatId,
-            "participants": [currentUserId, otherUserId],
-            "createdAt": createdAt
+            Constants.Database.Chat.id: chatId,
+            Constants.Database.Chat.participants: [currentUserId, otherUserId],
+            Constants.Database.Chat.createdAt: createdAt
         ]
 
         try await chatRef.setValue(chatData)
 
-        let userChatsRefCurrent = databaseRef.child("user_chats").child(currentUserId).child("chats").child(chatId)
-        let userChatsRefOther = databaseRef.child("user_chats").child(otherUserId).child("chats").child(chatId)
+        let userChatsRefCurrent = databaseRef.child(Constants.Database.userChats).child(currentUserId).child(Constants.Database.chats).child(chatId)
+        let userChatsRefOther = databaseRef.child(Constants.Database.userChats).child(otherUserId).child(Constants.Database.chats).child(chatId)
 
         try await userChatsRefCurrent.setValue(true)
         try await userChatsRefOther.setValue(true)
@@ -87,16 +87,16 @@ class ChatDataSourceImpl: ChatDataSource {
     func fetchUserChats() async throws -> [ChatModel] {
         guard let currentUserId = await SessionManager.shared.currentUser?.id else {
             throw NSError(
-                domain: "ChatRepository",
+                domain: Constants.Errors.Domain.chatRepository,
                 code: 401,
                 userInfo: [NSLocalizedDescriptionKey: "User not authenticated"]
             )
         }
 
         let userChatsSnapshot = try await databaseRef
-            .child("user_chats")
+            .child(Constants.Database.userChats)
             .child(currentUserId)
-            .child("chats")
+            .child(Constants.Database.chats)
             .getData()
 
         guard let userChatsDict = userChatsSnapshot.value as? [String: Any] else {
@@ -107,7 +107,7 @@ class ChatDataSourceImpl: ChatDataSource {
         var chatModels: [ChatModel] = []
 
         for chatId in chatIds {
-            let chatSnapshot = try await databaseRef.child("chats").child(chatId).getData()
+            let chatSnapshot = try await databaseRef.child(Constants.Database.chats).child(chatId).getData()
             if let chatData = chatSnapshot.value as? [String: Any] {
                 let chatModel = ChatModel.toData(chatData, chatId: chatId)
                 chatModels.append(chatModel)
@@ -119,40 +119,40 @@ class ChatDataSourceImpl: ChatDataSource {
     }
     
     func observeAllChatActivity(userId: String, onChatEvent: @escaping (ChatModel) -> Void) {
-            Task { await stopObservingAllChatActivity(userId: userId) }
-
-            userChatsRefForActivity = databaseRef.child("user_chats").child(userId).child("chats")
+        Task { await stopObservingAllChatActivity(userId: userId) }
+        
+        userChatsRefForActivity = databaseRef.child(Constants.Database.userChats).child(userId).child(Constants.Database.chats)
+        
+        print("FirebaseDataSource: Iniciando observeAllChatActivity para usuario \(userId)")
+        
+        userChatsListenerHandle = userChatsRefForActivity?.observe(.childAdded, with: { [weak self] userChatSnapshot in
+            guard let self = self else { return }
+            let chatId = userChatSnapshot.key
+            print("FirebaseDataSource: Nuevo chatId \(chatId) detectado para usuario \(userId)")
             
-            print("FirebaseDataSource: Iniciando observeAllChatActivity para usuario \(userId)")
-
-            userChatsListenerHandle = userChatsRefForActivity?.observe(.childAdded, with: { [weak self] userChatSnapshot in
-                guard let self = self else { return }
-                let chatId = userChatSnapshot.key
-                print("FirebaseDataSource: Nuevo chatId \(chatId) detectado para usuario \(userId)")
-
-                if self.individualChatListeners[chatId] == nil {
-                    let specificChatRef = self.databaseRef.child("chats").child(chatId)
-                    self.individualChatRefsForActivity[chatId] = specificChatRef
-                    
-                    let handle = specificChatRef.observe(.value, with: { chatDataSnapshot in
-                        if chatDataSnapshot.exists(), let chatData = chatDataSnapshot.value as? [String: Any] {
-                            print("FirebaseDataSource: Evento de datos para chat \(chatId)")
-                            let model = ChatModel.toData(chatData, chatId: chatDataSnapshot.key)
-                            onChatEvent(model)
-                        } else {
-                             print("FirebaseDataSource: Chat \(chatId) eliminado o datos no válidos.")
-                            if !chatDataSnapshot.exists() {
-                                self.individualChatRefsForActivity[chatId]?.removeObserver(withHandle: self.individualChatListeners[chatId]!)
-                                self.individualChatListeners.removeValue(forKey: chatId)
-                                self.individualChatRefsForActivity.removeValue(forKey: chatId)
-                                print("FirebaseDataSource: Observador para chat \(chatId) eliminado porque el chat ya no existe.")
-                            }
+            if self.individualChatListeners[chatId] == nil {
+                let specificChatRef = self.databaseRef.child(Constants.Database.chats).child(chatId)
+                self.individualChatRefsForActivity[chatId] = specificChatRef
+                
+                let handle = specificChatRef.observe(.value, with: { chatDataSnapshot in
+                    if chatDataSnapshot.exists(), let chatData = chatDataSnapshot.value as? [String: Any] {
+                        print("FirebaseDataSource: Evento de datos para chat \(chatId)")
+                        let model = ChatModel.toData(chatData, chatId: chatDataSnapshot.key)
+                        onChatEvent(model)
+                    } else {
+                        print("FirebaseDataSource: Chat \(chatId) eliminado o datos no válidos.")
+                        if !chatDataSnapshot.exists() {
+                            self.individualChatRefsForActivity[chatId]?.removeObserver(withHandle: self.individualChatListeners[chatId]!)
+                            self.individualChatListeners.removeValue(forKey: chatId)
+                            self.individualChatRefsForActivity.removeValue(forKey: chatId)
+                            print("FirebaseDataSource: Observador para chat \(chatId) eliminado porque el chat ya no existe.")
                         }
-                    })
-                    self.individualChatListeners[chatId] = handle
-                }
-            })
-
+                    }
+                })
+                self.individualChatListeners[chatId] = handle
+            }
+        })
+        
         userChatsRefForActivity?.observe(.childRemoved, with: { [weak self] userChatSnapshot in
             guard let self = self else { return }
             let chatId = userChatSnapshot.key
@@ -164,7 +164,7 @@ class ChatDataSourceImpl: ChatDataSource {
                 self.individualChatListeners.removeValue(forKey: chatId)
                 self.individualChatRefsForActivity.removeValue(forKey: chatId)
             }
-
+            
             // 👉 Notificar al HomeViewModel que el chat fue eliminado
             let deletedChat = ChatModel(
                 id: chatId,
@@ -174,8 +174,7 @@ class ChatDataSourceImpl: ChatDataSource {
             )
             onChatEvent(deletedChat)
         })
-
-        }
+    }
 
     func stopObservingAllChatActivity(userId: String) async {
         print("FirebaseDataSource: Deteniendo observeAllChatActivity para usuario \(userId)")
@@ -199,24 +198,24 @@ class ChatDataSourceImpl: ChatDataSource {
     
     func deleteUserChat(userId: String, chatId: String) async throws {
         let ref = Database.database().reference()
-            .child("user_chats")
+            .child(Constants.Database.userChats)
             .child(userId)
-            .child("chats")
+            .child(Constants.Database.chats)
             .child(chatId)
         try await ref.removeValue()
     }
 
     func deleteAllUserChatsIds(userId: String) async throws {
-        let ref = databaseRef.child("user_chats").child(userId)
+        let ref = databaseRef.child(Constants.Database.userChats).child(userId)
         try await ref.removeValue()
         print("ChatDataSource: Nodo user_chats eliminado para el usuario \(userId).")
     }
     
     func updateChatLastMessage(chatId: String, lastMessageData: [String: Any]?) async throws {
         let chatLastMessageRef = databaseRef
-            .child("chats")
+            .child(Constants.Database.userChats)
             .child(chatId)
-            .child("lastMessage")
+            .child(Constants.Database.Chat.lastMessage)
         
         if let data = lastMessageData {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
@@ -228,7 +227,7 @@ class ChatDataSourceImpl: ChatDataSource {
                     }
                 }
             }
-            print("ChatDataSource: lastMessage de chat \(chatId) actualizado a: \(data["text"] as? String ?? "N/A")")
+            print("ChatDataSource: lastMessage de chat \(chatId) actualizado a: \(data[Constants.Database.Message.text] as? String ?? "N/A")")
         } else {
             // Eliminar el nodo lastMessage si no hay datos
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in

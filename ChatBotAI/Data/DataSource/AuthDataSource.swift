@@ -51,34 +51,34 @@ class AuthDataSourceImpl: AuthDataSource {
     }
     
     func signUp(email: String, password: String, fullName: String, profileImage: UIImage?) async throws -> UserModel {
-            let authResult = try await SessionManager.shared.auth.createUser(withEmail: email, password: password)
-            let uid = authResult.user.uid
-
-            var profileImageUrl: String? = nil
-            if let image = profileImage {
-                profileImageUrl = try await uploadProfileImage(image: image, userId: uid)
-            }
-
-            let userModel = UserModel(
-                uid: uid,
-                email: email,
-                fullName: fullName,
-                profileImageUrl: profileImageUrl
-            )
-            let userValues = userModel.toDictionary()
-
-            let userRef = Database.database().reference().child("users").child(uid)
-            try await userRef.setValue(userValues)
-
-            return userModel
+        let authResult = try await SessionManager.shared.auth.createUser(withEmail: email, password: password)
+        let uid = authResult.user.uid
+        
+        var profileImageUrl: String? = nil
+        if let image = profileImage {
+            profileImageUrl = try await uploadProfileImage(image: image, userId: uid)
         }
+        
+        let userModel = UserModel(
+            uid: uid,
+            email: email,
+            fullName: fullName,
+            profileImageUrl: profileImageUrl
+        )
+        let userValues = userModel.toDictionary()
+        
+        let userRef = Database.database().reference().child(Constants.Database.users).child(uid)
+        try await userRef.setValue(userValues)
+        
+        return userModel
+    }
 
     private func uploadProfileImage(image: UIImage, userId: String) async throws -> String {
         guard let imageData = image.jpegData(compressionQuality: 0.3) else {
             throw AppError.unknownError("No se pudo convertir la imagen a datos")
         }
 
-        let storageRef = Storage.storage().reference().child("profile_images/\(userId).jpg")
+        let storageRef = Storage.storage().reference().child("\(Constants.Storage.profileImages)/\(userId)\(Constants.Storage.imageExtension)")
         _ = try await storageRef.putDataAsync(imageData, metadata: nil)
         return try await storageRef.downloadURL().absoluteString
     }
@@ -97,8 +97,8 @@ class AuthDataSourceImpl: AuthDataSource {
         let authResult = try await googleAuthService.signIn().get()
         
         let uid = authResult.user.uid
-        let email = authResult.user.email ?? "No email"
-        let fullName = authResult.user.displayName ?? email.components(separatedBy: "@").first ?? "Unknown"
+        let email = authResult.user.email ?? Constants.DefaultValues.defaultEmail
+        let fullName = authResult.user.displayName ?? email.components(separatedBy: "@").first ?? Constants.DefaultValues.defaultFullName
         let profileImageUrl = authResult.user.photoURL?.absoluteString
         
         let userModel = UserModel(uid: uid, email: email, fullName: fullName, profileImageUrl: profileImageUrl)
@@ -135,7 +135,7 @@ class AuthDataSourceImpl: AuthDataSource {
     }
 
     private func saveUserIfNeeded(_ userModel: UserModel) async throws {
-        let userRef = Database.database().reference().child("users").child(userModel.uid)
+        let userRef = Database.database().reference().child(Constants.Database.users).child(userModel.uid)
         let snapshot = try await userRef.getData()
         if !snapshot.exists() {
             try await userRef.setValue(userModel.toDictionary())

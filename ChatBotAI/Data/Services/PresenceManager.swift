@@ -22,15 +22,15 @@ class PresenceManager {
     func setupPresence() {
         guard presenceRef == nil, let currentUserID = Auth.auth().currentUser?.uid else { return }
         
-        self.presenceRef = databaseRef.child("users/\(currentUserID)/presence")
+        self.presenceRef = databaseRef.child("\(Constants.Database.users)/\(currentUserID)/\(Constants.Database.Presence.root)")
  
         let onDisconnectData: [String: Any] = [
-            "isOnline": false,
-            "lastSeen": ServerValue.timestamp()
+            Constants.Database.Presence.isOnline: false,
+            Constants.Database.Presence.lastSeen: ServerValue.timestamp()
         ]
         presenceRef?.onDisconnectUpdateChildValues(onDisconnectData)
 
-        let connectedRef = databaseRef.child(".info/connected")
+        let connectedRef = databaseRef.child(Constants.Database.infoConnected)
         
         connectedHandle = connectedRef.observe(.value, with: { [weak self] snapshot in
             guard let self = self, let isConnected = snapshot.value as? Bool, isConnected else {
@@ -38,8 +38,8 @@ class PresenceManager {
             }
             
             let presenceData: [String: Any] = [
-                "isOnline": true,
-                "lastSeen": ServerValue.timestamp()
+                Constants.Database.Presence.isOnline: true,
+                Constants.Database.Presence.lastSeen: ServerValue.timestamp()
             ]
             self.presenceRef?.setValue(presenceData)
         })
@@ -49,15 +49,15 @@ class PresenceManager {
         guard let presenceRef = self.presenceRef else { return }
         
         let offlineData: [String: Any] = [
-            "isOnline": false,
-            "lastSeen": ServerValue.timestamp()
+            Constants.Database.Presence.isOnline: false,
+            Constants.Database.Presence.lastSeen: ServerValue.timestamp()
         ]
         presenceRef.setValue(offlineData)
         
         presenceRef.cancelDisconnectOperations()
         
         if let connectedHandle = connectedHandle {
-            databaseRef.child(".info/connected").removeObserver(withHandle: connectedHandle)
+            databaseRef.child(Constants.Database.infoConnected).removeObserver(withHandle: connectedHandle)
             self.connectedHandle = nil
         }
         self.presenceRef = nil

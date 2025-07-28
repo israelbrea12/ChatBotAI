@@ -20,7 +20,7 @@ class StorageDataSourceImpl: StorageDataSource {
 
     func uploadImage(imageData: Data, chatId: String, messageId: String) async throws -> URL {
         // Define una ruta única para la imagen en Storage
-        let imagePath = "chat_images/\(chatId)/\(messageId).jpg"
+        let imagePath = "\(Constants.Storage.chatImages)/\(chatId)/\(messageId)\(Constants.Storage.imageExtension)"
         let imageRef = storageRef.child(imagePath)
 
         // Sube los datos de la imagen
@@ -34,7 +34,7 @@ class StorageDataSourceImpl: StorageDataSource {
     }
     
     func deleteProfileImage(userId: String) async throws {
-        let imagePath = "profile_images/\(userId).jpg"
+        let imagePath = "\(Constants.Storage.profileImages)/\(userId)\(Constants.Storage.imageExtension)"
         let imageRef = storageRef.child(imagePath)
         
         do {

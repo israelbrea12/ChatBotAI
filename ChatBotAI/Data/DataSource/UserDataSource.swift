@@ -26,7 +26,7 @@ class UserDataSourceImpl: UserDataSource {
         guard let uid = await SessionManager.shared.auth.currentUser?.uid else {
             throw AppError.authenticationError("Unauthorized")
         }
-        let ref = Database.database().reference().child("users").child(uid)
+        let ref = Database.database().reference().child(Constants.Database.users).child(uid)
         let snapshot = try await ref.getData()
         
         guard let data = snapshot.value as? [String: Any] else {
@@ -35,10 +35,10 @@ class UserDataSourceImpl: UserDataSource {
 
         return UserModel(
             uid: uid,
-            email: data["email"] as? String,
-            fullName: data["fullName"] as? String,
-            profileImageUrl: data["profileImageUrl"] as? String,
-            learningLanguage: data["learningLanguage"] as? String
+            email: data[Constants.Database.User.email] as? String,
+            fullName: data[Constants.Database.User.fullName] as? String,
+            profileImageUrl: data[Constants.Database.User.profileImageUrl] as? String,
+            learningLanguage: data[Constants.Database.User.learningLanguage] as? String
         )
     }
     
@@ -47,9 +47,9 @@ class UserDataSourceImpl: UserDataSource {
             throw AppError.authenticationError("Unauthorized")
         }
 
-        let ref = Database.database().reference().child("users")
+        let ref = Database.database().reference().child(Constants.Database.users)
                 
-        let query = ref.queryOrdered(byChild: "learningLanguage").queryEqual(toValue: learningLanguage)
+        let query = ref.queryOrdered(byChild: Constants.Database.User.learningLanguage).queryEqual(toValue: learningLanguage)
                 
         let snapshot = try await query.getData()
                 
@@ -62,16 +62,16 @@ class UserDataSourceImpl: UserDataSource {
             
             return UserModel(
                 uid: key,
-                email: value["email"] as? String,
-                fullName: value["fullName"] as? String,
-                profileImageUrl: value["profileImageUrl"] as? String,
-                learningLanguage: value["learningLanguage"] as? String
+                email: value[Constants.Database.User.email] as? String,
+                fullName: value[Constants.Database.User.fullName] as? String,
+                profileImageUrl: value[Constants.Database.User.profileImageUrl] as? String,
+                learningLanguage: value[Constants.Database.User.learningLanguage] as? String
             )
         }
     }
     
     func fetchUserById(userId: String) async throws -> UserModel {
-        let ref = Database.database().reference().child("users").child(userId)
+        let ref = Database.database().reference().child(Constants.Database.users).child(userId)
         let snapshot = try await ref.getData()
         
         guard let data = snapshot.value as? [String: Any] else {
@@ -80,10 +80,10 @@ class UserDataSourceImpl: UserDataSource {
         
         return UserModel(
             uid: userId,
-            email: data["email"] as? String,
-            fullName: data["fullName"] as? String,
-            profileImageUrl: data["profileImageUrl"] as? String,
-            learningLanguage: data["learningLanguage"] as? String
+            email: data[Constants.Database.User.email] as? String,
+            fullName: data[Constants.Database.User.fullName] as? String,
+            profileImageUrl: data[Constants.Database.User.profileImageUrl] as? String,
+            learningLanguage: data[Constants.Database.User.learningLanguage] as? String
         )
     }
     
@@ -92,20 +92,20 @@ class UserDataSourceImpl: UserDataSource {
             throw AppError.authenticationError("Unauthorized")
         }
         
-        let userRef = Database.database().reference().child("users").child(uid)
+        let userRef = Database.database().reference().child(Constants.Database.users).child(uid)
         var valuesToUpdate: [String: Any] = [:]
         
         if let newName = fullName, !newName.isEmpty {
-            valuesToUpdate["fullName"] = newName
+            valuesToUpdate[Constants.Database.User.fullName] = newName
         }
         
         if let image = profileImage {
             let newImageUrl = try await uploadProfileImage(image: image, userId: uid)
-            valuesToUpdate["profileImageUrl"] = newImageUrl
+            valuesToUpdate[Constants.Database.User.profileImageUrl] = newImageUrl
         }
         
         if let lang = learningLanguage {
-            valuesToUpdate["learningLanguage"] = lang
+            valuesToUpdate[Constants.Database.User.learningLanguage] = lang
         }
         
         if !valuesToUpdate.isEmpty {
@@ -116,7 +116,7 @@ class UserDataSourceImpl: UserDataSource {
     }
     
     func deleteUserData(userId: String) async throws {
-        let ref = Database.database().reference().child("users").child(userId)
+        let ref = Database.database().reference().child(Constants.Database.users).child(userId)
         try await ref.removeValue()
         print("✅ Datos del usuario eliminados de /users/\(userId)")
     }
@@ -126,7 +126,7 @@ class UserDataSourceImpl: UserDataSource {
             throw AppError.unknownError("No se pudo convertir la imagen a datos")
         }
         
-        let storageRef = Storage.storage().reference().child("profile_images/\(userId).jpg")
+        let storageRef = Storage.storage().reference().child("\(Constants.Storage.profileImages)/\(userId)\(Constants.Storage.imageExtension)")
         _ = try await storageRef.putDataAsync(imageData, metadata: nil)
         return try await storageRef.downloadURL().absoluteString
     }
@@ -136,8 +136,8 @@ class UserDataSourceImpl: UserDataSource {
             throw AppError.authenticationError("Unauthorized")
         }
         
-        let ref = Database.database().reference().child("users").child(userId)
-        try await ref.updateChildValues(["learningLanguage": language])
+        let ref = Database.database().reference().child(Constants.Database.users).child(userId)
+        try await ref.updateChildValues([Constants.Database.User.learningLanguage: language])
         print("✅ Idioma de aprendizaje actualizado en Firebase para el usuario: \(userId)")
     }
 }

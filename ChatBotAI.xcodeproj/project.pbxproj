@@ -53,7 +53,6 @@
 		4086853C2DD62BD200D5832D /* MessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853B2DD62BD200D5832D /* MessageRow.swift */; };
 		4086853E2DD62C5400D5832D /* MessageBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853D2DD62C5400D5832D /* MessageBubble.swift */; };
 		408685402DD62C6200D5832D /* MessageInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4086853F2DD62C6200D5832D /* MessageInputView.swift */; };
-		408685422DD62CA500D5832D /* DataConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685412DD62CA500D5832D /* DataConstants.swift */; };
 		408685452DD6309500D5832D /* CustomSwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685442DD6309500D5832D /* CustomSwipeAction.swift */; };
 		408685472DD75C4300D5832D /* PanGesture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685462DD75C4300D5832D /* PanGesture.swift */; };
 		408685492DD8098F00D5832D /* CustomAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408685482DD8098F00D5832D /* CustomAlert.swift */; };
@@ -237,7 +236,6 @@
 		4086853B2DD62BD200D5832D /* MessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRow.swift; sourceTree = "<group>"; };
 		4086853D2DD62C5400D5832D /* MessageBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubble.swift; sourceTree = "<group>"; };
 		4086853F2DD62C6200D5832D /* MessageInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageInputView.swift; sourceTree = "<group>"; };
-		408685412DD62CA500D5832D /* DataConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataConstants.swift; sourceTree = "<group>"; };
 		408685442DD6309500D5832D /* CustomSwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSwipeAction.swift; sourceTree = "<group>"; };
 		408685462DD75C4300D5832D /* PanGesture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanGesture.swift; sourceTree = "<group>"; };
 		408685482DD8098F00D5832D /* CustomAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlert.swift; sourceTree = "<group>"; };
@@ -739,7 +737,6 @@
 		40D384CB2D843A7700406AC1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				408685412DD62CA500D5832D /* DataConstants.swift */,
 				400B9D3C2E03207F007DFF50 /* Services */,
 				40D385282D84E9AF00406AC1 /* Network */,
 				40D385162D84E0B500406AC1 /* Mappers */,
@@ -1490,7 +1487,6 @@
 				401581EA2DDFB145001789E9 /* ChatMode.swift in Sources */,
 				40D384FC2D843A7700406AC1 /* InfoView.swift in Sources */,
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
-				408685422DD62CA500D5832D /* DataConstants.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				400B9D4A2E03434F007DFF50 /* CustomTF.swift in Sources */,
 				40F360052D9DC33C0078BE23 /* UserRepository.swift in Sources */,

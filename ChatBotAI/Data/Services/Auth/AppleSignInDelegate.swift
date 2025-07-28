@@ -34,7 +34,7 @@ class AppleSignInDelegate: NSObject, ASAuthorizationControllerDelegate, ASAuthor
                 let userModel = UserModel(
                     uid: authResult.user.uid,
                     email: authResult.user.email,
-                    fullName: appleIDCredential.fullName?.givenName ?? "Unknown",
+                    fullName: appleIDCredential.fullName?.givenName ?? Constants.DefaultValues.defaultFullName,
                     profileImageUrl: nil
                 )
                 continuation.resume(returning: userModel)

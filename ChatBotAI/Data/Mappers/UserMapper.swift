@@ -14,17 +14,17 @@ extension UserModel {
     
     func toDictionary() -> [String: Any] {
         var dictionary: [String: Any] = [
-            "uid": uid,
-            "email": email ?? "",
-            "fullName": fullName ?? ""
+            Constants.Database.User.uid: uid,
+            Constants.Database.User.email: email ?? "",
+            Constants.Database.User.fullName: fullName ?? ""
         ]
         
         if let url = profileImageUrl {
-            dictionary["profileImageUrl"] = url
+            dictionary[Constants.Database.User.profileImageUrl] = url
         }
         
         if let lang = learningLanguage {
-            dictionary["learningLanguage"] = lang
+            dictionary[Constants.Database.User.learningLanguage] = lang
         }
         
         return dictionary

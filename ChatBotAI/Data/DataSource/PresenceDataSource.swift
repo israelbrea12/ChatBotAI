@@ -18,7 +18,7 @@ class PresenceDataSourceImpl: PresenceDataSource {
     private var presenceHandles: [String: DatabaseHandle] = [:]
     
     func observePresence(for userId: String, completion: @escaping (Result<Presence, AppError>) -> Void) {
-        let presenceRef = databaseRef.child("users/\(userId)/presence")
+        let presenceRef = databaseRef.child("\(Constants.Database.users)/\(userId)/\(Constants.Database.Presence.root)")
         
         if presenceHandles[userId] != nil {
             stopObservingPresence(for: userId)
@@ -26,8 +26,8 @@ class PresenceDataSourceImpl: PresenceDataSource {
         
         let handle = presenceRef.observe(.value) { snapshot in
             guard let value = snapshot.value as? [String: Any],
-                  let isOnline = value["isOnline"] as? Bool,
-                  let lastSeen = value["lastSeen"] as? TimeInterval else {
+                  let isOnline = value[Constants.Database.Presence.isOnline] as? Bool,
+                  let lastSeen = value[Constants.Database.Presence.lastSeen] as? TimeInterval else {
                 
                 let defaultPresence = Presence(isOnline: false, lastSeen: Date().timeIntervalSince1970 * 1000)
                 completion(.success(defaultPresence))
@@ -43,7 +43,7 @@ class PresenceDataSourceImpl: PresenceDataSource {
     
     func stopObservingPresence(for userId: String) {
         if let handle = presenceHandles[userId] {
-            let presenceRef = databaseRef.child("users/\(userId)/presence")
+            let presenceRef = databaseRef.child("\(Constants.Database.users)/\(userId)/\(Constants.Database.Presence.root)")
             presenceRef.removeObserver(withHandle: handle)
             presenceHandles.removeValue(forKey: userId)
         }
