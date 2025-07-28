@@ -43,14 +43,14 @@ struct UserProfileView: View {
             }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(user?.fullName ?? "Usuario")
+                Text(user?.fullName ?? LocalizedKeys.Placeholder.fullnamePlaceholder)
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(Color(.label))
                 HStack {
                     Circle()
                         .foregroundColor(.green)
                         .frame(width: 10, height: 10)
-                    Text("online")
+                    Text(LocalizedKeys.Common.online)
                         .font(.system(size: 12))
                         .foregroundColor(Color(.lightGray))
                 }

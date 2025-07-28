@@ -32,7 +32,7 @@ struct HomeView: View {
                 }
             }
             .background(Color(.systemGray6))
-            .navigationTitle("Chats")
+            .navigationTitle(LocalizedKeys.Common.chats)
             .toolbar{
                 ToolbarItem (placement: .topBarTrailing) {
                     Button {

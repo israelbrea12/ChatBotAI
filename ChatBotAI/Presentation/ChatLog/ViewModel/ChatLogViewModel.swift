@@ -102,7 +102,7 @@ class ChatLogViewModel: ObservableObject {
     
     private func updatePresenceStatus(presence: Presence) {
         if presence.isOnline {
-            self.userPresenceStatus = NSLocalizedString("online_status", comment: "User is online")
+            self.userPresenceStatus = LocalizedKeys.Common.online
         } else {
             let date = Date(timeIntervalSince1970: presence.lastSeen)
             let formatter = DateFormatter()
@@ -111,18 +111,15 @@ class ChatLogViewModel: ObservableObject {
             if Calendar.current.isDateInToday(date) {
                 formatter.timeStyle = .short
                 formatter.dateStyle = .none
-                let format = NSLocalizedString("last_seen_today_at", comment: "")
-                self.userPresenceStatus = String(format: format, formatter.string(from: date))
+                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenToday(at: formatter.string(from: date))
             } else if Calendar.current.isDateInYesterday(date) {
                 formatter.timeStyle = .short
                 formatter.dateStyle = .none
-                let format = NSLocalizedString("last_seen_yesterday_at", comment: "")
-                self.userPresenceStatus = String(format: format, formatter.string(from: date))
+                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenYesterday(at: formatter.string(from: date))
             } else {
                 formatter.timeStyle = .short
                 formatter.dateStyle = .short
-                let format = NSLocalizedString("last_seen_on_date", comment: "")
-                self.userPresenceStatus = String(format: format, formatter.string(from: date))
+                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenOnDate(formatter.string(from: date))
             }
         }
     }
@@ -155,7 +152,7 @@ class ChatLogViewModel: ObservableObject {
             id: UUID().uuidString,
             text: trimmedText,
             senderId: user.id,
-            senderName: user.fullName ?? "",
+            senderName: user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName,
             sentAt: Date().timeIntervalSince1970,
             messageType: .text,
             replyTo: replyingToMessage?.id
@@ -174,7 +171,7 @@ class ChatLogViewModel: ObservableObject {
                 await updateChatLastMessage(with: message)
             case .failure(let error):
                 print("Error enviando mensaje de texto: \(error.localizedDescription)")
-                state = .error("Error al enviar el mensaje")
+                state = .error(LocalizedKeys.AppError.sendMessage)
             }
         }
     }
@@ -182,7 +179,7 @@ class ChatLogViewModel: ObservableObject {
     func sendImageMessage(imageData: Data, currentUser: User?, caption: String = "") {
         guard let user = currentUser, let chatId = chatId else {
             print("Error: Usuario o chatId no disponible.")
-            self.state = .error("No se pudo enviar la imagen.")
+            self.state = .error(LocalizedKeys.AppError.sendImage)
             return
         }
         
@@ -193,7 +190,7 @@ class ChatLogViewModel: ObservableObject {
             id: messageId,
             text: caption,
             senderId: user.id,
-            senderName: user.fullName ?? "",
+            senderName: user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName,
             sentAt: Date().timeIntervalSince1970,
             messageType: .image,
             imageURL: nil,
@@ -214,7 +211,7 @@ class ChatLogViewModel: ObservableObject {
                     id: messageId,
                     text: caption,
                     senderId: user.id,
-                    senderName: user.fullName ?? "",
+                    senderName: user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName,
                     sentAt: tempMessage.sentAt,
                     messageType: .image,
                     imageURL: imageURL.absoluteString
@@ -250,7 +247,7 @@ class ChatLogViewModel: ObservableObject {
             id: UUID().uuidString,
             text: trimmedText,
             senderId: user.id,
-            senderName: user.fullName ?? "",
+            senderName: user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName,
             sentAt: Date().timeIntervalSince1970,
             messageType: .text,
             replyTo: originalMessage.id // El ID del mensaje original
@@ -265,7 +262,7 @@ class ChatLogViewModel: ObservableObject {
                 await updateChatLastMessage(with: replyMessage)
             case .failure(let error):
                 print("Error enviando respuesta: \(error.localizedDescription)")
-                self.state = .error("Error al enviar la respuesta")
+                self.state = .error(LocalizedKeys.AppError.sendMessage)
             }
         }
     }
@@ -301,7 +298,7 @@ class ChatLogViewModel: ObservableObject {
             self.state = .success
         case .failure(let error):
             print("Error fetching messages: \(error.localizedDescription)")
-            self.state = .error("No se pudieron cargar los mensajes.")
+            self.state = .error(LocalizedKeys.AppError.loadMessages)
         }
     }
     
@@ -325,7 +322,7 @@ class ChatLogViewModel: ObservableObject {
             await updateLastMessageAfterDeletion()
         case .failure(let error):
             print("Error eliminando mensaje: \(error.localizedDescription)")
-            state = .error("No se pudo eliminar el mensaje.")
+            state = .error(LocalizedKeys.AppError.deleteMessage)
         }
     }
     
@@ -367,7 +364,7 @@ class ChatLogViewModel: ObservableObject {
                 }
             case .failure(let error):
                 print("Error editando mensaje: \(error.localizedDescription)")
-                state = .error("Error al editar el mensaje.")
+                state = .error(LocalizedKeys.AppError.editingMessage)
             }
         }
     }

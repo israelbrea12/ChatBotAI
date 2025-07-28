@@ -29,18 +29,15 @@ enum LocalizedKeys {
         static var send: String { "common_send".localized() }
         static var or: String { "common_or".localized() }
         static var error: String { "common_error".localized() }
-        static var help: String { "common_help".localized() }
         static var settings: String { "common_settings".localized() }
         static var chats: String { "common_chats".localized() }
         static var chat: String { "common_chat".localized() }
         static var today: String { "common_today".localized() }
         static var yesterday: String { "common_yesterday".localized() }
         static var online: String { "common_online".localized() }
-        static var edited: String { "common_edited".localized() }
         static var saving: String { "common_saving".localized() }
         static var loadingMessages: String { "common_loading_messages".localized() }
-        static var unknownDate: String { "common_unknown_date".localized() }
-        static var unknownUser: String { "common_unknown_user".localized() }
+        static var unknown: String { "common_unknown".localized() }
         static var noDataFound: String { "common_no_data_found".localized() }
         static var noMessagesYet: String { "common_no_messages_yet".localized() }
     }
@@ -70,47 +67,6 @@ enum LocalizedKeys {
         static var deleteChatAlertBody: String { "home_delete_chat_alert_body".localized() }
         static var deleteChatButton: String { "home_delete_chat_button".localized() }
         static var deleteChatTextFieldHint: String { "home_delete_chat_textfield_hint".localized() }
-    }
-
-    // MARK: - Account & Profile
-    enum Account {
-        static var title: String { "account_title".localized() }
-        static var editProfileTitle: String { "account_edit_profile_title".localized() }
-        static var editProfileButton: String { "account_edit_profile_button".localized() }
-        static var userInformationTitle: String { "account_user_information_title".localized() }
-        static var deleteAccountButton: String { "account_delete_account_button".localized() }
-        static var deleteAlertTitle: String { "account_delete_alert_title".localized() }
-        static var logoutAlertTitle: String { "account_logout_alert_title".localized() }
-        static var profilePictureTitle: String { "account_profile_picture_title".localized() }
-        static var tapToChangePhoto: String { "account_tap_to_change_photo".localized() }
-    }
-
-    // MARK: - Chat & Messaging
-    enum Chat {
-        static var newMessage: String { "chat_new_message".localized() }
-        static var replyButton: String { "chat_reply_button".localized() }
-        static var unsupportedMessageType: String { "chat_unsupported_message_type".localized() }
-        static var imagePreviewTitle: String { "chat_image_preview_title".localized() }
-        static var previewLoadError: String { "chat_preview_load_error".localized() }
-        static var couldNotLoadPreview: String { "chat_could_not_load_preview".localized() }
-        static var deleteMessageAlertTitle: String { "chat_delete_message_alert_title".localized() }
-        static var deleteMessageAlertBody: String { "chat_delete_message_alert_body".localized() }
-        
-        static func replyingTo(_ username: String) -> String {
-            String(format: "chat_replying_to".localized(), username)
-        }
-        static func editingMessageFrom(_ username: String) -> String {
-            String(format: "chat_editing_message_from".localized(), username)
-        }
-        static func lastSeenToday(at time: String) -> String {
-            String(format: "chat_last_seen_today".localized(), time)
-        }
-        static func lastSeenYesterday(at time: String) -> String {
-            String(format: "chat_last_seen_yesterday".localized(), time)
-        }
-        static func lastSeenOnDate(_ date: String) -> String {
-            String(format: "chat_last_seen_on_date".localized(), date)
-        }
     }
     
     // MARK: - ChatBot
@@ -142,6 +98,37 @@ enum LocalizedKeys {
         }
     }
     
+    // MARK: - Chat Log & Messaging
+    enum Chat {
+        static var replyingToYou: String { "chat_replying_to_you".localized() }
+        static var replyingToImage: String { "chat_replying_to_image".localized() }
+        static var edited: String { "chat_edited".localized() }
+        static var newMessage: String { "chat_new_message".localized() }
+        static var reply: String { "chat_reply".localized() }
+        static var unsupportedMessageType: String { "chat_unsupported_message_type".localized() }
+        static var imagePreviewTitle: String { "chat_image_preview_title".localized() }
+        static var previewLoadError: String { "chat_preview_load_error".localized() }
+        static var couldNotLoadPreview: String { "chat_could_not_load_preview".localized() }
+        static var deleteMessageAlertTitle: String { "chat_delete_message_alert_title".localized() }
+        static var deleteMessageAlertBody: String { "chat_delete_message_alert_body".localized() }
+        
+        static func replyingTo(_ username: String) -> String {
+            String(format: "chat_replying_to".localized(), username)
+        }
+        static func editingMessageFrom(_ username: String) -> String {
+            String(format: "chat_editing_message_from".localized(), username)
+        }
+        static func lastSeenToday(at time: String) -> String {
+            String(format: "chat_last_seen_today".localized(), time)
+        }
+        static func lastSeenYesterday(at time: String) -> String {
+            String(format: "chat_last_seen_yesterday".localized(), time)
+        }
+        static func lastSeenOnDate(_ date: String) -> String {
+            String(format: "chat_last_seen_on_date".localized(), date)
+        }
+    }
+    
 
     // MARK: - App Features & Modes
     enum Features {
@@ -168,6 +155,16 @@ enum LocalizedKeys {
     enum Settings {
         static var general: String { "settings_general".localized() }
         static var preferences: String { "settings_preferences".localized() }
+        static var accountSection: String { "settings_account_section".localized() }
+        static var editProfile: String { "settings_edit_profile".localized() }
+        static var logOut: String { "settings_log_out".localized() }
+        static var help: String { "settings_help".localized() }
+        static var userInformationTitle: String { "settings_user_information_title".localized() }
+        static var deleteAccountButton: String { "settings_delete_account_button".localized() }
+        static var deleteAlertTitle: String { "settings_delete_alert_title".localized() }
+        static var logoutAlertTitle: String { "settings_logout_alert_title".localized() }
+        static var profilePictureTitle: String { "settings_profile_picture_title".localized() }
+        static var tapToChangePhoto: String { "settings_tap_to_change_photo".localized() }
     }
     
     // MARK: - Validation Errors
@@ -209,10 +206,17 @@ enum LocalizedKeys {
         static var botRole: String { "placeholder_bot_role".localized() }
         static var scenario: String { "placeholder_scenario".localized() }
         static var typeYourMessage: String { "placeholder_type_your_message".localized() }
+        static var unknown: String { "placeholder_unknown".localized() }
     }
     
     enum AppError {
         static var aiNoResponse: String { "error_ai_no_response".localized() }
+        static var sendMessage: String { "error_send_message".localized() }
+        static var sendImage: String { "error_send_image".localized() }
+        static var loadMessages: String { "error_load_messages".localized() }
+        static var deleteMessage: String { "error_delete_message".localized() }
+        static var editingMessage: String { "error_editing_message".localized() }
+        static var loadingSettings: String { "error_loading_settings".localized() }
     }
     
     // MARK: - Miscellaneous

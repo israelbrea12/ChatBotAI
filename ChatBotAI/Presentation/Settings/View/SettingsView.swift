@@ -29,7 +29,7 @@ struct SettingsView: View {
                     signOutButton()
                 }
             }
-            .navigationTitle("Settings")
+            .navigationTitle(LocalizedKeys.Common.settings)
         }
         .fullScreenCover(isPresented: $showEditProfileSheet) {
             if let user = settingsViewModel.currentUser {
@@ -46,11 +46,11 @@ struct SettingsView: View {
                     userProfile(user: user)
                 }
                 
-                Section("General") {
+                Section(LocalizedKeys.Settings.general) {
                     myProfileButton()
                 }
                 
-                Section("Account") {
+                Section(LocalizedKeys.Settings.accountSection) {
                     signOutButton()
                     deleteAccountButton()
                 }
@@ -72,7 +72,7 @@ struct SettingsView: View {
     }
     
     private func emptyView() -> some View {
-        InfoView(message: "No user data found")
+        InfoView(message: LocalizedKeys.Common.noDataFound)
     }
     
     private func userProfile(user: User) -> some View {
@@ -120,7 +120,7 @@ struct SettingsView: View {
         Button(action: {
             showEditProfileSheet = true
         }) {
-            SettingsRowView(imageName: "pencil.and.scribble", title: "Edit profile", tintColor: .black)
+            SettingsRowView(imageName: "pencil.and.scribble", title: LocalizedKeys.Settings.editProfile, tintColor: .black)
         }
     }
     
@@ -128,11 +128,11 @@ struct SettingsView: View {
         Button {
             showSignOutAlert = true
         } label: {
-            SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign out", tintColor: .red)
+            SettingsRowView(imageName: "arrow.left.circle.fill", title: LocalizedKeys.Settings.logOut, tintColor: .red)
         }
-        .alert("¿Seguro que quieres cerrar sesión?", isPresented: $showSignOutAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Sign out", role: .destructive) {
+        .alert(LocalizedKeys.Settings.logoutAlertTitle, isPresented: $showSignOutAlert) {
+            Button(LocalizedKeys.Common.cancel, role: .cancel) { }
+            Button(LocalizedKeys.Settings.logOut, role: .destructive) {
                 Task {
                     settingsViewModel.signOut()
                 }
@@ -144,11 +144,11 @@ struct SettingsView: View {
         Button {
             showDeleteAlert = true
         } label: {
-            SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
+            SettingsRowView(imageName: "xmark.circle.fill", title: LocalizedKeys.Settings.deleteAccountButton, tintColor: .red)
         }
-        .alert("¿Seguro que quieres eliminar tu cuenta?", isPresented: $showDeleteAlert) {
-            Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
+        .alert(LocalizedKeys.Settings.deleteAlertTitle, isPresented: $showDeleteAlert) {
+            Button(LocalizedKeys.Common.cancel, role: .cancel) { }
+            Button(LocalizedKeys.Common.delete, role: .destructive) {
                 Task {
                     await settingsViewModel.deleteAccount()
                 }
@@ -157,6 +157,6 @@ struct SettingsView: View {
     }
         
     private func helpButton() -> some View {
-        SettingsRowView(imageName: "info.circle", title: "Help", tintColor: .black)
+        SettingsRowView(imageName: "info.circle", title: LocalizedKeys.Settings.help, tintColor: .black)
     }
 }

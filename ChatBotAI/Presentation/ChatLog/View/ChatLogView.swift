@@ -227,7 +227,7 @@ struct ChatLogView: View {
                         }
                     )
                 } else {
-                    Text("Error al cargar previsualización.")
+                    Text(LocalizedKeys.Chat.couldNotLoadPreview)
                         .onAppear {
                             self.showImagePreviewScreen = false
                         }
@@ -261,7 +261,7 @@ struct ChatLogView: View {
     }
     
     private func loadingView() -> some View {
-        ProgressView("Cargando mensajes...")
+        ProgressView(LocalizedKeys.Common.loadingMessages)
     }
     
     private func errorView(errorMsg: String) -> some View {
@@ -269,7 +269,7 @@ struct ChatLogView: View {
     }
     
     private func emptyView() -> some View {
-        InfoView(message: "No user data found")
+        InfoView(message: LocalizedKeys.Common.noDataFound)
     }
     
         @ViewBuilder
@@ -294,7 +294,7 @@ struct ChatLogView: View {
                     UIApplication.shared.endEditing()
                 }
                 
-                TextField("Text Message", text: chatText)
+                TextField(LocalizedKeys.Placeholder.messagePlaceholder, text: chatText)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 15)
                     .background {

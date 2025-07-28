@@ -31,7 +31,7 @@ struct MessagesView: View {
     
     var groupedMessages: [(date: String, messages: [Message])] {
         Dictionary(grouping: messages) { message in
-            guard let timestamp = message.sentAt else { return "Desconocido" }
+            guard let timestamp = message.sentAt else { return LocalizedKeys.Common.unknown }
             let date = Date(timeIntervalSince1970: timestamp)
             return date.whatsappFormattedTimeAgoWithoutAMOrPM()
         }
@@ -53,9 +53,9 @@ struct MessagesView: View {
                     contextMenuOverlay(screenGeometry: screenGeometry)
                 }
             }
-            .alert("¿Eliminar Mensaje?", isPresented: $showDeleteMessageConfirmationAlert) {
-                            Button("Cancelar", role: .cancel) { }
-                Button("Eliminar", role: .destructive) {
+            .alert(LocalizedKeys.Chat.deleteMessageAlertTitle, isPresented: $showDeleteMessageConfirmationAlert) {
+                Button(LocalizedKeys.Common.cancel, role: .cancel) { }
+                Button(LocalizedKeys.Common.delete, role: .destructive) {
                     Task {
                         guard let messageToDelete = contextMenuMessage else { return }
                         await chatLogViewModel.deleteMessage(messageId: messageToDelete.id)
@@ -63,7 +63,7 @@ struct MessagesView: View {
                     }
                 }
             } message: {
-                Text("Este mensaje se eliminará para ti y para la otra persona. Esta acción no se puede deshacer.")
+                Text(LocalizedKeys.Chat.deleteMessageAlertBody)
             }
         }
     }
@@ -173,14 +173,14 @@ struct MessagesView: View {
             
             MessageActionMenuView(
                 items: [
-                    MessageActionItem(label: "Responder", systemImage: "arrowshape.turn.up.left.fill") {
+                    MessageActionItem(label: LocalizedKeys.Chat.reply, systemImage: "arrowshape.turn.up.left.fill") {
                         chatLogViewModel.startReplyingToMessage(message)
                         
                         withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                             self.showContextMenu = false
                         }
                     },
-                    MessageActionItem(label: "Editar", systemImage: "pencil.circle.fill") {
+                    MessageActionItem(label: LocalizedKeys.Common.edit, systemImage: "pencil.circle.fill") {
                         if message.messageType == .text {
                             chatLogViewModel.startEditingMessage(message)
                         }
@@ -188,7 +188,7 @@ struct MessagesView: View {
                             self.showContextMenu = false
                         }
                     },
-                    MessageActionItem(label: "Eliminar", systemImage: "trash.circle.fill") {
+                    MessageActionItem(label: LocalizedKeys.Common.delete, systemImage: "trash.circle.fill") {
                         Task {
                             withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                                 self.showContextMenu = false

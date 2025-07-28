@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MessageActionItem: Identifiable {
     let id = UUID()
-    let label: LocalizedStringKey
+    let label: String
     let systemImage: String
     let action: () -> Void
 }

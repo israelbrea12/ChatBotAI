@@ -35,9 +35,9 @@ struct ImagePreviewView: View {
                             .resizable()
                             .scaledToFit()
                             .padding() // Un poco de padding alrededor de la imagen
-                            .accessibilityLabel("Previsualización de imagen")
+                            .accessibilityLabel(LocalizedKeys.Chat.imagePreviewTitle)
                     } else {
-                        Text("No se pudo cargar la previsualización.")
+                        Text(LocalizedKeys.Chat.couldNotLoadPreview)
                             .foregroundColor(.gray)
                     }
                     

@@ -65,7 +65,7 @@ struct MessageBubbleView: View {
                         .foregroundColor(.gray)
                     
                     if message.isEdited {
-                        Text("Editado")
+                        Text(LocalizedKeys.Chat.edited)
                             .font(.caption2)
                             .foregroundColor(.gray)
                             .italic()
@@ -94,14 +94,14 @@ struct MessageBubbleView: View {
 private extension MessageBubbleView {
     @ViewBuilder
     func textMessageView() -> some View {
-        Text(message.text.isEmpty ? " " : message.text)
+        Text(message.text.isEmpty ? "" : message.text)
             .foregroundColor(isCurrentUser ? .white : .primary)
             .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
             .fixedSize(horizontal: false, vertical: true)
     }
     @ViewBuilder
     func unsupportedMessageView() -> some View {
-        Text("Tipo de mensaje no soportado")
+        Text(LocalizedKeys.Chat.unsupportedMessageType)
             .font(.caption)
             .foregroundColor(.gray)
             .padding(10)
@@ -193,7 +193,7 @@ private extension MessageBubbleView {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .font(.title2)
                     .foregroundColor(.white)
-                Text("Error")
+                Text(LocalizedKeys.Common.error)
                     .font(.caption)
                     .foregroundColor(.white)
             }
@@ -214,7 +214,7 @@ struct RepliedMessagePreview: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 // Nombre del autor original
-                Text(message.senderId == SessionManager.shared.currentUser?.id ? "Tú" : message.senderName)
+                Text(message.senderId == SessionManager.shared.currentUser?.id ? LocalizedKeys.Chat.replyingToYou : message.senderName)
                     .font(.caption)
                     .fontWeight(.bold)
                     .foregroundColor(.blue)
@@ -226,7 +226,7 @@ struct RepliedMessagePreview: View {
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
-                    Text(message.messageType == .image && message.text.isEmpty ? "Imagen" : message.text)
+                    Text(message.messageType == .image && message.text.isEmpty ? LocalizedKeys.Chat.replyingToImage : message.text)
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .lineLimit(1)

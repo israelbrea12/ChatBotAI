@@ -78,7 +78,7 @@ struct EditProfileView: View {
                         .cornerRadius(10)
                 }
             }
-            .navigationTitle("Edit Profile")
+            .navigationTitle(LocalizedKeys.Settings.editProfile)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

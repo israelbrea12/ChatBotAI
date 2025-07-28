@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsRowView: View {
     
     let imageName: String
-    let title: LocalizedStringKey
+    let title: String
     let tintColor: Color
     
     var body: some View {
