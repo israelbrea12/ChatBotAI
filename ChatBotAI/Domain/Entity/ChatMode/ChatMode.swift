@@ -128,34 +128,32 @@ enum ChatMode: Hashable, Equatable {
     var titleForChatView: String {
         switch self {
         case .classicConversation:
-            return NSLocalizedString("title_classic_mode", comment: "")
+            return LocalizedKeys.ChatBot.classicModeTitle
         case .textImprovement:
-            return NSLocalizedString("title_correction_mode", comment: "")
+            return LocalizedKeys.ChatBot.correctionModeTitle
         case .rolePlay(let userRole, _, let scenario):
             if userRole.isEmpty && scenario.isEmpty {
-                return NSLocalizedString("title_role_play_mode", comment: "")
+                return LocalizedKeys.ChatBot.roleplayModeTitle
             } else if scenario.isEmpty {
-                let format = NSLocalizedString("title_role_play_user", comment: "")
-                return String(format: format, userRole)
+                return LocalizedKeys.ChatBot.roleplayChatTitle(for: userRole)
             }
             let shortScenario = scenario.count > 20 ? String(scenario.prefix(20)) + "..." : scenario
             return shortScenario
         case .grammarHelp:
-            return NSLocalizedString("title_grammar_mode", comment: "")
+            return LocalizedKeys.ChatBot.grammarModeTitle
         }
     }
 
     var subtitleForChatView: String {
         switch self {
         case .classicConversation:
-            return NSLocalizedString("subtitle_classic_mode", comment: "")
+            return LocalizedKeys.ChatBot.classicModeSubtitle
         case .textImprovement:
-            return NSLocalizedString("subtitle_correction_mode", comment: "")
+            return LocalizedKeys.ChatBot.correctionModeSubtitle
         case .rolePlay(_, _, let scenario):
-            let format = NSLocalizedString("subtitle_role_play_mode", comment: "")
-            return String(format: format, scenario)
+            return LocalizedKeys.ChatBot.roleplayModeSubtitle(for: scenario)
         case .grammarHelp:
-            return NSLocalizedString("subtitle_grammar_mode", comment: "")
+            return LocalizedKeys.ChatBot.grammarModeSubtitle
         }
     }
 }

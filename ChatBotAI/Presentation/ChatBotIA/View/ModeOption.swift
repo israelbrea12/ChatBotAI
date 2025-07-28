@@ -10,8 +10,8 @@ import SwiftUI
 
 struct ModeOption: Identifiable, Hashable {
     let id = UUID()
-    let title: LocalizedStringKey
-    let description: LocalizedStringKey
+    let title: String
+    let description: String
     let imageName: String
     let navigationRoute: NavigationChatBotIARoute
     

@@ -17,18 +17,18 @@ struct RolePlaySetupView: View {
 
     var body: some View {
         Form {
-            TextField("Tu rol", text: $userRole)
-            TextField("Rol del chat", text: $botRole)
-            TextField("Escenario", text: $scenario)
+            TextField(LocalizedKeys.Placeholder.yourRole, text: $userRole)
+            TextField(LocalizedKeys.Placeholder.botRole, text: $botRole)
+            TextField(LocalizedKeys.Placeholder.scenario, text: $scenario)
             
             NavigationLink(value: NavigationChatBotIARoute.chatView(
                 mode: .rolePlay(userRole: userRole, botRole: botRole, scenario: scenario))
             ) {
-                Text("Iniciar roleplay")
+                Text(LocalizedKeys.ChatBot.roleplayStartButton)
             }
             .disabled(userRole.isEmpty || botRole.isEmpty || scenario.isEmpty)
         }
-        .navigationTitle("Configura el Roleplay")
+        .navigationTitle(LocalizedKeys.ChatBot.roleplayConfigureTitle)
         .hideFloatingTabBar(internalHideTabBarState)
     }
 }

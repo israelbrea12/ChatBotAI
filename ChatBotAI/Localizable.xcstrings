@@ -608,25 +608,439 @@
         }
       }
     },
-    "ChatBotIA" : {
-      "extractionState" : "stale",
+    "chatbot_choose_your_mode" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ChatBotIA"
+            "value" : "Choose your mode"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ChatBotIA"
+            "value" : "Elige tu modo"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ChatBotIA"
+            "value" : "Choisissez votre mode"
+          }
+        }
+      }
+    },
+    "chatbot_classic_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Have a conversation on any topic with chat."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantén una conversación de cualquier tema con el chat."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ayez une conversation sur n'importe quel sujet avec le chat."
+          }
+        }
+      }
+    },
+    "chatbot_classic_mode_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try starting a conversation about anything that interests you."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prueba a iniciar una conversación sobre cualquier tema que te interese."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essayez d’entamer une conversation sur tout ce qui vous intéresse."
+          }
+        }
+      }
+    },
+    "chatbot_classic_mode_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classic Mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo Clásico"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode classique"
+          }
+        }
+      }
+    },
+    "chatbot_correction_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send a text and receive tips to improve it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envía un texto y recibe consejos para mejorarlo."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyez un texte et recevez des conseils pour l'améliorer."
+          }
+        }
+      }
+    },
+    "chatbot_correction_mode_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send a text in any language and see how it can be improved."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envía un texto en cualquier idioma y mira cómo se puede mejorar."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Envoyez un texte dans n’importe quelle langue et voyez comment il peut être amélioré."
+          }
+        }
+      }
+    },
+    "chatbot_correction_mode_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Correction and Improvement Mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo Corrección y Mejoras"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode de correction et d'amélioration"
+          }
+        }
+      }
+    },
+    "chatbot_grammar_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask questions about grammar and receive clear explanations."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz preguntas sobre gramática y recibe explicaciones claras."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Posez des questions sur la grammaire et recevez des explications claires."
+          }
+        }
+      }
+    },
+    "chatbot_grammar_mode_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Write your question about English grammar and I'll help you understand it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe tu duda sobre gramática inglesa y te ayudaré a entenderla."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrivez votre question sur la grammaire anglaise et je vous aiderai à la comprendre."
+          }
+        }
+      }
+    },
+    "chatbot_grammar_mode_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grammar Mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo Gramática"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode grammaire"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_chat_role_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chat’s role"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rol del chat"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le rôle du chat"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_chat_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Role Play: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Role Play: %@"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jeu de rôle: %@"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_configure_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set up the Roleplay"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configura el Roleplay"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurer le jeu de rôle"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a role-playing scenario and talk as if you were part of it."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea un escenario de roles y conversa como si fueras parte de él."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créez un scénario de jeu de rôle et parlez comme si vous en faisiez partie."
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_mode_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are on stage: \\\"%@\\\". The performance begins!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estás en el escenario: \\\"%@\\\". ¡Empieza la actuación!"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous êtes sur scène : \\\"%@\\\". Le spectacle commence !"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_mode_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Role Play Mode"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo Role Play"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mode jeu de rôle"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_scenario_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scenery"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escenario"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paysage"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_start_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start roleplay"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar roleplay"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Démarrer le jeu de rôle"
+          }
+        }
+      }
+    },
+    "chatbot_roleplay_your_role_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your role"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu rol"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre rôle"
           }
         }
       }
@@ -653,24 +1067,25 @@
         }
       }
     },
-    "Clásico" : {
+    "common_cancel" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Classic"
+            "value" : "Cancel"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clásico"
+            "value" : "Cancelar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Classique"
+            "value" : "Annuler"
           }
         }
       }
@@ -694,6 +1109,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuer"
+          }
+        }
+      }
+    },
+    "common_no_data_found" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No data found"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontraron datos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune donnée trouvée"
+          }
+        }
+      }
+    },
+    "common_no_messages_yet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No messages yet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin mensajes todavía"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun message pour l'instant"
           }
         }
       }
@@ -744,91 +1205,117 @@
         }
       }
     },
-    "Configura el Roleplay" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Set up the Roleplay"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configura el Roleplay"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Configurer le jeu de rôle"
-          }
-        }
-      }
-    },
-    "confirm_password_placeholder" : {
+    "default_date" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Confirm Password"
+            "value" : "Unknown date"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Confirmar Contraseña"
+            "value" : "Fecha desconocida"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Confirmez le mot de passe"
+            "value" : "Date inconnue"
           }
         }
       }
     },
-    "Corrección y mejoras" : {
+    "default_email" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corrections and improvements"
+            "value" : "No email"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corrección y mejoras"
+            "value" : "Sin email"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Corrections et améliorations"
+            "value" : "Pas d'email"
           }
         }
       }
     },
-    "Crea un escenario de roles y conversa como si fueras parte de él." : {
+    "default_full_name" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create a role-playing scenario and talk as if you were part of it."
+            "value" : "Unknown"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crea un escenario de roles y conversa como si fueras parte de él."
+            "value" : "Desconocido"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Créez un scénario de jeu de rôle et parlez comme si vous en faisiez partie."
+            "value" : "Inconnue"
+          }
+        }
+      }
+    },
+    "default_image_text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No image"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin imagen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune image"
+          }
+        }
+      }
+    },
+    "default_last_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No messages yet"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin mensajes todavía"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun message pour le moment"
           }
         }
       }
@@ -1009,28 +1496,6 @@
         }
       }
     },
-    "Elige tu modo" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choose your mode"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Elige tu modo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Choisissez votre mode"
-          }
-        }
-      }
-    },
     "Eliminar" : {
       "localizations" : {
         "en" : {
@@ -1071,51 +1536,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Email"
-          }
-        }
-      }
-    },
-    "email_placeholder" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Email"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Email"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Email"
-          }
-        }
-      }
-    },
-    "Envía un texto y recibe consejos para mejorarlo." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Send a text and receive tips to improve it."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Envía un texto y recibe consejos para mejorarlo."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Envoyez un texte et recevez des conseils pour l'améliorer."
           }
         }
       }
@@ -1164,46 +1584,25 @@
         }
       }
     },
-    "Escenario" : {
+    "error_ai_no_response" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Scenery"
+            "value" : "The AI did not generate a response."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Escenario"
+            "value" : "La IA no generó respuesta."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Paysage"
-          }
-        }
-      }
-    },
-    "Escribe tu mensaje..." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Write your message..."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escribe tu mensaje..."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Écrivez votre message..."
+            "value" : "L'IA n'a pas généré de réponse."
           }
         }
       }
@@ -1252,52 +1651,76 @@
         }
       }
     },
-    "Fecha desconocida" : {
+    "features_can_change_anytime" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unknown date"
+            "value" : "You can change this at any time in the settings"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fecha desconocida"
+            "value" : "Puede cambiar esto en cualquier momento en los ajustes."
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Date inconnue"
+            "value" : "Vous pouvez modifier cela à tout moment dans les paramètres."
+          }
+        }
+      }
+    },
+    "features_choose_language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose the language you want to learn"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige el idioma que quieres aprender"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choisissez la langue que vous souhaitez apprendre"
+          }
+        }
+      }
+    },
+    "features_learning_language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learning Language"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma de aprendizaje"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Langue d'apprentissage"
           }
         }
       }
     },
     "Full Name" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Full Name"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nombre Completo"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nom et prénom"
-          }
-        }
-      }
-    },
-    "fullname_placeholder" : {
-      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1363,50 +1786,6 @@
         }
       }
     },
-    "Gramática" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grammar"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gramática"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grammaire"
-          }
-        }
-      }
-    },
-    "Haz preguntas sobre gramática y recibe explicaciones claras." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ask questions about grammar and receive clear explanations."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Haz preguntas sobre gramática y recibe explicaciones claras."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Posez des questions sur la grammaire et recevez des explications claires."
-          }
-        }
-      }
-    },
     "Help" : {
       "localizations" : {
         "en" : {
@@ -1429,24 +1808,71 @@
         }
       }
     },
-    "Iniciar roleplay" : {
+    "home_delete_chat" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Start roleplay"
+            "value" : "Delete Chat"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Iniciar roleplay"
+            "value" : "Eliminar chat"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Démarrer le jeu de rôle"
+            "value" : "Supprimer le Chat"
+          }
+        }
+      }
+    },
+    "home_delete_chat_alert_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to delete this chat? This will erase all messages and cannot be undone."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Estás seguro de que quieres eliminar este chat? Esto borrará todos los mensajes y no podrás recuperarlos."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûr de vouloir supprimer ce chat ? Cela effacera tous les messages et ne pourra pas être annulé."
+          }
+        }
+      }
+    },
+    "home_delete_chat_textfield_hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal Documents"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documentos personales"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documents Personnels"
           }
         }
       }
@@ -1653,28 +2079,6 @@
         }
       }
     },
-    "Mantén una conversación de cualquier tema con el chat." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Have a conversation on any topic with chat."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mantén una conversación de cualquier tema con el chat."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ayez une conversation sur n'importe quel sujet avec le chat."
-          }
-        }
-      }
-    },
     "Music" : {
       "localizations" : {
         "en" : {
@@ -1786,7 +2190,121 @@
         }
       }
     },
-    "password_placeholder" : {
+    "Photos" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fotos"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
+    "placeholder_bot_role" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bot's role"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rol del bot"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rôle du bot"
+          }
+        }
+      }
+    },
+    "placeholder_confirm_password" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm Password"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar Contraseña"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmez le mot de passe"
+          }
+        }
+      }
+    },
+    "placeholder_email" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Email"
+          }
+        }
+      }
+    },
+    "placeholder_fullname" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full Name"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre Completo"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nom et prénom"
+          }
+        }
+      }
+    },
+    "placeholder_password" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -1809,24 +2327,71 @@
         }
       }
     },
-    "Photos" : {
+    "placeholder_scenario" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Photos"
+            "value" : "Scenario"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fotos"
+            "value" : "Escenario"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Photos"
+            "value" : "Paysage"
+          }
+        }
+      }
+    },
+    "placeholder_type_your_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type your message …"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe tu mensaje…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tapez votre message …"
+          }
+        }
+      }
+    },
+    "placeholder_your_role" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your role"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu rol"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre rôle"
           }
         }
       }
@@ -1941,50 +2506,6 @@
         }
       }
     },
-    "Rol del chat" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chat’s role"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rol del chat"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Le rôle du chat"
-          }
-        }
-      }
-    },
-    "Role Play" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Role Play"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Role Play"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Role Play"
-          }
-        }
-      }
-    },
     "Save" : {
       "localizations" : {
         "en" : {
@@ -2069,94 +2590,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "se déconnecter"
-          }
-        }
-      }
-    },
-    "subtitle_classic_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try starting a conversation about anything that interests you."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prueba a iniciar una conversación sobre cualquier tema que te interese."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Essayez d’entamer une conversation sur tout ce qui vous intéresse."
-          }
-        }
-      }
-    },
-    "subtitle_correction_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Send a text in any language and see how it can be improved."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Estás en el escenario: \\\"%@\\\". ¡Empieza la actuación!"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Envoyez un texte dans n’importe quelle langue et voyez comment il peut être amélioré."
-          }
-        }
-      }
-    },
-    "subtitle_grammar_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Write your question about English grammar and I'll help you understand it."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Envía un texto en cualquier idioma y mira cómo se puede mejorar."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Écrivez votre question sur la grammaire anglaise et je vous aiderai à la comprendre."
-          }
-        }
-      }
-    },
-    "subtitle_role_play_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You are on stage: \\\"%@\\\". The performance begins!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Escribe tu duda sobre gramática inglesa y te ayudaré a entenderla."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vous êtes sur scène : \\\"%@\\\". Le spectacle commence !"
           }
         }
       }
@@ -2296,116 +2729,6 @@
         }
       }
     },
-    "title_classic_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Classic Mode"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modo Clásico"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode classique"
-          }
-        }
-      }
-    },
-    "title_correction_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Correction and Improvement Mode"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modo Corrección y Mejoras"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode de correction et d'amélioration"
-          }
-        }
-      }
-    },
-    "title_grammar_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Grammar Mode"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modo Gramática"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode grammaire"
-          }
-        }
-      }
-    },
-    "title_role_play_mode" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Role Play Mode"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modo Role Play"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode jeu de rôle"
-          }
-        }
-      }
-    },
-    "title_role_play_user" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Role Play: %@"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Role Play: %@"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Jeu de rôle: %@"
-          }
-        }
-      }
-    },
     "Today" : {
       "comment" : "Date label for today",
       "localizations" : {
@@ -2429,28 +2752,6 @@
         }
       }
     },
-    "Tu rol" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your role"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu rol"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre rôle"
-          }
-        }
-      }
-    },
     "User Information" : {
       "localizations" : {
         "en" : {
@@ -2469,28 +2770,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Informations utilisateur"
-          }
-        }
-      }
-    },
-    "Usuario desconocido" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Unknown user"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Usuario desconocido"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Utilisateur inconnu"
           }
         }
       }

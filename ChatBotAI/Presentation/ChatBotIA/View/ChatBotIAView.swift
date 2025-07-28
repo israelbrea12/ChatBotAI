@@ -20,7 +20,6 @@ struct ChatBotIAView: View {
                 }
             
             VStack(spacing: 0) {
-                // ... (tu lógica de "En qué puedo ayudarte?")
                 if !chatBotIAViewModel.hasStartedChatting && chatBotIAViewModel.messages.isEmpty {
                     VStack(spacing: 8) {
                         Text(chatBotIAViewModel.currentNavigationTitle)
@@ -95,7 +94,6 @@ struct ChatBotIAView: View {
             for: .navigationBar
         )
         .onDisappear {
-            // chatBotIAViewModel.cancelStreaming()
         }
     }
 }

@@ -13,26 +13,26 @@ struct ModeSelectionView: View {
     
     let modes: [ModeOption] = [
         ModeOption(
-            title: "Clásico",
-            description: "Mantén una conversación de cualquier tema con el chat.",
+            title: LocalizedKeys.ChatBot.classicModeTitle,
+            description: LocalizedKeys.ChatBot.classicDescription,
             imageName: "bubble.left.and.bubble.right.fill",
             navigationRoute: .chatView(mode: .classicConversation)
         ),
         ModeOption(
-            title: "Corrección y mejoras",
-            description: "Envía un texto y recibe consejos para mejorarlo.",
+            title: LocalizedKeys.ChatBot.correctionModeTitle,
+            description: LocalizedKeys.ChatBot.correctionDescription,
             imageName: "pencil.and.outline",
             navigationRoute: .chatView(mode: .textImprovement)
         ),
         ModeOption(
-            title: "Role Play",
-            description: "Crea un escenario de roles y conversa como si fueras parte de él.",
+            title: LocalizedKeys.ChatBot.roleplayModeTitle,
+            description: LocalizedKeys.ChatBot.roleplayDescription,
             imageName: "person.2.wave.2.fill",
             navigationRoute: .rolePlaySetup
         ),
         ModeOption(
-            title: "Gramática",
-            description: "Haz preguntas sobre gramática y recibe explicaciones claras.",
+            title: LocalizedKeys.ChatBot.grammarModeTitle,
+            description: LocalizedKeys.ChatBot.grammarDescription,
             imageName: "book.fill",
             navigationRoute: .chatView(mode: .grammarHelp)
         )
@@ -71,7 +71,7 @@ struct ModeSelectionView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Elige tu modo")
+            .navigationTitle(LocalizedKeys.ChatBot.chooseYourMode)
             .navigationDestination(for: NavigationChatBotIARoute.self) { route in
                 destinationView(for: route)
             }

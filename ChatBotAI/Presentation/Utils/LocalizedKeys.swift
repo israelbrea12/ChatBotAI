@@ -41,6 +41,8 @@ enum LocalizedKeys {
         static var loadingMessages: String { "common_loading_messages".localized() }
         static var unknownDate: String { "common_unknown_date".localized() }
         static var unknownUser: String { "common_unknown_user".localized() }
+        static var noDataFound: String { "common_no_data_found".localized() }
+        static var noMessagesYet: String { "common_no_messages_yet".localized() }
     }
 
     // MARK: - Authentication
@@ -60,6 +62,14 @@ enum LocalizedKeys {
         static var sendLinkButton: String { "auth_send_link_button".localized() }
         static var linkSentTitle: String { "auth_link_sent_title".localized() }
         static var linkSentMessage: String { "auth_link_sent_message".localized() }
+    }
+    
+    // MARK: - Home
+    enum Home {
+        static var deleteChat: String { "home_delete_chat".localized() }
+        static var deleteChatAlertBody: String { "home_delete_chat_alert_body".localized() }
+        static var deleteChatButton: String { "home_delete_chat_button".localized() }
+        static var deleteChatTextFieldHint: String { "home_delete_chat_textfield_hint".localized() }
     }
 
     // MARK: - Account & Profile
@@ -102,36 +112,42 @@ enum LocalizedKeys {
             String(format: "chat_last_seen_on_date".localized(), date)
         }
     }
+    
+    // MARK: - ChatBot
+    enum ChatBot {
+        static var chooseYourMode: String { "chatbot_choose_your_mode".localized() }
+        static var classicModeTitle: String { "chatbot_classic_mode_title".localized() }
+        static var classicModeSubtitle: String { "chatbot_classic_mode_subtitle".localized() }
+        static var classicDescription: String { "chatbot_classic_description".localized() }
+        static var correctionModeTitle: String { "chatbot_correction_mode_title".localized() }
+        static var correctionModeSubtitle: String { "chatbot_correction_mode_subtitle".localized() }
+        static var correctionDescription: String { "chatbot_correction_description".localized() }
+        static var grammarModeTitle: String { "chatbot_grammar_mode_title".localized() }
+        static var grammarModeSubtitle: String { "chatbot_grammar_mode_subtitle".localized() }
+        static var grammarDescription: String { "chatbot_grammar_description".localized() }
+        static var roleplayModeTitle: String { "chatbot_roleplay_mode_title".localized() }
+        static func roleplayModeSubtitle(for scenario: String) -> String {
+            String(format: "chatbot_roleplay_mode_subtitle".localized(), scenario)
+        }
+        static var roleplayConfigureTitle: String { "chatbot_roleplay_configure_title".localized() }
+        static var roleplayStartButton: String { "chatbot_roleplay_start_button".localized() }
+        static var roleplayScenarioTitle: String { "chatbot_roleplay_scenario_title".localized() }
+        static var roleplayYourRoleTitle: String { "chatbot_roleplay_your_role_title".localized() }
+        static var roleplayChatRoleTitle: String { "chatbot_roleplay_chat_role_title".localized() }
+        static var roleplayDescription: String { "chatbot_roleplay_description".localized() }
+        
+        
+        static func roleplayChatTitle(for role: String) -> String {
+            String(format: "chatbot_roleplay_chat_title".localized(), role)
+        }
+    }
+    
 
     // MARK: - App Features & Modes
     enum Features {
-        static var chooseLanguagePrompt: String { "features_choose_language_prompt".localized() }
+        static var chooseLanguagePrompt: String { "features_choose_language".localized() }
         static var canChangeAnytime: String { "features_can_change_anytime".localized() }
         static var learningLanguage: String { "features_learning_language".localized() }
-        static var chooseYourMode: String { "features_choose_your_mode".localized() }
-        static var classicModeTitle: String { "features_classic_mode_title".localized() }
-        static var classicModeSubtitle: String { "features_classic_mode_subtitle".localized() }
-        static var correctionModeTitle: String { "features_correction_mode_title".localized() }
-        static var correctionModeSubtitle: String { "features_correction_mode_subtitle".localized() }
-        static var grammarModeTitle: String { "features_grammar_mode_title".localized() }
-        static var grammarModeSubtitle: String { "features_grammar_mode_subtitle".localized() }
-        static var roleplayModeTitle: String { "features_roleplay_mode_title".localized() }
-        static var roleplayConfigureTitle: String { "features_roleplay_configure_title".localized() }
-        static var roleplayStartButton: String { "features_roleplay_start_button".localized() }
-        static var roleplayScenarioTitle: String { "features_roleplay_scenario_title".localized() }
-        static var roleplayYourRoleTitle: String { "features_roleplay_your_role_title".localized() }
-        static var roleplayChatRoleTitle: String { "features_roleplay_chat_role_title".localized() }
-        static var roleplayDescription: String { "features_roleplay_description".localized() }
-        static var correctionDescription: String { "features_correction_description".localized() }
-        static var grammarDescription: String { "features_grammar_description".localized() }
-        static var classicDescription: String { "features_classic_description".localized() }
-
-        static func roleplayModeSubtitle(for scenario: String) -> String {
-            String(format: "features_roleplay_mode_subtitle_format".localized(), scenario)
-        }
-        static func roleplayChatTitle(for role: String) -> String {
-            String(format: "features_roleplay_chat_title_format".localized(), role)
-        }
     }
 
     // MARK: - Media Picker
@@ -183,16 +199,33 @@ enum LocalizedKeys {
     }
        
     enum Placeholder {
-        static var emailPlaceholder: String { "email_placeholder".localized() }
-        static var fullnamePlaceholder: String { "fullname_placeholder".localized() }
-        static var passwordPlaceholder: String { "password_placeholder".localized() }
-        static var confirmPasswordPlaceholder: String { "confirm_password_placeholder".localized() }
-        static var messagePlaceholder: String { "message_placeholder".localized() }
-        static var addCommentPlaceholder: String { "add_comment_placeholder".localized() }
+        static var emailPlaceholder: String { "placeholder_email".localized() }
+        static var fullnamePlaceholder: String { "placeholder_fullname".localized() }
+        static var passwordPlaceholder: String { "placeholder_password".localized() }
+        static var confirmPasswordPlaceholder: String { "placeholder_confirm_password".localized() }
+        static var messagePlaceholder: String { "placeholder_message".localized() }
+        static var addCommentPlaceholder: String { "placeholder_add_comment".localized() }
+        static var yourRole: String { "placeholder_your_role".localized() }
+        static var botRole: String { "placeholder_bot_role".localized() }
+        static var scenario: String { "placeholder_scenario".localized() }
+        static var typeYourMessage: String { "placeholder_type_your_message".localized() }
+    }
+    
+    enum AppError {
+        static var aiNoResponse: String { "error_ai_no_response".localized() }
     }
     
     // MARK: - Miscellaneous
     enum Misc {
         static var creatingAccount: String { "loading_creating_account".localized() }
+    }
+    
+    // MARK: - Default Values
+    enum DefaultValues {
+        static var defaultFullName: String { "default_full_name".localized() }
+        static var defaultEmail: String { "default_email".localized() }
+        static var defaultImageText: String { "default_image_text".localized() }
+        static var defaultLastMessage: String { "default_last_message".localized() }
+        static var defaultDate: String { "default_date".localized() }
     }
 }

@@ -109,23 +109,23 @@ struct HomeView: View {
             .foregroundColor(.primary)
             .alert(isPresented: $showAlert) {
                 CustomDialog(
-                             title: "Delete Chat",
-                             content: "¿Estás seguro de que quieres eliminar este chat? Esto borrará todos los mensajes y no podrás recuperarlos.",
-                             image: .init(
-                                content:"trash.fill",
-                                tint: .red,
-                                foreground: .white
-                             ),
-                             button1: .init(content: "Delete chat", tint: .red, foreground: .white, action: { _ in 
-                                 if let chatToDelete = chatToDelete {
-                                                     homeViewModel.deleteChat(for: chatToDelete.id)
-                                                 }
-                                 showAlert.toggle()
-                             }),
-                             button2: .init(content: "cancel", tint: .blue, foreground: .white, action: { _ in showAlert = false
-                             }),
-                             addsTextField: false,
-                             textFieldHint: "Personal Documents"
+                    title: LocalizedKeys.Home.deleteChat,
+                    content: LocalizedKeys.Home.deleteChatAlertBody,
+                    image: .init(
+                        content:"trash.fill",
+                        tint: .red,
+                        foreground: .white
+                    ),
+                    button1: .init(content: LocalizedKeys.Home.deleteChat, tint: .red, foreground: .white, action: { _ in
+                        if let chatToDelete = chatToDelete {
+                            homeViewModel.deleteChat(for: chatToDelete.id)
+                        }
+                        showAlert.toggle()
+                    }),
+                    button2: .init(content: LocalizedKeys.Common.cancel, tint: .blue, foreground: .white, action: { _ in showAlert = false
+                    }),
+                    addsTextField: false,
+                    textFieldHint: LocalizedKeys.Home.deleteChatTextFieldHint
                 )
                 /// Since it's using "if" condition to add view you can  use SwiftUI Transition here!
                 .transition(.blurReplace.combined(with: .push(from: .bottom)))
@@ -172,7 +172,7 @@ struct HomeView: View {
     }
 
     private func emptyView() -> some View {
-        InfoView(message: "No data found")
+        InfoView(message: LocalizedKeys.Common.noDataFound)
     }
 
     private func errorView(errorMsg: String) -> some View {
@@ -184,8 +184,8 @@ struct HomeView: View {
             $0 != homeViewModel.currentUser?.id
         } ?? ""
         return homeViewModel.chatUsers[partnerId] ?? User(
-            id: "", // ID por defecto o un ID único temporal
-            fullName: "Desconocido",
+            id: "",
+            fullName: LocalizedKeys.DefaultValues.defaultFullName,
             email: nil,
             profileImageUrl: nil
         )
@@ -238,11 +238,11 @@ struct ChatRowLabelView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(user.fullName ?? "Usuario desconocido")
+                    Text(user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
 
-                    Text(chat.lastMessageText ?? "Sin mensajes aún")
+                    Text(chat.lastMessageText ?? LocalizedKeys.DefaultValues.defaultLastMessage)
                         .font(.system(size: 15))
                         .foregroundStyle(Color(.systemGray))
                         .multilineTextAlignment(.leading)
@@ -258,10 +258,10 @@ struct ChatRowLabelView: View {
                     .background(Color(.systemGray5))
                     .clipShape(Circle())
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Usuario desconocido")
+                    Text(LocalizedKeys.DefaultValues.defaultFullName)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
-                    Text(chat.lastMessageText ?? "Sin mensajes aún")
+                    Text(chat.lastMessageText ?? LocalizedKeys.DefaultValues.defaultLastMessage)
                         .font(.system(size: 15))
                         .foregroundStyle(Color(.systemGray))
                         .multilineTextAlignment(.leading)
@@ -280,7 +280,7 @@ struct ChatRowLabelView: View {
                 .font(.system(size: 14, weight: .regular))
                 .foregroundStyle(Color(.systemGray))
             } else {
-                Text("Fecha desconocida")
+                Text(LocalizedKeys.DefaultValues.defaultDate)
                     .font(.system(size: 14, weight: .regular))
                     .foregroundStyle(Color(.systemGray))
             }

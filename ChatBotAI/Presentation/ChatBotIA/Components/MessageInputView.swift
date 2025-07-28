@@ -17,7 +17,7 @@ struct MessageInputView: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            TextField("Escribe tu mensaje...", text: $prompt, axis: .vertical) // Permite múltiples líneas
+            TextField(LocalizedKeys.Placeholder.typeYourMessage, text: $prompt, axis: .vertical) // Permite múltiples líneas
                 .textFieldStyle(.plain)
                 .padding(10)
                 .background(
