@@ -7,14 +7,14 @@
 
 import Foundation
 
-class FetchMessagesUseCase {
+class FetchMessagesUseCase: UseCaseProtocol {
     private let messageRepository: MessageRepository
     
     init(messageRepository: MessageRepository) {
         self.messageRepository = messageRepository
     }
     
-    func execute(chatId: String) async -> Result<[Message], AppError> {
-        await messageRepository.fetchMessages(chatId: chatId)
+    func execute(with params: FetchMessagesParams) async -> Result<[Message], AppError> {
+        await messageRepository.fetchMessages(chatId: params.chatId)
     }
 }

@@ -29,7 +29,7 @@ class ForgotPasswordViewModel: ObservableObject {
     // MARK: - Functions
     func sendPasswordResetLink() async {
         isLoading = true
-        let result = await sendPasswordResetUseCase.execute(with: email)
+        let result = await sendPasswordResetUseCase.execute(with: SendPasswordResetParams(email: email))
         isLoading = false
         
         switch result {

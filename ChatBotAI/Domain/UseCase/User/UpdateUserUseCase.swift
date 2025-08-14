@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpdateUserUseCase {
+struct UpdateUserUseCase: UseCaseProtocol {
     private let userRepository: UserRepository
     
     init(userRepository: UserRepository) {

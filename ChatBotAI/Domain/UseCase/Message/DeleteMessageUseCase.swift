@@ -15,15 +15,15 @@
 
 import Foundation
 
-class DeleteMessageUseCase {
+class DeleteMessageUseCase: UseCaseProtocol {
     private let messageRepository: MessageRepository
     
     init(messageRepository: MessageRepository) {
         self.messageRepository = messageRepository
     }
     
-    func execute(chatId: String, messageId: String) async -> Result<Void, AppError> {
-        await messageRepository.deleteMessage(chatId: chatId, messageId: messageId)
+    func execute(with params: DeleteMessageParams) async -> Result<Void, AppError> {
+        await messageRepository.deleteMessage(chatId: params.chatId, messageId: params.messageId)
     }
 }
 

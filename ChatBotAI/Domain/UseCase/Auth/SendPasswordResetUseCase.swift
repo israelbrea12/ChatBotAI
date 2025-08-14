@@ -14,7 +14,7 @@ struct SendPasswordResetUseCase: UseCaseProtocol {
         self.authRepository = authRepository
     }
     
-    func execute(with params: String) async -> Result<Void, AppError> {
-        await authRepository.sendPasswordReset(email: params)
+    func execute(with params: SendPasswordResetParams) async -> Result<Void, AppError> {
+        await authRepository.sendPasswordReset(email: params.email)
     }
 }

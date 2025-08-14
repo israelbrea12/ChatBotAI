@@ -137,8 +137,7 @@ final class HomeViewModel: ObservableObject {
     
     func saveLearningLanguage(_ language: Language) async {
         guard self.currentUser != nil else { return }
-        
-        let result = await updateUserLearningLanguageUseCase.execute(language: language.rawValue)
+        let result = await updateUserLearningLanguageUseCase.execute(with: UpdateUserLearningLanguageParams(language: language.rawValue))
         
         switch result {
         case .success:

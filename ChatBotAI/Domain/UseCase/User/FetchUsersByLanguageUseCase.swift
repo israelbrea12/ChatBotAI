@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FetchUsersByLanguageUseCase {
+class FetchUsersByLanguageUseCase: UseCaseProtocol {
     private let repository: UserRepository
     
     init(repository: UserRepository) {

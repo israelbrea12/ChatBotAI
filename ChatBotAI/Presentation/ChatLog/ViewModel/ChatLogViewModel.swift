@@ -208,8 +208,7 @@ class ChatLogViewModel: ObservableObject {
     
     func loadMessages() async {
         guard let chatId = chatId else { return }
-        
-        let result = await fetchMessagesUseCase.execute(chatId: chatId)
+        let result = await fetchMessagesUseCase.execute(with: FetchMessagesParams(chatId: chatId))
         switch result {
         case .success(let fetchedMessages):
             self.messages = fetchedMessages
@@ -232,7 +231,7 @@ class ChatLogViewModel: ObservableObject {
     
     func deleteMessage(messageId: String) async {
         guard let chatId = chatId else { return }
-        let result = await deleteMessageUseCase.execute(chatId: chatId, messageId: messageId)
+        let result = await deleteMessageUseCase.execute(with: DeleteMessageParams(chatId: chatId, messageId: messageId))
         
         switch result {
         case .success:

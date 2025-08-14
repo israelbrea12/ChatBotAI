@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct UpdateUserLearningLanguageUseCase {
+struct UpdateUserLearningLanguageUseCase: UseCaseProtocol {
     private let userRepository: UserRepository
     
     init(userRepository: UserRepository) {
         self.userRepository = userRepository
     }
     
-    func execute(language: String) async -> Result<Void, AppError> {
-        return await userRepository.updateUserLearningLanguage(language: language)
+    func execute(with params: UpdateUserLearningLanguageParams) async -> Result<Void, AppError> {
+        return await userRepository.updateUserLearningLanguage(language: params.language)
     }
 }

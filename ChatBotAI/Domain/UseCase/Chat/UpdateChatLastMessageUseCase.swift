@@ -16,7 +16,7 @@
 import Foundation
 
 class UpdateChatLastMessageUseCase: UseCaseProtocol {
-    private let chatRepository: ChatRepository // Usa ChatRepository, no MessageRepository
+    private let chatRepository: ChatRepository
     
     init(chatRepository: ChatRepository) {
         self.chatRepository = chatRepository
