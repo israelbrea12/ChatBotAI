@@ -5,9 +5,6 @@
 //  Created by Israel Brea Piñero on 27/7/25.
 //
 
-
-// ReplyingToMessageBar.swift
-
 import SwiftUI
 
 struct ReplyingToMessageBar: View {

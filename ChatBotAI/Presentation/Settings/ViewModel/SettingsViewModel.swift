@@ -79,7 +79,7 @@ class SettingsViewModel: ObservableObject {
         }
         
         let result = await fetchUserUseCase.execute(with: ())
-            
+        
         switch result {
         case .success(let user):
             DispatchQueue.main.async {

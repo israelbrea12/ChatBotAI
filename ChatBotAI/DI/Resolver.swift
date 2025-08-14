@@ -32,7 +32,7 @@ public final class Resolver {
     func resolve<T, Arg1>(_ serviceType: T.Type, arguments arg1: Arg1) -> T {
         container.resolve(serviceType, argument: arg1)!
     }
-
+    
 }
 
 // MARK: - Network
@@ -49,7 +49,7 @@ extension Resolver {
         container.register(UserDataSource.self) { _ in
             UserDataSourceImpl()
         }.inObjectScope(.container)
-                
+        
         container.register(AuthDataSource.self) { resolver in
             AuthDataSourceImpl(
                 userDataSource: resolver.resolve(UserDataSource.self)!,
@@ -85,9 +85,7 @@ extension Resolver {
     @MainActor func injectService() {
         
         container.register(GoogleAuthService.self) { resolver in
-            GoogleAuthServiceImpl(
-                
-            )
+            GoogleAuthServiceImpl()
         }.inObjectScope(.container)
     }
 }
@@ -123,17 +121,20 @@ extension Resolver {
         
         container.register(ChatBotRepository.self){resolver in
             ChatBotRepositoryImpl(
-                chatBotDataSource: resolver.resolve(ChatBotDataSource.self)!)
+                chatBotDataSource: resolver.resolve(ChatBotDataSource.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(StorageRepository.self){resolver in
             StorageRepositoryImpl(
-                storageDataSource: resolver.resolve(StorageDataSource.self)!)
+                storageDataSource: resolver.resolve(StorageDataSource.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(PresenceRepository.self){resolver in
             PresenceRepositoryImpl(
-                presenceDataSource: resolver.resolve(PresenceDataSource.self)!)
+                presenceDataSource: resolver.resolve(PresenceDataSource.self)!
+            )
         }.inObjectScope(.container)
     }
 }
@@ -144,19 +145,23 @@ extension Resolver {
 extension Resolver {
     @MainActor func injectUseCase() {
         container.register(SignInUseCase.self) { resolver in
-            SignInUseCase(repository: resolver.resolve(AuthRepository.self)!)
+            SignInUseCase(repository: resolver.resolve(AuthRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(SignUpUseCase.self) { resolver in
-            SignUpUseCase(repository: resolver.resolve(AuthRepository.self)!)
+            SignUpUseCase(repository: resolver.resolve(AuthRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(SignOutUseCase.self) { resolver in
-            SignOutUseCase(repository: resolver.resolve(AuthRepository.self)!)
+            SignOutUseCase(repository: resolver.resolve(AuthRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(FetchUserUseCase.self) { resolver in
-            FetchUserUseCase(repository: resolver.resolve(UserRepository.self)!)
+            FetchUserUseCase(repository: resolver.resolve(UserRepository.self)!
+            )
         }.inObjectScope(.container)
         
         container.register(FetchUsersByLanguageUseCase.self) { resolver in
@@ -245,7 +250,7 @@ extension Resolver {
                 messageRepository: resolver.resolve(MessageRepository.self)!
             )
         }.inObjectScope(.container)
-
+        
         container.register(UploadImageUseCase.self) { resolver in
             UploadImageUseCaseImpl(
                 storageRepository: resolver.resolve(StorageRepository.self)!
@@ -294,7 +299,7 @@ extension Resolver {
             )
         }.inObjectScope(.container)
     }
-
+    
 }
 
 
@@ -302,7 +307,6 @@ extension Resolver {
 
 extension Resolver {
     @MainActor func injectViewModel() {
-        
         
         container.register(SettingsViewModel.self) { resolver in
             SettingsViewModel(
@@ -322,7 +326,7 @@ extension Resolver {
         
         container.register(RegistrationViewModel.self) { resolver in
             RegistrationViewModel(
-
+                
                 signUpUseCase: resolver.resolve(SignUpUseCase.self)!
             )
         }.inObjectScope(.container)
@@ -336,7 +340,6 @@ extension Resolver {
                 observeUserChatsUseCase: resolver.resolve(ObserveUserChatsUseCase.self)!,
                 deleteUserChatUseCase: resolver.resolve(DeleteUserChatUseCase.self)!,
                 updateUserLearningLanguageUseCase: resolver.resolve(UpdateUserLearningLanguageUseCase.self)!
-                
             )
         }.inObjectScope(.container)
         
@@ -374,7 +377,7 @@ extension Resolver {
                     .resolve(SendPasswordResetUseCase.self)!
             )
         }.inObjectScope(.container)
-    
+        
         container.register(EditProfileViewModel.self) { (resolver, user: User) in
             EditProfileViewModel(
                 user: user,

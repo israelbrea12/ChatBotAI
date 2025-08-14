@@ -28,7 +28,6 @@ class NewMessageViewModel: ObservableObject {
     
     // MARK: - Functions
     func fetchMatchingUsers() async {
-        // 1. Obtener el idioma del usuario actual desde el SessionManager
         guard let currentUserLanguage = SessionManager.shared.currentUser?.learningLanguage, !currentUserLanguage.isEmpty else {
             print("⚠️ El usuario actual no tiene un idioma de aprendizaje configurado.")
             self.state = .empty
@@ -38,14 +37,13 @@ class NewMessageViewModel: ObservableObject {
         
         state = .loading
         
-        // 2. Llamar al caso de uso con el idioma del usuario
         let params = FetchUsersByLanguageParams(language: currentUserLanguage)
         let result = await fetchUsersByLanguageUseCase.execute(with: params)
         
         DispatchQueue.main.async {
             switch result {
             case .success(let users):
-                self.users = users.compactMap { $0 } // Elimina los nulos
+                self.users = users.compactMap { $0 }
                 self.state = self.users.isEmpty ? .empty : .success
                 
                 if self.users.isEmpty {

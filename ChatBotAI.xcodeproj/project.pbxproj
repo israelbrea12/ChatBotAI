@@ -412,6 +412,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		40081A862E4E536C00313506 /* Presence */ = {
+			isa = PBXGroup;
+			children = (
+				40CD8B582E1A7E1C0053425F /* Presence.swift */,
+			);
+			path = Presence;
+			sourceTree = "<group>";
+		};
 		400B9D262E017AA5007DFF50 /* CustomOpenPhotoTransition */ = {
 			isa = PBXGroup;
 			children = (
@@ -488,6 +496,7 @@
 		401581EB2DDFB1D1001789E9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				408CA96C2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift */,
 				408CA9432DECA366000C0FAD /* ModeOption.swift */,
 				401581EC2DDFB1DC001789E9 /* ModeSelectionView.swift */,
 				40D384DB2D843A7700406AC1 /* ChatBotIAView.swift */,
@@ -692,14 +701,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		408CA96B2DEDB9FF000C0FAD /* Navigation */ = {
-			isa = PBXGroup;
-			children = (
-				408CA96C2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift */,
-			);
-			path = Navigation;
-			sourceTree = "<group>";
-		};
 		408CA96E2DEDEA85000C0FAD /* CustomFloatingTabView */ = {
 			isa = PBXGroup;
 			children = (
@@ -764,6 +765,7 @@
 				40F3604A2D9FD94F0078BE23 /* FetchUserByIdParams.swift */,
 				40E2352B2E2BFC2F00452CA2 /* UpdateUserParams.swift */,
 				40FC6D3F2E323B380057F614 /* FetchUsersByLanguageParams.swift */,
+				40D385222D84E51A00406AC1 /* SignInRequest.swift */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -935,7 +937,6 @@
 				400B9D3E2E03222B007DFF50 /* App */,
 				400B9D402E03225E007DFF50 /* Core */,
 				40D384CC2D843A7700406AC1 /* DI */,
-				408CA96B2DEDB9FF000C0FAD /* Navigation */,
 				40D384CB2D843A7700406AC1 /* Data */,
 				40D384D02D843A7700406AC1 /* Domain */,
 				40D384EB2D843A7700406AC1 /* Presentation */,
@@ -1020,7 +1021,7 @@
 				40D385212D84E38100406AC1 /* User */,
 				40F360322D9F01BB0078BE23 /* Chat */,
 				40F360C92DA47F460078BE23 /* Message */,
-				40CD8B582E1A7E1C0053425F /* Presence.swift */,
+				40081A862E4E536C00313506 /* Presence */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1057,7 +1058,6 @@
 			isa = PBXGroup;
 			children = (
 				40D3851F2D84E37500406AC1 /* UserModel.swift */,
-				40D385222D84E51A00406AC1 /* SignInRequest.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";

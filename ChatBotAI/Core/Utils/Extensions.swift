@@ -11,66 +11,67 @@ import SwiftUI
 
 
 extension Date {
+    
     func formattedDateString() -> String {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium  // Formato: Apr 3, 2025
-        formatter.timeStyle = .short   // Formato: 10:30 AM
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
         return formatter.string(from: self)
     }
     
     func timeAgoSinceNow() -> String {
-            let now = Date()
-            let calendar = Calendar.current
-            let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear], from: self, to: now)
-
-            if let minutes = components.minute, minutes < 1 {
-                return LocalizedKeys.TimeAgo.justNow
-            }
-            if let minutes = components.minute, minutes < 60 {
-                return LocalizedKeys.TimeAgo.minutes(minutes)
-            }
-            if let hours = components.hour, hours < 24 {
-                return LocalizedKeys.TimeAgo.hours(hours)
-            }
-            if let days = components.day, days < 7 {
-                return LocalizedKeys.TimeAgo.days(days)
-            }
-
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd/MM/yyyy"
-            return formatter.string(from: self)
+        let now = Date()
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear], from: self, to: now)
+        
+        if let minutes = components.minute, minutes < 1 {
+            return LocalizedKeys.TimeAgo.justNow
         }
+        if let minutes = components.minute, minutes < 60 {
+            return LocalizedKeys.TimeAgo.minutes(minutes)
+        }
+        if let hours = components.hour, hours < 24 {
+            return LocalizedKeys.TimeAgo.hours(hours)
+        }
+        if let days = components.day, days < 7 {
+            return LocalizedKeys.TimeAgo.days(days)
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: self)
+    }
     
     func whatsappFormattedTimeAgo() -> String {
-            let now = Date()
-            let calendar = Calendar.current
-            let formatter = DateFormatter()
-
-            let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .year], from: self, to: now)
-            
-            formatter.dateFormat = "h:mm a"
-            if calendar.isDateInToday(self) {
-                return formatter.string(from: self)
-            }
-            
-            if calendar.isDateInYesterday(self) {
-                return LocalizedKeys.Common.yesterday
-            }
-            
-            if let days = components.day, days < 7 {
-                formatter.dateFormat = "EEEE"
-                return formatter.string(from: self)
-            }
-
-            formatter.dateFormat = "dd/MM/yyyy" // Ejemplo: 03/04/2025
+        let now = Date()
+        let calendar = Calendar.current
+        let formatter = DateFormatter()
+        
+        let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .year], from: self, to: now)
+        
+        formatter.dateFormat = "h:mm a"
+        if calendar.isDateInToday(self) {
             return formatter.string(from: self)
         }
+        
+        if calendar.isDateInYesterday(self) {
+            return LocalizedKeys.Common.yesterday
+        }
+        
+        if let days = components.day, days < 7 {
+            formatter.dateFormat = "EEEE"
+            return formatter.string(from: self)
+        }
+        
+        formatter.dateFormat = "dd/MM/yyyy" // Ejemplo: 03/04/2025
+        return formatter.string(from: self)
+    }
     
     func BublesFormattedTime() -> String {
         let formatter = DateFormatter()
         
-        formatter.dateFormat = "HH:mm" // 🔁 Cambiado aquí
-            return formatter.string(from: self)
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: self)
     }
     
     func whatsappFormattedTimeAgoWithoutAMOrPM() -> String {
@@ -105,9 +106,7 @@ extension UIApplication {
     }
 }
 
-/// Custom SwiftUI View Extensions
 extension View {
-    /// View Alignments
     @ViewBuilder
     func hSpacing(_ alignment: Alignment = .center) -> some View {
         self
@@ -120,11 +119,18 @@ extension View {
             .frame(maxHeight: .infinity, alignment: alignment)
     }
     
-    /// Disable With Opacity
     @ViewBuilder
     func disableWithOpacity(_ condition: Bool) -> some View {
         self
             .disabled(condition)
             .opacity(condition ? 0.5 : 1)
+    }
+    
+    @ViewBuilder
+    func blurSlide(_ show: Bool) -> some View {
+        self
+            .opacity(show ? 1 : 0)
+            .offset(y: show ? 0 : 10)
+            .blur(radius: show ? 0 : 5)
     }
 }

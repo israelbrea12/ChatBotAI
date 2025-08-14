@@ -11,7 +11,7 @@ struct LastMessageModel: Codable {
     let text: String
     let sentAt: TimeInterval
     let senderId: String
-
+    
     enum CodingKeys: String, CodingKey {
         case text
         case sentAt

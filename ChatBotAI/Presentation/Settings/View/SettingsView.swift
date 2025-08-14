@@ -155,7 +155,7 @@ struct SettingsView: View {
             }
         }
     }
-        
+    
     private func helpButton() -> some View {
         SettingsRowView(imageName: "info.circle", title: LocalizedKeys.Settings.help, tintColor: .black)
     }

@@ -16,11 +16,9 @@ struct AuthView: View {
         NavigationStack {
             LoginView(showSignup: $showSignup)
                 .navigationDestination(isPresented: $showSignup) {
-                    // La navegación nos lleva a SignUpView
                     SignUpView(showSignup: $showSignup)
                 }
                 .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification), perform: { _ in
-                    /// Disabling it for signup view
                     if !showSignup {
                         isKeyboardShowing = true
                     }
@@ -39,7 +37,6 @@ struct AuthView: View {
     @ViewBuilder
     func CircleView() -> some View {
         Circle()
-            // Usando los nuevos colores azules para el fondo
             .fill(.linearGradient(colors: [.lightBlue, .appBlue], startPoint: .top, endPoint: .bottom))
             .frame(width: 200, height: 200)
             .offset(x: showSignup ? 90 : -90, y: -90 - (isKeyboardShowing ? 200 : 0))

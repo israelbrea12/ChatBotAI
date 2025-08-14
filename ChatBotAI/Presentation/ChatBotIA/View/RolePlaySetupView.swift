@@ -14,7 +14,7 @@ struct RolePlaySetupView: View {
     @State private var scenario = ""
     
     @State private var internalHideTabBarState: Bool = false
-
+    
     var body: some View {
         Form {
             TextField(LocalizedKeys.Placeholder.yourRole, text: $userRole)

@@ -1,4 +1,4 @@
- //
+//
 //  CustomAlert.swift
 //  ChatBotAI
 //
@@ -19,19 +19,16 @@ extension View {
     }
 }
 
-/// Helper Modifier
 fileprivate struct CustomAlertModifier<AlertContent: View, Background: View>: ViewModifier {
     @Binding var isPresented: Bool
     @ViewBuilder var alertContent: AlertContent
     @ViewBuilder var background: Background
-    /// View Properties
     @State private var showFullScreenCover: Bool = false
     @State private var animatedValue: Bool = false
     @State private var allowsInteraction: Bool = false
     
     func body(content: Content) -> some View {
         content
-        /// Using Full Screen Cover to show alert content on top of the current context
             .fullScreenCover(isPresented: $showFullScreenCover) {
                 ZStack {
                     if animatedValue {
@@ -66,7 +63,6 @@ fileprivate struct CustomAlertModifier<AlertContent: View, Background: View>: Vi
                     withAnimation(.easeInOut(duration: 0.3), completionCriteria: .removed) {
                         animatedValue = false
                     } completion: {
-                         /// Removing full-screen-cover without animation
                         withTransaction(transaction) {
                             showFullScreenCover = false
                         }

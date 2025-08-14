@@ -12,7 +12,7 @@ struct ChatModel: Codable {
     let participants: [String]
     let createdAt: TimeInterval?
     let lastMessage: LastMessageModel?
-
+    
     enum CodingKeys: String, CodingKey {
         case id
         case participants

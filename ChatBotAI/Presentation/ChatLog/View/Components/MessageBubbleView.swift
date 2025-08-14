@@ -8,8 +8,6 @@
 import SwiftUI
 import SDWebImageSwiftUI
 
-
-
 struct MessageBubbleView: View {
     @Environment(UICoordinator.self) private var coordinator
     
@@ -32,32 +30,29 @@ struct MessageBubbleView: View {
             if isCurrentUser { Spacer(minLength: UIScreen.main.bounds.width * 0.15) }
             VStack(alignment: isCurrentUser ? .trailing : .leading, spacing: 2) {
                 VStack(alignment: isCurrentUser ? .trailing : .leading, spacing: 0) {
-                                // 1. Muestra la previsualización si existe
-                                if let repliedMessage = repliedToMessage {
-                                    RepliedMessagePreview(
-                                            message: repliedMessage,
-                                            isReplyBubbleFromCurrentUser: self.isCurrentUser
-                                        )
-                                        .fixedSize(horizontal: false, vertical: true)
-                                }
-                                
-                                // 2. Muestra el contenido del mensaje actual (tu respuesta)
-                                messageContent()
-                            }
-                            .padding(isCurrentUser ? .init(top: 10, leading: 10, bottom: 10, trailing: 10) : .init(top: 10, leading: 10, bottom: 10, trailing: 10))
-                            .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
-                            .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
-                            .fixedSize(horizontal: false, vertical: true)
-                            .background(
-                                 GeometryReader { proxy in
-                                     Color.clear
-                                         .onAppear { bubbleFrame = proxy.frame(in: .global) }
-                                         .onChange(of: proxy.frame(in: .global)) { _, newFrame in bubbleFrame = newFrame }
-                                 }
-                            )
-                            .gesture(LongPressGesture(minimumDuration: 0.45).onEnded { _ in
-                                onLongPress?(message, bubbleFrame)
-                            })
+                    if let repliedMessage = repliedToMessage {
+                        RepliedMessagePreview(
+                            message: repliedMessage,
+                            isReplyBubbleFromCurrentUser: self.isCurrentUser
+                        )
+                        .fixedSize(horizontal: false, vertical: true)
+                    }
+                    messageContent()
+                }
+                .padding(isCurrentUser ? .init(top: 10, leading: 10, bottom: 10, trailing: 10) : .init(top: 10, leading: 10, bottom: 10, trailing: 10))
+                .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
+                .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
+                .fixedSize(horizontal: false, vertical: true)
+                .background(
+                    GeometryReader { proxy in
+                        Color.clear
+                            .onAppear { bubbleFrame = proxy.frame(in: .global) }
+                            .onChange(of: proxy.frame(in: .global)) { _, newFrame in bubbleFrame = newFrame }
+                    }
+                )
+                .gesture(LongPressGesture(minimumDuration: 0.45).onEnded { _ in
+                    onLongPress?(message, bubbleFrame)
+                })
                 
                 HStack(spacing: 4) {
                     Text(Date(timeIntervalSince1970: message.sentAt ?? Date().timeIntervalSince1970).BublesFormattedTime())
@@ -112,23 +107,18 @@ private extension MessageBubbleView {
     func imageMessageView() -> some View {
         if message.isUploading {
             if let data = message.localImageData, let uiImage = UIImage(data: data) {
-                // CORREGIDO: Usamos la sintaxis de clausura final
                 imageBubbleBase(image: Image(uiImage: uiImage)) { uploadOverlay }
             }
         } else if message.uploadFailed {
-            // CORREGIDO: Usamos la sintaxis de clausura final
             imageBubbleBase(image: nil) { failureOverlay }
         } else if let urlString = message.imageURL, let url = URL(string: urlString) {
             WebImage(url: url) { phase in
                 switch phase {
                 case .empty:
-                    // CORREGIDO: Usamos la sintaxis de clausura final
                     imageBubbleBase(image: nil) { loadingOverlay }
                 case .success(let image):
-                    // CORREGIDO: Pasamos una clausura que devuelve una vista vacía
                     imageBubbleBase(image: image) { EmptyView() }
                 case .failure:
-                    // CORREGIDO: Usamos la sintaxis de clausura final
                     imageBubbleBase(image: nil) { failureOverlay }
                 @unknown default:
                     EmptyView()
@@ -204,22 +194,20 @@ private extension MessageBubbleView {
 struct RepliedMessagePreview: View {
     let message: Message
     let isReplyBubbleFromCurrentUser: Bool
-
+    
     var body: some View {
         HStack(spacing: 8) {
             
             Capsule()
                 .fill(Color.blue)
                 .frame(width: 3)
-
+            
             VStack(alignment: .leading, spacing: 2) {
-                // Nombre del autor original
                 Text(message.senderId == SessionManager.shared.currentUser?.id ? LocalizedKeys.Chat.replyingToYou : message.senderName)
                     .font(.caption)
                     .fontWeight(.bold)
                     .foregroundColor(.blue)
-
-                // Contenido del mensaje original (texto o placeholder para imagen)
+                
                 HStack(spacing: 4) {
                     if message.messageType == .image && !message.imageURL!.isEmpty {
                         Image(systemName: "photo.fill")
@@ -237,8 +225,8 @@ struct RepliedMessagePreview: View {
         .padding(.vertical, 8)
         .background(
             (isReplyBubbleFromCurrentUser ? Color(UIColor.systemGray5) : Color.blue.opacity(0.15))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
         )
-        .padding(.bottom, 4) // Espacio entre la preview y el mensaje de respuesta
+        .padding(.bottom, 4)
     }
 }

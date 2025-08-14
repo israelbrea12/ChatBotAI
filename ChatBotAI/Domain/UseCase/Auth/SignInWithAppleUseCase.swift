@@ -9,11 +9,11 @@ import Foundation
 
 struct SignInWithAppleUseCase {
     private let repository: AuthRepository
-
+    
     init(repository: AuthRepository) {
         self.repository = repository
     }
-
+    
     func execute() async -> Result<User, AppError> {
         await repository.signInWithApple()
     }

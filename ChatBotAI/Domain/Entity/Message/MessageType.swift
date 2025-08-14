@@ -8,7 +8,6 @@
 
 import Foundation
 
-// Define el tipo de mensaje
 enum MessageType: String, Codable {
     case text
     case image

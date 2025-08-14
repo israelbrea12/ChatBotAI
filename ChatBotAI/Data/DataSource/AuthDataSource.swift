@@ -72,23 +72,30 @@ class AuthDataSourceImpl: AuthDataSource {
         
         return userModel
     }
-
+    
     private func uploadProfileImage(image: UIImage, userId: String) async throws -> String {
         guard let imageData = image.jpegData(compressionQuality: 0.3) else {
             throw AppError.unknownError("No se pudo convertir la imagen a datos")
         }
-
+        
         let storageRef = Storage.storage().reference().child("\(Constants.Storage.profileImages)/\(userId)\(Constants.Storage.imageExtension)")
         _ = try await storageRef.putDataAsync(imageData, metadata: nil)
         return try await storageRef.downloadURL().absoluteString
     }
-
-
     
     func signOut() throws {
         try Auth.auth().signOut()
     }
-
+    
+    func deleteFirebaseAuthUser() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw AppError.authenticationError("No user logged in")
+        }
+        
+        try await user.delete()
+        print("✅ Cuenta de Firebase Auth eliminada permanentemente.")
+    }
+    
     
     // MARK: - Sign In With Google
     
@@ -113,6 +120,7 @@ class AuthDataSourceImpl: AuthDataSource {
     }
     
     // MARK: - Sign In With Apple
+    
     func signInWithApple() async throws -> UserModel {
         let nonce = CryptoUtils.randomNonceString()
         let hashedNonce = CryptoUtils.sha256(nonce)
@@ -124,7 +132,7 @@ class AuthDataSourceImpl: AuthDataSource {
                 request.nonce = hashedNonce
                 
                 let delegate = AppleSignInDelegate(continuation: continuation, nonce: nonce)
-                self.appleSignInDelegate = delegate // Guardamos la referencia para evitar que se libere
+                self.appleSignInDelegate = delegate
                 
                 let controller = ASAuthorizationController(authorizationRequests: [request])
                 controller.delegate = delegate
@@ -133,7 +141,7 @@ class AuthDataSourceImpl: AuthDataSource {
             }
         }
     }
-
+    
     private func saveUserIfNeeded(_ userModel: UserModel) async throws {
         let userRef = Database.database().reference().child(Constants.Database.users).child(userModel.uid)
         let snapshot = try await userRef.getData()
@@ -144,16 +152,5 @@ class AuthDataSourceImpl: AuthDataSource {
     
     func sendPasswordReset(email: String) async throws {
         try await Auth.auth().sendPasswordReset(withEmail: email)
-    }
-    
-    // MARK: - Delete Account
-    
-    func deleteFirebaseAuthUser() async throws {
-        guard let user = Auth.auth().currentUser else {
-            throw AppError.authenticationError("No user logged in")
-        }
-        
-        try await user.delete()
-        print("✅ Cuenta de Firebase Auth eliminada permanentemente.")
     }
 }

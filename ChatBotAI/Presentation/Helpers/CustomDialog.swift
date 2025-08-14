@@ -15,8 +15,8 @@ struct CustomDialog: View {
     var button2: Config?
     var addsTextField: Bool = false
     var textFieldHint: String = ""
-    /// State Properites
     @State private var text: String = ""
+    
     var body: some View {
         VStack(spacing: 15) {
             Image(systemName: image.content)
@@ -62,13 +62,12 @@ struct CustomDialog: View {
             RoundedRectangle(cornerRadius: 15)
                 .fill(.background)
                 .padding(.top, 30)
-                
+            
         }
         .frame(maxWidth: 310)
         .compositingGroup()
     }
     
-    /// Button View
     @ViewBuilder
     private func ButtonView(_ config: Config) -> some View {
         Button {

@@ -15,7 +15,7 @@ struct MessageActionMenuView: View {
     
     // MARK: - Bindings
     @Binding var showMenu: Bool
-
+    
     // MARK: - Body
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -35,7 +35,7 @@ struct MessageActionMenuView: View {
                     .padding(.vertical, 12)
                     .contentShape(Rectangle())
                 }
-
+                
                 if item.id != items.last?.id {
                     Divider()
                         .background(Color.gray.opacity(0.3))
@@ -68,6 +68,6 @@ struct ContextMenuView_Previews: PreviewProvider {
             showMenu: .constant(true)
         )
         .padding()
-        .background(Color.blue.opacity(0.3)) // Fondo para previsualizar
+        .background(Color.blue.opacity(0.3))
     }
 }

@@ -1,3 +1,10 @@
+//
+//  LoginViewModel.swift
+//  ChatBotAI
+//
+//  Created by Israel Brea Piñero on 2/4/25.
+//
+
 import Foundation
 import FirebaseCore
 import GoogleSignIn
@@ -21,7 +28,7 @@ class LoginViewModel: ObservableObject {
     @Published var authenticationError: AppError?
     
     private var cancellables = Set<AnyCancellable>()
-
+    
     // MARK: - Validation
     var isFormValid: Bool {
         return emailError == nil && passwordError == nil && !email.isEmpty && !password.isEmpty
@@ -31,8 +38,8 @@ class LoginViewModel: ObservableObject {
     private let signInUseCase: SignInUseCase
     private let signInWithGoogleUseCase: SignInWithGoogleUseCase
     private let signInWithAppleUseCase: SignInWithAppleUseCase
-
-    // MARK: Lifecycle functions
+    
+    // MARK: - Lifecycle functions
     init(
         signInUseCase: SignInUseCase,
         signInWithGoogleUseCase: SignInWithGoogleUseCase,
@@ -46,69 +53,36 @@ class LoginViewModel: ObservableObject {
     
     // MARK: - Functions
     func signIn() async {
-            // 1. Validar el formulario al pulsar el botón.
-            guard validateForm() else { return }
-            
-            isLoading = true
-            let result = await signInUseCase.execute(with: SignInParam(email: email, password: password))
-            isLoading = false
-            
-            switch result {
-            case .success(let user):
-                self.currentUser = user
-                SessionManager.shared.userSession = Auth.auth().currentUser
-                PresenceManager.shared.setupPresence()
-                self.resetForm()
-            case .failure(let error):
-                self.authenticationError = error
-                print("DEBUG: Sign-in error \(error.localizedDescription)")
-            }
+        guard validateForm() else { return }
+        
+        isLoading = true
+        let result = await signInUseCase.execute(with: SignInParam(email: email, password: password))
+        isLoading = false
+        
+        switch result {
+        case .success(let user):
+            self.currentUser = user
+            SessionManager.shared.userSession = Auth.auth().currentUser
+            PresenceManager.shared.setupPresence()
+            self.resetForm()
+        case .failure(let error):
+            self.authenticationError = error
+            print("DEBUG: Sign-in error \(error.localizedDescription)")
         }
-    
-    private func clearErrorsOnEdit() {
-            $email
-                .dropFirst()
-                .sink { [weak self] _ in self?.emailError = nil }
-                .store(in: &cancellables)
-                
-            $password
-                .dropFirst()
-                .sink { [weak self] _ in self?.passwordError = nil }
-                .store(in: &cancellables)
-        }
-    
-    private func validateForm() -> Bool {
-            var isValid = true
-            authenticationError = nil // Limpia errores del servidor previos
-
-            // Validar Email
-            if !email.contains("@") {
-                emailError = LocalizedKeys.Validation.emailInvalid
-                isValid = false
-            }
-            
-            // Validar Contraseña
-            if password.count <= 5 {
-                passwordError = LocalizedKeys.Validation.passwordTooShort
-                isValid = false
-            }
-            
-            return isValid
-        }
+    }
     
     func signInWithGoogle() async {
-            let result = await signInWithGoogleUseCase.execute()
-            switch result {
-            case .success(let user):
-                DispatchQueue.main.async {
-                    PresenceManager.shared.setupPresence()
-                    self.currentUser = user
-                }
-            case .failure(let error):
-                print("DEBUG: Error signing in with Google: \(error.localizedDescription)")
+        let result = await signInWithGoogleUseCase.execute()
+        switch result {
+        case .success(let user):
+            DispatchQueue.main.async {
+                PresenceManager.shared.setupPresence()
+                self.currentUser = user
             }
+        case .failure(let error):
+            print("DEBUG: Error signing in with Google: \(error.localizedDescription)")
         }
-    
+    }
     
     func signInWithApple() async {
         let result = await signInWithAppleUseCase.execute()
@@ -121,6 +95,36 @@ class LoginViewModel: ObservableObject {
         case .failure(let error):
             print("DEBUG: Error signing in with Google: \(error.localizedDescription)")
         }
+    }
+    
+    // MARK: - Private functions
+    private func clearErrorsOnEdit() {
+        $email
+            .dropFirst()
+            .sink { [weak self] _ in self?.emailError = nil }
+            .store(in: &cancellables)
+        
+        $password
+            .dropFirst()
+            .sink { [weak self] _ in self?.passwordError = nil }
+            .store(in: &cancellables)
+    }
+    
+    private func validateForm() -> Bool {
+        var isValid = true
+        authenticationError = nil
+        
+        if !email.contains("@") {
+            emailError = LocalizedKeys.Validation.emailInvalid
+            isValid = false
+        }
+        
+        if password.count <= 5 {
+            passwordError = LocalizedKeys.Validation.passwordTooShort
+            isValid = false
+        }
+        
+        return isValid
     }
     
     private func resetForm() {

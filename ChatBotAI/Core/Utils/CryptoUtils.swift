@@ -16,26 +16,26 @@ struct CryptoUtils {
         let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         var result = ""
         var remainingLength = length
-
+        
         while remainingLength > 0 {
             let randoms: [UInt8] = (0..<16).map { _ in
                 var random: UInt8 = 0
                 let status = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
                 return status == errSecSuccess ? random : 0
             }
-
+            
             for random in randoms {
                 if remainingLength == 0 {
                     break
                 }
-
+                
                 if random < charset.count {
                     result.append(charset[Int(random)])
                     remainingLength -= 1
                 }
             }
         }
-
+        
         return result
     }
     

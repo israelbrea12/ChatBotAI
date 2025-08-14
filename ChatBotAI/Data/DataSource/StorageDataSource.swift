@@ -14,20 +14,16 @@ protocol StorageDataSource {
     func deleteProfileImage(userId: String) async throws
 }
 
-// Implementación para Firebase Storage
 class StorageDataSourceImpl: StorageDataSource {
     private let storageRef = Storage.storage().reference()
-
+    
     func uploadImage(imageData: Data, chatId: String, messageId: String) async throws -> URL {
-        // Define una ruta única para la imagen en Storage
+        
         let imagePath = "\(Constants.Storage.chatImages)/\(chatId)/\(messageId)\(Constants.Storage.imageExtension)"
         let imageRef = storageRef.child(imagePath)
 
-        // Sube los datos de la imagen
-        // Firebase SDK provee putDataAsync a partir de ciertas versiones o puedes envolverlo
-        // Aquí un ejemplo de cómo envolverlo si no está disponible directamente:
-        try await imageRef.putDataAsync(imageData, metadata: nil) // putDataAsync es una extensión de ejemplo
-
+        try await imageRef.putDataAsync(imageData, metadata: nil)
+        
         // Obtiene la URL de descarga
         let downloadURL = try await imageRef.downloadURL()
         return downloadURL

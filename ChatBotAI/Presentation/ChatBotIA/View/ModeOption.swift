@@ -5,7 +5,6 @@
 //  Created by Israel Brea Piñero on 1/6/25.
 //
 
-
 import SwiftUI
 
 struct ModeOption: Identifiable, Hashable {
@@ -18,7 +17,7 @@ struct ModeOption: Identifiable, Hashable {
     static func == (lhs: ModeOption, rhs: ModeOption) -> Bool {
         lhs.id == rhs.id
     }
-
+    
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }

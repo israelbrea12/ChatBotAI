@@ -10,7 +10,6 @@ import SDWebImageSwiftUI
 
 struct NewMessageView: View {
     
-    
     @Environment(\.presentationMode) var presentationMode
     
     @StateObject var viewModel = Resolver.shared.resolve(NewMessageViewModel.self)
@@ -94,5 +93,5 @@ struct NewMessageView: View {
             }
         }
     }
-
+    
 }

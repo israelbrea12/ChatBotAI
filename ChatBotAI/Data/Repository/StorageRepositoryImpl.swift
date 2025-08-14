@@ -10,11 +10,11 @@ import Foundation
 
 class StorageRepositoryImpl: StorageRepository {
     private let storageDataSource: StorageDataSource
-
+    
     init(storageDataSource: StorageDataSource) {
         self.storageDataSource = storageDataSource
     }
-
+    
     func uploadImage(imageData: Data, chatId: String, messageId: String) async -> Result<URL, AppError> {
         do {
             let url = try await storageDataSource.uploadImage(imageData: imageData, chatId: chatId, messageId: messageId)

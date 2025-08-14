@@ -9,11 +9,11 @@ import Foundation
 
 struct SignOutUseCase: UseCaseProtocol {
     private let repository: AuthRepository
-
+    
     init(repository: AuthRepository) {
         self.repository = repository
     }
-
+    
     func execute(with params: Void) -> Result<Bool, AppError> {
         return repository.signOut()
     }

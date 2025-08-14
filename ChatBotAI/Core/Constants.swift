@@ -8,11 +8,11 @@
 import Foundation
 
 enum Constants {
-
+    
     enum AI {
         static let modelName = "gemini-1.5-flash"
     }
-
+    
     enum Database {
         static let users = "users"
         static let chats = "chats"
@@ -20,7 +20,7 @@ enum Constants {
         static let userChats = "user_chats"
         static let infoConnected = ".info/connected"
         static let chatIdSeparator = "_"
-
+        
         enum User {
             static let uid = "uid"
             static let email = "email"
@@ -28,14 +28,14 @@ enum Constants {
             static let profileImageUrl = "profileImageUrl"
             static let learningLanguage = "learningLanguage"
         }
-
+        
         enum Chat {
             static let id = "id"
             static let participants = "participants"
             static let createdAt = "createdAt"
             static let lastMessage = "lastMessage"
         }
-
+        
         enum Message {
             static let id = "id"
             static let text = "text"
@@ -54,7 +54,7 @@ enum Constants {
             static let lastSeen = "lastSeen"
         }
     }
-
+    
     enum Storage {
         static let profileImages = "profile_images"
         static let chatImages = "chat_images"

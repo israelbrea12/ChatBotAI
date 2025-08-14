@@ -7,21 +7,18 @@
 
 import SwiftUI
 
-/// Act's as a Wrapper to show menu view on top of the wrapped view
 struct CustomMenuView<Content: View>: View {
     @Binding var config: MenuConfig
     @ViewBuilder var content: Content
     @MenuActionBuilder var actions: [MenuAction]
-    /// View Properties
     @State private var animateContent: Bool = false
     @State private var animateLabels: Bool = false
-    /// For Resetting Scroll Position, one the menu closed!
     @State private var activeActionID: String?
+    
     var body: some View {
         content
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .overlay {
-                /// Bluured Overlay
                 Rectangle()
                     .fill(.bar)
                     .ignoresSafeArea()
@@ -30,10 +27,8 @@ struct CustomMenuView<Content: View>: View {
             }
             .overlay {
                 if animateContent {
-                    /// Instead of using withAnimation completion callback, I'm using onDissapear modifier to know when the animation get's completed!
                     Rectangle()
                         .foregroundStyle(.clear)
-                        /// Disabling user interaction until menu view gets cloed completely!
                         .contentShape(.rect)
                         .onDisappear {
                             config.hideSourceView = false
@@ -62,7 +57,6 @@ struct CustomMenuView<Content: View>: View {
                     config.hideSourceView = true
                 }
                 
-                /// Change the animation, as per your needs!
                 withAnimation(.smooth(duration: 0.45, extraBounce: 0)) {
                     animateContent = newValue
                 }
@@ -73,7 +67,6 @@ struct CustomMenuView<Content: View>: View {
             }
     }
     
-    /// Menu Scroll View
     @ViewBuilder
     func MenuScrollView(_ proxy: GeometryProxy) -> some View {
         ScrollView(.vertical) {
@@ -85,7 +78,6 @@ struct CustomMenuView<Content: View>: View {
             .scrollTargetLayout()
             .padding(.horizontal, 25)
             .frame(maxWidth: .infinity, alignment: .leading)
-            /// For backgroundtap to dismiss the menu view
             .background {
                 Rectangle()
                     .foregroundStyle(.clear)
@@ -95,7 +87,6 @@ struct CustomMenuView<Content: View>: View {
                         guard config.showMenu else { return }
                         config.showMenu = false
                     }
-                    /// Sticking to the top!
                     .visualEffect { content, proxy in
                         content
                             .offset(
@@ -106,14 +97,12 @@ struct CustomMenuView<Content: View>: View {
             }
         }
         .safeAreaPadding(.vertical, 20)
-        /// Making it to start at center
         .safeAreaPadding(.top, (proxy.size.height - 70) / 2)
         .scrollPosition(id: $activeActionID, anchor: .top)
         .scrollIndicators(.hidden)
         .allowsHitTesting(config.showMenu)
     }
     
-    /// Menu Action View
     @ViewBuilder
     func MenuActionView(_ action: MenuAction) -> some View {
         let sourceLocation = config.sourceLocation
@@ -140,7 +129,6 @@ struct CustomMenuView<Content: View>: View {
         }
         .visualEffect({ [animateContent] content, proxy in
             content
-            /// Making all the action to be placed at the source button location
                 .offset(
                     x: animateContent ? 0 : sourceLocation.minX - proxy.frame(in: .global).minX,
                     y: animateContent ? 0 : sourceLocation.minY - proxy.frame(in: .global).minY
@@ -154,11 +142,9 @@ struct CustomMenuView<Content: View>: View {
     }
 }
 
-/// Customized Source Button
 struct MenuSourceButton<Content: View>: View {
     @Binding var config: MenuConfig
     @ViewBuilder var content: Content
-    /// For more user customization!
     var onTap: () -> ()
     var body: some View {
         content
@@ -168,13 +154,11 @@ struct MenuSourceButton<Content: View>: View {
                 config.sourceView = .init(content)
                 config.showMenu.toggle()
             }
-            /// Saving Source Location
             .onGeometryChange(for: CGRect.self) {
                 $0.frame(in: .global)
             } action: { newValue in
                 config.sourceLocation = newValue
             }
-            /// Hiding Source View when hideSourceView is Enabled
             .opacity(config.hideSourceView ? 0.01 : 1)
     }
 }
@@ -183,17 +167,14 @@ struct MenuSourceButton<Content: View>: View {
     ContentView()
 }
 
-/// Menu config
 struct MenuConfig {
     var symbolImage: String
     var sourceLocation: CGRect = .zero
     var showMenu: Bool = false
-    /// Storing Source View (Label) for scaling Effect!
     var sourceView: AnyView = .init(EmptyView())
     var hideSourceView: Bool = false
 }
 
-/// Menu Action & Action Builder
 struct MenuAction: Identifiable {
     private(set) var id: String = UUID().uuidString
     var symbolImage: String

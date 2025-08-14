@@ -12,9 +12,9 @@ struct ForgotPasswordView: View {
     @StateObject var forgotPasswordViewModel = Resolver.shared.resolve(ForgotPasswordViewModel.self)
     
     @Environment(\.dismiss) private var dismiss
-        
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 15) {
+        VStack(alignment: .leading, spacing: 10) {
             Button(action: {
                 dismiss()
             }, label: {
@@ -25,15 +25,21 @@ struct ForgotPasswordView: View {
             .padding(.top, 10)
             
             Text(LocalizedKeys.Auth.forgotPassword)
-                .font(.largeTitle)
+                .font(.title2)
                 .fontWeight(.heavy)
+                .lineLimit(2)
+                .layoutPriority(1)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 5)
             
             Text(LocalizedKeys.Auth.resetPasswordLink)
                 .font(.caption)
                 .fontWeight(.semibold)
                 .foregroundStyle(.gray)
+                .lineLimit(2)
+                .truncationMode(.tail)
                 .padding(.top, -5)
+            
             
             VStack(spacing: 25) {
                 CustomTF(sfIcon: "at", hint: LocalizedKeys.Placeholder.emailPlaceholder, value: $forgotPasswordViewModel.email)

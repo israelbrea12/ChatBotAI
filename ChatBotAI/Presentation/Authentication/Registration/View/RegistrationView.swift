@@ -5,8 +5,6 @@
 //  Created by Israel Brea Piñero on 13/3/25.
 //
 
-// MARK: SignUpView.swift
-
 import SwiftUI
 
 struct SignUpView: View {

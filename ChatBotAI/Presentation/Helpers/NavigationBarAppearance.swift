@@ -13,7 +13,7 @@ func applyOpaqueNavigationBar(opacity: CGFloat = 0.9) {
     appearance.backgroundColor = UIColor.systemBackground.withAlphaComponent(opacity)
     appearance.titleTextAttributes = [.foregroundColor: UIColor.label]
     appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.label]
-
+    
     let navigationBar = UINavigationBar.appearance()
     navigationBar.standardAppearance = appearance
     navigationBar.scrollEdgeAppearance = appearance

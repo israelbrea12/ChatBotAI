@@ -11,12 +11,7 @@ import SwiftUI
 class UICoordinator {
     var selectedMessage: Message? {
         didSet {
-            // Se ha eliminado la llamada a toggleView desde aquí
-            // para tener un control más explícito. La lógica se iniciará
-            // desde la vista cuando sea necesario.
-            // PERO en tu código original sí se llama, así que aplicaremos la corrección.
             if selectedMessage != nil {
-                // Se inicia el proceso de mostrar la vista.
                 toggleView(show: true)
             }
         }
@@ -51,16 +46,14 @@ class UICoordinator {
             detailScrollPosition = updatedItem.id
         }
     }
-
-    // --- FUNCIÓN CORREGIDA ---
+    
     func toggleView(show: Bool) {
         let animation: Animation = .spring(response: 0.4, dampingFraction: 0.85)
-
+        
         if show {
             detailScrollPosition = selectedMessage?.id
             detailIndicatorPosition = selectedMessage?.id
             
-            // 🔥 SOLUCIÓN: Aplazamos la animación para dar tiempo a SwiftUI a calcular el ancla de destino.
             DispatchQueue.main.async {
                 withAnimation(animation) {
                     self.animateView = true

@@ -5,9 +5,6 @@
 //  Created by Israel Brea Piñero on 19/7/25.
 //
 
-
-// Create a new file: EditProfileView.swift
-
 import PhotosUI
 import SwiftUI
 import SDWebImageSwiftUI
@@ -15,7 +12,7 @@ import SDWebImageSwiftUI
 struct EditProfileView: View {
     @StateObject var editProfileViewModel: EditProfileViewModel
     @Environment(\.dismiss) var dismiss
-        
+    
     init(user: User) {
         _editProfileViewModel = StateObject(wrappedValue: Resolver.shared.resolve(EditProfileViewModel.self, arguments: user))
     }

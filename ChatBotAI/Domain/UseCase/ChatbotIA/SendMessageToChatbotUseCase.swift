@@ -14,11 +14,11 @@ protocol SendMessageToChatBotUseCaseProtocol {
 
 class SendMessageToChatBotUseCase: SendMessageToChatBotUseCaseProtocol {
     private let chatBotRepository: ChatBotRepository
-
+    
     init(chatBotRepository: ChatBotRepository) {
         self.chatBotRepository = chatBotRepository
     }
-
+    
     func execute(with params: SendMessageToChatBotParams) async -> Result<String, Error> {
         return await chatBotRepository.sendMessageToChatBot(prompt: params.prompt)
     }

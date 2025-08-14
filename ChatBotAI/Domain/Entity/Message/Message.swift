@@ -23,11 +23,11 @@ struct Message: Identifiable, Codable, Equatable {
     var isUploading: Bool = false
     var uploadFailed: Bool = false
     var isEdited: Bool = false
-
+    
     enum CodingKeys: String, CodingKey {
         case id, text, senderId, senderName, sentAt, messageType, imageURL, isEdited, replyTo
     }
-
+    
     static func == (lhs: Message, rhs: Message) -> Bool {
         return lhs.id == rhs.id &&
         lhs.text == rhs.text &&

@@ -7,17 +7,14 @@
 
 import Foundation
 
-// Helper para simplificar la llamada a la localización.
 fileprivate extension String {
-    /// Devuelve la cadena localizada asociada con esta clave.
     func localized() -> String {
         return NSLocalizedString(self, comment: "")
     }
 }
 
-/// Enum central para gestionar todas las cadenas localizadas de la aplicación de forma segura.
 enum LocalizedKeys {
-
+    
     // MARK: - Common Strings
     enum Common {
         static var ok: String { "common_ok".localized() }
@@ -41,7 +38,7 @@ enum LocalizedKeys {
         static var noDataFound: String { "common_no_data_found".localized() }
         static var noMessagesYet: String { "common_no_messages_yet".localized() }
     }
-
+    
     // MARK: - Authentication
     enum Auth {
         static var loginTitle: String { "auth_login_title".localized() }
@@ -145,14 +142,14 @@ enum LocalizedKeys {
         static var tapToChangePhoto: String { "settings_tap_to_change_photo".localized() }
     }
     
-
+    
     // MARK: - App Features & Modes
     enum Features {
         static var chooseLanguagePrompt: String { "features_choose_language".localized() }
         static var canChangeAnytime: String { "features_can_change_anytime".localized() }
         static var learningLanguage: String { "features_learning_language".localized() }
     }
-
+    
     // MARK: - Media Picker
     enum Media {
         static var photos: String { "media_photos".localized() }
@@ -174,27 +171,27 @@ enum LocalizedKeys {
         static var nameTooShort: String { "validation_name_too_short".localized() }
         static var passwordsDoNotMatch: String { "validation_passwords_do_not_match".localized() }
     }
-
+    
     // MARK: - Onboarding
     enum Onboarding {
         static var languageTitle: String { "onboarding_language_title".localized() }
         static var languageSubtitle: String { "onboarding_language_subtitle".localized() }
     }
-       
+    
     // MARK: - Language Names
     enum LanguageName {
         static var english: String { "language_english_full".localized() }
         static var spanish: String { "language_spanish_full".localized() }
         static var french: String { "language_french_full".localized() }
     }
-
+    
     // MARK: - App Tabs
     enum Tab {
         static var chats: String { "tab_chats".localized() }
         static var chatbot: String { "tab_chatbot".localized() }
         static var settings: String { "tab_settings".localized() }
     }
-       
+    
     // MARK: - Placeholders
     enum Placeholder {
         static var emailPlaceholder: String { "placeholder_email".localized() }
@@ -240,21 +237,21 @@ enum LocalizedKeys {
     }
     
     // MARK: - Time Ago Formatting
-        enum TimeAgo {
-            static var justNow: String { "time_ago_just_now".localized() }
-            static func minutes(_ count: Int) -> String {
-                String(format: "time_ago_minutes".localized(), count)
-            }
-            static func hours(_ count: Int) -> String {
-                String(format: "time_ago_hours".localized(), count)
-            }
-            static func days(_ count: Int) -> String {
-                String(format: "time_ago_days".localized(), count)
-            }
+    enum TimeAgo {
+        static var justNow: String { "time_ago_just_now".localized() }
+        static func minutes(_ count: Int) -> String {
+            String(format: "time_ago_minutes".localized(), count)
         }
-        
-        // MARK: - Image Detail View
-        enum ImageDetail {
-            static var senderYou: String { "image_detail_sender_you".localized() }
+        static func hours(_ count: Int) -> String {
+            String(format: "time_ago_hours".localized(), count)
         }
+        static func days(_ count: Int) -> String {
+            String(format: "time_ago_days".localized(), count)
+        }
+    }
+    
+    // MARK: - Image Detail View
+    enum ImageDetail {
+        static var senderYou: String { "image_detail_sender_you".localized() }
+    }
 }

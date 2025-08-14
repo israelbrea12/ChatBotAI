@@ -69,76 +69,75 @@ struct MessagesView: View {
     }
     
     @ViewBuilder
-        private func messageScrollView(proxy: ScrollViewProxy) -> some View {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(groupedMessages, id: \.date) { group in
-                        Text(group.date)
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 10)
-                            .padding(.vertical, 8)
-                            .background(Capsule().fill(Color.gray.opacity(0.2)))
-                            .padding(.vertical, 10)
+    private func messageScrollView(proxy: ScrollViewProxy) -> some View {
+        ScrollView {
+            LazyVStack(spacing: 0) {
+                ForEach(groupedMessages, id: \.date) { group in
+                    Text(group.date)
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 8)
+                        .background(Capsule().fill(Color.gray.opacity(0.2)))
+                        .padding(.vertical, 10)
+                    
+                    ForEach(group.messages) { message in
                         
-                        ForEach(group.messages) { message in
-                            
-                            let repliedMessage = message.replyTo.flatMap { messageDictionary[$0] }
-                            
-                            let shouldBlurMessage = (showContextMenu && message.id != contextMenuMessage?.id) ||
-                                                    (chatLogViewModel.editingMessage != nil && message.id != chatLogViewModel.editingMessage?.id) ||
-                                                    (chatLogViewModel.replyingToMessage != nil && message.id != chatLogViewModel.replyingToMessage?.id)
-                            
-                            MessageBubbleView(
-                                message: message,
-                                isCurrentUser: message.senderId == currentUserId,
-                                repliedToMessage: repliedMessage,
-                                onLongPress: { tappedMessage, bubbleFrameGlobal in
-                                    // Lógica para mostrar el menú contextual
-                                    self.contextMenuMessage = tappedMessage
-                                    self.contextMenuAnchorFrame = bubbleFrameGlobal
-                                    withAnimation(.spring(response: 0.35, dampingFraction: 0.65)) {
-                                        self.showContextMenu = true
-                                    }
-                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                                },
-                                onImageTap: { tappedMessage in
-                                    coordinator.selectedMessage = tappedMessage
+                        let repliedMessage = message.replyTo.flatMap { messageDictionary[$0] }
+                        
+                        let shouldBlurMessage = (showContextMenu && message.id != contextMenuMessage?.id) ||
+                        (chatLogViewModel.editingMessage != nil && message.id != chatLogViewModel.editingMessage?.id) ||
+                        (chatLogViewModel.replyingToMessage != nil && message.id != chatLogViewModel.replyingToMessage?.id)
+                        
+                        MessageBubbleView(
+                            message: message,
+                            isCurrentUser: message.senderId == currentUserId,
+                            repliedToMessage: repliedMessage,
+                            onLongPress: { tappedMessage, bubbleFrameGlobal in
+                                self.contextMenuMessage = tappedMessage
+                                self.contextMenuAnchorFrame = bubbleFrameGlobal
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.65)) {
+                                    self.showContextMenu = true
                                 }
-                            )
-                            .id(message.id)
-                            .padding(.bottom, group.messages.last?.id == message.id ? 5 : 0)
-                            .blur(radius: shouldBlurMessage ? 5 : 0)
-                        }
+                                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                            },
+                            onImageTap: { tappedMessage in
+                                coordinator.selectedMessage = tappedMessage
+                            }
+                        )
+                        .id(message.id)
+                        .padding(.bottom, group.messages.last?.id == message.id ? 5 : 0)
+                        .blur(radius: shouldBlurMessage ? 5 : 0)
                     }
-                    Color.clear
-                        .frame(height: 1)
-                        .id(bottomID)
                 }
-                .padding(.vertical, 8)
+                Color.clear
+                    .frame(height: 1)
+                    .id(bottomID)
             }
-            .simultaneousGesture(
-                DragGesture().onChanged { _ in
-                    UIApplication.shared.endEditing()
-                }
-            )
-            .background(Color(.init(white: 0.95, alpha: 1)))
-            .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-                    scrollToBottom(proxy: proxy, animated: false)
-                }
+            .padding(.vertical, 8)
+        }
+        .simultaneousGesture(
+            DragGesture().onChanged { _ in
+                UIApplication.shared.endEditing()
             }
-            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification)) { _ in
-                scrollToBottom(proxy: proxy, animated: true)
-            }
-            .onChange(of: messages.count) {
-                scrollToBottom(proxy: proxy)
-            }
-            .onChange(of: messages.last?.id) {
-                scrollToBottom(proxy: proxy)
+        )
+        .background(Color(.init(white: 0.95, alpha: 1)))
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                scrollToBottom(proxy: proxy, animated: false)
             }
         }
-        
+        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification)) { _ in
+            scrollToBottom(proxy: proxy, animated: true)
+        }
+        .onChange(of: messages.count) {
+            scrollToBottom(proxy: proxy)
+        }
+        .onChange(of: messages.last?.id) {
+            scrollToBottom(proxy: proxy)
+        }
+    }
+    
     @ViewBuilder
     private func contextMenuOverlay(screenGeometry: GeometryProxy) -> some View {
         Color.black.opacity(0.001)
@@ -151,7 +150,7 @@ struct MessagesView: View {
             }
         
         if let message = contextMenuMessage, contextMenuAnchorFrame != .zero {
-
+            
             let containerFrame = screenGeometry.frame(in: .global)
             
             let bubbleFrameInContainer = CGRect(
@@ -161,15 +160,12 @@ struct MessagesView: View {
                 height: contextMenuAnchorFrame.height
             )
             
-            // 3. Pasamos este nuevo marco relativo y el TAMAÑO del contenedor a nuestra función de cálculo.
             let (menuOrigin, anchorPoint) = calculateMenuPlacement(
                 bubbleFrame: bubbleFrameInContainer,
                 menuSize: menuEstimatedSize,
                 containerSize: containerFrame.size,
                 isBubbleCurrentUser: message.senderId == currentUserId
             )
-            
-            // --- FIN DE LA SOLUCIÓN ---
             
             MessageActionMenuView(
                 items: [

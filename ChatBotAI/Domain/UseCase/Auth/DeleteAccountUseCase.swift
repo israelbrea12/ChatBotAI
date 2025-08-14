@@ -14,7 +14,7 @@ struct DeleteAccountUseCase: UseCaseProtocol {
     private let chatRepository: ChatRepository
     private let storageRepository: StorageRepository
     private let userRepository: UserRepository
-
+    
     init(authRepository: AuthRepository, chatRepository: ChatRepository,
          storageRepository: StorageRepository, userRepository: UserRepository) {
         self.authRepository = authRepository
@@ -31,7 +31,6 @@ struct DeleteAccountUseCase: UseCaseProtocol {
         do {
             print("Iniciando proceso de eliminación de cuenta para el usuario: \(userId)")
             
-            // Elimino los datos en paralelo, datos del user, foto de perfil y ids de chats.
             try await withThrowingTaskGroup(of: Void.self) { group in
                 
                 group.addTask {
@@ -54,7 +53,6 @@ struct DeleteAccountUseCase: UseCaseProtocol {
             
             print("Limpieza de datos completada. Procediendo a eliminar la autenticación.")
             
-            // Una vez hecha la limpieza finalmene llamo a deleteFirebaseAuthUser para eliminar el user de firebase
             let finalResult = await authRepository.deleteFirebaseAuthUser()
             
             switch finalResult {

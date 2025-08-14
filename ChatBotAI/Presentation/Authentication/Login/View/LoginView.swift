@@ -5,8 +5,6 @@
 //  Created by Israel Brea Piñero on 13/3/25.
 //
 
-// MARK: LoginView.swift
-
 import SwiftUI
 import GoogleSignIn
 import GoogleSignInSwift
@@ -52,7 +50,7 @@ struct LoginView: View {
                                 .foregroundStyle(.red)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         }
-
+                        
                         GradientButton(title: LocalizedKeys.Auth.loginTitle, icon: "arrow.right") {
                             Task { await loginViewModel.signIn() }
                         }
@@ -65,7 +63,7 @@ struct LoginView: View {
                     orDivider()
                     
                     socialLoginButtons()
-
+                    
                     Spacer(minLength: 0)
                     
                     HStack(spacing: 6) {
@@ -109,7 +107,6 @@ struct LoginView: View {
     private func socialLoginButtons() -> some View {
         VStack(spacing: 12) {
             
-            // Boton de Google
             Button {
                 Task {
                     await loginViewModel.signInWithGoogle()
@@ -129,7 +126,6 @@ struct LoginView: View {
                 .cornerRadius(10)
             }
             
-            // Botón de Apple
             Button {
                 Task {
                     await loginViewModel.signInWithApple()

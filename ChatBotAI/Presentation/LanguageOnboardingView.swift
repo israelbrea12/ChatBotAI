@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct LanguageOnboardingView: View {
-    /// Callback que se ejecuta al pulsar "Continue"
+    
     var onContinue: (Language) -> Void
     
-    /// View Properties
     @State private var selectedLanguage: Language?
     @State private var animateIcon: Bool = false
     @State private var animateTitle: Bool = false
@@ -22,7 +21,7 @@ struct LanguageOnboardingView: View {
         VStack(spacing: 0) {
             ScrollView(.vertical) {
                 VStack(alignment: .leading, spacing: 20) {
-                    // 1. Icono
+
                     Image(systemName: "globe.europe.africa.fill")
                         .font(.system(size: 50))
                         .frame(width: 100, height: 100)
@@ -31,15 +30,13 @@ struct LanguageOnboardingView: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: 180)
                         .blurSlide(animateIcon)
-                    
-                    // 2. Título
+
                     Text(LocalizedKeys.Onboarding.languageTitle)
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .padding(.horizontal)
                         .blurSlide(animateTitle)
                     
-                    // 3. Selección de Idioma
                     LanguageSelectionView()
                         .blurSlide(animateCards)
                 }
@@ -47,13 +44,12 @@ struct LanguageOnboardingView: View {
             .scrollIndicators(.hidden)
             .scrollBounceBehavior(.basedOnSize)
             
-            // 4. Footer y Botón
             VStack(spacing: 15) {
                 Text(LocalizedKeys.Onboarding.languageSubtitle)
                     .font(.caption)
                     .foregroundStyle(.gray)
                     .padding(.horizontal)
-
+                
                 Button(action: {
                     if let selectedLanguage {
                         onContinue(selectedLanguage)
@@ -74,7 +70,7 @@ struct LanguageOnboardingView: View {
             }
             .blurSlide(animateFooter)
         }
-        .frame(maxWidth: 400) // Ajusta el ancho si es necesario
+        .frame(maxWidth: 400)
         .interactiveDismissDisabled()
         .allowsHitTesting(animateFooter)
         .task {
@@ -82,7 +78,6 @@ struct LanguageOnboardingView: View {
         }
     }
     
-    // Vista de selección de idioma
     @ViewBuilder
     private func LanguageSelectionView() -> some View {
         VStack(spacing: 15) {
@@ -116,7 +111,7 @@ struct LanguageOnboardingView: View {
         }
         .padding(.horizontal)
     }
-
+    
     // Lógica de animación
     private func animateView() async {
         guard !animateIcon else { return }
@@ -132,18 +127,6 @@ struct LanguageOnboardingView: View {
         withAnimation(.smooth(duration: 0.6)) {
             action()
         }
-    }
-}
-
-// Puedes reutilizar la extensión `blurSlide` de tu ejemplo.
-// Si no la tienes en un fichero común, puedes añadirla aquí o en Extensions.swift
-fileprivate extension View {
-    @ViewBuilder
-    func blurSlide(_ show: Bool) -> some View {
-        self
-            .opacity(show ? 1 : 0)
-            .offset(y: show ? 0 : 10)
-            .blur(radius: show ? 0 : 5)
     }
 }
 

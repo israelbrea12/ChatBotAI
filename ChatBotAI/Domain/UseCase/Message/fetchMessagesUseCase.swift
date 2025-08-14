@@ -13,7 +13,7 @@ class FetchMessagesUseCase {
     init(messageRepository: MessageRepository) {
         self.messageRepository = messageRepository
     }
-
+    
     func execute(chatId: String) async -> Result<[Message], AppError> {
         await messageRepository.fetchMessages(chatId: chatId)
     }

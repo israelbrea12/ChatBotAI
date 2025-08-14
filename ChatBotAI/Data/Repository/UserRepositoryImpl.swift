@@ -45,17 +45,17 @@ class UserRepositoryImpl: UserRepository {
     }
     
     func updateUserData(fullName: String?, profileImage: UIImage?, learningLanguage: String?) async -> Result<User, AppError> {
-            do {
-                let userModel = try await userDataSource.updateUserData(
-                    fullName: fullName,
-                    profileImage: profileImage,
-                    learningLanguage: learningLanguage
-                )
-                return .success(userModel.toDomain())
-            } catch {
-                return .failure(error.toAppError())
-            }
+        do {
+            let userModel = try await userDataSource.updateUserData(
+                fullName: fullName,
+                profileImage: profileImage,
+                learningLanguage: learningLanguage
+            )
+            return .success(userModel.toDomain())
+        } catch {
+            return .failure(error.toAppError())
         }
+    }
     
     func deleteUserData(userId: String) async -> Result<Void, AppError> {
         do {

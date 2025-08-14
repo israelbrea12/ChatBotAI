@@ -1,3 +1,10 @@
+//
+//  NetworkExtensions.swift
+//  ChatBotAI
+//
+//  Created by Israel Brea Piñero on 2/4/25.
+//
+
 import Foundation
 import FirebaseAuth
 
@@ -26,7 +33,6 @@ extension Error {
             }
         }
         
-        // Fallback para cualquier otro tipo de error.
         return .unknownError(self.localizedDescription)
     }
 }

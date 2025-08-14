@@ -7,7 +7,6 @@
 
 import Foundation
 
-// Parámetros para el caso de uso
 struct UploadImageParams {
     let imageData: Data
     let chatId: String

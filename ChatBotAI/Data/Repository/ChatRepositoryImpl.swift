@@ -41,10 +41,9 @@ class ChatRepositoryImpl: ChatRepository {
             onChatEvent(chatModel.toDomain())
         }
     }
-        
+    
     func stopObservingAllChatEvents(userId: String) {
-        // El dataSource debe ser async si sus operaciones de stop lo son
-        Task { // Si chatDataSource.stopObservingAllChatActivity es async
+        Task {
             await chatDataSource.stopObservingAllChatActivity(userId: userId)
         }
     }
@@ -73,7 +72,7 @@ class ChatRepositoryImpl: ChatRepository {
                 let lastMessageData: [String: Any] = [
                     Constants.Database.Message.text: message.text,
                     Constants.Database.Message.senderId: message.senderId,
-                    Constants.Database.Message.sentAt: message.sentAt ?? Date().timeIntervalSince1970, // Asegura un valor
+                    Constants.Database.Message.sentAt: message.sentAt ?? Date().timeIntervalSince1970,
                     Constants.Database.Message.messageType: message.messageType.rawValue,
                     Constants.Database.Message.isEdited: message.isEdited
                 ]

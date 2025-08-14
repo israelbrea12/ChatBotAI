@@ -59,7 +59,7 @@ struct ModeSelectionView: View {
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 40, height: 40)
-                                    .foregroundColor(.blue) // Considera usar un color de tu tema
+                                    .foregroundColor(.blue)
                             }
                             .padding()
                             .background(Color(.systemGray6))
@@ -78,13 +78,13 @@ struct ModeSelectionView: View {
         }
         .onAppear {
             print("ModeSelectionView: .onAppear - setting internalHideTabBarState = false")
-             if internalHideTabBarState {
-             }
+            if internalHideTabBarState {
+            }
             self.internalHideTabBarState = false
         }
         .hideFloatingTabBar(internalHideTabBarState)
     }
-
+    
     @ViewBuilder
     private func destinationView(for route: NavigationChatBotIARoute) -> some View {
         switch route {

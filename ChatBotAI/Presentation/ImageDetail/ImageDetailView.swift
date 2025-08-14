@@ -1,19 +1,24 @@
+//
+//  ImageDetailView.swift
+//  ChatBotAI
+//
+//  Created by Israel Brea Piñero on 17/6/25.
+//
+
 import SwiftUI
 import SDWebImageSwiftUI
 
 struct ImageDetailView: View {
     @Environment(UICoordinator.self) private var coordinator
-        
+    
     var body: some View {
         VStack(spacing: 0) {
-            // ✅ USAREMOS LA NUEVA BARRA DE NAVEGACIÓN
             NavigationBar()
-                .background(.ultraThinMaterial) // Un fondo estándar para la barra
+                .background(.ultraThinMaterial)
             
             GeometryReader { geometry in
                 let size = geometry.size
                 
-                // Carrusel de imágenes a pantalla completa (sin cambios aquí)
                 ScrollView(.horizontal) {
                     LazyHStack(spacing: 0) {
                         ForEach(coordinator.imageMessages) { message in
@@ -55,12 +60,9 @@ struct ImageDetailView: View {
         .opacity(coordinator.animateView ? 1 : 0)
     }
     
-    // --- Vistas auxiliares ---
-    
     @ViewBuilder
     func NavigationBar() -> some View {
         HStack {
-            // Botón para volver atrás
             Button(action: { coordinator.toggleView(show: false) }) {
                 Image(systemName: "chevron.left")
                     .font(.title3)
@@ -70,10 +72,8 @@ struct ImageDetailView: View {
             
             Spacer()
             
-            // Título central con nombre y fecha
             if let message = coordinator.selectedMessage {
                 VStack(spacing: 2) {
-                    // Determina el nombre del remitente
                     let senderName = message.senderId == coordinator.currentUserID
                     ? LocalizedKeys.ImageDetail.senderYou
                     : coordinator.otherUserName ?? LocalizedKeys.Common.unknown
@@ -82,7 +82,6 @@ struct ImageDetailView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
                     
-                    // Formatea y muestra la fecha y hora
                     if let timestamp = message.sentAt {
                         Text(formatTimestamp(timestamp))
                             .font(.caption2)
@@ -98,9 +97,8 @@ struct ImageDetailView: View {
             
         }
         .padding(.horizontal)
-        .padding(.bottom, 10) // Padding inferior para darle altura a la barra
+        .padding(.bottom, 10)
         .safeAreaInset(edge: .top) {
-            // Esto empuja la barra hacia abajo para que respete la safe area del notch
             Color.clear.frame(height: 0)
         }
     }
@@ -112,7 +110,7 @@ struct ImageDetailView: View {
         formatter.timeStyle = .short
         return formatter.string(from: date)
     }
-
+    
     @ViewBuilder
     func imageView(for message: Message, size: CGSize) -> some View {
         if let urlString = message.imageURL, let url = URL(string: urlString) {
@@ -121,18 +119,15 @@ struct ImageDetailView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: size.width, height: size.height)
                 .clipped()
-                // Ocultamos la imagen real hasta que la transición termine
                 .opacity(coordinator.showDetailView ? 1 : 0)
         }
     }
 }
 
-/// El nuevo indicador de paginación inferior.
 struct BottomIndicatorView: View {
     @Environment(UICoordinator.self) private var coordinator
     
     var body: some View {
-        // Envolvemos con ScrollViewReader para tener control programático.
         ScrollViewReader { proxy in
             GeometryReader {
                 let size = $0.size
@@ -169,11 +164,9 @@ struct BottomIndicatorView: View {
                 .scrollIndicators(.hidden)
                 .allowsHitTesting(false)
                 .onChange(of: coordinator.detailIndicatorPosition) { oldValue, newValue in
-                    // Se activa tanto la primera vez (cuando es nil -> valor) como en los swipes.
                     if let newPosition = newValue {
-                        // Usamos una animación para que el deslizamiento del indicador sea suave.
                         withAnimation(.easeInOut) {
-                           proxy.scrollTo(newPosition, anchor: .center)
+                            proxy.scrollTo(newPosition, anchor: .center)
                         }
                     }
                 }

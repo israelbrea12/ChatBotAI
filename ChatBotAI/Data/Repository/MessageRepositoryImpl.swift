@@ -46,7 +46,7 @@ class MessageRepositoryImpl: MessageRepository {
             onNewMessage: { messageModel in
                 onNewMessage(messageModel.toDomain())
             },
-            onUpdatedMessage: { messageModel in // <-- NUEVO
+            onUpdatedMessage: { messageModel in
                 onUpdatedMessage(messageModel.toDomain())
             },
             onDeletedMessage: { messageId in
@@ -54,11 +54,11 @@ class MessageRepositoryImpl: MessageRepository {
             }
         )
     }
-
+    
     func stopObservingMessages(chatId: String) {
         messageDataSource.stopObservingMessages(for: chatId)
     }
-
+    
     func deleteMessage(chatId: String, messageId: String) async -> Result<Void, AppError> {
         do {
             try await messageDataSource.deleteMessage(chatId: chatId, messageId: messageId)
@@ -82,7 +82,7 @@ class MessageRepositoryImpl: MessageRepository {
             if let messageModel = try await messageDataSource.getLastMessage(chatId: chatId) {
                 return .success(messageModel.toDomain())
             } else {
-                return .success(nil) // No hay mensajes
+                return .success(nil)
             }
         } catch {
             return .failure(error.toAppError())

@@ -18,15 +18,16 @@ class EditProfileViewModel: ObservableObject {
     @Published var profileImageUrl: String?
     @Published var selectedImage: UIImage?
     @Published var learningLanguage: Language
-    
     @Published var isLoading = false
     @Published var errorMessage: String?
     
+    // MARK: - Constants
     let dismissAction = PassthroughSubject<Void, Never>()
     
     // MARK: - Use Cases
     private let updateUserUseCase: UpdateUserUseCase
     
+    // MARK: - Lifecycle functions
     init(user: User, updateUserUseCase: UpdateUserUseCase) {
         self.fullName = user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName
         self.email = user.email ?? LocalizedKeys.DefaultValues.defaultEmail
@@ -35,6 +36,7 @@ class EditProfileViewModel: ObservableObject {
         self.learningLanguage = Language(rawValue: user.learningLanguage ?? "en") ?? .english
     }
     
+    // MARK: - Functions
     func saveChanges() async {
         isLoading = true
         errorMessage = nil

@@ -5,45 +5,42 @@
 //  Created by Israel Brea Piñero on 1/6/25.
 //
 
-
 import SwiftUI
 
 struct ImagePreviewView: View {
     let imageData: Data
-    @Binding var caption: String // Para el pie de foto opcional
+    @Binding var caption: String
     var onCancel: () -> Void
-    var onSend: (_ caption: String) -> Void // Devuelve el pie de foto
-
+    var onSend: (_ caption: String) -> Void
+    
     @Environment(\.colorScheme) var colorScheme
-    @FocusState private var isCaptionFieldFocused: Bool // Para manejar el foco del TextField
-
+    @FocusState private var isCaptionFieldFocused: Bool
+    
     var body: some View {
-        NavigationView { // NavigationView para la barra de navegación con el botón de cancelar
+        NavigationView {
             ZStack {
-                // Fondo que se adapta al modo oscuro/claro
                 (colorScheme == .dark ? Color.black : Color.white)
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture {
-                        isCaptionFieldFocused = false // Ocultar teclado al tocar fuera del TextField
+                        isCaptionFieldFocused = false
                     }
-
-                VStack(spacing: 0) { // VStack principal para la imagen y los controles
-                    Spacer() // Empuja la imagen hacia el centro verticalmente
-
+                
+                VStack(spacing: 0) {
+                    Spacer()
+                    
                     if let uiImage = UIImage(data: imageData) {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFit()
-                            .padding() // Un poco de padding alrededor de la imagen
+                            .padding()
                             .accessibilityLabel(LocalizedKeys.Chat.imagePreviewTitle)
                     } else {
                         Text(LocalizedKeys.Chat.couldNotLoadPreview)
                             .foregroundColor(.gray)
                     }
                     
-                    Spacer() // Empuja los controles hacia abajo
-
-                    // Pie de foto y botón de enviar
+                    Spacer()
+                    
                     HStack(spacing: 10) {
                         TextField(LocalizedKeys.Placeholder.addCommentPlaceholder, text: $caption)
                             .focused($isCaptionFieldFocused)
@@ -55,18 +52,18 @@ struct ImagePreviewView: View {
                             )
                         
                         Button(action: {
-                            isCaptionFieldFocused = false // Ocultar teclado antes de enviar
+                            isCaptionFieldFocused = false
                             onSend(caption)
                         }) {
                             Image(systemName: "paperplane.circle.fill")
                                 .resizable()
-                                .frame(width: 44, height: 44) // Tamaño del botón de enviar
+                                .frame(width: 44, height: 44)
                                 .foregroundColor(.blue)
                         }
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 10 > 0 ? 0 : 20) // Padding inferior más seguro
-                    .padding(.bottom, 10) // Padding inferior adicional
+                    .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 10 > 0 ? 0 : 20)
+                    .padding(.bottom, 10)
                 }
             }
             .navigationBarItems(
@@ -83,9 +80,8 @@ struct ImagePreviewView: View {
                     }
             )
             .navigationBarTitleDisplayMode(.inline)
-            // .navigationTitle("Enviar Imagen") // Título opcional
         }
-        .accentColor(.blue) // Para el botón de "atrás" si se navega más profundo (no aplica aquí pero es buena práctica)
+        .accentColor(.blue)
     }
 }
 

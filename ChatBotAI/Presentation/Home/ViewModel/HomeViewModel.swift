@@ -65,7 +65,7 @@ final class HomeViewModel: ObservableObject {
             if currentUser == nil {
                 print("HomeViewModel: currentUser es nil, iniciando fetchCurrentUserAndDependents.")
                 Task {
-                    await fetchCurrentUserAndDependents() // Esto ya llama a startObservingUserChats
+                    await fetchCurrentUserAndDependents()
                 }
             } else {
                 print("HomeViewModel: currentUser ya existe (\(currentUser!.id)). Asegurando que los listeners estén activos.")
@@ -74,12 +74,9 @@ final class HomeViewModel: ObservableObject {
         } else {
             self.state = .empty
             print("HomeViewModel: No hay sesión de usuario al momento de setup.")
-            // Considera si cleanupAfterLogout() debería llamarse aquí si no se maneja
-            // completamente por el sink de userSession.
         }
-        // El sink para cambios de sesión es importante y debe mantenerse
         sessionManager.$userSession
-            .dropFirst() // Evita la notificación inicial si ya se manejó arriba
+            .dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] firebaseUser in
                 guard let self = self else { return }
@@ -95,7 +92,7 @@ final class HomeViewModel: ObservableObject {
             }
             .store(in: &cancellables)
     }
-
+    
     func stopAllListeners() {
         print("HomeViewModel: stopAllListeners()")
         if let userId = currentUser?.id {
@@ -138,6 +135,21 @@ final class HomeViewModel: ObservableObject {
         }
     }
     
+    func saveLearningLanguage(_ language: Language) async {
+        guard self.currentUser != nil else { return }
+        
+        let result = await updateUserLearningLanguageUseCase.execute(language: language.rawValue)
+        
+        switch result {
+        case .success:
+            self.currentUser?.learningLanguage = language.rawValue
+            self.showLanguageOnboarding = false
+            print("✅ Idioma guardado y onboarding ocultado.")
+        case .failure(let error):
+            print("❌ Error al guardar el idioma: \(error.localizedDescription)")
+        }
+    }
+    
     // MARK: - Private functions
     private func fetchCurrentUserAndDependents() async {
         self.state = .loading
@@ -163,7 +175,7 @@ final class HomeViewModel: ObservableObject {
             print(error.localizedDescription)
         }
     }
-       
+    
     private func loadInitialChats() async {
         guard let _ = currentUser else {
             self.state = .error("No se puede cargar chats sin un usuario actual.")
@@ -184,7 +196,7 @@ final class HomeViewModel: ObservableObject {
             self.state = .error("Error al obtener los chats: \(error.localizedDescription)")
         }
     }
-       
+    
     private func startObservingUserChats() {
         guard let userId = currentUser?.id else {
             print("HomeViewModel: No se puede iniciar la observación de chats sin userId.")
@@ -197,19 +209,17 @@ final class HomeViewModel: ObservableObject {
             self.processChatEvent(chatEvent)
         }
     }
-       
+    
     private func processChatEvent(_ chat: Chat) {
-        // La tarea para buscar detalles del usuario puede seguir siendo asíncrona
-        // Solo busca detalles si el chat no es una señal de eliminación (participantes no vacíos)
-        if !chat.participants.isEmpty { // O una condición más explícita si la tienes
+        if !chat.participants.isEmpty {
             Task {
                 await self.fetchUserDetailsForChat(chat)
             }
         }
-
+        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-
+            
             var listChanged = false
             if let index = self.chats.firstIndex(where: { $0.id == chat.id }) {
                 if chat.participants.isEmpty && chat.createdAt == 0 && chat.lastMessageText == nil {
@@ -226,14 +236,14 @@ final class HomeViewModel: ObservableObject {
                 listChanged = true
                 print("HomeViewModel: Nuevo chat \(chat.id) añadido a la lista.")
             }
-
+            
             if listChanged {
                 self.chats.sort(by: self.sortChats)
                 
                 if case .error = self.state {
-                     print("HomeViewModel: processChatEvent - Estado actual es error, no se cambiará automáticamente.")
+                    print("HomeViewModel: processChatEvent - Estado actual es error, no se cambiará automáticamente.")
                 } else {
-                     self.state = self.chats.isEmpty ? .empty : .success
+                    self.state = self.chats.isEmpty ? .empty : .success
                 }
                 print("HomeViewModel: processChatEvent finalizado en main thread para chat \(chat.id). Chats count: \(self.chats.count), State: \(self.state)")
             } else {
@@ -241,11 +251,11 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
-
+    
     private func sortChats(chat1: Chat, chat2: Chat) -> Bool {
         (chat1.lastMessageTimestamp ?? chat1.createdAt ?? 0) > (chat2.lastMessageTimestamp ?? chat2.createdAt ?? 0)
     }
-       
+    
     private func createNewChatFlow(with userToChatWith: User) async {
         
         let result = await createChatUseCase.execute(
@@ -265,7 +275,7 @@ final class HomeViewModel: ObservableObject {
             self.state = .error("Error al iniciar el chat: \(error.localizedDescription)")
         }
     }
-
+    
     private func fetchUsersForCurrentChats() async {
         let allParticipantIds = Set(chats.flatMap { $0.participants })
         let idsToFetch = allParticipantIds.filter { $0 != currentUser?.id && chatUsers[$0] == nil }
@@ -287,19 +297,19 @@ final class HomeViewModel: ObservableObject {
         }
         print("HomeViewModel: Detalles de usuarios para chats actuales cargados.")
     }
-       
+    
     private func fetchUserDetailsForChat(_ chat: Chat) async {
         guard let otherUserId = chat.participants.first(where: { $0 != self.currentUser?.id }) else {
             return
         }
-        if chatUsers[otherUserId] == nil { // Solo buscar si no lo tenemos
+        if chatUsers[otherUserId] == nil {
             if let user = await fetchUserFromUseCase(userId: otherUserId) {
                 self.chatUsers[otherUserId] = user
                 print("HomeViewModel: Detalles de usuario \(otherUserId) para chat \(chat.id) cargados.")
             }
         }
     }
-
+    
     private func fetchUserFromUseCase(userId: String) async -> User? {
         let result = await fetchUserByIdUseCase.execute(with: FetchUserByIdParams(userId: userId))
         switch result {
@@ -310,7 +320,7 @@ final class HomeViewModel: ObservableObject {
             return nil
         }
     }
-
+    
     private func cleanupAfterLogout() {
         print("HomeViewModel: cleanupAfterLogout()")
         stopAllListeners()
@@ -323,20 +333,5 @@ final class HomeViewModel: ObservableObject {
         
         cancellables.forEach { $0.cancel() }
         cancellables.removeAll()
-    }
-    
-    func saveLearningLanguage(_ language: Language) async {
-        guard self.currentUser != nil else { return }
-        
-        let result = await updateUserLearningLanguageUseCase.execute(language: language.rawValue)
-        
-        switch result {
-        case .success:
-            self.currentUser?.learningLanguage = language.rawValue
-            self.showLanguageOnboarding = false
-            print("✅ Idioma guardado y onboarding ocultado.")
-        case .failure(let error):
-            print("❌ Error al guardar el idioma: \(error.localizedDescription)")
-        }
     }
 }

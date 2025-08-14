@@ -17,11 +17,11 @@ import Foundation
 
 class DeleteMessageUseCase {
     private let messageRepository: MessageRepository
-
+    
     init(messageRepository: MessageRepository) {
         self.messageRepository = messageRepository
     }
-
+    
     func execute(chatId: String, messageId: String) async -> Result<Void, AppError> {
         await messageRepository.deleteMessage(chatId: chatId, messageId: messageId)
     }

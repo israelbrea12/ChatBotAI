@@ -10,7 +10,7 @@ import SwiftUI
 struct MessageRow: View {
     
     let message: ChatbotMessage
-
+    
     var body: some View {
         HStack {
             if message.isUser {

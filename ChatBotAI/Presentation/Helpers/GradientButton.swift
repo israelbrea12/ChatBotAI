@@ -5,9 +5,6 @@
 //  Created by Israel Brea Piñero on 18/6/25.
 //
 
-
-// MARK: GradientButton.swift
-
 import SwiftUI
 
 struct GradientButton: View {

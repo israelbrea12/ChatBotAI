@@ -29,5 +29,5 @@ extension UserModel {
         
         return dictionary
     }
-
+    
 }

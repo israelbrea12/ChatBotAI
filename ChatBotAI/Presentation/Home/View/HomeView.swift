@@ -16,7 +16,7 @@ struct HomeView: View {
     
     @State private var showAlert = false
     @State private var chatToDelete: Chat? = nil
-
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -36,7 +36,6 @@ struct HomeView: View {
             .toolbar{
                 ToolbarItem (placement: .topBarTrailing) {
                     Button {
-                        // Llamada al ViewModel al método para añadir nuevo chat.
                         homeViewModel.isPresentingNewMessageView = true
                     } label: {
                         Image(systemName: "plus.circle.fill")
@@ -53,7 +52,7 @@ struct HomeView: View {
                             homeViewModel.shouldNavigateToChatLogView.toggle()
                         }
                     }
-
+                    
                 }
                 ToolbarItem (placement: .topBarLeading) {
                     UserProfileView(user: homeViewModel.currentUser)
@@ -70,14 +69,11 @@ struct HomeView: View {
         .onAppear {
             print("HomeView: .onAppear - llamando a homeViewModel.setupViewModel()")
             homeViewModel.setupViewModel()
-            // When HomeView appears, set tab bar based on current navigation state
             internalHideTabBarState = homeViewModel.shouldNavigateToChatLogView
         }
         .onDisappear {
             print("HomeView: .onDisappear - llamando a homeViewModel.stopAllListeners()")
             homeViewModel.stopAllListeners()
-            // No need to manipulate internalHideTabBarState here directly,
-            // as it's driven by navigation or the active tab's preference.
         }
         .sheet(isPresented: $homeViewModel.showLanguageOnboarding) {
             LanguageOnboardingView { selectedLanguage in
@@ -96,9 +92,7 @@ struct HomeView: View {
     private func successView() -> some View {
         ForEach(homeViewModel.chats, id: \.id) { chat in
             Button(action: {
-                // Set the user for the chat
                 homeViewModel.chatUser = getChatPartner(for: chat)
-                // Trigger navigation
                 homeViewModel.shouldNavigateToChatLogView = true
             }) {
                 ChatRowLabelView(chat: chat, homeViewModel: homeViewModel)
@@ -127,10 +121,8 @@ struct HomeView: View {
                     addsTextField: false,
                     textFieldHint: LocalizedKeys.Home.deleteChatTextFieldHint
                 )
-                /// Since it's using "if" condition to add view you can  use SwiftUI Transition here!
                 .transition(.blurReplace.combined(with: .push(from: .bottom)))
             } background: {
-                /// Your background content in view format
                 Rectangle()
                     .fill(.primary.opacity(0.35))
             }
@@ -157,8 +149,7 @@ struct HomeView: View {
             .padding(.horizontal)
         }
     }
-
-
+    
     private func loadingView() -> some View {
         VStack {
             Spacer()
@@ -170,11 +161,11 @@ struct HomeView: View {
             minHeight: UIScreen.main.bounds.height - 200
         )
     }
-
+    
     private func emptyView() -> some View {
         InfoView(message: LocalizedKeys.Common.noDataFound)
     }
-
+    
     private func errorView(errorMsg: String) -> some View {
         InfoView(message: errorMsg)
     }
@@ -195,17 +186,14 @@ struct HomeView: View {
 struct ChatRowLabelView: View {
     let chat: Chat
     @ObservedObject var homeViewModel: HomeViewModel
-
+    
     var body: some View {
         HStack (spacing: 16) {
-            // Determinar el ID del otro participante
             let otherParticipantId = chat.participants.first(
                 where: { $0 != homeViewModel.currentUser?.id
                 }) ?? ""
             
-            // Obtener los detalles del usuario
             if let user = homeViewModel.chatUsers[otherParticipantId] {
-                // Profile Image
                 WebImage(
                     url: URL(string: user.profileImageUrl ?? "")
                 ) { phase in
@@ -236,12 +224,12 @@ struct ChatRowLabelView: View {
                         EmptyView()
                     }
                 }
-
+                
                 VStack(alignment: .leading, spacing: 4) {
                     Text(user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
-
+                    
                     Text(chat.lastMessageText ?? LocalizedKeys.DefaultValues.defaultLastMessage)
                         .font(.system(size: 15))
                         .foregroundStyle(Color(.systemGray))
@@ -271,7 +259,7 @@ struct ChatRowLabelView: View {
             }
             
             Spacer()
-
+            
             if let timestamp = chat.lastMessageTimestamp ?? chat.createdAt {
                 Text(
                     Date(timeIntervalSince1970: timestamp)

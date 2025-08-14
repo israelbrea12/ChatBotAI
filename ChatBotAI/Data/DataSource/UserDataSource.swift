@@ -32,7 +32,7 @@ class UserDataSourceImpl: UserDataSource {
         guard let data = snapshot.value as? [String: Any] else {
             throw AppError.unknownError("Failed to fetch user")
         }
-
+        
         return UserModel(
             uid: uid,
             email: data[Constants.Database.User.email] as? String,
@@ -46,17 +46,17 @@ class UserDataSourceImpl: UserDataSource {
         guard let currentUserID = Auth.auth().currentUser?.uid else {
             throw AppError.authenticationError("Unauthorized")
         }
-
+        
         let ref = Database.database().reference().child(Constants.Database.users)
-                
+        
         let query = ref.queryOrdered(byChild: Constants.Database.User.learningLanguage).queryEqual(toValue: learningLanguage)
-                
+        
         let snapshot = try await query.getData()
-                
+        
         guard let usersData = snapshot.value as? [String: [String: Any]] else {
             return []
         }
-
+        
         return usersData.compactMap { (key, value) -> UserModel? in
             guard key != currentUserID else { return nil }
             
@@ -130,7 +130,7 @@ class UserDataSourceImpl: UserDataSource {
         _ = try await storageRef.putDataAsync(imageData, metadata: nil)
         return try await storageRef.downloadURL().absoluteString
     }
-
+    
     func updateUserLearningLanguage(language: String) async throws {
         guard let userId = await SessionManager.shared.userSession?.uid else {
             throw AppError.authenticationError("Unauthorized")

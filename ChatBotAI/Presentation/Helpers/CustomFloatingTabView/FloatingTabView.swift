@@ -36,7 +36,7 @@ extension View {
 struct FloatingTabView<Content: View, Value: CaseIterable & Hashable & FLoatingTabProtocol>: View where Value.AllCases:  RandomAccessCollection {
     var config: FloatingTabConfig
     @Binding var selection: Value
-    var content: (Value, CGFloat) -> Content // This return the height of the floating tab bar. With this information, we can add additional bottom padding to the tab views since they are floating tab views.
+    var content: (Value, CGFloat) -> Content
     
     init(config: FloatingTabConfig = .init(), selection: Binding<Value>, @ViewBuilder content: @escaping (Value, CGFloat) -> Content) {
         self.config = config
@@ -50,22 +50,17 @@ struct FloatingTabView<Content: View, Value: CaseIterable & Hashable & FLoatingT
     var body: some View {
         ZStack(alignment: .bottom) {
             if #available(iOS 18, *) {
-                /// New Tab View
                 TabView(selection: $selection) {
                     ForEach(Value.allCases, id: \.hashValue) { tab in
                         content(tab, tabBarSize.height)
-                        /// Hiding Native Tab Bar
                             .toolbarVisibility(.hidden, for: .tabBar)
                     }
                 }
             } else {
-                /// Old Tab View
                 TabView(selection: $selection) {
                     ForEach(Value.allCases, id: \.hashValue) { tab in
                         content(tab, tabBarSize.height)
-                        /// Old tag type tab view
                             .tag(tab)
-                        /// Hiding Native Tab Bar
                             .toolbar(.hidden, for: .tabBar)
                     }
                 }
@@ -79,7 +74,7 @@ struct FloatingTabView<Content: View, Value: CaseIterable & Hashable & FLoatingT
                 }
                 .offset(y: helper.hideTabBar ? (tabBarSize.height + 100) : 0)
                 .animation(config.tabAnimation, value: helper.hideTabBar)
-
+            
         }
         .environmentObject(helper)
     }
@@ -105,7 +100,6 @@ fileprivate struct FloatingTabBar<Value: CaseIterable & Hashable & FLoatingTabPr
     
     var body: some View {
         VStack(spacing: 0) {
-            // Línea separadora
             Rectangle()
                 .fill(Color.gray.opacity(0.3))
                 .frame(height: 0.5)

@@ -7,29 +7,24 @@
 
 import SwiftUI
 
-/// Swipe Action Model
 struct Action: Identifiable {
     var id = UUID().uuidString
     var symbolImage: String
     var tint: Color
     var background: Color
-    /// properties
     var font: Font = .title3
     var size: CGSize = .init(width: 45, height: 45)
     var shape: some Shape = .circle
-    var action: (inout Bool) -> () /// All parameters passed into a Swift function are constants, so you can’t change them. If you want, you can pass in one or more parameters as inout, which means they can be changed inside your function, and those changes reflect in the original value outside the function.
+    var action: (inout Bool) -> ()
 }
 
-/// Swipe Action Builder
-/// Accepts a set of actions without any 'return' or 'commas' and returns it in an array format
-@resultBuilder /// https://www.hackingwithswift.com/swift/5.4/result-builders
+@resultBuilder
 struct ActionBuilder {
     static func buildBlock(_ components: Action...) -> [Action] {
         return components
     }
 }
 
-/// Customization Properties
 struct ActionConfig {
     var leadingPadding: CGFloat = 0
     var trailingPadding: CGFloat = 10
@@ -38,7 +33,6 @@ struct ActionConfig {
 }
 
 extension View {
-    /// Custom View Modifier
     @ViewBuilder
     func swipeActions(config: ActionConfig = .init(), @ActionBuilder actions: () -> [Action]) -> some View {
         self
@@ -54,20 +48,19 @@ class SwipeActionSharedData {
     var activeSwipeAction: String?
 }
 
-/// Helper View Modifier
 fileprivate struct CustomSwipeActionModifier: ViewModifier {
+    
     var config: ActionConfig
     var actions: [Action]
-    /// View Properties
+    var sharedData = SwipeActionSharedData.shared
+    
     @State private var resetPositionTrigger: Bool = false
     @State private var offsetX: CGFloat = 0
     @State private var lastStoredOffsetX: CGFloat = 0
     @State private var bounceOffset: CGFloat = 0
     @State private var progress: CGFloat = 0
-    /// Scroll Properties
     @State private var currentScrollOffset: CGFloat = 0
     @State private var storedScrollOffset: CGFloat?
-    var sharedData = SwipeActionSharedData.shared
     @State private var currentID: String = UUID().uuidString
     
     func body(content: Content) -> some View {
@@ -75,7 +68,7 @@ fileprivate struct CustomSwipeActionModifier: ViewModifier {
             .overlay {
                 Rectangle()
                     .foregroundStyle(.clear)
-                    .containerRelativeFrame(config.occupiesFullWidth ? .horizontal : .init()) /// By using containerRelativeFrame, we can actually modify whether the actions should start from the actual view's end or occupy the entire avaiable width and start from that point!
+                    .containerRelativeFrame(config.occupiesFullWidth ? .horizontal : .init())
                     .overlay(alignment: .trailing) {
                         ActionsView()
                     }
@@ -112,7 +105,6 @@ fileprivate struct CustomSwipeActionModifier: ViewModifier {
             }
     }
     
-    ///Actions View
     @ViewBuilder
     func ActionsView() -> some View {
         ZStack {
@@ -138,7 +130,7 @@ fileprivate struct CustomSwipeActionModifier: ViewModifier {
         }
         .visualEffect { content, proxy in
             content
-                .offset(x: proxy.size.width) /// When using DragGesture with ScrollView in iOS 18, there are several issues. I've created a dedicated video with more information, check out the pinned comment. Instead, I'll be using UIPanGesture with the help of the new UIGestureRepresentable!
+                .offset(x: proxy.size.width)
         }
         .offset(x: config.leadingPadding)
     }
@@ -159,14 +151,11 @@ fileprivate struct CustomSwipeActionModifier: ViewModifier {
         let endTarget = velocity.width + offsetX
         
         withAnimation(.snappy(duration: 0.3, extraBounce: 0)) {
-//            offsetX = 0 /// By default, the trailing padding is added because the maximum offset incudes it. However, we need to explicitly set the leading padding, as you can see, it's not being reflected when we drag
-//            bounceOffset = 0
             if -endTarget > (maxOffsetWidth * 0.6) {
                 offsetX = -maxOffsetWidth
                 bounceOffset = 0
                 progress = 1
             } else {
-                /// reset to initial position
                 reset()
             }
         }

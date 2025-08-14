@@ -56,7 +56,7 @@ struct ChatBotIAView: View {
                                 }
                             }
                         }
-                        .onChange(of: chatBotIAViewModel.messages.count) { _, _ in // También al añadir nuevo mensaje
+                        .onChange(of: chatBotIAViewModel.messages.count) { _, _ in 
                             if let lastMessageId = chatBotIAViewModel.messages.last?.id {
                                 withAnimation {
                                     scrollViewProxy.scrollTo(lastMessageId, anchor: .bottom)

@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-import SwiftUI // Para @MainActor
+import SwiftUI
 
 @MainActor
 final class ChatBotIAViewModel: ObservableObject {
@@ -16,8 +16,6 @@ final class ChatBotIAViewModel: ObservableObject {
     @Published var prompt: String = ""
     @Published var messages: [ChatbotMessage] = []
     @Published var viewState: ViewState = .initial
-    // 'isGenerating' y 'hasStartedChatting' pueden derivarse o integrarse en 'viewState'
-    // Por simplicidad y para mantenerlo similar a tu código original, los mantenemos separados por ahora.
     @Published var isGenerating: Bool = false
     @Published var hasStartedChatting: Bool = false
 
@@ -47,8 +45,6 @@ final class ChatBotIAViewModel: ObservableObject {
     // MARK: - Lifecycle functions
     init(sendMessageToChatBotUseCase: SendMessageToChatBotUseCase, chatMode: ChatMode) {
         self.sendMessageToChatBotUseCase = sendMessageToChatBotUseCase
-        // Considera añadir un mensaje de bienvenida si es necesario.
-        // addInitialBotMessage(text: "Hola, ¿cómo puedo ayudarte hoy?")
         self.chatMode = chatMode
         self.startChatWithInitialPrompt()
     }
@@ -140,8 +136,6 @@ final class ChatBotIAViewModel: ObservableObject {
                     if !messages.isEmpty && !messages.last!.isUser && messages.last!.text.isEmpty {
                         messages.removeLast()
                     } else if !messages.isEmpty && !messages.last!.isUser {
-                        // Opcional: añadir indicación de cancelación al mensaje parcial
-                        // messages[messages.count - 1].text += " [Cancelado]"
                     }
                     print("Streaming task cancelled.")
                 } else if fullResponseReceived {

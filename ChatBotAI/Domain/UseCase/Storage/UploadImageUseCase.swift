@@ -13,11 +13,11 @@ protocol UploadImageUseCase {
 
 class UploadImageUseCaseImpl: UploadImageUseCase {
     private let storageRepository: StorageRepository
-
+    
     init(storageRepository: StorageRepository) {
         self.storageRepository = storageRepository
     }
-
+    
     func execute(with params: UploadImageParams) async -> Result<URL, AppError> {
         return await storageRepository.uploadImage(
             imageData: params.imageData,

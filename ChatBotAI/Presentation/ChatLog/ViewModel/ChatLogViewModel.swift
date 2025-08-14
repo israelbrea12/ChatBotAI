@@ -18,7 +18,7 @@ class ChatLogViewModel: ObservableObject {
     @Published var editingMessage: Message? = nil
     @Published var replyingToMessage: Message? = nil
     @Published var isTextFieldFocused: Bool = false
-
+    
     // MARK: - Private vars
     private var chatId: String?
     private var otherUser: User?
@@ -33,7 +33,7 @@ class ChatLogViewModel: ObservableObject {
     private let editMessageUseCase: EditMessageUseCase
     private let getLastMessageUseCase: GetLastMessageUseCase
     private let updateChatLastMessageUseCase: UpdateChatLastMessageUseCase
-
+    
     // MARK: - Lifecycle functions
     init(
         sendMessageUseCase: SendMessageUseCase,
@@ -84,59 +84,16 @@ class ChatLogViewModel: ObservableObject {
         }
     }
     
-    private func observeUserPresence() {
-        guard let otherUserId = otherUser?.id else { return }
-        
-        observePresenceUseCase.execute(for: otherUserId) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let presence):
-                    self?.updatePresenceStatus(presence: presence)
-                case .failure(let error):
-                    print("Error observing presence: \(error.localizedDescription)")
-                    self?.userPresenceStatus = ""
-                }
-            }
-        }
-    }
-    
-    private func updatePresenceStatus(presence: Presence) {
-        if presence.isOnline {
-            self.userPresenceStatus = LocalizedKeys.Common.online
-        } else {
-            let date = Date(timeIntervalSince1970: presence.lastSeen)
-            let formatter = DateFormatter()
-            formatter.doesRelativeDateFormatting = true
-            
-            if Calendar.current.isDateInToday(date) {
-                formatter.timeStyle = .short
-                formatter.dateStyle = .none
-                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenToday(at: formatter.string(from: date))
-            } else if Calendar.current.isDateInYesterday(date) {
-                formatter.timeStyle = .short
-                formatter.dateStyle = .none
-                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenYesterday(at: formatter.string(from: date))
-            } else {
-                formatter.timeStyle = .short
-                formatter.dateStyle = .short
-                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenOnDate(formatter.string(from: date))
-            }
-        }
-    }
-    
     func sendOrEditMessage(currentUser: User?) {
         if let replyingMessage = replyingToMessage {
-            // Modo respuesta
             sendReplyMessage(to: replyingMessage, currentUser: currentUser)
         } else if let editingMessage = editingMessage {
-            // Modo edición
             editMessage(editingMessage, newText: chatText, currentUser: currentUser)
         } else {
-            // Modo envío normal
             sendTextMessage(currentUser: currentUser)
         }
     }
-
+    
     private func sendTextMessage(currentUser: User?) {
         guard let user = currentUser,
               let chatId = chatId else {
@@ -226,49 +183,17 @@ class ChatLogViewModel: ObservableObject {
                     print("Error enviando mensaje de imagen a RTDB: \(error.localizedDescription)")
                     updateMessageStatus(id: messageId, isUploading: false, hasFailed: true)
                 } else {
-                    // Actualiza el lastMessage del chat padre al enviar la imagen final
                     await updateChatLastMessage(with: finalMessage)
                 }
                 
             case .failure(let error):
-                // 5. Si la subida de la imagen falla, actualizamos el estado del mensaje en la UI
                 print("Error al subir la imagen a Firebase Storage: \(error.localizedDescription)")
                 updateMessageStatus(id: messageId, isUploading: false, hasFailed: true)
             }
         }
     }
     
-    private func sendReplyMessage(to originalMessage: Message, currentUser: User?) {
-        guard let user = currentUser, let chatId = chatId else { return }
-        let trimmedText = chatText.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmedText.isEmpty else { return }
-        
-        let replyMessage = Message(
-            id: UUID().uuidString,
-            text: trimmedText,
-            senderId: user.id,
-            senderName: user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName,
-            sentAt: Date().timeIntervalSince1970,
-            messageType: .text,
-            replyTo: originalMessage.id // El ID del mensaje original
-        )
-        
-        Task {
-            let result = await sendMessageUseCase.execute(with: .init(chatId: chatId, message: replyMessage))
-            switch result {
-            case .success:
-                self.chatText = ""
-                self.replyingToMessage = nil // Limpiar estado de respuesta
-                await updateChatLastMessage(with: replyMessage)
-            case .failure(let error):
-                print("Error enviando respuesta: \(error.localizedDescription)")
-                self.state = .error(LocalizedKeys.AppError.sendMessage)
-            }
-        }
-    }
-    
     func startReplyingToMessage(_ message: Message) {
-        // No se puede responder y editar a la vez
         if self.editingMessage != nil {
             cancelEditingMessage()
         }
@@ -276,21 +201,14 @@ class ChatLogViewModel: ObservableObject {
         self.isTextFieldFocused = true
         print("✅ Iniciando respuesta al mensaje ID: \(message.id)")
     }
-
+    
     func cancelReplyingToMessage() {
         self.replyingToMessage = nil
     }
     
-    private func updateMessageStatus(id: String, isUploading: Bool, hasFailed: Bool) {
-        if let index = messages.firstIndex(where: { $0.id == id }) {
-            messages[index].isUploading = isUploading
-            messages[index].uploadFailed = hasFailed
-        }
-    }
-    
     func loadMessages() async {
         guard let chatId = chatId else { return }
-
+        
         let result = await fetchMessagesUseCase.execute(chatId: chatId)
         switch result {
         case .success(let fetchedMessages):
@@ -339,6 +257,47 @@ class ChatLogViewModel: ObservableObject {
         self.chatText = ""
     }
     
+    // MARK: - Private functions
+    private func generateChatId(for user1: String, and user2: String) -> String {
+        return [user1, user2].sorted().joined(separator: "_")
+    }
+    
+    private func sendReplyMessage(to originalMessage: Message, currentUser: User?) {
+        guard let user = currentUser, let chatId = chatId else { return }
+        let trimmedText = chatText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedText.isEmpty else { return }
+        
+        let replyMessage = Message(
+            id: UUID().uuidString,
+            text: trimmedText,
+            senderId: user.id,
+            senderName: user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName,
+            sentAt: Date().timeIntervalSince1970,
+            messageType: .text,
+            replyTo: originalMessage.id
+        )
+        
+        Task {
+            let result = await sendMessageUseCase.execute(with: .init(chatId: chatId, message: replyMessage))
+            switch result {
+            case .success:
+                self.chatText = ""
+                self.replyingToMessage = nil
+                await updateChatLastMessage(with: replyMessage)
+            case .failure(let error):
+                print("Error enviando respuesta: \(error.localizedDescription)")
+                self.state = .error(LocalizedKeys.AppError.sendMessage)
+            }
+        }
+    }
+    
+    private func updateMessageStatus(id: String, isUploading: Bool, hasFailed: Bool) {
+        if let index = messages.firstIndex(where: { $0.id == id }) {
+            messages[index].isUploading = isUploading
+            messages[index].uploadFailed = hasFailed
+        }
+    }
+    
     private func editMessage(_ message: Message, newText: String, currentUser: User?) {
         guard let user = currentUser,
               let chatId = chatId,
@@ -355,8 +314,6 @@ class ChatLogViewModel: ObservableObject {
                 print("Mensaje editado con éxito: \(message.id)")
                 self.chatText = ""
                 self.editingMessage = nil
-                // IMPORTANTE: Después de editar, actualiza el lastMessage del chat si era el editado
-                // Puedes buscar el mensaje actualizado en `messages` o recrearlo
                 if var editedMessageInList = messages.first(where: { $0.id == message.id }) {
                     editedMessageInList.text = newText
                     editedMessageInList.isEdited = true
@@ -369,7 +326,6 @@ class ChatLogViewModel: ObservableObject {
         }
     }
     
-    // NUEVO: Función auxiliar para actualizar el lastMessage del chat
     private func updateChatLastMessage(with message: Message?) async {
         guard let currentChatId = chatId else { return }
         let params = UpdateChatLastMessageParams(chatId: currentChatId, message: message)
@@ -382,7 +338,6 @@ class ChatLogViewModel: ObservableObject {
         }
     }
     
-    // NUEVO: Función auxiliar para actualizar el lastMessage después de una eliminación
     private func updateLastMessageAfterDeletion() async {
         guard let currentChatId = chatId else { return }
         let result = await getLastMessageUseCase.execute(with: GetLastMessageParams(chatId: currentChatId))
@@ -391,12 +346,47 @@ class ChatLogViewModel: ObservableObject {
             await updateChatLastMessage(with: lastMessage)
         case .failure(let error):
             print("ChatLogViewModel: Error al obtener el último mensaje después de eliminar: \(error.localizedDescription)")
-            await updateChatLastMessage(with: nil) // Tratar como si no hubiera mensajes si hay error
+            await updateChatLastMessage(with: nil)
         }
     }
     
-    // MARK: - Private functions
-    private func generateChatId(for user1: String, and user2: String) -> String {
-        return [user1, user2].sorted().joined(separator: "_")
+    private func observeUserPresence() {
+        guard let otherUserId = otherUser?.id else { return }
+        
+        observePresenceUseCase.execute(for: otherUserId) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let presence):
+                    self?.updatePresenceStatus(presence: presence)
+                case .failure(let error):
+                    print("Error observing presence: \(error.localizedDescription)")
+                    self?.userPresenceStatus = ""
+                }
+            }
+        }
+    }
+    
+    private func updatePresenceStatus(presence: Presence) {
+        if presence.isOnline {
+            self.userPresenceStatus = LocalizedKeys.Common.online
+        } else {
+            let date = Date(timeIntervalSince1970: presence.lastSeen)
+            let formatter = DateFormatter()
+            formatter.doesRelativeDateFormatting = true
+            
+            if Calendar.current.isDateInToday(date) {
+                formatter.timeStyle = .short
+                formatter.dateStyle = .none
+                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenToday(at: formatter.string(from: date))
+            } else if Calendar.current.isDateInYesterday(date) {
+                formatter.timeStyle = .short
+                formatter.dateStyle = .none
+                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenYesterday(at: formatter.string(from: date))
+            } else {
+                formatter.timeStyle = .short
+                formatter.dateStyle = .short
+                self.userPresenceStatus = LocalizedKeys.Chat.lastSeenOnDate(formatter.string(from: date))
+            }
+        }
     }
 }

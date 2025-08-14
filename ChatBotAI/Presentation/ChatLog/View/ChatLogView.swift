@@ -14,23 +14,20 @@ struct ChatLogView: View {
         ChatLogViewModel.self
     )
     
-    // 1. Define los posibles campos de foco
     private enum Field: Hashable {
         case chatInput
     }
-        
-    // 2. Crea la variable de estado para el foco
+    
     @FocusState private var focusedField: Field?
     
     @State private var coordinator: UICoordinator = .init()
-
+    
     @State private var config: MenuConfig = .init(symbolImage: "plus")
     @State private var showingImagePicker = false
     @State private var selectedPhotoItem: PhotosPickerItem? = nil
     @State private var imageDataToPreview: Data? = nil
     @State private var showImagePreviewScreen: Bool = false
     @State private var imagePreviewCaption: String = ""
-    /// Para la selección de imagen desde camara
     @State private var showingCameraPicker = false
     @State private var capturedImage: UIImage? = nil
     
@@ -96,30 +93,28 @@ struct ChatLogView: View {
             .allowsHitTesting(coordinator.selectedMessage == nil)
             .safeAreaInset(edge: .bottom) {
                 VStack(spacing: 0) {
-                        // Barras condicionales que aparecen arriba
-                        if let replyingMessage = chatLogViewModel.replyingToMessage {
-                            ReplyingToMessageBar(message: replyingMessage) {
-                                withAnimation {
-                                    chatLogViewModel.cancelReplyingToMessage()
-                                }
+                    if let replyingMessage = chatLogViewModel.replyingToMessage {
+                        ReplyingToMessageBar(message: replyingMessage) {
+                            withAnimation {
+                                chatLogViewModel.cancelReplyingToMessage()
                             }
                         }
-                        
-                        if let editingMessage = chatLogViewModel.editingMessage {
-                            EditingMessageBar(message: editingMessage) {
-                                chatLogViewModel.cancelEditingMessage()
-                            }
-                        }
-                        
-                        // La barra de texto principal siempre está visible abajo
-                        BottomBar(
-                            chatText: $chatLogViewModel.chatText,
-                            viewModel: chatLogViewModel,
-                            currentUser: SessionManager.shared.currentUser,
-                            focusedField: $focusedField
-                        )
                     }
-                    .background(.thinMaterial)
+                    
+                    if let editingMessage = chatLogViewModel.editingMessage {
+                        EditingMessageBar(message: editingMessage) {
+                            chatLogViewModel.cancelEditingMessage()
+                        }
+                    }
+                    
+                    BottomBar(
+                        chatText: $chatLogViewModel.chatText,
+                        viewModel: chatLogViewModel,
+                        currentUser: SessionManager.shared.currentUser,
+                        focusedField: $focusedField
+                    )
+                }
+                .background(.thinMaterial)
             }
             .onTapGesture {
                 UIApplication.shared.endEditing()
@@ -136,7 +131,7 @@ struct ChatLogView: View {
                     coordinator.otherUserName = otherUser.fullName
                 }
                 
-            coordinator.setup(messages: chatLogViewModel.messages)
+                coordinator.setup(messages: chatLogViewModel.messages)
             }
             .onDisappear {
                 chatLogViewModel.stopObserving()
@@ -148,14 +143,14 @@ struct ChatLogView: View {
                     .opacity(coordinator.animateView ? 1 : 0)
                     .animation(.spring(response: 0.4, dampingFraction: 0.85), value: coordinator.animateView)
             }
-                        
+            
             .overlay {
                 if coordinator.selectedMessage != nil {
                     ImageDetailView()
                         .allowsHitTesting(coordinator.showDetailView)
                 }
             }
-                        
+            
             .overlayPreferenceValue(HeroKey.self) { value in
                 if let selectedMessage = coordinator.selectedMessage,
                    let sAnchor = value[selectedMessage.id + "SOURCE"],
@@ -181,11 +176,10 @@ struct ChatLogView: View {
             .onChange(of: capturedImage) { newImage in
                 guard let uiImage = newImage else { return }
                 
-                // Convertimos la UIImage a Data y la pasamos a la vista de previsualización
                 if let data = uiImage.jpegData(compressionQuality: 0.8) {
                     self.imageDataToPreview = data
                     self.showImagePreviewScreen = true
-                    self.capturedImage = nil // Reseteamos para poder tomar otra foto
+                    self.capturedImage = nil
                 }
             }
             .onChange(of: selectedPhotoItem) { newItem in
@@ -200,7 +194,7 @@ struct ChatLogView: View {
                                 print("No se pudieron cargar los datos de la imagen seleccionada.")
                             }
                         } catch {
-                                print("Error al cargar la imagen: \(error.localizedDescription)")
+                            print("Error al cargar la imagen: \(error.localizedDescription)")
                         }
                     }
                 }
@@ -272,55 +266,55 @@ struct ChatLogView: View {
         InfoView(message: LocalizedKeys.Common.noDataFound)
     }
     
-        @ViewBuilder
-        private func BottomBar(
-            chatText: Binding<String>,
-            viewModel: ChatLogViewModel,
-            currentUser: User?,
-            focusedField: FocusState<Field?>.Binding
-        ) -> some View {
-            HStack(spacing: 12) {
-                MenuSourceButton(config: $config) {
-                    Image(systemName: "plus")
-                        .font(.title3)
-                        .frame(width: 35, height: 35)
-                        .background {
-                            Circle()
-                                .fill(.gray.opacity(0.25))
-                                .background(.background, in: .circle)
-                        }
-                } onTap: {
-                    print("Plus Tapped")
-                    UIApplication.shared.endEditing()
-                }
-                
-                TextField(LocalizedKeys.Placeholder.messagePlaceholder, text: chatText)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 15)
+    @ViewBuilder
+    private func BottomBar(
+        chatText: Binding<String>,
+        viewModel: ChatLogViewModel,
+        currentUser: User?,
+        focusedField: FocusState<Field?>.Binding
+    ) -> some View {
+        HStack(spacing: 12) {
+            MenuSourceButton(config: $config) {
+                Image(systemName: "plus")
+                    .font(.title3)
+                    .frame(width: 35, height: 35)
                     .background {
-                        Capsule()
-                            .stroke(.gray.opacity(0.3), lineWidth: 1.5)
+                        Circle()
+                            .fill(.gray.opacity(0.25))
+                            .background(.background, in: .circle)
                     }
-                    .onSubmit {
-                        viewModel.sendOrEditMessage(currentUser: currentUser)
-                    }
-                    .focused(focusedField, equals: .chatInput)
-                
-                Button(action: {
-                    viewModel.sendOrEditMessage(currentUser: currentUser)
-                }) {
-                    Image(systemName: "paperplane.fill")
-                        .font(.system(size: 18))
-                        .foregroundColor(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .gray : .blue)
-                        .padding(8)
-                }
-                .disabled(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                
+            } onTap: {
+                print("Plus Tapped")
+                UIApplication.shared.endEditing()
             }
-            .padding(.horizontal, 15)
-            .padding(.vertical, 8)
-            .background(.thinMaterial)
+            
+            TextField(LocalizedKeys.Placeholder.messagePlaceholder, text: chatText)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 15)
+                .background {
+                    Capsule()
+                        .stroke(.gray.opacity(0.3), lineWidth: 1.5)
+                }
+                .onSubmit {
+                    viewModel.sendOrEditMessage(currentUser: currentUser)
+                }
+                .focused(focusedField, equals: .chatInput)
+            
+            Button(action: {
+                viewModel.sendOrEditMessage(currentUser: currentUser)
+            }) {
+                Image(systemName: "paperplane.fill")
+                    .font(.system(size: 18))
+                    .foregroundColor(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .gray : .blue)
+                    .padding(8)
+            }
+            .disabled(chatText.wrappedValue.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            
         }
+        .padding(.horizontal, 15)
+        .padding(.vertical, 8)
+        .background(.thinMaterial)
+    }
 }
 
 

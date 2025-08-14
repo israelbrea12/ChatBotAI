@@ -22,7 +22,7 @@ class MessageDataSourceImpl: MessageDataSource {
     private let databaseRef = Database.database().reference()
     private var messageObservers: [String: DatabaseHandle] = [:]
     private var messageUpdatedObservers: [String: DatabaseHandle] = [:]
-        
+    
     func sendMessage(chatId: String, message: Message) async throws {
         let messageData = message.toFirebaseData()
         
@@ -55,7 +55,7 @@ class MessageDataSourceImpl: MessageDataSource {
         
         try await setValueAsync(chatRef, value: lastMessageData)
     }
-        
+    
     private func setValueAsync(_ ref: DatabaseReference, value: Any) async throws {
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
             ref.setValue(value) { error, _ in
@@ -67,7 +67,7 @@ class MessageDataSourceImpl: MessageDataSource {
             }
         }
     }
-        
+    
     func fetchMessages(chatId: String) async throws -> [MessageModel] {
         try await withCheckedThrowingContinuation { continuation in
             let messagesRef = databaseRef
@@ -88,7 +88,6 @@ class MessageDataSourceImpl: MessageDataSource {
                               let senderName = value[Constants.Database.Message.senderName] as? String,
                               let sentAt = value[Constants.Database.Message.sentAt] as? TimeInterval,
                               let messageTypeString = value[Constants.Database.Message.messageType] as? String else {
-                            print("Skipping message due to missing essential fields: \(value)")
                             continue
                         }
                         
@@ -116,7 +115,7 @@ class MessageDataSourceImpl: MessageDataSource {
             }
         }
     }
-        
+    
     func observeMessages(for chatId: String, onNewMessage: @escaping (MessageModel) -> Void, onUpdatedMessage: @escaping (MessageModel) -> Void, onDeletedMessage: @escaping (String) -> Void) {
         let baseRef = databaseRef.child(Constants.Database.chats).child(chatId).child(Constants.Database.messages)
         let messagesQuery = baseRef
@@ -124,7 +123,6 @@ class MessageDataSourceImpl: MessageDataSource {
         
         let addedHandle = messagesQuery.observe(.childAdded) { snapshot in
             guard let messageData = snapshot.value as? [String: Any] else {
-                print("Could not cast snapshot value to [String: Any]")
                 return
             }
             
@@ -134,7 +132,6 @@ class MessageDataSourceImpl: MessageDataSource {
                   let senderName = messageData[Constants.Database.Message.senderName] as? String,
                   let sentAt = messageData[Constants.Database.Message.sentAt] as? TimeInterval,
                   let messageTypeString = messageData[Constants.Database.Message.messageType] as? String else {
-                print("Skipping observed message due to missing essential fields: \(messageData)")
                 return
             }
             
@@ -159,7 +156,6 @@ class MessageDataSourceImpl: MessageDataSource {
         
         let changedHandle = messagesQuery.observe(.childChanged) { snapshot in
             guard let messageData = snapshot.value as? [String: Any] else {
-                print("Could not cast updated snapshot value to [String: Any]")
                 return
             }
             
@@ -170,7 +166,6 @@ class MessageDataSourceImpl: MessageDataSource {
                   let senderName = messageData[Constants.Database.Message.senderName] as? String,
                   let sentAt = messageData[Constants.Database.Message.sentAt] as? TimeInterval,
                   let messageTypeString = messageData[Constants.Database.Message.messageType] as? String else {
-                print("Skipping updated message due to missing essential fields: \(messageData)")
                 return
             }
             
@@ -189,14 +184,13 @@ class MessageDataSourceImpl: MessageDataSource {
                 isEdited: isEdited,
                 replyTo: replyTo
             )
-            print("🔄 Observado mensaje actualizado con ID: \(updatedMessage.id)")
+            print("Observado mensaje actualizado con ID: \(updatedMessage.id)")
             onUpdatedMessage(updatedMessage)
         }
         
         let removedHandle = messagesQuery.observe(.childRemoved) { snapshot in
             guard let messageData = snapshot.value as? [String: Any],
                   let id = messageData[Constants.Database.Message.id] as? String else {
-                print("Could not get removed message data")
                 return
             }
             
@@ -207,7 +201,7 @@ class MessageDataSourceImpl: MessageDataSource {
         messageUpdatedObservers[chatId] = changedHandle
         messageObservers[chatId + "_removed"] = removedHandle
     }
-
+    
     func stopObservingMessages(for chatId: String) {
         if let addedHandle = messageObservers[chatId] {
             databaseRef.child(Constants.Database.chats).child(chatId).child(Constants.Database.messages).removeObserver(withHandle: addedHandle)
@@ -221,10 +215,10 @@ class MessageDataSourceImpl: MessageDataSource {
             databaseRef.child(Constants.Database.chats).child(chatId).child(Constants.Database.messages).removeObserver(withHandle: removedHandle)
             messageObservers.removeValue(forKey: chatId + "_removed")
         } else {
-            print("No observer found to stop for chatId: \(chatId)")
+            print("No se encontró ningún observador que detuviera el chatId: \(chatId)")
         }
     }
-        
+    
     func deleteMessage(chatId: String, messageId: String) async throws {
         let messageRef = databaseRef
             .child(Constants.Database.chats)
@@ -292,7 +286,6 @@ class MessageDataSourceImpl: MessageDataSource {
               let senderName = value[Constants.Database.Message.senderName] as? String,
               let sentAt = value[Constants.Database.Message.sentAt] as? TimeInterval,
               let messageTypeString = value[Constants.Database.Message.messageType] as? String else {
-            print("Skipping message \(key) due to missing essential fields: \(value)")
             return nil
         }
         

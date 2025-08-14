@@ -33,7 +33,7 @@ class AuthRepositoryImpl: AuthRepository {
             return .failure(error.toAppError())
         }
     }
-
+    
     
     func signOut() -> Result<Bool, AppError> {
         do {

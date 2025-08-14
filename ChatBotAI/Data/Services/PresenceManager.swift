@@ -16,20 +16,20 @@ class PresenceManager {
     private let databaseRef = Database.database().reference()
     private var presenceRef: DatabaseReference?
     private var connectedHandle: DatabaseHandle?
-
+    
     private init() {}
     
     func setupPresence() {
         guard presenceRef == nil, let currentUserID = Auth.auth().currentUser?.uid else { return }
         
         self.presenceRef = databaseRef.child("\(Constants.Database.users)/\(currentUserID)/\(Constants.Database.Presence.root)")
- 
+        
         let onDisconnectData: [String: Any] = [
             Constants.Database.Presence.isOnline: false,
             Constants.Database.Presence.lastSeen: ServerValue.timestamp()
         ]
         presenceRef?.onDisconnectUpdateChildValues(onDisconnectData)
-
+        
         let connectedRef = databaseRef.child(Constants.Database.infoConnected)
         
         connectedHandle = connectedRef.observe(.value, with: { [weak self] snapshot in

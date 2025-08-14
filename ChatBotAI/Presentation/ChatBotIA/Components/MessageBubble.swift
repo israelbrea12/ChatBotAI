@@ -14,7 +14,7 @@ struct MessageBubble: View {
     let backgroundColor: Color
     let textColor: Color
     var leadingIconName: String? = nil
-
+    
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
             if let iconName = leadingIconName {
@@ -23,7 +23,7 @@ struct MessageBubble: View {
                     .foregroundColor(textColor.opacity(0.8))
                     .padding(.top, 2)
             }
-
+            
             Markdown(text)
                 .padding(12)
                 .background(backgroundColor)

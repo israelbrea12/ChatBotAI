@@ -51,13 +51,10 @@ struct PanGesture: UIGestureRecognizerRepresentable {
     }
     
     class Coordinator: NSObject, UIGestureRecognizerDelegate {
-        /// Limiting Gesture Activation for only horizontal Swipe and not for vertical Swipe
-        /// Thus this will make both gesture and scrollview interactable!
         func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
             if let panGesture = gestureRecognizer as? UIPanGestureRecognizer {
                 let velocity = panGesture.velocity(in: panGesture.view)
                 
-                /// Horizontal Swipe
                 if abs(velocity.x) > abs(velocity.y) {
                     return true
                 } else {

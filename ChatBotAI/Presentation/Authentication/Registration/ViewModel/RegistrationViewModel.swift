@@ -70,6 +70,7 @@ class RegistrationViewModel: ObservableObject {
         }
     }
     
+    // MARK: - Private functions
     private func validateForm() -> Bool {
         var isValid = true
         authenticationError = nil

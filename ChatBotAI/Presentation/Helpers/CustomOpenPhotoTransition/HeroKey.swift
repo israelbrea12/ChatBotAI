@@ -5,11 +5,8 @@
 //  Created by Israel Brea Piñero on 17/6/25.
 //
 
-
 import SwiftUI
 
-/// PreferenceKey para comunicar las anclas (posiciones y tamaños) de las vistas
-/// de origen y destino para la animación "Hero".
 struct HeroKey: PreferenceKey {
     static var defaultValue: [String: Anchor<CGRect>] = [:]
     

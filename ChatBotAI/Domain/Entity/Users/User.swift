@@ -5,8 +5,6 @@
 //  Created by Israel Brea Piñero on 13/3/25.
 //
 
-// Modelos
-
 import Foundation
 
 struct User: Identifiable, Codable, Hashable {
@@ -15,7 +13,7 @@ struct User: Identifiable, Codable, Hashable {
     let email: String?
     let profileImageUrl: String?
     var learningLanguage: String?
-
+    
     var initials: String {
         let formatter = PersonNameComponentsFormatter()
         if let components = formatter.personNameComponents(from: fullName ?? "") {
