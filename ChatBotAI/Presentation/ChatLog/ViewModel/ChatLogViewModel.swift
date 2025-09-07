@@ -171,7 +171,10 @@ class ChatLogViewModel: ObservableObject {
                     senderName: user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName,
                     sentAt: tempMessage.sentAt,
                     messageType: .image,
-                    imageURL: imageURL.absoluteString
+                    imageURL: imageURL.absoluteString,
+                    localImageData: nil, // Limpiamos los datos locales
+                    isUploading: false,  // Ya no está subiendo
+                    uploadFailed: false
                 )
                 print("🟢 Enviando mensaje final con ID: \(finalMessage.id)")
                 
@@ -183,6 +186,8 @@ class ChatLogViewModel: ObservableObject {
                     print("Error enviando mensaje de imagen a RTDB: \(error.localizedDescription)")
                     updateMessageStatus(id: messageId, isUploading: false, hasFailed: true)
                 } else {
+                    // 👇 AÑADE ESTA LÍNEA AQUÍ
+                    updateLocalMessage(withId: messageId, finalMessage: finalMessage)
                     await updateChatLastMessage(with: finalMessage)
                 }
                 
@@ -386,6 +391,12 @@ class ChatLogViewModel: ObservableObject {
                 formatter.dateStyle = .short
                 self.userPresenceStatus = LocalizedKeys.Chat.lastSeenOnDate(formatter.string(from: date))
             }
+        }
+    }
+    
+    private func updateLocalMessage(withId id: String, finalMessage: Message) {
+        if let index = messages.firstIndex(where: { $0.id == id }) {
+            messages[index] = finalMessage
         }
     }
 }

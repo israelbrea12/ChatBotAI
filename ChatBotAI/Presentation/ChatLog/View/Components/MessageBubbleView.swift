@@ -37,12 +37,12 @@ struct MessageBubbleView: View {
                         )
                         .fixedSize(horizontal: false, vertical: true)
                     }
+                    
                     messageContent()
+                        .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
+                        .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
+                        .fixedSize(horizontal: false, vertical: true)
                 }
-                .padding(isCurrentUser ? .init(top: 10, leading: 10, bottom: 10, trailing: 10) : .init(top: 10, leading: 10, bottom: 10, trailing: 10))
-                .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
-                .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
-                .fixedSize(horizontal: false, vertical: true)
                 .background(
                     GeometryReader { proxy in
                         Color.clear
@@ -75,13 +75,16 @@ struct MessageBubbleView: View {
         .padding(.horizontal)
         .padding(.vertical, message.messageType == .image ? 6 : 2)
     }
+    
     @ViewBuilder
     private func messageContent() -> some View {
         switch message.messageType {
         case .text:
             textMessageView()
+                .padding(10)
         case .image:
             imageMessageView()
+                .padding(4)
         }
     }
 }
@@ -91,9 +94,9 @@ private extension MessageBubbleView {
     func textMessageView() -> some View {
         Text(message.text.isEmpty ? "" : message.text)
             .foregroundColor(isCurrentUser ? .white : .primary)
-            .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
             .fixedSize(horizontal: false, vertical: true)
     }
+    
     @ViewBuilder
     func unsupportedMessageView() -> some View {
         Text(LocalizedKeys.Chat.unsupportedMessageType)
@@ -103,53 +106,38 @@ private extension MessageBubbleView {
             .background(Color(UIColor.systemGray5))
             .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
     }
+    
     @ViewBuilder
     func imageMessageView() -> some View {
-        if message.isUploading {
-            if let data = message.localImageData, let uiImage = UIImage(data: data) {
-                imageBubbleBase(image: Image(uiImage: uiImage)) { uploadOverlay }
-            }
-        } else if message.uploadFailed {
-            imageBubbleBase(image: nil) { failureOverlay }
-        } else if let urlString = message.imageURL, let url = URL(string: urlString) {
-            WebImage(url: url) { phase in
-                switch phase {
-                case .empty:
-                    imageBubbleBase(image: nil) { loadingOverlay }
-                case .success(let image):
-                    imageBubbleBase(image: image) { EmptyView() }
-                case .failure:
-                    imageBubbleBase(image: nil) { failureOverlay }
-                @unknown default:
-                    EmptyView()
-                }
-            }
-            .onTapGesture {
-                onImageTap?(message)
-            }
-            .anchorPreference(key: HeroKey.self, value: .bounds) { anchor in
-                return [message.id + "SOURCE": anchor]
-            }
-            .opacity(coordinator.selectedMessage?.id == message.id ? 0 : 1)
-        }
-    }
-    @ViewBuilder
-    func imageBubbleBase<Overlay: View>(image: Image?, @ViewBuilder overlay: () -> Overlay) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            ZStack {
-                Color(UIColor.systemGray5)
-                    .aspectRatio(1, contentMode: .fill)
-                    .frame(maxWidth: imageMaxWidth, maxHeight: imageMaxHeight)
-                if let image = image {
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(maxWidth: imageMaxWidth, maxHeight: imageMaxHeight)
-                        .transition(.opacity.animation(.easeInOut))
+            if message.isUploading {
+                if let data = message.localImageData, let uiImage = UIImage(data: data) {
+                    imageDisplay(image: Image(uiImage: uiImage), overlay: { uploadOverlay })
                 }
-                overlay()
+            } else if message.uploadFailed {
+                imageDisplay(image: nil, overlay: { failureOverlay })
+            } else if let urlString = message.imageURL, let url = URL(string: urlString) {
+                WebImage(url: url) { phase in
+                    switch phase {
+                    case .empty:
+                        imageDisplay(image: nil, overlay: { loadingOverlay })
+                    case .success(let image):
+                        imageDisplay(image: image, overlay: { EmptyView() })
+                    case .failure:
+                        imageDisplay(image: nil, overlay: { failureOverlay })
+                    @unknown default:
+                        EmptyView()
+                    }
+                }
+                .onTapGesture {
+                    onImageTap?(message)
+                }
+                .anchorPreference(key: HeroKey.self, value: .bounds) { anchor in
+                    return [message.id + "SOURCE": anchor]
+                }
+                .opacity(coordinator.selectedMessage?.id == message.id ? 0 : 1)
             }
-            .clipShape(RoundedRectangle(cornerRadius: max(0, bubbleCornerRadius - borderThickness)))
+            
             if !message.text.isEmpty {
                 Text(message.text)
                     .font(.body)
@@ -159,10 +147,28 @@ private extension MessageBubbleView {
                     .padding(.bottom, 8)
             }
         }
-        .padding(borderThickness)
-        .background(isCurrentUser ? Color.blue : Color(UIColor.systemGray5))
+    }
+    
+    @ViewBuilder
+    func imageDisplay<Overlay: View>(image: Image?, @ViewBuilder overlay: () -> Overlay) -> some View {
+        ZStack {
+            Color(UIColor.systemGray5)
+                .aspectRatio(1, contentMode: .fill)
+                .frame(maxWidth: imageMaxWidth, maxHeight: imageMaxHeight)
+            
+            if let image = image {
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxWidth: imageMaxWidth, maxHeight: imageMaxHeight)
+                    .transition(.opacity.animation(.easeInOut))
+            }
+            
+            overlay()
+        }
         .clipShape(RoundedRectangle(cornerRadius: bubbleCornerRadius))
     }
+    
     @ViewBuilder
     var uploadOverlay: some View {
         ZStack {
@@ -175,6 +181,7 @@ private extension MessageBubbleView {
     var loadingOverlay: some View {
         ProgressView()
     }
+    
     @ViewBuilder
     var failureOverlay: some View {
         ZStack {
@@ -209,7 +216,7 @@ struct RepliedMessagePreview: View {
                     .foregroundColor(.blue)
                 
                 HStack(spacing: 4) {
-                    if message.messageType == .image && !message.imageURL!.isEmpty {
+                    if message.messageType == .image && !(message.imageURL ?? "").isEmpty {
                         Image(systemName: "photo.fill")
                             .font(.caption)
                             .foregroundColor(.secondary)

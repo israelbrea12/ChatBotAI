@@ -56,10 +56,8 @@ struct ImagePreviewView: View {
                         }) {
                             Image(systemName: "arrow.up.circle.fill")
                                 .font(.system(size: 44))
-                                .foregroundStyle(caption.isEmpty ? .gray.opacity(0.6) : .blue)
+                                .foregroundStyle(.blue)
                         }
-                        .disabled(caption.isEmpty)
-                        .animation(.easeInOut(duration: 0.2), value: caption.isEmpty)
                     }
                     .padding(.horizontal)
                     .padding(.vertical, 8)
