@@ -314,7 +314,7 @@ extension Resolver {
                 fetchUserUseCase: resolver.resolve(FetchUserUseCase.self)!,
                 deleteAccountUseCase: resolver.resolve(DeleteAccountUseCase.self)!
             )
-        }.inObjectScope(.container)
+        }.inObjectScope(.transient)
         
         container.register(LoginViewModel.self) { resolver in
             LoginViewModel(
@@ -383,6 +383,6 @@ extension Resolver {
                 user: user,
                 updateUserUseCase: resolver.resolve(UpdateUserUseCase.self)!
             )
-        }.inObjectScope(.container)
+        }.inObjectScope(.transient)
     }
 }

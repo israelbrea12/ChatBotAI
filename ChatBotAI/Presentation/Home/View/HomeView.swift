@@ -55,7 +55,7 @@ struct HomeView: View {
                     
                 }
                 ToolbarItem (placement: .topBarLeading) {
-                    UserProfileView(user: homeViewModel.currentUser)
+                    UserProfileView()
                 }
             }
             .navigationDestination(

@@ -79,6 +79,7 @@
 		408CA96A2DEDB042000C0FAD /* NavigationBarAppearance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA9692DEDB042000C0FAD /* NavigationBarAppearance.swift */; };
 		408CA96D2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA96C2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift */; };
 		408CA9702DEDEAA4000C0FAD /* FloatingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA96F2DEDEAA4000C0FAD /* FloatingTabView.swift */; };
+		40C62EA42E6DCF49009A717A /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C62EA32E6DCF49009A717A /* UserProfileViewModel.swift */; };
 		40CD8B562E1A7DD60053425F /* PresenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD8B552E1A7DD60053425F /* PresenceManager.swift */; };
 		40CD8B592E1A7E1C0053425F /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD8B582E1A7E1C0053425F /* Presence.swift */; };
 		40CD8B5B2E1A7E580053425F /* PresenceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD8B5A2E1A7E580053425F /* PresenceRepository.swift */; };
@@ -269,6 +270,7 @@
 		40956E1A2D805F8C00307A53 /* ChatBotAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBotAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		40C62EA32E6DCF49009A717A /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
 		40CD8B552E1A7DD60053425F /* PresenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenceManager.swift; sourceTree = "<group>"; };
 		40CD8B582E1A7E1C0053425F /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		40CD8B5A2E1A7E580053425F /* PresenceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenceRepository.swift; sourceTree = "<group>"; };
@@ -735,6 +737,31 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		40C62EA22E6DCF1B009A717A /* UserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				40C62EA62E6DCF64009A717A /* ViewModel */,
+				40C62EA52E6DCF5F009A717A /* View */,
+			);
+			path = UserProfile;
+			sourceTree = "<group>";
+		};
+		40C62EA52E6DCF5F009A717A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		40C62EA62E6DCF64009A717A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				40C62EA32E6DCF49009A717A /* UserProfileViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		40CD8B602E1A7ED50053425F /* Presence */ = {
 			isa = PBXGroup;
 			children = (
@@ -900,7 +927,6 @@
 				40D384E62D843A7700406AC1 /* InputView.swift */,
 				40D384E72D843A7700406AC1 /* SettingsRowView.swift */,
 				4057DB842D8B492A00D2E2B0 /* ImagePickerView.swift */,
-				402CB7FE2D949C7E008EAEF0 /* UserProfileView.swift */,
 				408CA9692DEDB042000C0FAD /* NavigationBarAppearance.swift */,
 				4086854A2DD8188900D5832D /* CustomDialog.swift */,
 				400B9D472E034339007DFF50 /* GradientButton.swift */,
@@ -924,9 +950,10 @@
 				40D384E92D843A7700406AC1 /* MainView.swift */,
 				40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */,
 				40D384D82D843A7700406AC1 /* Authentication */,
+				40D384E02D843A7700406AC1 /* Home */,
+				40C62EA22E6DCF1B009A717A /* UserProfile */,
 				40D384DC2D843A7700406AC1 /* ChatBotIA */,
 				402CB7F82D949490008EAEF0 /* ChatLog */,
-				40D384E02D843A7700406AC1 /* Home */,
 				40D384E42D843A7700406AC1 /* Settings */,
 				40E2352D2E2BFC9D00452CA2 /* EditProfile */,
 				400B9D332E017F9E007DFF50 /* ImageDetail */,
@@ -1509,6 +1536,7 @@
 				40D384FB2D843A7700406AC1 /* SettingsView.swift in Sources */,
 				401581EA2DDFB145001789E9 /* ChatMode.swift in Sources */,
 				40D384FC2D843A7700406AC1 /* InfoView.swift in Sources */,
+				40C62EA42E6DCF49009A717A /* UserProfileViewModel.swift in Sources */,
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
 				400B9D4A2E03434F007DFF50 /* CustomTF.swift in Sources */,

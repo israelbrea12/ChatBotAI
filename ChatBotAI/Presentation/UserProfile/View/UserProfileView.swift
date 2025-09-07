@@ -9,12 +9,15 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct UserProfileView: View {
-    let user: User?
+    // ANTES: let user: User?
+    // AHORA: Creamos una instancia del ViewModel que se actualiza solo.
+    @StateObject private var viewModel = UserProfileViewModel()
     
     var body: some View {
         HStack {
             WebImage(
-                url: URL(string: user?.profileImageUrl ?? "")
+                // Cambiamos 'user' por 'viewModel.user'
+                url: URL(string: viewModel.user?.profileImageUrl ?? "")
             ) { phase in
                 switch phase {
                 case .empty:
@@ -43,7 +46,8 @@ struct UserProfileView: View {
             }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(user?.fullName ?? LocalizedKeys.Placeholder.fullnamePlaceholder)
+                // Cambiamos 'user' por 'viewModel.user'
+                Text(viewModel.user?.fullName ?? LocalizedKeys.Placeholder.fullnamePlaceholder)
                     .font(.system(size: 14, weight: .bold))
                     .foregroundStyle(Color(.label))
                 HStack {
@@ -58,4 +62,3 @@ struct UserProfileView: View {
         }
     }
 }
-

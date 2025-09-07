@@ -142,6 +142,7 @@ final class HomeViewModel: ObservableObject {
         switch result {
         case .success:
             self.currentUser?.learningLanguage = language.rawValue
+            self.sessionManager.currentUser?.learningLanguage = language.rawValue
             self.showLanguageOnboarding = false
             print("✅ Idioma guardado y onboarding ocultado.")
         case .failure(let error):

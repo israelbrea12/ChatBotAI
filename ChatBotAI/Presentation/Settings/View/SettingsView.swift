@@ -34,6 +34,7 @@ struct SettingsView: View {
         .fullScreenCover(isPresented: $showEditProfileSheet) {
             if let user = settingsViewModel.currentUser {
                 EditProfileView(user: user)
+                    .id(user.id)
             }
         }
     }

@@ -32,6 +32,7 @@ enum AppTab: String, CaseIterable, FLoatingTabProtocol {
 struct MainView: View {
     
     @State private var activeTab: AppTab = .home
+    @StateObject private var sessionManager = SessionManager.shared
     
     var body: some View {
         FloatingTabView(selection: $activeTab) { tab, tabBarHeight in
