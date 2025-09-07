@@ -15,8 +15,6 @@ class UserProfileViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
 
     init() {
-        // Se suscribe a la variable $currentUser del SessionManager
-        // y asigna cualquier cambio a su propia variable 'user'.
         SessionManager.shared.$currentUser
             .receive(on: DispatchQueue.main)
             .assign(to: \.user, on: self)

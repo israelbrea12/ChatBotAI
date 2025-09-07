@@ -1,10 +1,3 @@
-//
-//  ImagePreviewView.swift
-//  ChatBotAI
-//
-//  Created by Israel Brea Piñero on 1/6/25.
-//
-
 import SwiftUI
 
 struct ImagePreviewView: View {
@@ -32,6 +25,8 @@ struct ImagePreviewView: View {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFit()
+                            .cornerRadius(12)
+                            .shadow(radius: 5)
                             .padding()
                             .accessibilityLabel(LocalizedKeys.Chat.imagePreviewTitle)
                     } else {
@@ -41,29 +36,33 @@ struct ImagePreviewView: View {
                     
                     Spacer()
                     
-                    HStack(spacing: 10) {
+                    HStack(spacing: 12) {
                         TextField(LocalizedKeys.Placeholder.addCommentPlaceholder, text: $caption)
                             .focused($isCaptionFieldFocused)
                             .padding(12)
-                            .background(.thinMaterial)
-                            .clipShape(Capsule())
-                            .overlay(
-                                Capsule().stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            .background(
+                                RoundedRectangle(cornerRadius: 25)
+                                    .fill(Color.secondary.opacity(0.2))
                             )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 25)
+                                    .stroke(Color.gray.opacity(0.4), lineWidth: 1)
+                            )
+                            .foregroundColor(.primary)
                         
                         Button(action: {
                             isCaptionFieldFocused = false
                             onSend(caption)
                         }) {
-                            Image(systemName: "paperplane.circle.fill")
-                                .resizable()
-                                .frame(width: 44, height: 44)
-                                .foregroundColor(.blue)
+                            Image(systemName: "arrow.up.circle.fill")
+                                .font(.system(size: 44))
+                                .foregroundStyle(caption.isEmpty ? .gray.opacity(0.6) : .blue)
                         }
+                        .disabled(caption.isEmpty)
+                        .animation(.easeInOut(duration: 0.2), value: caption.isEmpty)
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 10 > 0 ? 0 : 20)
-                    .padding(.bottom, 10)
+                    .padding(.vertical, 8)
                 }
             }
             .navigationBarItems(
@@ -72,16 +71,13 @@ struct ImagePreviewView: View {
                         isCaptionFieldFocused = false
                         onCancel()
                     }) {
-                        Image(systemName: "xmark")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.primary)
-                            .padding(8)
-                            .background(Circle().fill(Color.gray.opacity(0.2)))
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(.secondary)
                     }
             )
             .navigationBarTitleDisplayMode(.inline)
         }
-        .accentColor(.blue)
     }
 }
 

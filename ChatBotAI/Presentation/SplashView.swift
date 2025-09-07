@@ -11,12 +11,6 @@ struct SplashView: View {
     
     @Binding var isActive: Bool
 
-    // Nuevos colores para el gradiente
-    // Un azul celeste suave (casi blanco)
-    let colorArribaIzquierda = Color(red: 220/255, green: 230/255, blue: 250/255) // #DCE6FA
-    // Un azul ligeramente más profundo, cercano al de la burbuja
-    let colorAbajoDerecha = Color(red: 160/255, green: 180/255, blue: 230/255)   // #A0B4E6
-
     var body: some View {
         ZStack {
             LinearGradient(
