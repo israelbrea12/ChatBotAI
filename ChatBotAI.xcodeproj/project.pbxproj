@@ -80,6 +80,10 @@
 		408CA96D2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA96C2DEDBA04000C0FAD /* NavigationChatBotIARoute.swift */; };
 		408CA9702DEDEAA4000C0FAD /* FloatingTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 408CA96F2DEDEAA4000C0FAD /* FloatingTabView.swift */; };
 		40C62EA42E6DCF49009A717A /* UserProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C62EA32E6DCF49009A717A /* UserProfileViewModel.swift */; };
+		40C62EA82E6DDA21009A717A /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C62EA72E6DDA21009A717A /* SplashView.swift */; };
+		40C62EAB2E6DDA83009A717A /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 40C62EAA2E6DDA83009A717A /* Lottie */; };
+		40C62EAE2E6DDAA4009A717A /* chatbotia_splash_lottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 40C62EAD2E6DDAA4009A717A /* chatbotia_splash_lottie.json */; };
+		40C62EB02E6DDAF3009A717A /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C62EAF2E6DDAF3009A717A /* LottieView.swift */; };
 		40CD8B562E1A7DD60053425F /* PresenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD8B552E1A7DD60053425F /* PresenceManager.swift */; };
 		40CD8B592E1A7E1C0053425F /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD8B582E1A7E1C0053425F /* Presence.swift */; };
 		40CD8B5B2E1A7E580053425F /* PresenceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40CD8B5A2E1A7E580053425F /* PresenceRepository.swift */; };
@@ -271,6 +275,9 @@
 		40956E2A2D805F8D00307A53 /* ChatBotAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40956E342D805F8D00307A53 /* ChatBotAIUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBotAIUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		40C62EA32E6DCF49009A717A /* UserProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewModel.swift; sourceTree = "<group>"; };
+		40C62EA72E6DDA21009A717A /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		40C62EAD2E6DDAA4009A717A /* chatbotia_splash_lottie.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chatbotia_splash_lottie.json; sourceTree = "<group>"; };
+		40C62EAF2E6DDAF3009A717A /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		40CD8B552E1A7DD60053425F /* PresenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenceManager.swift; sourceTree = "<group>"; };
 		40CD8B582E1A7E1C0053425F /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 		40CD8B5A2E1A7E580053425F /* PresenceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenceRepository.swift; sourceTree = "<group>"; };
@@ -391,6 +398,7 @@
 				4083AE802E26A31100FB43D8 /* FirebaseMessaging in Frameworks */,
 				40CD8B6C2E1A86B50053425F /* SDWebImageSwiftUI in Frameworks */,
 				40F35FCF2D99DFBF0078BE23 /* GoogleSignInSwift in Frameworks */,
+				40C62EAB2E6DDA83009A717A /* Lottie in Frameworks */,
 				408685142DD2A64A00D5832D /* GoogleGenerativeAI in Frameworks */,
 				4084BFA82E008A81001CB621 /* MarkdownUI in Frameworks */,
 				4053F7C32D85CFB50082785E /* Swinject in Frameworks */,
@@ -576,6 +584,7 @@
 		4053F7C82D8762270082785E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				40C62EAC2E6DDA9A009A717A /* Lottie */,
 				40F360102D9DCEA80078BE23 /* CryptoUtils.swift */,
 				40F360442D9F12490078BE23 /* Extensions.swift */,
 				4084BFA22E006802001CB621 /* Utils.swift */,
@@ -762,6 +771,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		40C62EAC2E6DDA9A009A717A /* Lottie */ = {
+			isa = PBXGroup;
+			children = (
+				40C62EAD2E6DDAA4009A717A /* chatbotia_splash_lottie.json */,
+			);
+			path = Lottie;
+			sourceTree = "<group>";
+		};
 		40CD8B602E1A7ED50053425F /* Presence */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +938,7 @@
 		40D384E82D843A7700406AC1 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				40C62EAF2E6DDAF3009A717A /* LottieView.swift */,
 				4021841D2E1FDC2700F3CD59 /* ImagePicker.swift */,
 				40D384E52D843A7700406AC1 /* InfoView.swift */,
 				400B9D432E032554007DFF50 /* LoadingView.swift */,
@@ -947,6 +965,7 @@
 			isa = PBXGroup;
 			children = (
 				40D384EA2D843A7700406AC1 /* ViewState.swift */,
+				40C62EA72E6DDA21009A717A /* SplashView.swift */,
 				40D384E92D843A7700406AC1 /* MainView.swift */,
 				40FC6D3D2E3227800057F614 /* LanguageOnboardingView.swift */,
 				40D384D82D843A7700406AC1 /* Authentication */,
@@ -1304,6 +1323,7 @@
 				40CD8B762E1A874C0053425F /* FirebaseVertexAI */,
 				4083AE7D2E26A31100FB43D8 /* FirebaseFunctions */,
 				4083AE7F2E26A31100FB43D8 /* FirebaseMessaging */,
+				40C62EAA2E6DDA83009A717A /* Lottie */,
 			);
 			productName = ChatBotAI;
 			productReference = 40956E1A2D805F8C00307A53 /* ChatBotAI.app */;
@@ -1397,6 +1417,7 @@
 				4084BFA62E008A81001CB621 /* XCRemoteSwiftPackageReference "MarkdownUI" */,
 				40CD8B6A2E1A86B50053425F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				40CD8B6D2E1A874C0053425F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				40C62EA92E6DDA83009A717A /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 40956E1B2D805F8C00307A53 /* Products */;
@@ -1420,6 +1441,7 @@
 				40D385052D843A7700406AC1 /* Assets.xcassets in Resources */,
 				408685212DD2B9B900D5832D /* GoogleService-Info.plist in Resources */,
 				408685222DD2B9B900D5832D /* GenerativeAI-Info.plist in Resources */,
+				40C62EAE2E6DDAA4009A717A /* chatbotia_splash_lottie.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1536,6 +1558,7 @@
 				40D384FB2D843A7700406AC1 /* SettingsView.swift in Sources */,
 				401581EA2DDFB145001789E9 /* ChatMode.swift in Sources */,
 				40D384FC2D843A7700406AC1 /* InfoView.swift in Sources */,
+				40C62EB02E6DDAF3009A717A /* LottieView.swift in Sources */,
 				40C62EA42E6DCF49009A717A /* UserProfileViewModel.swift in Sources */,
 				40D3852E2D84EC9D00406AC1 /* SignOutUseCase.swift in Sources */,
 				40D3850D2D84DE7F00406AC1 /* AppError.swift in Sources */,
@@ -1569,6 +1592,7 @@
 				40DEB2242E295A370039134C /* GetLastMessageUseCase.swift in Sources */,
 				408685402DD62C6200D5832D /* MessageInputView.swift in Sources */,
 				4084BFA32E006802001CB621 /* Utils.swift in Sources */,
+				40C62EA82E6DDA21009A717A /* SplashView.swift in Sources */,
 				40F360112D9DCEA80078BE23 /* CryptoUtils.swift in Sources */,
 				40D384FF2D843A7700406AC1 /* MainView.swift in Sources */,
 				40F360C82DA47EE60078BE23 /* MessageMapper.swift in Sources */,
@@ -1965,6 +1989,14 @@
 				minimumVersion = 0.5.6;
 			};
 		};
+		40C62EA92E6DDA83009A717A /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
 		40CD8B6A2E1A86B50053425F /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI";
@@ -2021,6 +2053,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 408685122DD2A64A00D5832D /* XCRemoteSwiftPackageReference "deprecated-generative-ai-swift" */;
 			productName = GoogleGenerativeAI;
+		};
+		40C62EAA2E6DDA83009A717A /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 40C62EA92E6DDA83009A717A /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
 		};
 		40CD8B6B2E1A86B50053425F /* SDWebImageSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;

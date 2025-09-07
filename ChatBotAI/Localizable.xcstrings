@@ -779,6 +779,9 @@
         }
       }
     },
+    "Chatbot IA" : {
+
+    },
     "chatbot_choose_your_mode" : {
       "extractionState" : "manual",
       "localizations" : {
