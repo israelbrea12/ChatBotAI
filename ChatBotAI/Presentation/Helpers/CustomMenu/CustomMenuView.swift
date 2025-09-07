@@ -69,39 +69,41 @@ struct CustomMenuView<Content: View>: View {
     
     @ViewBuilder
     func MenuScrollView(_ proxy: GeometryProxy) -> some View {
-        ScrollView(.vertical) {
+        VStack {
+            Spacer()
+            
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(actions) {
                     MenuActionView($0)
                 }
             }
-            .scrollTargetLayout()
             .padding(.horizontal, 25)
+            .padding(.bottom, 40)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background {
-                Rectangle()
-                    .foregroundStyle(.clear)
-                    .frame(width: proxy.size.width, height: proxy.size.height + proxy.safeAreaInsets.top + proxy.safeAreaInsets.bottom)
-                    .contentShape(.rect)
-                    .onTapGesture {
-                        guard config.showMenu else { return }
-                        config.showMenu = false
-                    }
-                    .visualEffect { content, proxy in
-                        content
-                            .offset(
-                                x: -proxy.frame(in: .global).minX,
-                                y: -proxy.frame(in: .global).minY
-                            )
-                    }
-            }
         }
-        .safeAreaPadding(.vertical, 20)
-        .safeAreaPadding(.top, (proxy.size.height - 70) / 2)
-        .scrollPosition(id: $activeActionID, anchor: .top)
-        .scrollIndicators(.hidden)
-        .allowsHitTesting(config.showMenu)
+        .frame(width: proxy.size.width, height: proxy.size.height)
+        .background {
+            Rectangle()
+                .foregroundStyle(.clear)
+                .frame(width: proxy.size.width, height: proxy.size.height + proxy.safeAreaInsets.top + proxy.safeAreaInsets.bottom)
+                .contentShape(.rect)
+                .onTapGesture {
+                    guard config.showMenu else { return }
+                    config.showMenu = false
+                }
+                .visualEffect { content, proxy in
+                    content
+                        .offset(
+                            x: -proxy.frame(in: .global).minX,
+                            y: -proxy.frame(in: .global).minY
+                        )
+                }
+        }
+        .safeAreaPadding(.bottom, 30)
+        .opacity(config.showMenu ? 1 : 0)
     }
+
+
     
     @ViewBuilder
     func MenuActionView(_ action: MenuAction) -> some View {

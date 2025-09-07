@@ -236,13 +236,6 @@ struct ChatLogView: View {
                 self.showingImagePicker = true
                 self.config.showMenu = false
             }
-            MenuAction(symbolImage: "face.smiling", text: "Genmoji")
-            MenuAction(symbolImage: "waveform", text: "Audio")
-            MenuAction(symbolImage: "apple.logo", text: "App Store")
-            MenuAction(symbolImage: "video.badge.waveform", text: "Facetime")
-            MenuAction(symbolImage: "suit.heart", text: "Digital Touch")
-            MenuAction(symbolImage: "location", text: "Location")
-            MenuAction(symbolImage: "music.note", text: "Music")
         }
     }
     
