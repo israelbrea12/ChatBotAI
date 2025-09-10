@@ -618,6 +618,29 @@
         }
       }
     },
+    "chat_load_image_error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error loading image"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al cargar la imagen"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erreur lors du chargement de l'image"
+          }
+        }
+      }
+    },
     "chat_new_message" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -778,9 +801,6 @@
           }
         }
       }
-    },
-    "Chatbot IA" : {
-
     },
     "chatbot_choose_your_mode" : {
       "extractionState" : "manual",

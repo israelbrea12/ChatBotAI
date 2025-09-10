@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct MessagesView: View {
     
     @Environment(UICoordinator.self) private var coordinator
@@ -24,7 +26,9 @@ struct MessagesView: View {
     
     @State private var showDeleteMessageConfirmationAlert = false
     
-    private let menuEstimatedSize = CGSize(width: 200, height: 110)
+    private let singleItemMenuSize = CGSize(width: 200, height: 45)
+    private let multiItemMenuSize = CGSize(width: 200, height: 135)
+    
     private var messageDictionary: [String: Message] {
         Dictionary(uniqueKeysWithValues: messages.map { ($0.id, $0) })
     }
@@ -151,6 +155,10 @@ struct MessagesView: View {
         
         if let message = contextMenuMessage, contextMenuAnchorFrame != .zero {
             
+            let menuItems = generateMenuItems(for: message)
+            
+            let menuSize = menuItems.count == 1 ? singleItemMenuSize : multiItemMenuSize
+            
             let containerFrame = screenGeometry.frame(in: .global)
             
             let bubbleFrameInContainer = CGRect(
@@ -162,49 +170,63 @@ struct MessagesView: View {
             
             let (menuOrigin, anchorPoint) = calculateMenuPlacement(
                 bubbleFrame: bubbleFrameInContainer,
-                menuSize: menuEstimatedSize,
+                menuSize: menuSize,
                 containerSize: containerFrame.size,
                 isBubbleCurrentUser: message.senderId == currentUserId
             )
             
             MessageActionMenuView(
-                items: [
-                    MessageActionItem(label: LocalizedKeys.Chat.reply, systemImage: "arrowshape.turn.up.left.fill") {
-                        chatLogViewModel.startReplyingToMessage(message)
-                        
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                            self.showContextMenu = false
-                        }
-                    },
-                    MessageActionItem(label: LocalizedKeys.Common.edit, systemImage: "pencil.circle.fill") {
-                        if message.messageType == .text {
-                            chatLogViewModel.startEditingMessage(message)
-                        }
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                            self.showContextMenu = false
-                        }
-                    },
-                    MessageActionItem(label: LocalizedKeys.Common.delete, systemImage: "trash.circle.fill") {
-                        Task {
-                            withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
-                                self.showContextMenu = false
-                            }
-                            self.showDeleteMessageConfirmationAlert = true
-                        }
-                    }
-                ],
+                items: menuItems,
                 showMenu: $showContextMenu
             )
-            .frame(width: menuEstimatedSize.width, height: menuEstimatedSize.height)
+            .frame(width: menuSize.width, height: menuSize.height)
             .position(
-                x: menuOrigin.x + menuEstimatedSize.width / 2,
-                y: menuOrigin.y + menuEstimatedSize.height / 2
+                x: menuOrigin.x + menuSize.width / 2,
+                y: menuOrigin.y + menuSize.height / 2
             )
             .transition(.scale(scale: 0.9, anchor: anchorPoint).combined(with: .opacity))
             .onAppear {
                 self.menuAnchorPointForTransition = anchorPoint
             }
         }
+    }
+    
+    private func generateMenuItems(for message: Message) -> [MessageActionItem] {
+        var items: [MessageActionItem] = [
+            MessageActionItem(label: LocalizedKeys.Chat.reply, systemImage: "arrowshape.turn.up.left.fill") {
+                chatLogViewModel.startReplyingToMessage(message)
+                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                    self.showContextMenu = false
+                }
+            }
+        ]
+        
+        if message.senderId == currentUserId {
+            if message.messageType == .text {
+                items.append(
+                    MessageActionItem(label: LocalizedKeys.Common.edit, systemImage: "pencil.circle.fill") {
+                        chatLogViewModel.startEditingMessage(message)
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                            self.showContextMenu = false
+                        }
+                    }
+                )
+            }
+            
+            items.append(
+                MessageActionItem(label: LocalizedKeys.Common.delete, systemImage: "trash.circle.fill") {
+                    Task {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
+                            self.showContextMenu = false
+                        }
+                        try? await Task.sleep(nanoseconds: 150_000_000)
+                        self.showDeleteMessageConfirmationAlert = true
+                    }
+                }
+            )
+        }
+        
+        return items
     }
     
     private func scrollToBottom(proxy: ScrollViewProxy, animated: Bool = true) {

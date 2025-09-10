@@ -24,7 +24,7 @@ struct SplashView: View {
                 LottieView(fileName: "chatbotia_splash_lottie")
                     .frame(width: 300, height: 300)
                 
-                Text("Chatbot IA")
+                Text(Constants.AppName.appName)
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(.white)

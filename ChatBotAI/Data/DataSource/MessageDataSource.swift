@@ -159,7 +159,6 @@ class MessageDataSourceImpl: MessageDataSource {
                 return
             }
             
-            // Mapeo manual similar al anterior
             guard let id = messageData[Constants.Database.Message.id] as? String,
                   let text = messageData[Constants.Database.Message.text] as? String,
                   let senderId = messageData[Constants.Database.Message.senderId] as? String,

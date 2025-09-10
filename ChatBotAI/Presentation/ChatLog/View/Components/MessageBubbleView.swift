@@ -190,7 +190,7 @@ private extension MessageBubbleView {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .font(.title2)
                     .foregroundColor(.white)
-                Text(LocalizedKeys.Common.error)
+                Text(LocalizedKeys.Chat.loadImageError)
                     .font(.caption)
                     .foregroundColor(.white)
             }

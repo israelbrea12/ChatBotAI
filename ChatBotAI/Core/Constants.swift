@@ -9,6 +9,10 @@ import Foundation
 
 enum Constants {
     
+    enum AppName {
+        static let appName = "ChatBot AI"
+    }
+    
     enum AI {
         static let modelName = "gemini-1.5-flash"
     }

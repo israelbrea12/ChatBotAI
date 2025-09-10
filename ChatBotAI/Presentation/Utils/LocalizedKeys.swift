@@ -105,6 +105,7 @@ enum LocalizedKeys {
         static var unsupportedMessageType: String { "chat_unsupported_message_type".localized() }
         static var imagePreviewTitle: String { "chat_image_preview_title".localized() }
         static var previewLoadError: String { "chat_preview_load_error".localized() }
+        static var loadImageError: String { "chat_load_image_error".localized() }
         static var couldNotLoadPreview: String { "chat_could_not_load_preview".localized() }
         static var deleteMessageAlertTitle: String { "chat_delete_message_alert_title".localized() }
         static var deleteMessageAlertBody: String { "chat_delete_message_alert_body".localized() }
