@@ -2228,6 +2228,29 @@
         }
       }
     },
+    "loading_deleting_account" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deleting Account…"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminando cuenta…"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suppression de compte…"
+          }
+        }
+      }
+    },
     "loading_loading_messages" : {
       "extractionState" : "manual",
       "localizations" : {

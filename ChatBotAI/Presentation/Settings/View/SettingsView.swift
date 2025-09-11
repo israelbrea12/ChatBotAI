@@ -28,6 +28,10 @@ struct SettingsView: View {
                     emptyView()
                     signOutButton()
                 }
+                if settingsViewModel.isLoading {
+                    LoadingView(message: LocalizedKeys.LoadingState.deletingAccount)
+                        .ignoresSafeArea()
+                }
             }
             .navigationTitle(LocalizedKeys.Common.settings)
         }

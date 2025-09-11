@@ -33,6 +33,7 @@ struct LoginView: View {
                     
                     VStack(spacing: 25) {
                         CustomTF(sfIcon: "at", hint: LocalizedKeys.Placeholder.emailPlaceholder, value: $loginViewModel.email, error: loginViewModel.emailError)
+                            .keyboardType(.emailAddress)
                         
                         CustomTF(sfIcon: "lock", hint: LocalizedKeys.Placeholder.passwordPlaceholder, isPassword: true, value: $loginViewModel.password, error: loginViewModel.passwordError)
                             .padding(.top, 5)

@@ -35,12 +35,14 @@ struct CustomTF: View {
                             if showPassword {
                                 TextField(hint, text: $value)
                                     .focused($passwordState, equals: .reveal)
+                                    .textInputAutocapitalization(.never)
                             } else {
                                 SecureField(hint, text: $value)
                                     .focused($passwordState, equals: .hide)
                             }
                         } else {
                             TextField(hint, text: $value)
+                                .textInputAutocapitalization(.never)
                         }
                     }
                     if isPassword {

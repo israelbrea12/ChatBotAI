@@ -42,6 +42,7 @@ struct SignUpView: View {
                                     .padding(.top)
                                 
                                 CustomTF(sfIcon: "at", hint: LocalizedKeys.Placeholder.emailPlaceholder, value: $registrationViewModel.email, error: registrationViewModel.emailError)
+                                    .keyboardType(.emailAddress)
                                                     
                                 CustomTF(sfIcon: "person", hint: LocalizedKeys.Placeholder.fullnamePlaceholder, value: $registrationViewModel.fullName, error: registrationViewModel.fullNameError)
                                                 

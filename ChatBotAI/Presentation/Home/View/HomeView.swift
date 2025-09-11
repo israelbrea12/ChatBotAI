@@ -229,6 +229,7 @@ struct ChatRowLabelView: View {
                     Text(user.fullName ?? LocalizedKeys.DefaultValues.defaultFullName)
                         .font(.system(size: 17, weight: .semibold))
                         .foregroundColor(.primary)
+                        .lineLimit(1)
                     
                     Text(chat.lastMessageText ?? LocalizedKeys.DefaultValues.defaultLastMessage)
                         .font(.system(size: 15))

@@ -16,6 +16,7 @@ class SettingsViewModel: ObservableObject {
     // MARK: - Publisheds
     @Published var currentUser: User?
     @Published var state: ViewState = .initial
+    @Published var isLoading = false
     
     // MARK: - Private vars
     private var sessionManager = SessionManager.shared
@@ -94,10 +95,13 @@ class SettingsViewModel: ObservableObject {
     }
     
     func deleteAccount() async {
+        isLoading = true
         
         PresenceManager.shared.goOffline()
         
         let result = await deleteAccountUseCase.execute(with: ())
+        
+        isLoading = false
         
         switch result {
         case .success:

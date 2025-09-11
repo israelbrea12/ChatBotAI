@@ -226,6 +226,7 @@ enum LocalizedKeys {
         static var creatingAccount: String { "loading_creating_account".localized() }
         static var saving: String { "loading_saving".localized() }
         static var loadingMessages: String { "loading_loading_messages".localized() }
+        static var deletingAccount: String { "loading_deleting_account".localized() }
     }
     
     // MARK: - Default Values

@@ -53,25 +53,18 @@ final class ChatBotIAViewModel: ObservableObject {
     func sendMessage() {
         let userText = prompt.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !userText.isEmpty else { return }
-        
+
         addMessage(ChatbotMessage(text: userText, isUser: true))
         self.prompt = ""
-        
-        let promptToSend: String
-        
+
         let language = self.userLearningLanguage
         
-        switch chatMode {
-        case .rolePlay:
-            if !hasStartedChatting || messages.filter({ $0.isUser }).count == 1 {
-                promptToSend = "\(chatMode.initialPrompt(language: language))\n\nUsuario: \(userText)"
-            } else {
-                promptToSend = userText
-            }
-            
-        default:
-            promptToSend = "\(chatMode.initialPrompt(language: language))\n\nInput del Usuario: \(userText)"
-        }
+        let conversationHistory = messages
+            .map { $0.isUser ? "Usuario: \($0.text)" : "Asistente: \($0.text)" }
+            .joined(separator: "\n")
+
+        let promptToSend = "\(chatMode.initialPrompt(language: language))\n\n--- Historial de la Conversación ---\n\(conversationHistory)"
+        
         currentStreamingTask?.cancel()
         sendMessageToModel(prompt: promptToSend)
     }
@@ -89,7 +82,6 @@ final class ChatBotIAViewModel: ObservableObject {
         switch chatMode {
         case .rolePlay:
             let initialMessage = chatMode.initialPrompt(language: language)
-            addMessage(ChatbotMessage(text: initialMessage, isUser: true))
             sendMessageToModel(prompt: initialMessage)
         case .classicConversation, .textImprovement, .grammarHelp:
             break

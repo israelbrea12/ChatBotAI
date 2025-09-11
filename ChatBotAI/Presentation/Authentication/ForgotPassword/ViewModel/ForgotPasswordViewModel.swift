@@ -37,10 +37,10 @@ class ForgotPasswordViewModel: ObservableObject {
             self.alertTitle = LocalizedKeys.Auth.linkSentTitle
             self.alertMessage = LocalizedKeys.Auth.linkSentMessage
             self.showAlert = true
+            self.email = ""
         case .failure(let error):
-            self.alertTitle = "Error"
+            self.alertTitle = LocalizedKeys.Common.error
             self.alertMessage = error.localizedDescription
-            print("DEBUG: Error sending Password Reset Link: \(error.localizedDescription)")
             self.showAlert = true
         }
     }
