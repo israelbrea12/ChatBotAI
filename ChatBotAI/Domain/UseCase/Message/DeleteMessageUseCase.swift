@@ -1,12 +1,4 @@
 //
-//  DeleteMessageParams.swift
-//  ChatBotAI
-//
-//  Created by Israel Brea Piñero on 29/5/25.
-//
-
-
-//
 //  DeleteMessageUseCase.swift
 //  ChatBotAI
 //

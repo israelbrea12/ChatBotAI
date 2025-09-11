@@ -10,7 +10,6 @@ import CryptoKit
 
 struct CryptoUtils {
     
-    /// Genera un nonce aleatorio seguro para Apple Sign-In
     static func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
         let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
@@ -39,7 +38,6 @@ struct CryptoUtils {
         return result
     }
     
-    /// Aplica SHA256 a un string
     static func sha256(_ input: String) -> String {
         let inputData = Data(input.utf8)
         let hashedData = SHA256.hash(data: inputData)

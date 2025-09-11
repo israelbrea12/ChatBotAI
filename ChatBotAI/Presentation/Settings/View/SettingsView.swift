@@ -1,3 +1,10 @@
+//
+//  SettingsView.swift
+//  ChatBotAI
+//
+//  Created by Israel Brea Piñero on 26/3/25.
+//
+
 import SwiftUI
 import SDWebImageSwiftUI
 

@@ -24,7 +24,6 @@ class StorageDataSourceImpl: StorageDataSource {
 
         try await imageRef.putDataAsync(imageData, metadata: nil)
         
-        // Obtiene la URL de descarga
         let downloadURL = try await imageRef.downloadURL()
         return downloadURL
     }

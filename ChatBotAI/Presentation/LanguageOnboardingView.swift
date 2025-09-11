@@ -112,7 +112,6 @@ struct LanguageOnboardingView: View {
         .padding(.horizontal)
     }
     
-    // Lógica de animación
     private func animateView() async {
         guard !animateIcon else { return }
         

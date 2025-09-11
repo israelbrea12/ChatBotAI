@@ -39,7 +39,7 @@ extension Message {
         if self.isEdited {
             data[Constants.Database.Message.isEdited] = true
         }
-        if let replyTo = self.replyTo { // <-- NUEVO
+        if let replyTo = self.replyTo {
             data[Constants.Database.Message.replyTo] = replyTo
         }
         return data

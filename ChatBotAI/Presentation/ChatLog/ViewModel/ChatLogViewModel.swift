@@ -172,8 +172,8 @@ class ChatLogViewModel: ObservableObject {
                     sentAt: tempMessage.sentAt,
                     messageType: .image,
                     imageURL: imageURL.absoluteString,
-                    localImageData: nil, // Limpiamos los datos locales
-                    isUploading: false,  // Ya no está subiendo
+                    localImageData: nil,
+                    isUploading: false,
                     uploadFailed: false
                 )
                 print("🟢 Enviando mensaje final con ID: \(finalMessage.id)")
@@ -186,7 +186,6 @@ class ChatLogViewModel: ObservableObject {
                     print("Error enviando mensaje de imagen a RTDB: \(error.localizedDescription)")
                     updateMessageStatus(id: messageId, isUploading: false, hasFailed: true)
                 } else {
-                    // 👇 AÑADE ESTA LÍNEA AQUÍ
                     updateLocalMessage(withId: messageId, finalMessage: finalMessage)
                     await updateChatLastMessage(with: finalMessage)
                 }

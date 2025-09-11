@@ -63,7 +63,7 @@ extension Date {
             return formatter.string(from: self)
         }
         
-        formatter.dateFormat = "dd/MM/yyyy" // Ejemplo: 03/04/2025
+        formatter.dateFormat = "dd/MM/yyyy"
         return formatter.string(from: self)
     }
     

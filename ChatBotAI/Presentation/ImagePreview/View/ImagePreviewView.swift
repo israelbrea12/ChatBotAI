@@ -1,3 +1,10 @@
+//
+//  ImageDetailPreviewView.swift
+//  ChatBotAI
+//
+//  Created by Israel Brea Piñero on 17/6/25.
+//
+
 import SwiftUI
 
 struct ImagePreviewView: View {
