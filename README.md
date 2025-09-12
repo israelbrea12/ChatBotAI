@@ -1,9 +1,8 @@
 # Chatbot IA – App iOS para Aprendizaje de Idiomas
 
 **Chatbot IA** es una aplicación móvil nativa para iOS diseñada como Trabajo de Fin de Máster en la Universidad Pontificia de Salamanca (Máster en Informática Móvil).
-El proyecto combina **mensajería en tiempo real** con un **asistente virtual basado en inteligencia artificial (Vertex AI)** para ofrecer un entorno práctico, inmersivo y dinámico en el aprendizaje de idiomas.
 
----
+El proyecto combina **mensajería en tiempo real** con un **asistente virtual basado en inteligencia artificial (Vertex AI)** para ofrecer un entorno práctico, inmersivo y dinámico en el aprendizaje de idiomas.
 
 ## ✨ Características principales
 
@@ -19,10 +18,8 @@ El proyecto combina **mensajería en tiempo real** con un **asistente virtual ba
 - **Gestión de perfil**: nombre, foto de usuario e idioma de aprendizaje.
 - **Administración de cuenta**: cierre de sesión y eliminación de datos.
 - **Control de presencia**: estado en línea y última conexión.
-- 🌍 **Soporte multilenguaje** en la interfaz.
-- 🎨 **Diseño UI/UX** siguiendo las *Human Interface Guidelines* de Apple, implementado con **SwiftUI**.
-
----
+- **Soporte multilenguaje** en la interfaz.
+- **Diseño UI/UX** siguiendo las *Human Interface Guidelines* de Apple, implementado con **SwiftUI**.
 
 ## 🛠️ Tecnologías utilizadas
 
@@ -31,8 +28,6 @@ El proyecto combina **mensajería en tiempo real** con un **asistente virtual ba
 - **Backend y servicios en la nube:** Firebase (Authentication, Realtime Database, Storage)
 - **IA Conversacional:** Google Vertex AI
 - **Otras herramientas:** Xcode, Figma, Lottie, Swinject, SDWebImage
-
----
 
 ## 📚 Manual de usuario (resumen)
 
@@ -45,8 +40,6 @@ El proyecto combina **mensajería en tiempo real** con un **asistente virtual ba
 3. **Gestión de chats**: enviar texto, imágenes, editar, responder o borrar mensajes.
 4. **Chatbot IA**: aprendizaje personalizado con prácticas de idioma adaptadas.
 5. **Ajustes**: edición de perfil, cierre de sesión y eliminación de cuenta.
-
----
 
 ## 👨‍💻 Autor
 
