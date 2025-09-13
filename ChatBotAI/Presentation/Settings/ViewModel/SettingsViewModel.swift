@@ -54,9 +54,9 @@ class SettingsViewModel: ObservableObject {
     }
     
     // MARK: - Functions
-    func signOut() {
+    func signOut() async {
         
-        PresenceManager.shared.goOffline()
+        await PresenceManager.shared.goOffline()
         
         Task {
             let result = signOutUseCase.execute(with: ())
@@ -97,7 +97,7 @@ class SettingsViewModel: ObservableObject {
     func deleteAccount() async {
         isLoading = true
         
-        PresenceManager.shared.goOffline()
+        await PresenceManager.shared.goOffline()
         
         let result = await deleteAccountUseCase.execute(with: ())
         

@@ -146,7 +146,7 @@ struct SettingsView: View {
             Button(LocalizedKeys.Common.cancel, role: .cancel) { }
             Button(LocalizedKeys.Settings.logOut, role: .destructive) {
                 Task {
-                    settingsViewModel.signOut()
+                    await settingsViewModel.signOut()
                 }
             }
         }

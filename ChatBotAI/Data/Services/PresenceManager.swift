@@ -45,16 +45,25 @@ class PresenceManager {
         })
     }
     
-    func goOffline() {
+    func goOffline() async {
         guard let presenceRef = self.presenceRef else { return }
+        
+        do {
+            try await presenceRef.cancelDisconnectOperations()
+        } catch {
+            print("🛑 Failed to cancel disconnect operations: \(error.localizedDescription)")
+        }
         
         let offlineData: [String: Any] = [
             Constants.Database.Presence.isOnline: false,
             Constants.Database.Presence.lastSeen: ServerValue.timestamp()
         ]
-        presenceRef.setValue(offlineData)
         
-        presenceRef.cancelDisconnectOperations()
+        do {
+            try await presenceRef.setValue(offlineData)
+        } catch {
+            print("🛑 Failed to set offline status: \(error.localizedDescription)")
+        }
         
         if let connectedHandle = connectedHandle {
             databaseRef.child(Constants.Database.infoConnected).removeObserver(withHandle: connectedHandle)
